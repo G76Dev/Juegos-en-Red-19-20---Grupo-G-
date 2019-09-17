@@ -19,10 +19,10 @@ Samuel Ríos Carlos
 Correo: s.rios.2017@alumnos.urjc.es
 Cuenta Github: Thund3rDev
 
-Fernando Martín Espina
-Correo: f.martin.2017@alumnos.urjc.es
+Fernando Martín Espina -
+Correo: f.martin.2017@alumnos.urjc.es -
 Cuenta Github: xFernan
 
-Víctor Sierra Fernández
-Correo: v.sierra.2017@alumnos.urjc.es
+Víctor Sierra Fernández -
+Correo: v.sierra.2017@alumnos.urjc.es -
 Cuenta Github: G76Dev
