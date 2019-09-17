@@ -11,12 +11,12 @@ De dos a tres jugadores "androides" se enfrentan a un nivel 2D Side Scroller con
 
 INTEGRANTES DEL EQUIPO DE DESARROLLO:
 
-Nikola Hristov Kalamov
-Correo: n.hristov.2017@alumnos.urjc.es
+Nikola Hristov Kalamov -
+Correo: n.hristov.2017@alumnos.urjc.es -
 Cuenta Github: niki122121
 
-Samuel Ríos Carlos
-Correo: s.rios.2017@alumnos.urjc.es
+Samuel Ríos Carlos -
+Correo: s.rios.2017@alumnos.urjc.es -
 Cuenta Github: Thund3rDev
 
 Fernando Martín Espina -
