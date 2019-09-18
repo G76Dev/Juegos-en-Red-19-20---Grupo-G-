@@ -26,3 +26,7 @@ Cuenta Github: xFernan
 Víctor Sierra Fernández -
 Correo: v.sierra.2017@alumnos.urjc.es -
 Cuenta Github: G76Dev
+
+
+TRELLO:
+https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g
