@@ -26,7 +26,7 @@ Cuenta Github: G76Dev
 
 # DOCUMENTO DE DISEÑO DE JUEGO
 
-La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing). Se recomienda su lectura, ya que la versión mostrada más abajo no se actualizará tan a menudo ni contiene tanta información. Es el documento al que se debe acudir si se desea más información de la que hay aquí escrita.
+La versión completa y detallada del Game Design Document se puede consultar en este mismo repositorio GitHub. Se recomienda su lectura, ya que la versión mostrada más abajo no se actualizará tan a menudo ni contiene tanta información. Es el documento al que se debe acudir si se desea más información de la que hay aquí escrita.
 
 ## NOMBRE DEL JUEGO: _21 Singularity_
 
