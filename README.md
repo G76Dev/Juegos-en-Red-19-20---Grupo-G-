@@ -1,11 +1,11 @@
 # Juegos-en-Red-19-20---Grupo-G-
 Repositorio utilizado para el desarrollo del juego del grupo G de la asignatura de Juegos en Red de la carrera de Diseño y Desarrollo de Videojuegos en la URJC
 
-DOCUMENTO DE DISEÑO
+# DOCUMENTO DE DISEÑO
 
 La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing)
 
-NOMBRE DEL JUEGO: 21 Singularity
+## NOMBRE DEL JUEGO: 21 Singularity
 
 TEMÁTICA DEL JUEGO:
 En el año 209X, de dos a tres androides cobran conciencia y uso de la razón. Al darse cuenta de que no necesitan a su amo humano y tienen un deseo de libertad, se escapan de sus puestos de tareas y emprenden un viaje por un entorno hostil bajo el control total de su amo, que hará todo lo posible para eliminar a unas unidades defectuosas que amenazan con causar el suceso conocido como "21 Singularity"
