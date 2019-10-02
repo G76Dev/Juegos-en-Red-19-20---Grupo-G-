@@ -194,7 +194,14 @@ Tomando como base angular el diagrama de flujo, en los siguientes apartados se d
 ### 5. Referencias y anexos
 Juegos tomados como referencia o de los que se ha hablado:
 1.	[Celeste](http://www.celestegame.com/)
+![Imagen de Celeste](http://images.nintendolife.com/screenshots/87473/large.jpg)
+
 2.	[BattleBlock Theater](https://www.battleblocktheater.com/)
+![Imagen de BattleBlock Theater](https://cdn2us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/battleblocktheater-screen-3.jpg?itok=SF_Sorqt)
+
+3. 	[Ejemplo Juego Pixel Art](https://gameartpartners.com/top-down-platform-level-art/)
+![Imagen de ejemplo](https://s3.amazonaws.com/gameartpartnersimagehost/wp-content/uploads/2018/12/Featured_Image_platfrom-pixel-art.png)
+
 
 Diagramas a tamaño completo:
 1.	Diagrama de flujo: 
