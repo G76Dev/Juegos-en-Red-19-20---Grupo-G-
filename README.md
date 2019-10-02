@@ -3,7 +3,7 @@ Repositorio utilizado para el desarrollo del juego del grupo G de la asignatura 
 
 DOCUMENTO DE DISEÑO
 
-La versión completa y detallada del Game Design Document se puede consultar en [este enlace] (https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing)
+La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing)
 
 NOMBRE DEL JUEGO: 21 Singularity
 
