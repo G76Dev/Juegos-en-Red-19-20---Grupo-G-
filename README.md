@@ -22,6 +22,8 @@ Cuenta Github: G76Dev
 
 **[TRELLO](https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g)**
 
+## [PRESENTACIÓN DE LA FASE 1](https://docs.google.com/presentation/d/1ZqUE68IoLQ_pf5W-j1uR6gVkDyydANtrcHTNf_FHkGs/edit?usp=sharing)
+
 # DOCUMENTO DE DISEÑO
 
 La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing). Se recomienda su lectura, ya que la versión mostrada más abajo no se actualizará tan a menudo ni contiene tanta información. Es el documento al que se debe acudir si se desea más información de la que hay aquí escrita.
