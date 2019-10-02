@@ -1,6 +1,11 @@
 # Juegos-en-Red-19-20---Grupo-G-
 Repositorio utilizado para el desarrollo del juego del grupo G de la asignatura de Juegos en Red de la carrera de Diseño y Desarrollo de Videojuegos en la URJC
 
+DOCUMENTO DE DISEÑO
+
+La versión completa y detallada del Game Design Document se puede consultar en este enlace:
+https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing
+
 NOMBRE DEL JUEGO: 21 Singularity
 
 TEMÁTICA DEL JUEGO:
