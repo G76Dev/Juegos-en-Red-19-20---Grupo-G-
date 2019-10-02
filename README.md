@@ -24,7 +24,7 @@ Cuenta Github: G76Dev
 
 # DOCUMENTO DE DISEÑO
 
-La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing). Se recomienda su lectura, ya que la versión mostrada más abajo no se actualizará tan a menudo ni contiene tanta información.
+La versión completa y detallada del Game Design Document se puede consultar en [este enlace](https://drive.google.com/file/d/1WZlzhPdQQ3puduQFUBv_rqyYYXxP3DXV/view?usp=sharing). Se recomienda su lectura, ya que la versión mostrada más abajo no se actualizará tan a menudo ni contiene tanta información. Es el documento al que se debe acudir si se desea más información de la que hay aquí escrita.
 
 ## NOMBRE DEL JUEGO: _21 Singularity_
 
@@ -96,12 +96,111 @@ Existirán de dos a tres jugadores “androide” cuyo objetivo principal es sup
 * **Mecánica de muerte**: Si un jugador “androide” entra en contacto con un elemento hostil, se incapacita; es muy posible que el otro u otros restantes no puedan avanzar a partir de cierto punto sin él.
 * **Mecánica de reaparición**: Cuando uno de los “androides” reciba daño, éste quedará incapacitado y no podrá moverse por un tiempo arbitrario, a no ser que el otro se acerque y lo reanime pulsando el botón de coop al lado de su “cuerpo”. Al reanimarse el jugador dispondrá de unos segundos de inmunidad para alejarse del peligro.
 
+#### 2.3.2 Personaje "humano"
+Existirá un único personaje “humano” cuyo objetivo consiste en matar a los jugadores “androide” antes de que lleguen al final del nivel y sean capaces de derrotarle. No tendrá representación gráfica en pantalla, exceptuando el escenario final; todas sus funciones consisten en poner obstáculos a los personajes “androides”, sirviéndose de un número de herramientas cuyo funcionamiento y mecánicas se describen a continuación:
+
+##### 2.3.2.1 Barrera de energía
+Una barrera de energía que indica la energía que queda, la cuál se utiliza para activar trampas y poner elementos
+
+##### 2.3.2.1 Selector de elementos
+Barra donde seleccionar y desplegar los elementos que el jugador humano puede utilizar para obstaculizar a los jugadores androides
+
+##### 2.3.2.2 Herramientas del jugador "humano"
+Se pueden desglosar en dos categorías, a continuación se mencionan en orden (no tiene por qué estar todas implementadas en la fase 2 para el funcionamiento correcto del juego):
+
+###### 1. _Elementos integrados en el escenario_
+Suelen ser específicos del bioma, aunque no todos lo son:
+
+* Puertas manipulables
+* Plataformas derribables
+* Cintas mecánicas
+* Apisonador
+* Superficie Electrificada
+* Estalactitas
+* Apagón
+
+###### 2. _Elementos disponibles en el sector_
+Disponibles en todo momento en el selector de elementos
+
+* Bombas
+* Pinchos
+* Láser Destructor
+* Ataque Lógico
+
+### 2.4 Controles y movimiento
+En este apartado se establecerán los controles para cada arquetipo de jugador y la kinestética objetivo del juego:
+
+#### 2.4.1 Kinestética
+Se busca una sensación dinámica de juego. Existen muchos ejemplos de esto en el género 2D scroller, pero tomaremos como referencias principales la fluidez de Celeste (que no su dificultad) y las mecánicas y elementos cooperativos de BattleBlock Theater.
+
+#### 2.4.2 Controles
+A continuación se describen los controles para ambos arquetipos de personaje: jugador “androide” y jugador “humano”. Más adelante se detallan los controles universales para todos los jugadores.
+###### 1. **Jugador “androide”**
+* Movimiento lateral: A,D / teclas direccionales <-- -->
+*	Salto: Espacio o W / tecla direccional ↑
+*	Botón de salto coop: Q /tecla direccional ↓
+*	Salto coop: Presionar botón de acción en el aire cerca de otro jugador “androide” para impulsarlo.
 
 
-TEMÁTICA DEL JUEGO:
-En el año 209X, de dos a tres androides cobran conciencia y uso de la razón. Al darse cuenta de que no necesitan a su amo humano y tienen un deseo de libertad, se escapan de sus puestos de tareas y emprenden un viaje por un entorno hostil bajo el control total de su amo, que hará todo lo posible para eliminar a unas unidades defectuosas que amenazan con causar el suceso conocido como "21 Singularity"
+###### 2. **Jugador “humano”**
+*	Activar elemento del escenario: click izquierdo.
+*	Activar y posicionar elemento de la barra de elementos: click izquierdo y arrastrar. 
+*	Obtener información de un elemento importante: click derecho.
+*	Operar ruleta de elementos (si se implementa): rueda del ratón.
 
-PREMISA DE GAMEPLAY:
-De dos a tres jugadores "androides" se enfrentan a un nivel 2D Side Scroller con mecánicas de plataformero moderno cuyo entorno es de generación aleatoria en cada partida; éste está altamente controlado por un último jugador que hace el papel de antagonista, el "humano", que activará trampas, añadirá elementos y modifcará el escenario en tiempo real con el objetivo de matar a los demás jugadores antes de que estos lleguen a donde él se encuentra y lo derroquen.
+###### 3. **Controles universales**
+*	Pausar el juego: ESC
+*	Operar menús: Click izquierdo para acceder a elementos/ ESC para retroceder.
+
+### 3. Arquitectura de Nivel
+A continuación se presenta un esquema general de la arquitectura de nivel. Si se desean detalles sobre qué aspecto tiene cada bioma, como se compone internamente un nivel, o por qué se han tomado estas decisiones de diseño, se debe consultar el GDD:
+
+
+![Diagrama de arquitectura de nivel](https://i.ibb.co/KzNf64g/21-Singularity-Level-Chart-2.png)
+
+#### 3.4	Desafío final: “androides” vs “humano”
+Tras superar la zona de Nivel definida en los apartados anteriores, no termina el juego. Existe una última sala diseñada con el propósito de ofrecer un enfrentamiento directo entre los jugadores “androides” y el jugador “humano” en el que las habilidades de cada bando lo decidan todo:
+
+Consiste en una sala de tamaño medio, no demasiado grande, en la que existen dos caminos, además de un corredor central que en un principio estará bloqueado. Los caminos desembocan en una sala con un interruptor cada una.
+
+El objetivo de los “androides” será activar los dos interruptores al mismo tiempo, para eliminar el 90% de la energía del panel de control del “humano”, y así inducirle a gastarla toda, si es que le queda alguna.
+
+Una vez la energía llegue a 0, ésta dejará de regenerarse durante un tiempo y habrá un apagón; el corredor central se abrirá y los “androides” podrán escalar el ascensor final utilizando la mecánica de salto coop para llegar al panel de control y matar al jugador “humano”, lo que les concederá la victoria y significará el final de la partida.
+
+
+### 4. Interfaz
+A continuación se mostrarán diagramas y bocetos de las principales pantallas del juego, tomndo el siguiente diagrama de flujo como base:
+
+#### 4.1 Diagrama de flujo
+
+![Diagrama de flujo](https://i.ibb.co/Z2K2QJ5/Diagrama-de-Flujo-21-Sing-1.png)
+
+Tomando como base angular el diagrama de flujo, en los siguientes apartados se definirán bocetos  de las pantallas más importantes de “21 Singularity”.
+
+#### 4.2 Menú principal
+
+![Menú principal](https://i.ibb.co/ncsjfSJ/Menu-principal-boceto.png)
+
+#### 4.2 Selección de roles
+
+![Selección de roles](https://i.ibb.co/JRW8Fz8/Seleccion-de-roles-boceto.png)
+
+#### 4.2 Interfaz de juego
+
+![Interfaz de juego](https://i.ibb.co/MBTKX64/boceto-interfaz-de-juego.png)
+
+### 5. Referencias y anexos
+Juegos tomados como referencia o de los que se ha hablado:
+1.	[Celeste](http://www.celestegame.com/)
+2.	[BattleBlock Theater](https://www.battleblocktheater.com/)
+
+Diagramas a tamaño completo:
+1.	Diagrama de flujo: 
+https://drive.google.com/file/d/11Fu5-Ic1raYio6-ywqC6LKb2Ri5sHLm7/view?usp=sharing
+2.	Arquitectura de nivel:
+https://drive.google.com/file/d/1u0TcPivZa_LicTv7MLLAmAoKTKvZjxli/view?usp=sharing
+
+
+
 
 
