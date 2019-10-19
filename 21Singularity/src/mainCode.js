@@ -25,6 +25,9 @@ var config = {
 var gameOver = false;
 //Plataformas
 var platforms;
+//Variables CAMARA
+var cam;
+var firstFollow;
 
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Image{
@@ -66,6 +69,8 @@ class draggableObject extends Phaser.GameObjects.Image{
 class draggableBomb extends draggableObject{
   constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
       super(scene, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce);
+
+      //codigo explotar bomba
   }
 }
 
@@ -91,9 +96,11 @@ function itemBar(scene, positionX, separationY, initialSepY){
 //Vidas de los jugadores
 var vidas = 5;
 //Objeto player, con la información de nuestros jugadores "player1 y player2"
-function Player() {
+class Player {
+  constructor(){
     this.cursors;
     this.canCoop;
+  }
 }
 
 //Función saltoCoop para comprobar si pueden ejecutar el salto cooperativo
@@ -129,6 +136,8 @@ function preload ()
     this.load.image('item4', 'assets/bomb.png');
     this.load.image('item5', 'assets/bomb.png');
 
+    this.load.image('bg', 'assets/bg.jpg');
+
 }
 //Función create, que crea los elementos del propio juego
 function create ()
@@ -137,7 +146,7 @@ function create ()
     var usableItems = new itemBar(this,900,100,50);
 
     //Añadimos el background
-    //this.add.image(480, 270, 'bg');
+    this.add.image(1280/2, 720/2, 'bg');
     //Añadimos físicas estáticas a nuestras plataformas
     platforms = this.physics.add.staticGroup();
     //Creamos las plataformas del nivel
@@ -178,6 +187,14 @@ function create ()
     this.physics.add.collider(player1, platforms);
     this.physics.add.collider(player2, platforms);
 
+    //CAMARA:
+    cam = this.cameras.main;
+    this.physics.world.setBounds(-500, 0, 960 * 2, 1080 * 2);
+    cam.setBounds(-500, 0, 960 * 2, 176);
+    firstFollow = this.add.container(0,0);
+    cam.startFollow(firstFollow, true, 0.05, 0.05);
+    //firstFollow.y = 176;
+    //this.cameras.main.setZoom(1);
 
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
@@ -199,7 +216,7 @@ function onDragEnd(pointer, gameObject, dropped){
   gameObject.x = gameObject.startPosX;
   gameObject.y = gameObject.startPosY;
 }
-3
+
 function update ()
 {
     //Si gameOver es true, acaba la partida.
@@ -258,4 +275,6 @@ function update ()
             player1.setVelocityY(-330);
         }
     }
+
+    firstFollow.x = Math.max(player1.x,player2.x);
 }
