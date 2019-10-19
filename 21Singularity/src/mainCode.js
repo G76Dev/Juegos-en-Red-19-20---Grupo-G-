@@ -35,33 +35,32 @@ class draggableObject extends Phaser.GameObjects.Image{
   constructor(scene, x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
       super(scene, x, y, texture, frame);
       scene.add.existing(this);
-
       //sprite de barra de objeto y sprite una vez lanzado el objeto en el escenario
       this.interfaceSprite = interfaceTexture;
       this.sprite = texture;
-
       //posicion inicial del sprite dentro de la barra de tareas
       this.startPosX = x;
       this.startPosY = y;
-
+      //escala de la imgaen del interfaz
+      this.setScale(scaleIntrefaceImage);
       //escala del objeto al ser lanzado en el escenario y su rebote
       this.scaleImage = scaleImage;
       this.bounce = bounce;
-
+      //permanece en pantall siempre
+      this.setScrollFactor(0);
       //comandos para hacer que esta imagen dentro de la barra de tareas sea arrastrable (por esto hereda de Image)
-      this.setScale(scaleIntrefaceImage);
       this.setInteractive();
       scene.input.setDraggable(this);
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
   dropItemInGame() {
-    this.bombInstance = this.scene.physics.add.sprite(this.x, this.y, this.sprite);
-    this.bombInstance.setScale(this.scaleImage);
-    this.bombInstance.setCollideWorldBounds(true);
-    this.scene.physics.add.collider(this.bombInstance, platforms);
-    this.bombInstance.setBounce(this.bounce);
+    var bombInstance = this.scene.physics.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
+    bombInstance.setScale(this.scaleImage);
+    bombInstance.setCollideWorldBounds(true);
+    this.scene.physics.add.collider(bombInstance, platforms);
+    bombInstance.setBounce(this.bounce);
 
-    return this.bombInstance; //devuelve la instancia creada
+    return bombInstance; //devuelve la instancia creada
   }
 }
 
@@ -81,6 +80,7 @@ class draggableRect extends draggableObject{
 }
 
 
+var usableItems;
 //estructura redimensionable que guarda todos los objetos sellecionables por el 3º jugador
 function itemBar(scene, positionX, separationY, initialSepY){
   var counter = 0;
@@ -142,15 +142,17 @@ function preload ()
 //Función create, que crea los elementos del propio juego
 function create ()
 {
-    //instancia de barra de objetos
-    var usableItems = new itemBar(this,900,100,50);
-
     //Añadimos el background
     this.add.image(1280/2, 720/2, 'bg');
+
+    //INTERFAZ
+    //instancia de barra de objetos
+    usableItems = new itemBar(this,900,100,50);
+
     //Añadimos físicas estáticas a nuestras plataformas
     platforms = this.physics.add.staticGroup();
     //Creamos las plataformas del nivel
-    platforms.create(480, 540, 'ground').setScale(2.4).refreshBody();
+    platforms.create(480, 800, 'ground').setScale(20).refreshBody();
     //Añadimos sprite y físicas a los jugadores
     player1 = this.physics.add.sprite(100, 450, 'dude');
     player2 = this.physics.add.sprite(200, 450, 'dude');
