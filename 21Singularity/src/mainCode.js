@@ -154,19 +154,19 @@ var game = new Phaser.Game(config);
 //Función preload, que carga elementos antes de iniciar el juego
 function preload ()
 {
-    this.load.image('generic', 'assets/virtual.png');
+    this.load.image('generic', 'assets/Test/virtual.png');
 
-    this.load.image('ground', 'assets/platform.png');
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('ground', 'assets/Test/platform.png');
+    this.load.spritesheet('dude', 'assets/Test/dude.png', { frameWidth: 32, frameHeight: 48 });
 
     //cambiar por imagenes de la barra de objetos
-    this.load.image('item1', 'assets/bomb.png');
-    this.load.image('item2', 'assets/selector.png');
-    this.load.image('item3', 'assets/bomb.png');
-    this.load.image('item4', 'assets/bomb.png');
-    this.load.image('item5', 'assets/bomb.png');
+    this.load.image('item1', 'assets/Test/bomb.png');
+    this.load.image('item2', 'assets/Test/selector.png');
+    this.load.image('item3', 'assets/Test/bomb.png');
+    this.load.image('item4', 'assets/Test/bomb.png');
+    this.load.image('item5', 'assets/Test/bomb.png');
 
-    this.load.image('bg', 'assets/bg.jpg');
+    this.load.image('bg', 'assets/Test/bg.jpg');
 
 }
 //Función create, que crea los elementos del propio juego
