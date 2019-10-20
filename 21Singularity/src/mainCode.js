@@ -9,7 +9,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 600 },
+            gravity: { y: 1300 },
             debug: false
         }
     },
@@ -96,8 +96,7 @@ function itemBar(scene, positionX, separationY, initialSepY){
 //Vidas de los jugadores
 var vidas = 5;
 //variables jugadores
-var player1;
-var player2;
+var players;
 //Objeto player, con la información de nuestros jugadores "player1 y player2"
 class Player extends Phaser.Physics.Arcade.Sprite{
   constructor(scene, x, y, texture, frame){
@@ -106,10 +105,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     scene.add.existing(this);
 
     this.cursors;
-    this.canCoop;
+    this.hasCoopImuled = false;
   }
 
   update(){
+    if(this.body.touching.down){
+      this.hasCoopImuled = false;
+    }
     if (this.cursors.left.isDown)
     {
         this.setVelocityX(-160);
@@ -127,27 +129,54 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
     if (this.cursors.up.isDown && this.body.touching.down)
     {
-        this.setVelocityY(-330);
-    } else if (this.cursors.coop.isDown && !(this.body.touching.down)) {
-        if(this.canCoop) {
-            this.setVelocityY(-330);
+        this.setVelocityY(-550);
+    }
+  }
+
+  saltoCoop(otherP) {
+    if ((otherP.x > (this.x - 16)) && (otherP.x < (this.x + 16)))
+    {
+      if((otherP.y < this.y + 12) && (otherP.y > (this.y - 24)))
+      {
+        if(!this.hasCoopImuled && !otherP.hasCoopImuled){
+          otherP.setVelocityY(-550);
+          otherP.setAccelerationY(0);
+          this.hasCoopImuled = true;
         }
+      }
     }
   }
 }
 
-//Función saltoCoop para comprobar si pueden ejecutar el salto cooperativo
-function saltoCoop(thisP, otherP) {
-    if ((otherP.x > (thisP.x - 16)) && (otherP.x < (thisP.x + 16)))
-    {
-        if((otherP.y < thisP.y) && (otherP.y > (thisP.y - 24)))
-        {
-            thisP.canCoop = true;
-        } else {
-            thisP.canCoop = false;
-        }
+class AndroidPlayers{
+  constructor(scene){
+    //variables para los 2 jugadores humanos
+    //Añadimos sprite y físicas a los jugadores
+    this.player1 = new Player(scene, 100, 450, 'dude');
+    this.player2 = new Player(scene, 200, 450, 'dude');
+    this.player1.setCollideWorldBounds(true);
+    this.player2.setCollideWorldBounds(true);
+    //Colores provisionales para distinguir los personajes
+    this.player1.setTint(0xff0000);
+    this.player2.setTint(0x0000ff);
+    //Inputs de los jugadores
+    this.player1.cursors = scene.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.R } );
+    this.player2.cursors = scene.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'down': Phaser.Input.Keyboard.KeyCodes.DOWN, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.L } );
+  }
+
+  update(){
+    this.player1.update();
+    this.player2.update();
+    if (this.player1.cursors.coop.isDown && !(this.player1.body.touching.down)) {
+       this.player1.saltoCoop(this.player2);
+     }
+     if (this.player2.cursors.coop.isDown && !(this.player2.body.touching.down)) {
+        this.player2.saltoCoop(this.player1);
     }
+  }
 }
+
+
 
 //Declaramos nuestro juego
 var game = new Phaser.Game(config);
@@ -167,7 +196,6 @@ function preload ()
     this.load.image('item5', 'assets/Test/bomb.png');
 
     this.load.image('bg', 'assets/Test/bg.jpg');
-
 }
 //Función create, que crea los elementos del propio juego
 function create ()
@@ -183,20 +211,9 @@ function create ()
     platforms = this.physics.add.staticGroup();
     //Creamos las plataformas del nivel
     platforms.create(480, 800, 'ground').setScale(20).refreshBody();
-    //Añadimos sprite y físicas a los jugadores
-    player1 = new Player(this, 100, 450, 'dude');
-    player2 = new Player(this, 200, 450, 'dude');
-    player1.setCollideWorldBounds(true);
-    player2.setCollideWorldBounds(true);
-    //Colores provisionales para distinguir los personajes
-    player1.setTint(0xff0000);
-    player2.setTint(0x0000ff);
-    //Inputs de los jugadores
-    player1.cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.R } );
-    player2.cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'down': Phaser.Input.Keyboard.KeyCodes.DOWN, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.L } );
-    //Establecemos canCoop a false
-    player1.canCoop = false;
-    player2.canCoop = false;
+
+    players = new AndroidPlayers(this);
+
     //Creamos las animaciones de los personajes: idle, wLeft, wRight
     this.anims.create({
         key: 'wLeft',
@@ -216,15 +233,15 @@ function create ()
         repeat: -1
     });
     //Añadimos las colisiones entre los jugadores y las plataformas
-    this.physics.add.collider(player1, platforms);
-    this.physics.add.collider(player2, platforms);
+    this.physics.add.collider(players.player1, platforms);
+    this.physics.add.collider(players.player2, platforms);
 
     //CAMARA:
     cam = this.cameras.main;
     this.physics.world.setBounds(-500, 0, 960 * 2, 1080 * 2);
     cam.setBounds(-500, 0, 960 * 2, 176);
     firstFollow = this.add.container(0,0);
-    cam.startFollow(firstFollow, true, 0.05, 0.05);
+    cam.startFollow(firstFollow, false, 0.05, 0.05);
     //firstFollow.y = 176;
     //this.cameras.main.setZoom(1);
 
@@ -256,12 +273,6 @@ function update ()
     {
         return;
     }
-    //Comprobamos si pueden saltar cooperativamente
-    saltoCoop(player1, player2);
-    saltoCoop(player2, player1);
-    //Jugador 1
-    player1.update();
-    player2.update();
-
-    firstFollow.x = Math.max(player1.x,player2.x);
+    players.update();
+    firstFollow.x = Math.max(players.player1.x, players.player2.x);
 }
