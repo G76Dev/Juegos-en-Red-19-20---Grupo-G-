@@ -95,11 +95,44 @@ function itemBar(scene, positionX, separationY, initialSepY){
 
 //Vidas de los jugadores
 var vidas = 5;
+//variables jugadores
+var player1;
+var player2;
 //Objeto player, con la información de nuestros jugadores "player1 y player2"
-class Player {
-  constructor(){
+class Player extends Phaser.Physics.Arcade.Sprite{
+  constructor(scene, x, y, texture, frame){
+    super(scene, x, y, texture, frame);
+    scene﻿.physics.world.enableBody(this,0);
+    scene.add.existing(this);
+
     this.cursors;
     this.canCoop;
+  }
+
+  update(){
+    if (this.cursors.left.isDown)
+    {
+        this.setVelocityX(-160);
+        this.anims.play('wLeft', true);
+    }
+    else if (this.cursors.right.isDown)
+    {
+        this.setVelocityX(160);
+        this.anims.play('wRight', true);
+    }
+    else
+    {
+        this.setVelocityX(0);
+        this.anims.play('idle');
+    }
+    if (this.cursors.up.isDown && this.body.touching.down)
+    {
+        this.setVelocityY(-330);
+    } else if (this.cursors.coop.isDown && !(this.body.touching.down)) {
+        if(this.canCoop) {
+            this.setVelocityY(-330);
+        }
+    }
   }
 }
 
@@ -116,9 +149,6 @@ function saltoCoop(thisP, otherP) {
     }
 }
 
-//se inicializan los 2 jugadores
-var player1 = new Player();
-var player2 = new Player();
 //Declaramos nuestro juego
 var game = new Phaser.Game(config);
 //Función preload, que carga elementos antes de iniciar el juego
@@ -154,8 +184,8 @@ function create ()
     //Creamos las plataformas del nivel
     platforms.create(480, 800, 'ground').setScale(20).refreshBody();
     //Añadimos sprite y físicas a los jugadores
-    player1 = this.physics.add.sprite(100, 450, 'dude');
-    player2 = this.physics.add.sprite(200, 450, 'dude');
+    player1 = new Player(this, 100, 450, 'dude');
+    player2 = new Player(this, 200, 450, 'dude');
     player1.setCollideWorldBounds(true);
     player2.setCollideWorldBounds(true);
     //Colores provisionales para distinguir los personajes
@@ -230,53 +260,8 @@ function update ()
     saltoCoop(player1, player2);
     saltoCoop(player2, player1);
     //Jugador 1
-    if (player1.cursors.left.isDown)
-    {
-        player1.setVelocityX(-160);
-        player1.anims.play('wLeft', true);
-    }
-    else if (player1.cursors.right.isDown)
-    {
-        player1.setVelocityX(160);
-        player1.anims.play('wRight', true);
-    }
-    else
-    {
-        player1.setVelocityX(0);
-        player1.anims.play('idle');
-    }
-    if (player1.cursors.up.isDown && player1.body.touching.down)
-    {
-        player1.setVelocityY(-330);
-    } else if (player1.cursors.coop.isDown && !(player1.body.touching.down)) {
-        if(player1.canCoop) {
-            player2.setVelocityY(-330);
-        }
-    }
-    //Jugador 2
-    if (player2.cursors.left.isDown)
-    {
-        player2.setVelocityX(-160);
-        player2.anims.play('wLeft', true);
-    }
-    else if (player2.cursors.right.isDown)
-    {
-        player2.setVelocityX(160);
-        player2.anims.play('wRight', true);
-    }
-    else
-    {
-        player2.setVelocityX(0);
-        player2.anims.play('idle');
-    }
-    if (player2.cursors.up.isDown && player2.body.touching.down)
-    {
-        player2.setVelocityY(-330);
-    } else if (player2.cursors.coop.isDown && !(player2.body.touching.down)) {
-        if(player2.canCoop) {
-            player1.setVelocityY(-330);
-        }
-    }
+    player1.update();
+    player2.update();
 
     firstFollow.x = Math.max(player1.x,player2.x);
 }
