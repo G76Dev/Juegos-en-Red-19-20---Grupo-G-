@@ -24,7 +24,12 @@ var config = {
 //Variable gameOver para finalizar la partida
 var gameOver = false;
 //Plataformas
-var platforms;
+var bgItems;
+var deco;
+var floor;
+var pinchos;
+var overlapDeco;
+
 //Variables CAMARA
 var cam;
 var firstFollow;
@@ -32,9 +37,13 @@ var firstFollow;
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Image{
   //objeto muy parecido a "Image" pero con atributos adicionales
-  constructor(scene, x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
+  constructor(scene, x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0) {
       super(scene, x, y, texture, frame);
       scene.add.existing(this);
+      //profundidad de objeto
+      this.setDepth(99)
+      //coste del item
+      this.cost = coste;
       //sprite de barra de objeto y sprite una vez lanzado el objeto en el escenario
       this.interfaceSprite = interfaceTexture;
       this.sprite = texture;
@@ -54,43 +63,63 @@ class draggableObject extends Phaser.GameObjects.Image{
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
   dropItemInGame() {
-    var bombInstance = this.scene.physics.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
-    bombInstance.setScale(this.scaleImage);
-    bombInstance.setCollideWorldBounds(true);
-    this.scene.physics.add.collider(bombInstance, platforms);
-    bombInstance.setBounce(this.bounce);
-
-    return bombInstance; //devuelve la instancia creada
+    if(usableItems.barra.scaleY > this.cost){
+      var bombInstance = this.scene.physics.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
+      bombInstance.setScale(this.scaleImage);
+      bombInstance.setCollideWorldBounds(true);
+      this.scene.physics.add.collider(bombInstance, floor);
+      bombInstance.setBounce(this.bounce);
+      usableItems.changeBar(usableItems.barra.scaleY - this.cost);
+      return bombInstance; //devuelve la instancia creada
+    }
+    return null;
   }
 }
 
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 class draggableBomb extends draggableObject{
   constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
-      super(scene, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce);
-
-      //codigo explotar bomba
+      super(scene, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, 0.25);
   }
 }
 
 class draggableRect extends draggableObject{
   constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
-      super(scene, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce);
+      super(scene, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, 0.80);
   }
 }
 
 
 var usableItems;
 //estructura redimensionable que guarda todos los objetos sellecionables por el 3º jugador
-function itemBar(scene, positionX, separationY, initialSepY){
-  var counter = 0;
-  this.items = [];
-  //cada objeto nuevo se añade al array de objetos
-  this.items[0] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-  this.items[1] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-  this.items[2] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0);
-  this.items[3] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0, 0.35, 0.6, 0.5);
-  this.items[4] = new draggableRect(scene, positionX, initialSepY + separationY*(counter++),0);
+class itemBar{
+  constructor(scene, positionX, separationY, initialSepY){
+    var counter = 0;
+    this.items = [];
+    //cada objeto nuevo se añade al array de objetos
+    this.items[0] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
+    this.items[1] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
+    this.items[2] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0);
+    this.items[3] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0, 0.35, 0.6, 0.5);
+    this.items[4] = new draggableRect(scene, positionX, initialSepY + separationY*(counter++),0);
+
+    this.barra = scene.add.image(positionX + 60,540/2,'bar');
+    this.barra.originY = 1;
+    this.barra.setDepth(99).setTint(0xFF5923).setScrollFactor(0);
+  }
+
+  changeBar(newScaleY){
+    this.barra.scaleY = newScaleY;
+  }
+  update(time, delta){
+    var increaseRate = 0.0001 * delta;
+    if(this.barra.scaleY < 1){
+      this.barra.scaleY += increaseRate;
+    } else{
+      this.barra.scaleY = 1;
+    }
+    //document.getElementById('info').innerHTML = this.barra.y;
+  }
 }
 
 //Vidas de los jugadores
@@ -105,21 +134,23 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     scene.add.existing(this);
 
     this.cursors;
-    this.hasCoopImuled = false;
+    this.hasCoopImpul = false;
+
+    this.setCollideWorldBounds(true);
   }
 
-  update(){
-    if(this.body.touching.down){
-      this.hasCoopImuled = false;
+  update(time, delta){
+    if(this.body.onFloor()){
+      this.hasCoopImpul = false;
     }
     if (this.cursors.left.isDown)
     {
-        this.setVelocityX(-160);
+        this.setVelocityX(-16 * delta);
         this.anims.play('wLeft', true);
     }
     else if (this.cursors.right.isDown)
     {
-        this.setVelocityX(160);
+        this.setVelocityX(16 * delta);
         this.anims.play('wRight', true);
     }
     else
@@ -127,7 +158,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setVelocityX(0);
         this.anims.play('idle');
     }
-    if (this.cursors.up.isDown && this.body.touching.down)
+    if (this.cursors.up.isDown && this.body.onFloor())
     {
         this.setVelocityY(-550);
     }
@@ -138,10 +169,10 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     {
       if((otherP.y < this.y + 12) && (otherP.y > (this.y - 24)))
       {
-        if(!this.hasCoopImuled && !otherP.hasCoopImuled){
+        if(!this.hasCoopImpul && !otherP.hasCoopImpul){
           otherP.setVelocityY(-550);
           otherP.setAccelerationY(0);
-          this.hasCoopImuled = true;
+          this.hasCoopImpul = true;
         }
       }
     }
@@ -152,10 +183,8 @@ class AndroidPlayers{
   constructor(scene){
     //variables para los 2 jugadores humanos
     //Añadimos sprite y físicas a los jugadores
-    this.player1 = new Player(scene, 100, 450, 'dude');
-    this.player2 = new Player(scene, 200, 450, 'dude');
-    this.player1.setCollideWorldBounds(true);
-    this.player2.setCollideWorldBounds(true);
+    this.player1 = new Player(scene, 60, 250, 'dude');
+    this.player2 = new Player(scene, 100, 250, 'dude');
     //Colores provisionales para distinguir los personajes
     this.player1.setTint(0xff0000);
     this.player2.setTint(0x0000ff);
@@ -164,9 +193,9 @@ class AndroidPlayers{
     this.player2.cursors = scene.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'down': Phaser.Input.Keyboard.KeyCodes.DOWN, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.L } );
   }
 
-  update(){
-    this.player1.update();
-    this.player2.update();
+  update(time, delta){
+    this.player1.update(time, delta);
+    this.player2.update(time, delta);
     if (this.player1.cursors.coop.isDown && !(this.player1.body.touching.down)) {
        this.player1.saltoCoop(this.player2);
      }
@@ -183,6 +212,11 @@ var game = new Phaser.Game(config);
 //Función preload, que carga elementos antes de iniciar el juego
 function preload ()
 {
+    //imagenes fondo TILED
+    this.load.image("tiles1", "../assets/Tilesets/Roberts.png");
+    this.load.image("tiles2", "../assets/Tilesets/customTileset1.png");
+    this.load.tilemapTiledJSON("map", "../assets/Mapas/Testing_Grounds.json");
+
     this.load.image('generic', 'assets/Test/virtual.png');
 
     this.load.image('ground', 'assets/Test/platform.png');
@@ -195,22 +229,43 @@ function preload ()
     this.load.image('item4', 'assets/Test/bomb.png');
     this.load.image('item5', 'assets/Test/bomb.png');
 
-    this.load.image('bg', 'assets/Test/bg.jpg');
+    this.load.image('bar', 'assets/Test/Barra.png');
+
+    this.load.image('bg1', 'assets/Backgrounds/Industrial/IndustrialClose.png');
+    this.load.image('bg2', 'assets/Backgrounds/Industrial/IndustrialMid.png');
+    this.load.image('bg3', 'assets/Backgrounds/Industrial/IndustrialFar.png');
 }
+var backg1;
+var backg2;
+var backg3;
 //Función create, que crea los elementos del propio juego
 function create ()
 {
-    //Añadimos el background
-    this.add.image(1280/2, 720/2, 'bg');
+    //backgrounds
+    backg1 = this.add.image(0,400,'bg1');
+    backg1.setScrollFactor(0.5);
+    //inicializacion y creacion de mapa de tiles
+    const map = this.make.tilemap({ key: "map" });
+    const tileset1 = map.addTilesetImage("Industrial Fabrica", "tiles1");
+    const tileset2 = map.addTilesetImage("Custom tileset", "tiles2");
+
+    bgItems = map.createStaticLayer("Elementos en el fondo", tileset1, 0, 0);
+    bgItems.setScale(2);
+    deco = map.createStaticLayer("Decoracion", tileset1, 0, 0);
+    deco.setScale(2);
+    floor = map.createStaticLayer("Suelo", tileset1, 0, 0);
+    floor.setScale(2);
+    pinchos = map.createStaticLayer("Pinchos", tileset2, 0, 0);
+    pinchos.setScale(2);
+    overlapDeco = map.createStaticLayer("Decoracion sobrelapada", tileset1, 0, 0);
+    overlapDeco.setScale(2);
+
+    floor.setCollisionByProperty({ collides: true });
 
     //INTERFAZ
     //instancia de barra de objetos
-    usableItems = new itemBar(this,900,100,50);
-
-    //Añadimos físicas estáticas a nuestras plataformas
-    platforms = this.physics.add.staticGroup();
-    //Creamos las plataformas del nivel
-    platforms.create(480, 800, 'ground').setScale(20).refreshBody();
+    usableItems = new itemBar(this,875,100,50);
+    usableItems.changeBar(0.25);
 
     players = new AndroidPlayers(this);
 
@@ -232,16 +287,17 @@ function create ()
         frameRate: 10,
         repeat: -1
     });
-    //Añadimos las colisiones entre los jugadores y las plataformas
-    this.physics.add.collider(players.player1, platforms);
-    this.physics.add.collider(players.player2, platforms);
+
+    //collisiones con tiles
+    this.physics.add.collider(players.player1, floor);
+    this.physics.add.collider(players.player2, floor);
 
     //CAMARA:
     cam = this.cameras.main;
-    this.physics.world.setBounds(-500, 0, 960 * 2, 1080 * 2);
-    cam.setBounds(-500, 0, 960 * 2, 176);
+    this.physics.world.setBounds(-500, 0, 10000, 10000);
+    cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
-    cam.startFollow(firstFollow, false, 0.05, 0.05);
+    cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //firstFollow.y = 176;
     //this.cameras.main.setZoom(1);
 
@@ -266,13 +322,17 @@ function onDragEnd(pointer, gameObject, dropped){
   gameObject.y = gameObject.startPosY;
 }
 
-function update ()
+function update (time, delta)
 {
     //Si gameOver es true, acaba la partida.
     if (gameOver)
     {
         return;
     }
-    players.update();
+    players.update(time, delta);
     firstFollow.x = Math.max(players.player1.x, players.player2.x);
+    //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
+    firstFollow.y = (players.player1.y + players.player2.y)/2;
+    usableItems.update(time, delta);
+
 }
