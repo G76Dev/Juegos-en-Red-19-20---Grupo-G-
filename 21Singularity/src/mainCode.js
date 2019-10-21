@@ -27,7 +27,7 @@ var gameOver = false;
 var bgItems;
 var deco;
 var floor;
-var spikes;
+var pinchos;
 var overlapDeco;
 
 //Variables CAMARA
@@ -93,7 +93,6 @@ class draggableRect extends draggableObject{
 var usableItems;
 //estructura redimensionable que guarda todos los objetos sellecionables por el 3º jugador
 class itemBar{
-  static increaseRate = 0.0001;
   constructor(scene, positionX, separationY, initialSepY){
     var counter = 0;
     this.items = [];
@@ -113,8 +112,9 @@ class itemBar{
     this.barra.scaleY = newScaleY;
   }
   update(time, delta){
+    var increaseRate = 0.0001 * delta;
     if(this.barra.scaleY < 1){
-      this.barra.scaleY += (itemBar.increaseRate*delta);
+      this.barra.scaleY += increaseRate;
     } else{
       this.barra.scaleY = 1;
     }
@@ -130,7 +130,7 @@ var players;
 class Player extends Phaser.Physics.Arcade.Sprite{
   constructor(scene, x, y, texture, frame){
     super(scene, x, y, texture, frame);
-    scene﻿.physics.world.enableBody(this,0);
+    scene.physics.world.enableBody(this,0);
     scene.add.existing(this);
 
     this.cursors;
@@ -141,7 +141,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
   }
 
   update(time, delta){
-    if(alive){
+    if(this.alive){
       if(this.body.onFloor()){
         this.hasCoopImpul = false;
       }
@@ -168,7 +168,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
   }
 
   coopJump(otherP) {
-    if(alive){
+    if(this.alive){
       if ((otherP.x > (this.x - 16)) && (otherP.x < (this.x + 16)))
       {
         if((otherP.y < this.y + 12) && (otherP.y > (this.y - 24)))
@@ -209,10 +209,10 @@ class AndroidPlayers{
         this.player2.coopJump(this.player1);
     }
 
-    if(this.player1.y > 500){
+    if(this.player1.y > 600){
       this.damaged(scene,delta, this.player1, this.player2);
     }
-    if(this.player2.y > 500){
+    if(this.player2.y > 600){
       this.damaged(scene,delta, this.player2, this.player1);
     }
     document.getElementById('info').innerHTML = this.player1.depth;
@@ -282,9 +282,9 @@ function preload ()
 
     this.load.image('bar', 'assets/Test/Barra.png');
 
-    this.load.image('bg1', 'assets/Backgrounds/Industrial/IndustrialClose.png');
+    this.load.image('bg1', 'assets/Backgrounds/Industrial/IndustrialFar.png');
     this.load.image('bg2', 'assets/Backgrounds/Industrial/IndustrialMid.png');
-    this.load.image('bg3', 'assets/Backgrounds/Industrial/IndustrialFar.png');
+    this.load.image('bg3', 'assets/Backgrounds/Industrial/IndustrialClose.png');
 }
 var backg1;
 var backg2;
@@ -293,8 +293,13 @@ var backg3;
 function create ()
 {
     //backgrounds
-    backg1 = this.add.image(0,400,'bg1');
-    backg1.setScrollFactor(0.5);
+    backg1 = this.add.image(0,150,'bg1').setScale(3).setTint(0x333333);
+    backg1.setScrollFactor(0.75);
+    backg2 = this.add.image(1100,450,'bg2').setScale(0.7).setTint(0x555555);
+    backg2.setScrollFactor(0.5);
+    backg3 = this.add.image(1000,550,'bg3').setScale(1).setTint(0x444444);
+    backg3.setScrollFactor(0.25);
+    
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
     const tileset1 = map.addTilesetImage("Industrial Fabrica", "tiles1");
@@ -306,8 +311,6 @@ function create ()
     deco.setScale(2);
     floor = map.createStaticLayer("Suelo", tileset1, 0, 0);
     floor.setScale(2);
-    spikes = map.createStaticLayer("Pinchos", tileset2, 0, 0);
-    spikes.setScale(2);
     overlapDeco = map.createStaticLayer("Decoracion sobrelapada", tileset1, 0, 0);
     overlapDeco.setScale(2);
 
@@ -357,7 +360,6 @@ function create ()
     this.input.on('drag', onDrag);
     this.input.on('dragend', onDragEnd);
 }
-
 
 //FUNCIONES DE ARRASTRE
 function onDrag(pointer, gameObject, dragX, dragY){
