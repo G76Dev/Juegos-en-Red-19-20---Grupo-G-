@@ -37,7 +37,7 @@ var firstFollow;
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Image{
   //objeto muy parecido a "Image" pero con atributos adicionales
-  constructor(scene, x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0) {
+  constructor(scene, x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
       super(scene, x, y, texture, frame);
       scene.add.existing(this);
       //profundidad de objeto
@@ -51,6 +51,7 @@ class draggableObject extends Phaser.GameObjects.Image{
       this.startPosX = x;
       this.startPosY = y;
       //escala de la imgaen del interfaz
+      this.scaleIntrefaceImage = scaleIntrefaceImage;
       this.setScale(scaleIntrefaceImage);
       //escala del objeto al ser lanzado en el escenario y su rebote
       this.scaleImage = scaleImage;
@@ -60,6 +61,8 @@ class draggableObject extends Phaser.GameObjects.Image{
       //comandos para hacer que esta imagen dentro de la barra de tareas sea arrastrable (por esto hereda de Image)
       this.setInteractive();
       scene.input.setDraggable(this);
+      //Tiempo en el que se va el item
+      this.expireTime = expireTime;
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
   dropItemInGame() {
@@ -78,8 +81,19 @@ class draggableObject extends Phaser.GameObjects.Image{
 
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 class draggableBomb extends draggableObject{
-  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25) {
-      super(scene, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, 0.25);
+  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.1, coste = 0.25, expireTime = 3000) {
+      super(scene, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  }
+  dropItemInGame() {
+    var item = super.dropItemInGame();
+    if(usableItems.barra.scaleY > this.cost){
+      this.scene.time.delayedCall(this.expireTime, function() {document.getElementById('info').innerHTML = "dissapear";
+      item.visible = false;});
+    }
+  }
+  explode(item) {
+    document.getElementById('info').innerHTML = "dissapear";
+    item.visible = false;
   }
 }
 
@@ -99,8 +113,8 @@ class itemBar{
     //cada objeto nuevo se añade al array de objetos
     this.items[0] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
     this.items[1] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-    this.items[2] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0);
-    this.items[3] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0, 0.35, 0.6, 0.5);
+    this.items[2] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0,);
+    this.items[3] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0);
     this.items[4] = new draggableRect(scene, positionX, initialSepY + separationY*(counter++),0);
 
     this.barra = scene.add.image(positionX + 60,540/2,'bar');
@@ -215,7 +229,7 @@ class AndroidPlayers{
     if(this.player2.y > 600){
       this.damaged(scene,delta, this.player2, this.player1);
     }
-    document.getElementById('info').innerHTML = this.player1.depth;
+    //document.getElementById('info').innerHTML = this.player1.depth;
   }
 
   damaged(scene, delta, damagedPlayer, otherPlayer){
@@ -223,7 +237,7 @@ class AndroidPlayers{
       if(otherPlayer.alive){
         if(vidas > 0 && damagedPlayer.alive){
           damagedPlayer.alive = false;
-          vidas--
+          vidas--;
           damagedPlayer.visible = false;
           scene.time.delayedCall(AndroidPlayers.respawnTime * delta, this.respawn, [scene, damagedPlayer, otherPlayer]);
         }else if(vidas <= 0){
@@ -247,7 +261,7 @@ class AndroidPlayers{
     playerToRespawn.visible = true;
     scene.tweens.add({
         targets: playerToRespawn,
-        alpha: 0,
+        alpha: 0.5,
         ease: 'Cubic.easeOut',
         duration: 125,
         repeat: 6,
@@ -282,10 +296,12 @@ function preload ()
 
     this.load.image('bar', 'assets/Test/Barra.png');
 
+    this.load.image('bg', 'assets/Backgrounds/Industrial/Industrialbg.png');
     this.load.image('bg1', 'assets/Backgrounds/Industrial/IndustrialFar.png');
     this.load.image('bg2', 'assets/Backgrounds/Industrial/IndustrialMid.png');
     this.load.image('bg3', 'assets/Backgrounds/Industrial/IndustrialClose.png');
 }
+var bg;
 var backg1;
 var backg2;
 var backg3;
@@ -293,12 +309,13 @@ var backg3;
 function create ()
 {
     //backgrounds
-    backg1 = this.add.image(0,150,'bg1').setScale(3).setTint(0x333333);
-    backg1.setScrollFactor(0.75);
-    backg2 = this.add.image(1100,450,'bg2').setScale(0.7).setTint(0x555555);
+    bg = this.add.image(0,0,'bg').setScale(30);
+    backg1 = this.add.image(1300,550,'bg1').setScale(0.9);
+    backg1.setScrollFactor(0.25);
+    backg2 = this.add.image(1100,450,'bg2').setScale(1);
     backg2.setScrollFactor(0.5);
-    backg3 = this.add.image(1000,550,'bg3').setScale(1).setTint(0x444444);
-    backg3.setScrollFactor(0.25);
+    backg3 = this.add.image(1200,650,'bg3').setScale(1.2);
+    backg3.setScrollFactor(0.75);
     
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
@@ -358,13 +375,14 @@ function create ()
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
     this.input.on('drag', onDrag);
-    this.input.on('dragend', onDragEnd);
+    this.input.on('dragend', onDragEnd, this);
 }
 
 //FUNCIONES DE ARRASTRE
 function onDrag(pointer, gameObject, dragX, dragY){
   gameObject.x = dragX;
   gameObject.y = dragY;
+  gameObject.setScale(gameObject.scaleImage);
 }
 /*
 function onDragStart(pointer, gameObject){
@@ -374,6 +392,7 @@ function onDragEnd(pointer, gameObject, dropped){
   gameObject.dropItemInGame();
   gameObject.x = gameObject.startPosX;
   gameObject.y = gameObject.startPosY;
+  gameObject.setScale(gameObject.scaleIntrefaceImage);
 }
 
 function update (time, delta)
