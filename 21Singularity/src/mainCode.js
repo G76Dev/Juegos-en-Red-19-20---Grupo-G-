@@ -7,10 +7,10 @@ var config = {
     height: 540,
     //Físicas del juego
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 1300 },
-            debug: false
+        default: 'matter',
+        matter: {
+            gravity: { y: 1 },
+            debug: true
         }
     },
     //Escena principal
@@ -18,7 +18,16 @@ var config = {
         preload: preload,
         create: create,
         update: update
-    }
+    },
+    plugins: {
+    scene: [
+      {
+        plugin: PhaserMatterCollisionPlugin, // The plugin class
+        key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+        mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+      }
+    ]
+  }
 };
 //Zona de declaración de variables
 //Variable gameOver para finalizar la partida
@@ -101,11 +110,14 @@ function create ()
 
     floor.setCollisionByProperty({ collides: true });
 
+    this.matter.world.convertTilemapLayer(floor);
+
     //INTERFAZ
     //instancia de barra de objetos
     usableItems = new itemBar(this,875,100,50);
 
     players = new AndroidPlayers(this);
+    players.setGround(floor);
 
     //Creamos las animaciones de los personajes: idle, wLeft, wRight
     this.anims.create({
@@ -126,13 +138,9 @@ function create ()
         repeat: -1
     });
 
-    //collisiones con tiles
-    this.physics.add.collider(players.player1, floor);
-    this.physics.add.collider(players.player2, floor);
-
     //CAMARA:
     cam = this.cameras.main;
-    this.physics.world.setBounds(-500, 0, 10000, 10000);
+    this.matter.world.setBounds(-500, 0, 10000, 10000);
     cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
@@ -141,25 +149,7 @@ function create ()
 
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
-    this.input.on('drag', onDrag);
-    this.input.on('dragend', onDragEnd, this);
-}
 
-//FUNCIONES DE ARRASTRE
-function onDrag(pointer, gameObject, dragX, dragY){
-  gameObject.x = dragX;
-  gameObject.y = dragY;
-  gameObject.setScale(gameObject.scaleImage);
-}
-/*
-function onDragStart(pointer, gameObject){
-}
-*/
-function onDragEnd(pointer, gameObject, dropped){
-  gameObject.dropItemInGame(usableItems);
-  gameObject.x = gameObject.startPosX;
-  gameObject.y = gameObject.startPosY;
-  gameObject.setScale(gameObject.scaleIntrefaceImage);
 }
 
 function update (time, delta)
@@ -174,6 +164,4 @@ function update (time, delta)
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
     firstFollow.y = Math.max(Math.min((players.player1.y + players.player2.y)/2, 360),-500);
     usableItems.update(time, delta);
-    //document.getElementById('info').innerHTML = usableItems.energy;
-
 }

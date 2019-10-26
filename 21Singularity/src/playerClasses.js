@@ -1,30 +1,33 @@
 //Objeto player, con la información de nuestros jugadores "player1 y player2"
-class Player extends Phaser.Physics.Arcade.Sprite{
+class Player extends Phaser.Physics.Matter.Sprite{
   constructor(scene, x, y, texture, frame){
-    super(scene, x, y, texture, frame);
-    scene.physics.world.enableBody(this,0);
+    super(scene.matter.world, x, y, texture, frame);
+    scene.matter.world.add(this);
     scene.add.existing(this);
 
     this.cursors;
+    this.touchingGround = false;
     this.hasCoopImpul = false;
     this.alive = true;
     this.invulnerable = false;
-    this.setCollideWorldBounds(true);
+    this.setFixedRotation();
+    this.body.collisionFilter.group = -1
+    //this.setCollideWorldBounds(true);
   }
   //update de player (se invoca en cada update de la clase Android Players (mas abajo))
   update(time, delta){
     if(this.alive){
-      if(this.body.onFloor()){
+      if(this.touchingGround){
         this.hasCoopImpul = false;
       }
       if (this.cursors.left.isDown)
       {
-          this.setVelocityX(-16 * delta);
+          this.setVelocityX(-0.3 * delta);
           this.anims.play('wLeft', true);
       }
       else if (this.cursors.right.isDown)
       {
-          this.setVelocityX(16 * delta);
+          this.setVelocityX(0.3 * delta);
           this.anims.play('wRight', true);
       }
       else
@@ -32,22 +35,41 @@ class Player extends Phaser.Physics.Arcade.Sprite{
           this.setVelocityX(0);
           this.anims.play('idle');
       }
-      if (this.cursors.up.isDown && this.body.onFloor())
+      if (this.cursors.up.isDown && this.touchingGround)
       {
-          this.setVelocityY(-550);
+          this.setVelocityY(-10);
       }
     }
   }
-//funcion salto coop, comprueba si se puede hacer un salto coop con otro jugador OtherP
+  //collision con Suelo
+  setGround(floor){
+        //collisiones con tiles
+        this.scene.matterCollision.addOnCollideActive({
+          objectA: this,
+          objectB: floor.tilemapLayer,
+          callback: function(eventData) {
+            const { bodyA, bodyB, gameObjectA, gameObjectB, pair } = eventData;
+            gameObjectA.touchingGround = true;
+          },
+        });
+        this.scene.matterCollision.addOnCollideEnd({
+          objectA: this,
+          objectB: floor.tilemapLayer,
+          callback: function(eventData) {
+            const { bodyA, bodyB, gameObjectA, gameObjectB, pair } = eventData;
+            gameObjectA.touchingGround = false;
+          },
+        });
+  }
+  //funcion salto coop, comprueba si se puede hacer un salto coop con otro jugador OtherP
   coopJump(otherP) {
     if(this.alive){
       if ((otherP.x > (this.x - 16)) && (otherP.x < (this.x + 16)))
       {
-        if((otherP.y < this.y + 12) && (otherP.y > (this.y - 24)))
+        if((otherP.y < this.y + 24) && (otherP.y > (this.y - 24)))
         {
           if(!this.hasCoopImpul && !otherP.hasCoopImpul){
-            otherP.setVelocityY(-550);
-            otherP.setAccelerationY(0);
+            otherP.setVelocityY(-10);
             this.hasCoopImpul = true;
           }
         }
@@ -69,15 +91,16 @@ class AndroidPlayers{
     //Inputs de los jugadores
     this.player1.cursors = scene.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'down': Phaser.Input.Keyboard.KeyCodes.S, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.R } );
     this.player2.cursors = scene.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'down': Phaser.Input.Keyboard.KeyCodes.DOWN, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.L } );
+
   }
   //update de AndroidPlayers, se llama cada update de esena
   update(time, delta, scene){
     this.player1.update(time, delta);
     this.player2.update(time, delta);
-    if (this.player1.cursors.coop.isDown && !(this.player1.body.touching.down)) {
+    if (this.player1.cursors.coop.isDown) {
        this.player1.coopJump(this.player2);
      }
-     if (this.player2.cursors.coop.isDown && !(this.player2.body.touching.down)) {
+     if (this.player2.cursors.coop.isDown) {
         this.player2.coopJump(this.player1);
     }
 
@@ -88,6 +111,11 @@ class AndroidPlayers{
       this.damaged(scene,delta, this.player2, this.player1);
     }
     //document.getElementById('info').innerHTML = this.player1.depth;
+  }
+  //establever Suelo
+  setGround(floor){
+    this.player1.setGround(floor);
+    this.player2.setGround(floor);
   }
   //funcion que se invoca si un jugador recibe daño
   damaged(scene, delta, damagedPlayer, otherPlayer){
