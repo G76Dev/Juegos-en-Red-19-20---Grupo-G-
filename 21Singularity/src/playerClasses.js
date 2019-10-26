@@ -43,6 +43,7 @@ class Player extends Phaser.Physics.Matter.Sprite{
   }
   //collision con Suelo
   setGround(floor){
+
         //collisiones con tiles
         this.scene.matterCollision.addOnCollideActive({
           objectA: this,
@@ -110,7 +111,6 @@ class AndroidPlayers{
     if(this.player2.y > 600){
       this.damaged(scene,delta, this.player2, this.player1);
     }
-    //document.getElementById('info').innerHTML = this.player1.depth;
   }
   //establever Suelo
   setGround(floor){

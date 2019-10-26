@@ -1,4 +1,5 @@
 "use strict";
+import testPlayer from "./test.js";
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
@@ -119,8 +120,8 @@ function create ()
     //instancia de barra de objetos
     usableItems = new itemBar(this,875,100,50);
 
-    players = new AndroidPlayers(this);
-    players.setGround(floor);
+    //players = new AndroidPlayers(this);
+    //players.setGround(floor);
 
     //Creamos las animaciones de los personajes: idle, wLeft, wRight
     this.anims.create({
@@ -141,12 +142,13 @@ function create ()
         repeat: -1
     });
 
+    var asd = new testPlayer(this, 100, 0);
     //CAMARA:
     cam = this.cameras.main;
     this.matter.world.setBounds(-500, 0, 10000, 10000);
     cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
-    cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
+    cam.startFollow(asd.sprite, false, 0.05, 0.01, 0, 0);
     //firstFollow.y = 176;
     //this.cameras.main.setZoom(1);
 
@@ -161,10 +163,10 @@ function update (time, delta)
     {
         return;
     }
-    players.update(time, delta, this);
-    firstFollow.x = Math.max(players.player1.x, players.player2.x);
+    //players.update(time, delta, this);
+    //firstFollow.x = Math.max(players.player1.x, players.player2.x);
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
-    firstFollow.y = Math.max(Math.min((players.player1.y + players.player2.y)/2, 360),-500);
+    //firstFollow.y = Math.max(Math.min((players.player1.y + players.player2.y)/2, 360),-500);
     usableItems.update(time, delta);
-    //console.log(mouse.velocity);
+    document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
 }
