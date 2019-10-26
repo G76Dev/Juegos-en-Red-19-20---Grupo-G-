@@ -2,9 +2,10 @@
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Sprite{
   //objeto muy parecido a "Image" pero con atributos adicionales
-  constructor(scene , x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
+  constructor(scene, itemsBar , x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
       super(scene, x, y, texture, frame);
       scene.add.existing(this);
+      this.itemsBar = itemsBar;
       //profundidad de objeto
       this.setDepth(99)
       //coste del item
@@ -28,15 +29,16 @@ class draggableObject extends Phaser.GameObjects.Sprite{
       this.expireTime = expireTime;
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
-  dropItemInGame(itemsBar, addColliderString) {
-      var item = this.scene.matter.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
+  dropItemInGame(addColliderString) {
+      var item = this.scene.matter.add.sprite(this.x + this.scene.cameras.main.scrollX, this.y + this.scene.cameras.main.scrollY, this.sprite);
       item.setScale(this.scaleImage);
       var addCollider = window[addColliderString];
       eval(addColliderString);
       item.body.collisionFilter.group = -1;
       item.setBounce(this.bounce);
-      item.setVelocity(mouse.velocity.x/6,mouse.velocity.y/6);
-      itemsBar.changeBar(itemsBar.energy - this.cost);
+      item.setVelocity(this.scene.input.activePointer.velocity.x/6,this.scene.input.activePointer.velocity.y/6);
+      this.itemsBar.changeBar(this.itemsBar.energy - this.cost);
+      console.log("asdasd");
       return item; //devuelve la instancia creada
   }
 }
@@ -44,14 +46,14 @@ class draggableObject extends Phaser.GameObjects.Sprite{
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 //objeto bomba
 class draggableBomb extends draggableObject{
-  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.5, coste = 10, expireTime = 3000) {
-      super(scene , x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.5, coste = 10, expireTime = 3000) {
+      super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
-  dropItemInGame(itemsBar) {
-    if(itemsBar.energy > this.cost){
-        var bombInstance = super.dropItemInGame(itemsBar, "item.setCircle(11)");
-        bombInstance.setAngularVelocity(mouse.velocity.x/150);
+  dropItemInGame() {
+    if(this.itemsBar.energy > this.cost){
+        var bombInstance = super.dropItemInGame("item.setCircle(11)");
+        bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/150);
         this.scene.time.delayedCall(this.expireTime, function() {
           //var explosion = scene.matter.add.sprite(bombInstance.x, bombInstance.y, key, 0);
           bombInstance.destroy();
@@ -61,24 +63,24 @@ class draggableBomb extends draggableObject{
 }
 
 class draggableRect extends draggableObject{
-  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 25, expireTime = 3000) {
-      super(scene, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 25, expireTime = 3000) {
+      super(scene, itemsBar, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
 }
 
 //estructura redimensionable que guarda todos los objetos sellecionables por el 3º jugador
-class itemBar{
+export default class itemBar{
   constructor(scene, positionX, separationY, initialSepY){
     var counter = 0;
     //energia del jugador humano
     this.energy = 100;
     this.items = [5];
     //cada objeto nuevo se añade al array de objetos
-    this.items[0] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-    this.items[1] = new draggableObject(scene, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-    this.items[2] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0,);
-    this.items[3] = new draggableBomb(scene, positionX, initialSepY + separationY*(counter++),0);
-    this.items[4] = new draggableRect(scene, positionX, initialSepY + separationY*(counter++),0);
+    this.items[0] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
+    this.items[1] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
+    this.items[2] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0,);
+    this.items[3] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0);
+    this.items[4] = new draggableRect(scene,this, positionX, initialSepY + separationY*(counter++),0);
 
     //sprite barra de energia
     this.bar = scene.add.image(positionX + 60,540/2,'bar');
@@ -99,7 +101,7 @@ class itemBar{
     }
     */
     function onDragEnd(pointer, gameObject, dropped){
-      gameObject.dropItemInGame(usableItems);
+      gameObject.dropItemInGame(this);
       gameObject.x = gameObject.startPosX;
       gameObject.y = gameObject.startPosY;
       gameObject.setScale(gameObject.scaleIntrefaceImage);
