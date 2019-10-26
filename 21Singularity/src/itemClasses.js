@@ -28,35 +28,34 @@ class draggableObject extends Phaser.GameObjects.Sprite{
       this.expireTime = expireTime;
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
-  dropItemInGame(itemsBar) {
-      var bombInstance = this.scene.matter.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
-      bombInstance.setScale(this.scaleImage);
-      //bombInstance.setCollideWorldBounds(true);
-      //this.scene.matter.add.collider(bombInstance, floor);
-      bombInstance.setBounce(this.bounce);
-      //bombInstance.setVelocity(this.body.velocity.x/5,this.body.velocity.y/5);
-
+  dropItemInGame(itemsBar, addColliderString) {
+      var item = this.scene.matter.add.sprite(this.x + cam.scrollX, this.y + cam.scrollY, this.sprite);
+      item.setScale(this.scaleImage);
+      var addCollider = window[addColliderString];
+      eval(addColliderString);
+      item.body.collisionFilter.group = -1;
+      item.setBounce(this.bounce);
+      item.setVelocity(mouse.velocity.x/6,mouse.velocity.y/6);
       itemsBar.changeBar(itemsBar.energy - this.cost);
-
-      this.setScale(this.scaleIntrefaceImage);
-      return bombInstance; //devuelve la instancia creada
+      return item; //devuelve la instancia creada
   }
 }
 
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 //objeto bomba
 class draggableBomb extends draggableObject{
-  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.1, coste = 25, expireTime = 3000) {
+  constructor(scene, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.5, coste = 10, expireTime = 3000) {
       super(scene , x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
   dropItemInGame(itemsBar) {
     if(itemsBar.energy > this.cost){
-        var item = super.dropItemInGame(itemsBar);
-        //item.setCircle(11);
+        var bombInstance = super.dropItemInGame(itemsBar, "item.setCircle(11)");
+        bombInstance.setAngularVelocity(mouse.velocity.x/150);
         this.scene.time.delayedCall(this.expireTime, function() {
-        item.visible = false;
-      });
+          //var explosion = scene.matter.add.sprite(bombInstance.x, bombInstance.y, key, 0);
+          bombInstance.destroy();
+        });
     }
   }
 }
@@ -103,6 +102,7 @@ class itemBar{
       gameObject.dropItemInGame(usableItems);
       gameObject.x = gameObject.startPosX;
       gameObject.y = gameObject.startPosY;
+      gameObject.setScale(gameObject.scaleIntrefaceImage);
     }
   }
 

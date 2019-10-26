@@ -49,6 +49,8 @@ var vidas = 5;
 //variables jugadores
 var players;
 
+//mouse
+var mouse;
 //Declaramos nuestro juego
 var game = new Phaser.Game(config);
 //Función preload, que carga elementos antes de iniciar el juego
@@ -108,11 +110,12 @@ function create ()
     overlapDeco = map.createStaticLayer("Decoracion sobrelapada", tileset1, 0, 0);
     overlapDeco.setScale(2);
 
-    floor.setCollisionByProperty({ collides: true });
+    floor.setCollisionByProperty({ collides: true});
 
     this.matter.world.convertTilemapLayer(floor);
 
     //INTERFAZ
+    mouse = this.input.activePointer;
     //instancia de barra de objetos
     usableItems = new itemBar(this,875,100,50);
 
@@ -149,7 +152,6 @@ function create ()
 
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
-
 }
 
 function update (time, delta)
@@ -164,4 +166,5 @@ function update (time, delta)
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
     firstFollow.y = Math.max(Math.min((players.player1.y + players.player2.y)/2, 360),-500);
     usableItems.update(time, delta);
+    //console.log(mouse.velocity);
 }

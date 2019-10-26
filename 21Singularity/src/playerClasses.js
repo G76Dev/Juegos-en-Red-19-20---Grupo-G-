@@ -11,7 +11,7 @@ class Player extends Phaser.Physics.Matter.Sprite{
     this.alive = true;
     this.invulnerable = false;
     this.setFixedRotation();
-    this.body.collisionFilter.group = -1
+    this.body.collisionFilter.group = -1;
     //this.setCollideWorldBounds(true);
   }
   //update de player (se invoca en cada update de la clase Android Players (mas abajo))
