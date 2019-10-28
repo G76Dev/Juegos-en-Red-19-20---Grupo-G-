@@ -1,4 +1,3 @@
-
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Sprite{
   //objeto muy parecido a "Image" pero con atributos adicionales

@@ -1,4 +1,3 @@
-
 export default class Android {
   static lives = 5;
   static respawnTime = 1000;
