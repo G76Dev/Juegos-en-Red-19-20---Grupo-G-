@@ -1,5 +1,6 @@
 "use strict";
-import testPlayer from "./test.js";
+import Android from "./android.js";
+import ItemBar from "./itemClasses.js";
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
@@ -48,8 +49,8 @@ var usableItems;
 //Vidas de los jugadores
 var vidas = 5;
 //variables jugadores
-var players;
-
+var android1;
+var android2;
 //mouse
 var mouse;
 //Declaramos nuestro juego
@@ -118,7 +119,7 @@ function create ()
     //INTERFAZ
     mouse = this.input.activePointer;
     //instancia de barra de objetos
-    usableItems = new itemBar(this,875,100,50);
+    usableItems = new ItemBar(this,875,100,50);
 
     //players = new AndroidPlayers(this);
     //players.setGround(floor);
@@ -141,14 +142,18 @@ function create ()
         frameRate: 10,
         repeat: -1
     });
-
-    var asd = new testPlayer(this, 100, 0);
+    var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
+    android1 = new Android(this, 100, 0, cursors);
+    var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
+    android2 = new Android(this, 200, 0, cursors);
+    android1.coLink(android2);
+    android2.coLink(android1);
     //CAMARA:
     cam = this.cameras.main;
     this.matter.world.setBounds(-500, 0, 10000, 10000);
     cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
-    cam.startFollow(asd.sprite, false, 0.05, 0.01, 0, 0);
+    cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //firstFollow.y = 176;
     //this.cameras.main.setZoom(1);
 
@@ -163,10 +168,11 @@ function update (time, delta)
     {
         return;
     }
+    document.getElementById('info').innerHTML = android1.invulnerable;
     //players.update(time, delta, this);
-    //firstFollow.x = Math.max(players.player1.x, players.player2.x);
+    firstFollow.x = Math.max(android1.sprite.x, android2.sprite.x);
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
-    //firstFollow.y = Math.max(Math.min((players.player1.y + players.player2.y)/2, 360),-500);
+    firstFollow.y = Math.max(Math.min((android1.sprite.y + android2.sprite.y)/2, 360),-500);
     usableItems.update(time, delta);
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
 }
