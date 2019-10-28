@@ -168,6 +168,7 @@ function update (time, delta)
     {
         return;
     }
+    document.getElementById('info').innerHTML = android1.invulnerable;
     //players.update(time, delta, this);
     firstFollow.x = Math.max(android1.sprite.x, android2.sprite.x);
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;

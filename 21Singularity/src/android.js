@@ -1,11 +1,11 @@
 
 export default class Android {
-  static lives;
+  static lives = 5;
+  static respawnTime = 1000;
   constructor(scene, x, y, cursors) {
     this.scene = scene;
     this.sprite = scene.matter.add.sprite(x, y, "dude", 0);
     this.otherAndroid;
-    this.lives = 5;
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
@@ -56,13 +56,13 @@ export default class Android {
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
-    if (bodyA === this.sensors.left) {
-      this.isTouching.left = true;
-      if (pair.separation > 0.3) this.sprite.x += 0.1;
-    }
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       if (pair.separation > 0.3) this.sprite.x -= 0.1;
+    }
+    if (bodyA === this.sensors.left) {
+      this.isTouching.left = true;
+      if (pair.separation > 0.3) this.sprite.x += 0.1;
     }
     if (bodyA === this.sensors.bottom) {
       this.isTouching.ground = true;
@@ -76,6 +76,8 @@ export default class Android {
   }
   update(time, delta) {
     const isInAir = !this.isTouching.ground;
+
+    if(Android.lives <= 0){return;}
 
     if(this.alive){
       if(isInAir){this.sprite.setVelocityX(0.1*delta*Math.sign(this.sprite.body.velocity.x));}
@@ -135,45 +137,50 @@ export default class Android {
        }
     }
   }
-  damaged(delta){
+  damaged(){
     if(!this.invulnerable){
       if(this.otherAndroid.alive){
-        console.log(this.lives);
-        if(this.lives > 0 && this.alive){
+        if(Android.lives > 0 && this.alive){
           this.alive = false;
-          this.lives--;
+          Android.lives--;
           this.sprite.visible = false;
-          console.log("asdasd");
-          this.scene.time.delayedCall(AndroidPlayers.respawnTime * delta, this.respawn, [this.scene, this, this.otherAndroid]);
-        }else if(this.lives <= 0){
-          //gameOver = true;
+          this.sprite.setVelocityX(0);
+          this.scene.time.addEvent({
+            delay: Android.respawnTime,
+            callback: () => (this.respawn())
+          });
+        }else if(Android.lives <= 0){
+          console.log("Game Over");
         }
       }else{
-        //gameOver = true
-        this.lives = 0;
+        Android.lives = 0;
+        console.log("Game Over");
       }
     }
   }
-  respawn(scene, playerToRespawn, otherPlayer){
-    playerToRespawn.depth = 0;
-    otherPlayer.depth = 0;
-    playerToRespawn.setVelocityY(0);
-    playerToRespawn.setVelocityX(0);
-    playerToRespawn.x = otherPlayer.x;
-    playerToRespawn.y = otherPlayer.y;
-    playerToRespawn.depth++;
+  respawn(){
+    this.sprite.depth = 0;
+    this.otherAndroid.sprite.depth = 0;
+    this.sprite.setVelocityY(0);
+    this.sprite.setVelocityX(0);
+    this.sprite.x = this.otherAndroid.sprite.x;
+    this.sprite.y = this.otherAndroid.sprite.y;
+    this.sprite.depth++;
 
-    playerToRespawn.invulnerable = true;
-    playerToRespawn.visible = true;
-    scene.tweens.add({
-        targets: playerToRespawn,
+    this.invulnerable = true;
+    this.sprite.visible = true;
+    this.scene.tweens.add({
+        targets: this.sprite,
         alpha: 0.5,
         ease: 'Cubic.easeOut',
         duration: 125,
         repeat: 6,
         yoyo: true
       })
-    playerToRespawn.alive = true;
-    scene.time.delayedCall(6*125, function(){playerToRespawn.invulnerable = false;}, playerToRespawn);
+    this.alive = true;
+    this.scene.time.addEvent({
+      delay: 6*125,
+      callback: () => (this.invulnerable = false)
+    });
   }
 }
