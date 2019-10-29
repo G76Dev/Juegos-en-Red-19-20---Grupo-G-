@@ -9,7 +9,6 @@ var gameOver = false;
 var bgItems;
 var deco;
 var floor;
-var pinchos;
 var overlapDeco;
 
 //Variables CAMARA
@@ -38,21 +37,20 @@ export default class Scene2 extends Phaser.Scene{
   preload ()
   {
     //imagenes fondo TILED
-    this.load.image("tiles1", "../assets/Tilesets/Roberts.png");
-    this.load.image("tiles2", "../assets/Tilesets/customTileset1.png");
-    this.load.tilemapTiledJSON("map", "../assets/Mapas/Testing_Grounds.json");
+    this.load.image("tiles1", "../assets/Sprites/prueba.png");
+    this.load.tilemapTiledJSON("map", "../assets/Mapas/simple-map.json");
 
     this.load.image('generic', 'assets/Test/virtual.png');
 
     this.load.image('ground', 'assets/Test/platform.png');
-    this.load.spritesheet('dude', 'assets/Test/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('android1Run', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('android1Idle', 'assets/Sprites/Androids/male_android_idle.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('android1JumpUp', 'assets/Sprites/Androids/male_android_jumping_up.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('android1JumpDown', 'assets/Sprites/Androids/male_android_jumping_down.png', { frameWidth: 32, frameHeight: 64 });
 
     //cambiar por imagenes de la barra de objetos
-    this.load.image('item1', 'assets/Test/bomb.png');
+    this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
     this.load.image('item2', 'assets/Test/selector.png');
     this.load.image('item3', 'assets/Test/bomb.png');
     this.load.image('item4', 'assets/Test/bomb.png');
@@ -79,21 +77,34 @@ export default class Scene2 extends Phaser.Scene{
 
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
-    const tileset1 = map.addTilesetImage("Industrial Fabrica", "tiles1");
-    const tileset2 = map.addTilesetImage("Custom tileset", "tiles2");
+    const tileset1 = map.addTilesetImage("kenney-tileset-64px-extruded", "tiles1");
 
-    bgItems = map.createStaticLayer("Elementos en el fondo", tileset1, 0, 0);
-    bgItems.setScale(2);
-    deco = map.createStaticLayer("Decoracion", tileset1, 0, 0);
-    deco.setScale(2);
-    floor = map.createStaticLayer("Suelo", tileset1, 0, 0);
-    floor.setScale(2);
-    overlapDeco = map.createStaticLayer("Decoracion sobrelapada", tileset1, 0, 0);
-    overlapDeco.setScale(2);
+    //bgItems = map.createStaticLayer("Capa -3", tileset1, 0, 0);
+    //deco = map.createStaticLayer("Capa -2", tileset1, 0, 0);
+    //overlapDeco = map.createStaticLayer("Capa -1", tileset1, 0, 0);
+    //floor = map.createDynamicLayer("Ground2", tileset1, 0, 0);
 
-    floor.setCollisionByProperty({ collides: true});
+    // Create the 2-layer map
+    const groundLayer = map.createDynamicLayer("Ground", tileset1, 0, 0);
+    const lavaLayer = map.createDynamicLayer("Lava", tileset1, 0, 0);
 
-    this.matter.world.convertTilemapLayer(floor);
+    // Set colliding tiles before converting the layer to Matter bodies - same as we've done before
+    // with AP. See post #1 for more on setCollisionByProperty.
+    groundLayer.setCollisionByProperty({ collides: true });
+    lavaLayer.setCollisionByProperty({ collides: true });
+
+    // Get the layers registered with Matter. Any colliding tiles will be given a Matter body. We
+    // haven't mapped out custom collision shapes in Tiled so each colliding tile will get a default
+    // rectangle body (similar to AP).
+    this.matter.world.convertTilemapLayer(groundLayer);
+    this.matter.world.convertTilemapLayer(lavaLayer);
+
+    //map.setCollisionByExclusion([ -1, 0 ]);
+
+    //map.setCollisionBetween(1, 999, true, 'Base');
+    //floor.setCollisionByProperty({Collides: true});
+
+    //this.matter.world.convertTilemapLayer(floor);
 
     //INTERFAZ
     mouse = this.input.activePointer;
@@ -128,6 +139,14 @@ export default class Scene2 extends Phaser.Scene{
         frameRate: 6,
         repeat: -1
     });
+
+    this.anims.create({
+      key: 'eBomb',
+      frames: this.anims.generateFrameNumbers('explodingBomb', { start: 0, end: 13 }),
+      frameRate: 6,
+      repeat: 0
+  });
+
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
     android1 = new Android(this, 100, 200, cursors);
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
@@ -140,6 +159,7 @@ export default class Scene2 extends Phaser.Scene{
     cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
+    cam.setZoom(1);
     //firstFollow.y = 176;
 
     //3º JUGADOR:

@@ -12,8 +12,6 @@ export default class Android {
     this.leftMultiply = 1;
     this.rightMultiply = 1;
 
-    this.previousAnim = true;
-
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w *0.9, h);
@@ -137,7 +135,6 @@ export default class Android {
     }
   }
   playAnimation(){
-    var direction = (this.sprite.body.velocity.x > 0)? false : true;
     if(this.isTouching.ground){
       if(this.cursors.right.isDown){
         this.sprite.anims.play('wRight', true);
@@ -149,20 +146,20 @@ export default class Android {
         this.sprite.anims.play('idle', true);
       }
     }else{
-      if(this.cursors.right.isDown){
-        this.previousAnim = true;
-      }else if(this.cursors.left.isDown){
-        this.previousAnim = false;
-      }
       if(this.sprite.body.velocity.y < 0){
         this.sprite.anims.play('jumpUp', true);
-        this.sprite.setFlipX(direction);
+        if(this.cursors.right.isDown){
+          this.sprite.setFlipX(false);
+        }else if(this.cursors.left.isDown){
+          this.sprite.setFlipX(true);
+        }
       }else if(this.sprite.body.velocity.y > 0){
         this.sprite.anims.play('jumpDown', true);
-        this.sprite.setFlipX(direction);
-      }else{
-        this.sprite.anims.play('jumpDown', true);
-        this.sprite.setFlipX(this.previousAnim);
+        if(this.cursors.right.isDown){
+          this.sprite.setFlipX(false);
+        }else if(this.cursors.left.isDown){
+          this.sprite.setFlipX(true);
+        }
       }
     }
   }
@@ -171,7 +168,7 @@ export default class Android {
   }
   coopJump(){
     if (((this.otherAndroid.sprite.x > (this.sprite.x - 16)) && (this.otherAndroid.sprite.x < (this.sprite.x + 16))) &&
-    ((this.otherAndroid.sprite.y < this.sprite.y + 24) && (this.otherAndroid.sprite.y > (this.sprite.y - 24))))
+    ((this.otherAndroid.sprite.y < this.sprite.y + 32) && (this.otherAndroid.sprite.y > (this.sprite.y - 32))))
     {
        if(this.canCoopImpulse && this.otherAndroid.canCoopImpulse){
          this.otherAndroid.sprite.setVelocityY(-Android.jumpVelocity);

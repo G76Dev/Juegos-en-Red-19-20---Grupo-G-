@@ -37,7 +37,6 @@ class draggableObject extends Phaser.GameObjects.Sprite{
       item.setBounce(this.bounce);
       item.setVelocity(this.scene.input.activePointer.velocity.x/6,this.scene.input.activePointer.velocity.y/6);
       this.itemsBar.changeBar(this.itemsBar.energy - this.cost);
-      console.log("asdasd");
       return item; //devuelve la instancia creada
   }
 }
@@ -45,7 +44,7 @@ class draggableObject extends Phaser.GameObjects.Sprite{
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 //objeto bomba
 class draggableBomb extends draggableObject{
-  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.1, bounce = 0.5, coste = 10, expireTime = 3000) {
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 3000) {
       super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
@@ -53,9 +52,10 @@ class draggableBomb extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         var bombInstance = super.dropItemInGame("item.setCircle(11)");
         bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/150);
-        this.scene.time.delayedCall(this.expireTime, function() {
-          //var explosion = scene.matter.add.sprite(bombInstance.x, bombInstance.y, key, 0);
-          bombInstance.destroy();
+        bombInstance.anims.play('eBomb', true);
+        this.scene.time.addEvent({
+          delay: this.expireTime,
+          callback: () => (bombInstance.destroy())
         });
     }
   }
@@ -91,7 +91,6 @@ export default class ItemBar{
 
     //FUNCIONES DE ARRASTRE
     function onDrag(pointer, gameObject, dragX, dragY){
-      gameObject.setScale(gameObject.scaleImage);
       gameObject.x = dragX;
       gameObject.y = dragY;
     }
