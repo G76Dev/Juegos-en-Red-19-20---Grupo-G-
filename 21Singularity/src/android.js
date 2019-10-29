@@ -6,17 +6,19 @@ export default class Android {
   static airVelocityFraction = 0.3;
   constructor(scene, x, y, cursors) {
     this.scene = scene;
-    this.sprite = scene.matter.add.sprite(x, y, "dude", 0);
+    this.sprite = scene.matter.add.sprite(x, y, "android1Idle", 0);
     this.otherAndroid;
 
     this.leftMultiply = 1;
     this.rightMultiply = 1;
 
+    this.previousAnim = true;
+
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w *0.9, h);
     this.sensors = {
-      bottom: Bodies.rectangle(0, h * 0.6, w * 0.8, 6, { isSensor: true }),
+      bottom: Bodies.rectangle(0, h * 0.55, w * 0.8, 6, { isSensor: true }),
       left: Bodies.rectangle(-w * 0.55, 0, 6, h * 0.85, { isSensor: true }),
       right: Bodies.rectangle(w * 0.55, 0, 6, h * 0.85, { isSensor: true })
     };
@@ -87,20 +89,15 @@ export default class Android {
     if(this.alive){
 
       if (this.cursors.left.isDown) {
-        this.sprite.anims.play('wLeft', true);
-          this.sprite.setFlipX(false);
         if (!(isInAir && this.isTouching.left)) {
           this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
         }
       } else if (this.cursors.right.isDown) {
-        this.sprite.anims.play('wRight', true);
-          this.sprite.setFlipX(false);
         if (!(isInAir && this.isTouching.right)) {
           this.sprite.setVelocityX(Android.moveVelocity * delta * this.rightMultiply);
         }
-      }else{
-        this.sprite.anims.play('idle');
       }
+      this.playAnimation();
 
       if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
         this.sprite.setVelocityY(-Android.jumpVelocity);
@@ -137,6 +134,36 @@ export default class Android {
       }
       this.leftMultiply = 1;
       this.rightMultiply = 1;
+    }
+  }
+  playAnimation(){
+    var direction = (this.sprite.body.velocity.x > 0)? false : true;
+    if(this.isTouching.ground){
+      if(this.cursors.right.isDown){
+        this.sprite.anims.play('wRight', true);
+        this.sprite.setFlipX(false);
+      }else if(this.cursors.left.isDown){
+        this.sprite.anims.play('wRight', true);
+        this.sprite.setFlipX(true);
+      }else{
+        this.sprite.anims.play('idle', true);
+      }
+    }else{
+      if(this.cursors.right.isDown){
+        this.previousAnim = true;
+      }else if(this.cursors.left.isDown){
+        this.previousAnim = false;
+      }
+      if(this.sprite.body.velocity.y < 0){
+        this.sprite.anims.play('jumpUp', true);
+        this.sprite.setFlipX(direction);
+      }else if(this.sprite.body.velocity.y > 0){
+        this.sprite.anims.play('jumpDown', true);
+        this.sprite.setFlipX(direction);
+      }else{
+        this.sprite.anims.play('jumpDown', true);
+        this.sprite.setFlipX(this.previousAnim);
+      }
     }
   }
   coLink(otherA){
