@@ -93,7 +93,7 @@ export default class Scene1 extends Phaser.Scene{
   	this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
   	this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
   	this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
-  	this.load.image('text_exit', 'assets/Interfaz/Text_Exit.png');
+  	this.load.image('text_credits', 'assets/Interfaz/Text_Credits.png');
 
   	//Cargamos el sprite de la luz
   	this.load.image('light', 'assets/Interfaz/Light.png');
@@ -123,7 +123,7 @@ export default class Scene1 extends Phaser.Scene{
   	this.add.image(960/2, 244, 'text_online');
   	this.add.image(960/2, 314, 'text_local');
   	this.add.image(960/2, 384, 'text_options');
-  	this.add.image(960/2, 450, 'text_exit');
+  	this.add.image(960/2, 450, 'text_credits');
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
   	//Indica qué función hay que ejecutar según la opción seleccionada en el menú
   	this.input.on('pointerdown', function () {
