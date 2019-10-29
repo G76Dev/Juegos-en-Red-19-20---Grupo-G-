@@ -46,6 +46,10 @@ export default class Scene2 extends Phaser.Scene{
 
     this.load.image('ground', 'assets/Test/platform.png');
     this.load.spritesheet('dude', 'assets/Test/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('android1Run', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
+    this.load.spritesheet('android1Idle', 'assets/Sprites/Androids/male_android_idle.png', { frameWidth: 32, frameHeight: 64 });
+    this.load.spritesheet('android1JumpUp', 'assets/Sprites/Androids/male_android_jumping_up.png', { frameWidth: 32, frameHeight: 64 });
+    this.load.spritesheet('android1JumpDown', 'assets/Sprites/Androids/male_android_jumping_down.png', { frameWidth: 32, frameHeight: 64 });
 
     //cambiar por imagenes de la barra de objetos
     this.load.image('item1', 'assets/Test/bomb.png');
@@ -101,26 +105,33 @@ export default class Scene2 extends Phaser.Scene{
 
     //Creamos las animaciones de los personajes: idle, wLeft, wRight
     this.anims.create({
-        key: 'wLeft',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        key: 'wRight',
+        frames: this.anims.generateFrameNumbers('android1Run', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'idle',
-        frames: [ { key: 'dude', frame: 4 } ],
-        frameRate: 20
+        frames: this.anims.generateFrameNumbers('android1Idle', { start: 0, end: 1 }),
+        frameRate: 2,
+        repeat: -1
     });
     this.anims.create({
-        key: 'wRight',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-        frameRate: 10,
+        key: 'jumpUp',
+        frames: this.anims.generateFrameNumbers('android1JumpUp', { start: 0, end: 1 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'jumpDown',
+        frames: this.anims.generateFrameNumbers('android1JumpDown', { start: 0, end: 1 }),
+        frameRate: 6,
         repeat: -1
     });
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    android1 = new Android(this, 100, 0, cursors);
+    android1 = new Android(this, 100, 200, cursors);
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    android2 = new Android(this, 200, 0, cursors);
+    android2 = new Android(this, 200, 200, cursors);
     android1.coLink(android2);
     android2.coLink(android1);
     //CAMARA:
