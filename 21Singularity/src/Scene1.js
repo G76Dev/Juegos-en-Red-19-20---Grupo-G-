@@ -87,6 +87,7 @@ export default class Scene1 extends Phaser.Scene{
   {
   	//Cargamos el fondo y la pantalla negra que servirá como transición
     this.load.image('interfazBg', 'assets/Interfaz/BG.png');
+	this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
   	this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
 
   	//Cargamos los textos del menú
@@ -101,9 +102,10 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
-    //Añadimos el background
+    //Añadimos el background y el título
     this.add.image(960/2, 540/2, 'interfazBg');
-  	//Añadimos la pantalla negra que servirá de transición entre escenas.
+	this.add.image(960/2, 540/2, 'interfazTitle');
+  	//Añadimos la pantalla negra que servirá de transición entre escenas
   	fade = new Fade(this, 960/2, 540/2, 'interfazBs');
   	//Añadimos las luces que indicarán que botón del menú está activo y su comportamiento
   	buttonArray = [

@@ -81,6 +81,9 @@ export default class ItemBar{
     this.items[3] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0);
     this.items[4] = new draggableRect(scene,this, positionX, initialSepY + separationY*(counter++),0);
 
+    this.item_bar = scene.add.image(positionX,540/2,'item_bar');
+    this.item_bar.originY = 1;
+    this.item_bar.setDepth(90).setScrollFactor(0);
     //sprite barra de energia
     this.bar = scene.add.image(positionX + 60,540/2,'bar');
     this.bar.originY = 1;

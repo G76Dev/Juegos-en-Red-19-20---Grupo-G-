@@ -37,8 +37,8 @@ export default class Scene2 extends Phaser.Scene{
   preload ()
   {
     //imagenes fondo TILED
-    this.load.image("tiles1", "../assets/Sprites/prueba.png");
-    this.load.tilemapTiledJSON("map", "../assets/Mapas/simple-map.json");
+    this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
+    this.load.tilemapTiledJSON("map", "../assets/Mapas/Industrial_v1.json");
 
     this.load.image('generic', 'assets/Test/virtual.png');
 
@@ -50,6 +50,7 @@ export default class Scene2 extends Phaser.Scene{
     this.load.spritesheet('android1JumpDown', 'assets/Sprites/Androids/male_android_jumping_down.png', { frameWidth: 32, frameHeight: 64 });
 
     //cambiar por imagenes de la barra de objetos
+    this.load.image('item_bar', 'assets/Test/item_bar.png');
     this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
     this.load.image('item2', 'assets/Test/selector.png');
     this.load.image('item3', 'assets/Test/bomb.png');
@@ -77,34 +78,18 @@ export default class Scene2 extends Phaser.Scene{
 
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
-    const tileset1 = map.addTilesetImage("kenney-tileset-64px-extruded", "tiles1");
+    const tileset1 = map.addTilesetImage("Tileset Industrial x32", "tiles1");
 
-    //bgItems = map.createStaticLayer("Capa -3", tileset1, 0, 0);
-    //deco = map.createStaticLayer("Capa -2", tileset1, 0, 0);
-    //overlapDeco = map.createStaticLayer("Capa -1", tileset1, 0, 0);
-    //floor = map.createDynamicLayer("Ground2", tileset1, 0, 0);
+    bgItems = map.createDynamicLayer("Capa -3", tileset1, 0, 0);
+    deco = map.createDynamicLayer("Capa -2", tileset1, 0, 0);
+    overlapDeco = map.createDynamicLayer("Capa -1", tileset1, 0, 0);
+    floor = map.createDynamicLayer("Base", tileset1, 0, 0);
 
-    // Create the 2-layer map
-    const groundLayer = map.createDynamicLayer("Ground", tileset1, 0, 0);
-    const lavaLayer = map.createDynamicLayer("Lava", tileset1, 0, 0);
+    floor.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(floor);
 
-    // Set colliding tiles before converting the layer to Matter bodies - same as we've done before
-    // with AP. See post #1 for more on setCollisionByProperty.
-    groundLayer.setCollisionByProperty({ collides: true });
-    lavaLayer.setCollisionByProperty({ collides: true });
-
-    // Get the layers registered with Matter. Any colliding tiles will be given a Matter body. We
-    // haven't mapped out custom collision shapes in Tiled so each colliding tile will get a default
-    // rectangle body (similar to AP).
-    this.matter.world.convertTilemapLayer(groundLayer);
-    this.matter.world.convertTilemapLayer(lavaLayer);
-
-    //map.setCollisionByExclusion([ -1, 0 ]);
-
-    //map.setCollisionBetween(1, 999, true, 'Base');
-    //floor.setCollisionByProperty({Collides: true});
-
-    //this.matter.world.convertTilemapLayer(floor);
+    deco.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(deco);
 
     //INTERFAZ
     mouse = this.input.activePointer;

@@ -14,14 +14,15 @@ export default class Android {
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
-    const mainBody = Bodies.rectangle(0, 0, w *0.9, h);
+    const mainBody = Bodies.rectangle(0, 6, w *0.8, h*0.8);
     this.sensors = {
-      bottom: Bodies.rectangle(0, h * 0.55, w * 0.8, 6, { isSensor: true }),
-      left: Bodies.rectangle(-w * 0.55, 0, 6, h * 0.85, { isSensor: true }),
-      right: Bodies.rectangle(w * 0.55, 0, 6, h * 0.85, { isSensor: true })
+      bottom: Bodies.rectangle(0, 36, w * 0.6, 8, { isSensor: true }),
+      top: Bodies.rectangle(0, -30, w * 0.6, 8, { isSensor: true }),
+      left: Bodies.rectangle(-w * 0.55, 6, 6, h * 0.6, { isSensor: true }),
+      right: Bodies.rectangle(w * 0.55, 6, 6, h * 0.6, { isSensor: true })
     };
     const compoundBody = Body.create({
-      parts: [mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
+      parts: [mainBody, this.sensors.top, this.sensors.bottom, this.sensors.left, this.sensors.right],
       frictionAir: 0.01,
       friction: 0.09
     });
@@ -61,6 +62,7 @@ export default class Android {
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
+    //console.log(bodyB.gameObject);
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       if (pair.separation > 0.3) {this.sprite.x -= 0.1; this.rightMultiply = 0;}
