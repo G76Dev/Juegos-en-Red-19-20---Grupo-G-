@@ -118,9 +118,9 @@ export default class Scene2 extends Phaser.Scene{
         repeat: -1
     });
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    android1 = new Android(this, 100, 0, cursors);
+    android1 = new Android(this, 100, 200, cursors);
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    android2 = new Android(this, 200, 0, cursors);
+    android2 = new Android(this, 200, 200, cursors);
     android1.coLink(android2);
     android2.coLink(android1);
     //CAMARA:

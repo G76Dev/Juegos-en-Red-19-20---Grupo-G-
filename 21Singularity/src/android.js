@@ -1,10 +1,16 @@
 export default class Android {
   static lives = 5;
   static respawnTime = 1000;
+  static jumpVelocity = 8.5;
+  static moveVelocity = 0.25;
+  static airVelocityFraction = 0.3;
   constructor(scene, x, y, cursors) {
     this.scene = scene;
     this.sprite = scene.matter.add.sprite(x, y, "dude", 0);
     this.otherAndroid;
+
+    this.leftMultiply = 1;
+    this.rightMultiply = 1;
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
@@ -57,17 +63,17 @@ export default class Android {
     if (bodyB.isSensor) return;
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
-      if (pair.separation > 0.3) this.sprite.x -= 0.1;
+      if (pair.separation > 0.3) {this.sprite.x -= 0.1; this.rightMultiply = 0;}
     }
     if (bodyA === this.sensors.left) {
       this.isTouching.left = true;
-      if (pair.separation > 0.3) this.sprite.x += 0.1;
+      if (pair.separation > 0.3) {this.sprite.x += 0.1} this.leftMultiply = 0;
     }
     if (bodyA === this.sensors.bottom) {
       this.isTouching.ground = true;
     }
-
   }
+
   resetTouching() {
     this.isTouching.left = false;
     this.isTouching.right = false;
@@ -79,26 +85,25 @@ export default class Android {
     if(Android.lives <= 0){return;}
 
     if(this.alive){
-      if(isInAir){this.sprite.setVelocityX(0.1*delta*Math.sign(this.sprite.body.velocity.x));}
 
       if (this.cursors.left.isDown) {
         this.sprite.anims.play('wLeft', true);
           this.sprite.setFlipX(false);
         if (!(isInAir && this.isTouching.left)) {
-          this.sprite.setVelocityX(-0.3 * delta)
+          this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
         }
       } else if (this.cursors.right.isDown) {
         this.sprite.anims.play('wRight', true);
           this.sprite.setFlipX(false);
         if (!(isInAir && this.isTouching.right)) {
-          this.sprite.setVelocityX(0.3 * delta)
+          this.sprite.setVelocityX(Android.moveVelocity * delta * this.rightMultiply);
         }
       }else{
         this.sprite.anims.play('idle');
       }
 
       if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
-        this.sprite.setVelocityY(-9);
+        this.sprite.setVelocityY(-Android.jumpVelocity);
 
         this.canJump = false;
         this.jumpCooldownTimer = this.scene.time.addEvent({
@@ -121,6 +126,17 @@ export default class Android {
       if(this.sprite.y > 600){
         this.damaged();
       }
+
+      //BUGFIX
+      if(isInAir && !this.cursors.left.isDown && !this.cursors.right.isDown){
+        if(this.sprite.body.velocity.y <= -Android.jumpVelocity * 0.95){
+          this.sprite.setVelocityX(0);
+        }else{
+          this.sprite.setVelocityX((Android.moveVelocity * Android.airVelocityFraction)*delta*Math.sign(this.sprite.body.velocity.x));
+        }
+      }
+      this.leftMultiply = 1;
+      this.rightMultiply = 1;
     }
   }
   coLink(otherA){
@@ -131,7 +147,7 @@ export default class Android {
     ((this.otherAndroid.sprite.y < this.sprite.y + 24) && (this.otherAndroid.sprite.y > (this.sprite.y - 24))))
     {
        if(this.canCoopImpulse && this.otherAndroid.canCoopImpulse){
-         this.otherAndroid.sprite.setVelocityY(-9);
+         this.otherAndroid.sprite.setVelocityY(-Android.jumpVelocity);
          this.canCoopImpulse = false;
        }
     }
