@@ -138,6 +138,10 @@ export default class Scene2 extends Phaser.Scene{
     android2 = new Android(this, 200, 200, cursors);
     android1.coLink(android2);
     android2.coLink(android1);
+
+    //interactuables
+    interactableItems = new AllInteractablesArray(this, 10);
+
     //CAMARA:
     cam = this.cameras.main;
     this.matter.world.setBounds(-500, 0, 10000, 10000);
@@ -164,6 +168,7 @@ export default class Scene2 extends Phaser.Scene{
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
     firstFollow.y = Math.max(Math.min((android1.sprite.y + android2.sprite.y)/2, 360),-500);
     usableItems.update(time, delta);
+    interactableItems.update(time, delta);
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }
 }

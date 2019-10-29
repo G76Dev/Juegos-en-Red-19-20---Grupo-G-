@@ -62,7 +62,10 @@ export default class Android {
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
-    //console.log(bodyB.gameObject);
+    if (bodyA === this.sensors.bottom) {
+      this.isTouching.ground = true;
+    }
+    if(bodyB.name == "interactableBody")  return;
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       if (pair.separation > 0.3) {this.sprite.x -= 0.1; this.rightMultiply = 0;}
@@ -70,9 +73,6 @@ export default class Android {
     if (bodyA === this.sensors.left) {
       this.isTouching.left = true;
       if (pair.separation > 0.3) {this.sprite.x += 0.1} this.leftMultiply = 0;
-    }
-    if (bodyA === this.sensors.bottom) {
-      this.isTouching.ground = true;
     }
   }
 
