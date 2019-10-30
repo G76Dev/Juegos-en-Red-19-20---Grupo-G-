@@ -180,22 +180,24 @@ export default class Android {
   }
   damaged(){
     if(!this.invulnerable){
-      this.alive = false;
       this.sprite.visible = false;
       this.sprite.setVelocityX(0);
 
       if(this.otherAndroid.alive){
         if(Android.lives > 0 && this.alive){
+          this.alive = false;
           Android.lives--;
           this.scene.time.addEvent({
             delay: Android.respawnTime,
             callback: () => (this.respawn())
           });
         }else if(Android.lives <= 0){
+          this.alive = false;
           console.log("Game Over");
         }
       }else{
         Android.lives = 0;
+        this.alive = false;
         console.log("Game Over");
       }
     }

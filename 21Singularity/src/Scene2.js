@@ -204,7 +204,7 @@ export default class Scene2 extends Phaser.Scene{
     {
         return;
     }
-    document.getElementById('info').innerHTML = this.android1.invulnerable;
+    document.getElementById('info').innerHTML = Android.lives;
     //players.update(time, delta, this);
     firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
     //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
