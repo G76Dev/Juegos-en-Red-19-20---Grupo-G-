@@ -1,6 +1,7 @@
 "use strict";
 import Scene1 from "./Scene1.js";
 import Scene2 from "./Scene2.js";
+import SceneOnlineMode from "./SceneOnlineMode.js";
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
@@ -16,7 +17,7 @@ var config = {
         }
     },
     //Escena principal
-    scene: [Scene1, Scene2],
+    scene: [Scene1, Scene2, SceneOnlineMode],
     plugins: {
     scene: [
       {
