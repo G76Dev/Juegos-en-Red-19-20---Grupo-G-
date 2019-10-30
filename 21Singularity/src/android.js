@@ -87,14 +87,14 @@ export default class Android {
     if(Android.lives <= 0){return;}
 
     if(this.alive){
-
-      if (this.cursors.left.isDown) {
-        if (!(isInAir && this.isTouching.left)) {
-          this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
-        }
-      } else if (this.cursors.right.isDown) {
+      if (this.cursors.right.isDown) {
         if (!(isInAir && this.isTouching.right)) {
           this.sprite.setVelocityX(Android.moveVelocity * delta * this.rightMultiply);
+        }
+      }
+      else if (this.cursors.left.isDown) {
+        if (!(isInAir && this.isTouching.left)) {
+          this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
         }
       }
       this.playAnimation();
