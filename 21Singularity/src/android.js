@@ -1,6 +1,6 @@
 export default class Android {
   static lives = 5;
-  static respawnTime = 1000;
+  static respawnTime = 1500;
   static jumpVelocity = 8.5;
   static moveVelocity = 0.25;
   static airVelocityFraction = 0.3;
@@ -180,12 +180,13 @@ export default class Android {
   }
   damaged(){
     if(!this.invulnerable){
+      this.alive = false;
+      this.sprite.visible = false;
+      this.sprite.setVelocityX(0);
+
       if(this.otherAndroid.alive){
         if(Android.lives > 0 && this.alive){
-          this.alive = false;
           Android.lives--;
-          this.sprite.visible = false;
-          this.sprite.setVelocityX(0);
           this.scene.time.addEvent({
             delay: Android.respawnTime,
             callback: () => (this.respawn())
@@ -214,13 +215,13 @@ export default class Android {
         targets: this.sprite,
         alpha: 0.5,
         ease: 'Cubic.easeOut',
-        duration: 125,
+        duration: 150,
         repeat: 6,
         yoyo: true
       })
     this.alive = true;
     this.scene.time.addEvent({
-      delay: 6*125,
+      delay: 6*150,
       callback: () => (this.invulnerable = false)
     });
   }
