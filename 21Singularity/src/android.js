@@ -1,6 +1,6 @@
 export default class Android {
   static lives = 5;
-  static respawnTime = 1000;
+  static respawnTime = 1500;
   static jumpVelocity = 8.5;
   static moveVelocity = 0.25;
   static airVelocityFraction = 0.3;
@@ -14,15 +14,14 @@ export default class Android {
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
-    const mainBody = Bodies.rectangle(0, 6, w *0.8, h*0.8);
+    const mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8);
     this.sensors = {
       bottom: Bodies.rectangle(0, 36, w * 0.6, 8, { isSensor: true }),
-      top: Bodies.rectangle(0, -30, w * 0.6, 8, { isSensor: true }),
-      left: Bodies.rectangle(-w * 0.55, 6, 6, h * 0.6, { isSensor: true }),
-      right: Bodies.rectangle(w * 0.55, 6, 6, h * 0.6, { isSensor: true })
+      left: Bodies.rectangle(-w * 0.5, 6, 6, h * 0.6, { isSensor: true }),
+      right: Bodies.rectangle(w * 0.5, 6, 6, h * 0.6, { isSensor: true })
     };
     const compoundBody = Body.create({
-      parts: [mainBody, this.sensors.top, this.sensors.bottom, this.sensors.left, this.sensors.right],
+      parts: [mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
       frictionAir: 0.01,
       friction: 0.09
     });
@@ -30,7 +29,8 @@ export default class Android {
       .setExistingBody(compoundBody)
       .setFixedRotation()
       .setPosition(x, y)
-      .body.collisionFilter.group = -1;;
+      .setOrigin(0.5, 0.55)
+      .body.collisionFilter.group = -1;
 
     this.cursors = cursors;
 
@@ -62,7 +62,10 @@ export default class Android {
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
-    //console.log(bodyB.gameObject);
+    if (bodyA === this.sensors.bottom) {
+      this.isTouching.ground = true;
+    }
+    if(bodyB.name == "interactableBody")  return;
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       if (pair.separation > 0.3) {this.sprite.x -= 0.1; this.rightMultiply = 0;}
@@ -70,9 +73,6 @@ export default class Android {
     if (bodyA === this.sensors.left) {
       this.isTouching.left = true;
       if (pair.separation > 0.3) {this.sprite.x += 0.1} this.leftMultiply = 0;
-    }
-    if (bodyA === this.sensors.bottom) {
-      this.isTouching.ground = true;
     }
   }
 
@@ -87,14 +87,14 @@ export default class Android {
     if(Android.lives <= 0){return;}
 
     if(this.alive){
-
-      if (this.cursors.left.isDown) {
-        if (!(isInAir && this.isTouching.left)) {
-          this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
-        }
-      } else if (this.cursors.right.isDown) {
+      if (this.cursors.right.isDown) {
         if (!(isInAir && this.isTouching.right)) {
           this.sprite.setVelocityX(Android.moveVelocity * delta * this.rightMultiply);
+        }
+      }
+      else if (this.cursors.left.isDown) {
+        if (!(isInAir && this.isTouching.left)) {
+          this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
         }
       }
       this.playAnimation();
@@ -180,21 +180,24 @@ export default class Android {
   }
   damaged(){
     if(!this.invulnerable){
+      this.sprite.visible = false;
+      this.sprite.setVelocityX(0);
+
       if(this.otherAndroid.alive){
         if(Android.lives > 0 && this.alive){
           this.alive = false;
           Android.lives--;
-          this.sprite.visible = false;
-          this.sprite.setVelocityX(0);
           this.scene.time.addEvent({
             delay: Android.respawnTime,
             callback: () => (this.respawn())
           });
         }else if(Android.lives <= 0){
+          this.alive = false;
           console.log("Game Over");
         }
       }else{
         Android.lives = 0;
+        this.alive = false;
         console.log("Game Over");
       }
     }
@@ -214,13 +217,13 @@ export default class Android {
         targets: this.sprite,
         alpha: 0.5,
         ease: 'Cubic.easeOut',
-        duration: 125,
+        duration: 150,
         repeat: 6,
         yoyo: true
       })
     this.alive = true;
     this.scene.time.addEvent({
-      delay: 6*125,
+      delay: 6*150,
       callback: () => (this.invulnerable = false)
     });
   }

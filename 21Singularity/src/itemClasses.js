@@ -49,15 +49,40 @@ class draggableBomb extends draggableObject{
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
   dropItemInGame() {
+    var bombInstance;
     if(this.itemsBar.energy > this.cost){
-        var bombInstance = super.dropItemInGame("item.setCircle(11)");
+        bombInstance = super.dropItemInGame("item.setCircle(11)");
+        bombInstance.setOrigin(0.5, 0.61);
         bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/150);
         bombInstance.anims.play('eBomb', true);
         this.scene.time.addEvent({
           delay: this.expireTime,
-          callback: () => (bombInstance.destroy())
+          callback: () => (exprosion(this.scene, bombInstance.x, bombInstance.y))
         });
     }
+    function exprosion(scene, posX, posY){
+      bombInstance.destroy();
+      var bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
+      bombExprosion.setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android1.sprite,
+        objectB: bombExprosion,
+        callback: inflictDamage,
+        context: scene.android1
+      });
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android2.sprite,
+        objectB: bombExprosion,
+        callback: inflictDamage,
+        context: scene.android2
+      });
+
+      bombExprosion.on('animationcomplete', function(){
+        bombExprosion.destroy();
+      });
+      bombExprosion.anims.play('exprosion', true);
+    }
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged()}
   }
 }
 
@@ -125,6 +150,5 @@ export default class ItemBar{
       this.bar.scaleY = 1;
       this.energy = 100;
     }
-
   }
 }
