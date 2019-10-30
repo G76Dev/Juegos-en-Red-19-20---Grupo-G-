@@ -14,15 +14,14 @@ export default class Android {
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
-    const mainBody = Bodies.rectangle(0, 6, w *0.8, h*0.8);
+    const mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8);
     this.sensors = {
       bottom: Bodies.rectangle(0, 36, w * 0.6, 8, { isSensor: true }),
-      top: Bodies.rectangle(0, -30, w * 0.6, 8, { isSensor: true }),
-      left: Bodies.rectangle(-w * 0.55, 6, 6, h * 0.6, { isSensor: true }),
-      right: Bodies.rectangle(w * 0.55, 6, 6, h * 0.6, { isSensor: true })
+      left: Bodies.rectangle(-w * 0.5, 6, 6, h * 0.6, { isSensor: true }),
+      right: Bodies.rectangle(w * 0.5, 6, 6, h * 0.6, { isSensor: true })
     };
     const compoundBody = Body.create({
-      parts: [mainBody, this.sensors.top, this.sensors.bottom, this.sensors.left, this.sensors.right],
+      parts: [mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
       frictionAir: 0.01,
       friction: 0.09
     });
@@ -30,7 +29,8 @@ export default class Android {
       .setExistingBody(compoundBody)
       .setFixedRotation()
       .setPosition(x, y)
-      .body.collisionFilter.group = -1;;
+      .setOrigin(0.5, 0.55)
+      .body.collisionFilter.group = -1;
 
     this.cursors = cursors;
 

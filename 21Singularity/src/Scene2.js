@@ -1,6 +1,7 @@
 
 import Android from "./android.js";
 import ItemBar from "./itemClasses.js";
+import AllInteractablesArray from "./interactableClass.js";
 
 //Zona de declaración de variables
 //Variable gameOver para finalizar la partida
@@ -16,6 +17,7 @@ var cam;
 var firstFollow;
 
 var usableItems;
+var interactableItems;
 //Vidas de los jugadores
 var vidas = 5;
 //variables jugadores
@@ -68,13 +70,13 @@ export default class Scene2 extends Phaser.Scene{
   create ()
   {
     //backgrounds
-    bg = this.add.image(0,0,'bg').setScale(30);
+    bg = this.add.image(0,0,'bg').setScale(30).setDepth(-503);
     backg1 = this.add.image(1300,550,'bg1').setScale(0.9);
-    backg1.setScrollFactor(0.25);
+    backg1.setScrollFactor(0.25).setDepth(-502);
     backg2 = this.add.image(1100,450,'bg2').setScale(1);
-    backg2.setScrollFactor(0.5);
+    backg2.setScrollFactor(0.5).setDepth(-501);
     backg3 = this.add.image(1200,650,'bg3').setScale(1.2);
-    backg3.setScrollFactor(0.75);
+    backg3.setScrollFactor(0.75).setDepth(-500);
 
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
