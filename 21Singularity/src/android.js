@@ -203,13 +203,12 @@ export default class Android {
     }
   }
   respawn(){
-    this.sprite.depth = 0;
-    this.otherAndroid.sprite.depth = 0;
+    this.sprite.setDepth(1);
+    this.otherAndroid.sprite.setDepth(0);
     this.sprite.setVelocityY(0);
     this.sprite.setVelocityX(0);
     this.sprite.x = this.otherAndroid.sprite.x;
     this.sprite.y = this.otherAndroid.sprite.y;
-    this.sprite.depth++;
 
     this.invulnerable = true;
     this.sprite.visible = true;

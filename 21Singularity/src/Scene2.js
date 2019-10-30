@@ -61,7 +61,7 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('item_bar', 'assets/Test/item_bar.png');
     this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
     this.load.image('item2', 'assets/Test/selector.png');
-    this.load.image('item3', 'assets/Test/bomb.png');
+    this.load.image('item3', 'assets/Sprites/pinchos/spike.png');
     this.load.image('item4', 'assets/Test/bomb.png');
     this.load.image('item5', 'assets/Test/bomb.png');
 
@@ -143,7 +143,7 @@ export default class Scene2 extends Phaser.Scene{
     this.anims.create({
       key: 'exprosion',
       frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 7 }),
-      frameRate: 10,
+      frameRate: 12,
       repeat: 0
     });
 

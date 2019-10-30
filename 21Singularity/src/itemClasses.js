@@ -30,12 +30,13 @@ class draggableObject extends Phaser.GameObjects.Sprite{
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
   dropItemInGame(addColliderString) {
       var item = this.scene.matter.add.sprite(this.x + this.scene.cameras.main.scrollX, this.y + this.scene.cameras.main.scrollY, this.sprite);
-      item.setScale(this.scaleImage);
+      item.setScale(this.scaleImage).setDepth(5);
       var addCollider = window[addColliderString];
       eval(addColliderString);
       item.body.collisionFilter.group = -1;
       item.setBounce(this.bounce);
-      item.setVelocity(this.scene.input.activePointer.velocity.x/6,this.scene.input.activePointer.velocity.y/6);
+      var mouseVel = this.scene.input.activePointer.velocity;
+      item.setVelocity(mouseVel.x/10,mouseVel.y/10);
       this.itemsBar.changeBar(this.itemsBar.energy - this.cost);
       return item; //devuelve la instancia creada
   }
@@ -53,7 +54,7 @@ class draggableBomb extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         bombInstance = super.dropItemInGame("item.setCircle(11)");
         bombInstance.setOrigin(0.5, 0.61);
-        bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/150);
+        bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/200);
         bombInstance.anims.play('eBomb', true);
         this.scene.time.addEvent({
           delay: this.expireTime,
@@ -61,9 +62,8 @@ class draggableBomb extends draggableObject{
         });
     }
     function exprosion(scene, posX, posY){
-      bombInstance.destroy();
       var bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
-      bombExprosion.setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
+      bombExprosion.setDepth(5).setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.sprite,
         objectB: bombExprosion,
@@ -81,8 +81,43 @@ class draggableBomb extends draggableObject{
         bombExprosion.destroy();
       });
       bombExprosion.anims.play('exprosion', true);
+      bombInstance.destroy();
     }
-    function inflictDamage({ bodyA, bodyB, pair }){this.damaged()}
+    function inflictDamage(){this.damaged()}
+  }
+}
+
+class draggableSpike extends draggableObject{
+  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 0.1, scaleImage = 0.08, bounce = 0, coste = 25, expireTime = 1500) { //duracion 9000
+      super(scene, itemsBar, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  }
+  dropItemInGame() {
+    if(this.itemsBar.energy > this.cost){
+        var harmlessSpike = super.dropItemInGame();
+        this.scene.time.addEvent({
+          delay: this.expireTime,
+          callback: () => (createSpike(this.scene, harmlessSpike.x, harmlessSpike.y))
+        });
+    }
+
+    function createSpike(scene, posX, posY){
+      var spike = scene.matter.add.image(posX, posY, "item3");
+      spike.setPolygon(50, 3).setStatic(true);
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android1.sprite,
+        objectB: spike,
+        callback: inflictDamage,
+        context: scene.android1
+      });
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android2.sprite,
+        objectB: spike,
+        callback: inflictDamage,
+        context: scene.android2
+      });
+      harmlessSpike.destroy();
+    }
+    function inflictDamage(){this.damaged()}
   }
 }
 
@@ -103,7 +138,7 @@ export default class ItemBar{
     this.items[0] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
     this.items[1] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
     this.items[2] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0,);
-    this.items[3] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0);
+    this.items[3] = new draggableSpike(scene,this, positionX, initialSepY + separationY*(counter++),0);
     this.items[4] = new draggableRect(scene,this, positionX, initialSepY + separationY*(counter++),0);
 
     this.item_bar = scene.add.image(positionX,540/2,'item_bar');
