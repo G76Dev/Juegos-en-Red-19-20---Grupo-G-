@@ -1,5 +1,5 @@
 //Variables del menú
-var buttonArray;
+var backButton;
 var fade;
 //Clase 'Button' correspondiente a la luz que aparece detrás de los textos
 class Button extends Phaser.GameObjects.Image {
@@ -59,26 +59,16 @@ class Fade extends Phaser.GameObjects.Image {
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
 
-  for (var i = 0; i < buttonArray.length; i++) {
-    buttonArray[i].isActive = false;
-  }
+  backButton.isActive = false;
 
-  var i = 0;
-  var found = false;
+  if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35)
+    backButton.isActive = true;
 
-  while (i < buttonArray.length && !found) {
-    if (scene.input.mousePointer.y > 209 + 70 * i && scene.input.mousePointer.y < 279 + 70 * i){
-      buttonArray[i].isActive = true;
-      found = true;
-    }
-    else
-      i++;
-  }
 }
 //clase escena 1
 export default class Scene1 extends Phaser.Scene{
   constructor(){
-    super("menu");
+    super("onlineMode");
   }
 
   //Función preload, que carga elementos antes de iniciar el juego
@@ -86,14 +76,13 @@ export default class Scene1 extends Phaser.Scene{
   {
   	//Cargamos el fondo y la pantalla negra que servirá como transición
     this.load.image('interfazBg', 'assets/Interfaz/BG.png');
-	  this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
   	this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
 
-  	//Cargamos los textos del menú
-  	this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
-  	this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
-  	this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
-  	this.load.image('text_credits', 'assets/Interfaz/Text_Credits.png');
+    //Cargamos la imagen que indica el estado del modo online.
+    this.load.image('text_onlineMode', 'assets/Interfaz/Text_OnlineMode.png');
+    
+  	//Cargamos el texto 'back'
+  	this.load.image('text_back', 'assets/Interfaz/Text_Back.png');
 
   	//Cargamos el sprite de la luz
   	this.load.image('light', 'assets/Interfaz/Light.png');
@@ -101,50 +90,34 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
-    //Añadimos el background y el título
+    //Añadimos el background
     this.add.image(960/2, 540/2, 'interfazBg');
-	  this.add.image(960/2, 540/2, 'interfazTitle');
+    //Añadimos el texto de la pantalla del modo online provisional (hasta fase 3-4).
+    this.add.image(960/2, 540/2, 'text_onlineMode');
   	//Añadimos la pantalla negra que servirá de transición entre escenas
   	fade = new Fade(this, 960/2, 540/2, 'interfazBs');
-  	//Añadimos las luces que indicarán que botón del menú está activo
-  	buttonArray = [
-  		new Button(this, 960/2, 244, 'light', function() {
+  	//Añadimos el botón de 'back'
+  	backButton = new Button(this, 960/2, 405, 'light', function() {
   			fade.isChangingScene = true;
-  			fade.nextScene = "onlineMode";
-  		}),
-  		new Button(this, 960/2, 314, 'light', function() {
-  			fade.isChangingScene = true;
-  			fade.nextScene = "level1";
-  		}),
-  		new Button(this, 960/2, 384, 'light', function() {},),
-  		new Button(this, 960/2, 450, 'light', function() {},)
-  	];
-  	//Hacemos a todas las luces invisibles en un primer momento.
-  	for (var i = 0; i < buttonArray.length; i++) {
-  		buttonArray[i].alpha = 0;
-  	}
-  	//Añadimos los textos de los botones.
-  	this.add.image(960/2, 244, 'text_online');
-  	this.add.image(960/2, 314, 'text_local');
-  	this.add.image(960/2, 384, 'text_options');
-  	this.add.image(960/2, 450, 'text_credits');
+  			fade.nextScene = "menu";
+  		});
+  	//Hacemos la luz invisible
+  	backButton.alpha = 0;
+  	//Añadimos el texto de 'back'.
+  	this.add.image(960/2, 405, 'text_back');
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
-  	//Indica qué función hay que ejecutar según la opción seleccionada en el menú
+  	//Si se está sobre el botón 'back', se volverá al menú principal.
   	this.input.on('pointerdown', function () {
-  	for (var i = 0; i < buttonArray.length; i++) {
-  		if (!fade.isChangingScene && buttonArray[i].isActive) {
-  			buttonArray[i].Behaviour();
-  		}
-  	}
+        if (!fade.isChangingScene && backButton.isActive) {
+            backButton.Behaviour();
+        }
   	});
   }
   //Función update, que se ejecuta en cada frame
   update (time, delta)
   {
     CheckOption(this);
-  	for (var i = 0; i < buttonArray.length; i++) {
-  	  buttonArray[i].Update(time, delta);
-  	}
+  	backButton.Update(time, delta);
   	fade.Update(time, delta);
   }
 }
