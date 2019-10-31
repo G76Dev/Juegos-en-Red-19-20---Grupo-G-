@@ -24,6 +24,13 @@ var backg1;
 var backg2;
 var backg3;
 
+var layerminus2;
+var layerminus1;
+var baselayer;
+var lethallayer;
+var spikeslayer;
+var debuglayer;
+
 import Android from "./android.js";
 import ItemBar from "./itemClasses.js";
 import AllInteractablesArray from "./interactableClass.js";
@@ -37,7 +44,7 @@ export default class Scene2 extends Phaser.Scene{
   {
     //imagenes fondo TILED
     this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
-    this.load.tilemapTiledJSON("map", "../assets/Mapas/Industrial_v1.json");
+    this.load.tilemapTiledJSON("map", "../assets/Mapas/industrial_easy_debug.json");
 
     this.load.image('generic', 'assets/Test/virtual.png');
 
@@ -88,21 +95,23 @@ export default class Scene2 extends Phaser.Scene{
     const map = this.make.tilemap({ key: "map" });
     const tileset1 = map.addTilesetImage("Tileset Industrial x32", "tiles1");
 
-    bgItems = map.createDynamicLayer("Capa -3", tileset1, 0, 0);
-    deco = map.createDynamicLayer("Capa -2", tileset1, 0, 0);
-    overlapDeco = map.createDynamicLayer("Capa -1", tileset1, 0, 0);
-    floor = map.createDynamicLayer("Base", tileset1, 0, 0);
+    layerminus2 = map.createDynamicLayer("background_layer_-2depth", tileset1, 0, 0);
+    layerminus1 = map.createDynamicLayer("deco_layer_-1depth", tileset1, 0, 0);
+    baselayer = map.createDynamicLayer("base_layer_0depth", tileset1, 0, 0);
+    lethallayer = map.createDynamicLayer("lethal_layer_0depth", tileset1, 0, 0);
+    debuglayer = map.createDynamicLayer("debug_layer_0depth", tileset1, 0, 0);
+    //spikeslayer = map.createObjectLayer("offset_spikes_1_s", tileset1, 0, 0);
 
-    floor.setCollisionByProperty({Collides: true});
-    this.matter.world.convertTilemapLayer(floor);
+    baselayer.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(baselayer);
 
-    deco.setCollisionByProperty({Collides: true});
-    this.matter.world.convertTilemapLayer(deco);
+    debuglayer.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(debuglayer);
 
     //INTERFAZ
     mouse = this.input.activePointer;
     //instancia de barra de objetos
-    usableItems = new ItemBar(this,875,100,50);
+    usableItems = new ItemBar(this,875,100,170);
 
     //players = new AndroidPlayers(this);
     //players.setGround(floor);
@@ -148,9 +157,9 @@ export default class Scene2 extends Phaser.Scene{
     });
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 100, 200, cursors);
+    this.android1 = new Android(this, 100, 300, cursors);
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    this.android2 = new Android(this, 200, 200, cursors);
+    this.android2 = new Android(this, 200, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 

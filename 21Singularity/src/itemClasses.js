@@ -35,8 +35,6 @@ class draggableObject extends Phaser.GameObjects.Sprite{
       eval(addColliderString);
       item.body.collisionFilter.group = -1;
       item.setBounce(this.bounce);
-      var mouseVel = this.scene.input.activePointer.velocity;
-      item.setVelocity(mouseVel.x/10,mouseVel.y/10);
       this.itemsBar.changeBar(this.itemsBar.energy - this.cost);
       return item; //devuelve la instancia creada
   }
@@ -54,7 +52,9 @@ class draggableBomb extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         bombInstance = super.dropItemInGame("item.setCircle(11)");
         bombInstance.setOrigin(0.5, 0.61);
-        bombInstance.setAngularVelocity(this.scene.input.activePointer.velocity.x/200);
+        var mouseVel = this.scene.input.activePointer.velocity;
+        bombInstance.setVelocity(mouseVel.x/10,mouseVel.y/10);
+        bombInstance.setAngularVelocity(mouseVel.x/200);
         bombInstance.anims.play('eBomb', true);
         this.scene.time.addEvent({
           delay: this.expireTime,
@@ -94,6 +94,8 @@ class draggableSpike extends draggableObject{
   dropItemInGame() {
     if(this.itemsBar.energy > this.cost){
         var harmlessSpike = super.dropItemInGame();
+        var mouseVel = this.scene.input.activePointer.velocity;
+        harmlessSpike.setFixedRotation().setVelocity(mouseVel.x/15,mouseVel.y/15);
         this.scene.time.addEvent({
           delay: this.expireTime,
           callback: () => (createSpike(this.scene, harmlessSpike.x, harmlessSpike.y))
@@ -101,8 +103,13 @@ class draggableSpike extends draggableObject{
     }
 
     function createSpike(scene, posX, posY){
-      var spike = scene.matter.add.image(posX, posY, "item3");
-      spike.setPolygon(50, 3).setStatic(true);
+      const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules {"x":99,"y":79}, {"x":77,"y":118}, {"x":124,"y":118}
+      var shapes = [{x : 33 , y : 26},{x : 25 , y : 45},{x : 41 , y : 45}];
+      const body1 = Bodies.fromVertices(-8,0,shapes);
+      const body2 = Bodies.fromVertices(8,0,shapes);
+      const compoundBody = Body.create({ parts: [body1, body2] });
+      var spike = scene.matter.add.image(0, 0, "item3",0);
+      spike.setExistingBody(compoundBody).setOrigin(0.5,0.80).setPosition(posX,posY + 5).setFixedRotation();
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.sprite,
         objectB: spike,
@@ -121,9 +128,46 @@ class draggableSpike extends draggableObject{
   }
 }
 
-class draggableRect extends draggableObject{
-  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 25, expireTime = 3000) {
-      super(scene, itemsBar, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+//objeto laser
+class draggableLaser extends draggableObject{
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 4000) {
+      super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  }
+  //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
+  dropItemInGame() {
+    var laserGadget;
+    if(this.itemsBar.energy > this.cost){
+        laserGadget = super.dropItemInGame();
+        laserGadget.setStatic(true);
+        laserGadget.anims.play('eBomb', true);
+        this.scene.time.addEvent({
+          delay: this.expireTime,
+          callback: () => (laserActivate(this.scene, laserGadget.x, laserGadget.y))
+        });
+    }
+    function laserActivate(scene, posX, posY){
+      var laser = scene.matter.add.sprite(posX, posY, "exprosion");
+      laser.setDepth(5).setScale(2.25).setSensor(true).setStatic(true);
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android1.sprite,
+        objectB: laser,
+        callback: inflictDamage,
+        context: scene.android1
+      });
+      scene.matterCollision.addOnCollideStart({
+        objectA: scene.android2.sprite,
+        objectB: laser,
+        callback: inflictDamage,
+        context: scene.android2
+      });
+
+      laser.on('animationcomplete', function(){
+        laser.destroy();
+      });
+      laser.anims.play('exprosion', true);
+      laserGadget.destroy();
+    }
+    function inflictDamage(){this.damaged()}
   }
 }
 
@@ -133,13 +177,11 @@ export default class ItemBar{
     var counter = 0;
     //energia del jugador humano
     this.energy = 100;
-    this.items = [5];
+    this.items = [3];
     //cada objeto nuevo se añade al array de objetos
-    this.items[0] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-    this.items[1] = new draggableObject(scene,this, positionX, initialSepY + separationY*(counter++), 'generic', 'generic',0);
-    this.items[2] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0,);
-    this.items[3] = new draggableSpike(scene,this, positionX, initialSepY + separationY*(counter++),0);
-    this.items[4] = new draggableRect(scene,this, positionX, initialSepY + separationY*(counter++),0);
+    this.items[0] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0,);
+    this.items[1] = new draggableSpike(scene,this, positionX, initialSepY + separationY*(counter++),0);
+    this.items[2] = new draggableLaser(scene,this, positionX, initialSepY + separationY*(counter++),0);
 
     this.item_bar = scene.add.image(positionX,540/2,'item_bar');
     this.item_bar.originY = 1;
