@@ -51,6 +51,7 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('ground', 'assets/Test/platform.png');
     this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('explosion', 'assets/Sprites/Explosions/explosion-6.png', { frameWidth: 48, frameHeight: 48 });
+    this.load.spritesheet('laser', 'assets/Sprites/laser/laser.png', { frameWidth: 1950, frameHeight: 450 });
 
     this.load.spritesheet('android1Run', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
     this.load.spritesheet('android1Idle', 'assets/Sprites/Androids/male_android_idle.png', { frameWidth: 32, frameHeight: 64 });
@@ -69,6 +70,7 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
     this.load.image('item2', 'assets/Test/selector.png');
     this.load.image('item3', 'assets/Sprites/pinchos/spike.png');
+    this.load.image('spikeBox', 'assets/Sprites/pinchos/SPIKE_in_a_box.png');
     this.load.image('item4', 'assets/Test/bomb.png');
     this.load.image('item5', 'assets/Test/bomb.png');
 
@@ -155,6 +157,12 @@ export default class Scene2 extends Phaser.Scene{
       frameRate: 12,
       repeat: 0
     });
+    this.anims.create({
+      key: 'laserSprite',
+      frames: this.anims.generateFrameNumbers('laser', { start: 0, end: 1 }),
+      frameRate: 20,
+      repeat: -1
+    });
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
     this.android1 = new Android(this, 100, 300, cursors);
@@ -172,9 +180,7 @@ export default class Scene2 extends Phaser.Scene{
     cam.setBounds(-500, 0, 10000, 10000);
     firstFollow = this.add.container(0,0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
-    cam.setZoom(1);
-    //firstFollow.y = 176;
-
+    //cam.setZoom(1);
     /*
     var asd1 = this.matter.add.image(100,100,"deathHead");
     asd1.body.collisionFilter.group = -1;

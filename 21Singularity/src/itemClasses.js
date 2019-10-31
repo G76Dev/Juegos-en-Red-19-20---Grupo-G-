@@ -2,7 +2,7 @@
 class draggableObject extends Phaser.GameObjects.Sprite{
   //objeto muy parecido a "Image" pero con atributos adicionales
   constructor(scene, itemsBar , x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
-      super(scene, x, y, texture, frame);
+      super(scene, x, y, interfaceTexture, frame);
       scene.add.existing(this);
       this.itemsBar = itemsBar;
       //profundidad de objeto
@@ -88,28 +88,34 @@ class draggableBomb extends draggableObject{
 }
 
 class draggableSpike extends draggableObject{
-  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 0.1, scaleImage = 0.08, bounce = 0, coste = 25, expireTime = 1500) { //duracion 9000
-      super(scene, itemsBar, x, y, 'item2', 'item2', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0, coste = 25, expireTime = 1500) { //duracion 9000
+      super(scene, itemsBar, x, y, 'item3', 'spikeBox', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   dropItemInGame() {
     if(this.itemsBar.energy > this.cost){
-        var harmlessSpike = super.dropItemInGame();
+        var harmlessSpike = super.dropItemInGame("item.setRectangle(30,20)");
         var mouseVel = this.scene.input.activePointer.velocity;
-        harmlessSpike.setFixedRotation().setVelocity(mouseVel.x/15,mouseVel.y/15);
-        this.scene.time.addEvent({
-          delay: this.expireTime,
-          callback: () => (createSpike(this.scene, harmlessSpike.x, harmlessSpike.y))
+        harmlessSpike.setOrigin(0.5,0.65).setFixedRotation().setVelocity(mouseVel.x/20,mouseVel.y/20);
+        const unsubscribe = this.scene.matterCollision.addOnCollideStart({
+          objectA: harmlessSpike,
+          callback: eventData => {
+            this.scene.time.addEvent({
+              delay: this.expireTime,
+              callback: () => (createSpike(this.scene, harmlessSpike.x, harmlessSpike.y))
+            });
+            unsubscribe();
+          },
         });
     }
 
     function createSpike(scene, posX, posY){
       const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules {"x":99,"y":79}, {"x":77,"y":118}, {"x":124,"y":118}
-      var shapes = [{x : 33 , y : 26},{x : 25 , y : 45},{x : 41 , y : 45}];
-      const body1 = Bodies.fromVertices(-8,0,shapes);
-      const body2 = Bodies.fromVertices(8,0,shapes);
+      var shapes = [{x : 33 , y : 26},{x : 27 , y : 42},{x : 39 , y : 42}];
+      const body1 = Bodies.fromVertices(-8,0,shapes,{isSensor: true});
+      const body2 = Bodies.fromVertices(8,0,shapes,{isSensor: true});
       const compoundBody = Body.create({ parts: [body1, body2] });
       var spike = scene.matter.add.image(0, 0, "item3",0);
-      spike.setExistingBody(compoundBody).setOrigin(0.5,0.80).setPosition(posX,posY + 5).setFixedRotation();
+      spike.setExistingBody(compoundBody).setOrigin(0.5,0.80).setPosition(posX,posY + 5).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.sprite,
         objectB: spike,
@@ -121,6 +127,10 @@ class draggableSpike extends draggableObject{
         objectB: spike,
         callback: inflictDamage,
         context: scene.android2
+      });
+      scene.time.addEvent({
+        delay: 4500,
+        callback: () => (spike.destroy())
       });
       harmlessSpike.destroy();
     }
@@ -146,8 +156,8 @@ class draggableLaser extends draggableObject{
         });
     }
     function laserActivate(scene, posX, posY){
-      var laser = scene.matter.add.sprite(posX, posY, "exprosion");
-      laser.setDepth(5).setScale(2.25).setSensor(true).setStatic(true);
+      var laser = scene.matter.add.sprite(posX, posY, "laserSprite");
+      laser.setDepth(5).setRectangle(1950,90).setScale(2,0.3).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.sprite,
         objectB: laser,
@@ -160,11 +170,11 @@ class draggableLaser extends draggableObject{
         callback: inflictDamage,
         context: scene.android2
       });
-
-      laser.on('animationcomplete', function(){
-        laser.destroy();
+      scene.time.addEvent({
+        delay: 1000,
+        callback: () => (laser.destroy())
       });
-      laser.anims.play('exprosion', true);
+      laser.anims.play('laserSprite', true);
       laserGadget.destroy();
     }
     function inflictDamage(){this.damaged()}

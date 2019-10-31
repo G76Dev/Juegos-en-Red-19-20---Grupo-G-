@@ -2,7 +2,7 @@ export default class Android {
   static lives = 5;
   static respawnTime = 1500;
   static jumpVelocity = 7;
-  static moveVelocity = 0.25;
+  static moveVelocity = 0.23;
   static airVelocityFraction = 0.3;
   constructor(scene, x, y, cursors) {
     this.scene = scene;
@@ -14,11 +14,11 @@ export default class Android {
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
-    const mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8);
+    const mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8, { chamfer: { radius: 5 } });
     this.sensors = {
       bottom: Bodies.rectangle(0, 36, w * 0.6, 8, { isSensor: true }),
-      left: Bodies.rectangle(-w * 0.5, 6, 6, h * 0.6, { isSensor: true }),
-      right: Bodies.rectangle(w * 0.5, 6, 6, h * 0.6, { isSensor: true })
+      left: Bodies.rectangle(-w * 0.45, 6, 5, h * 0.6, { isSensor: true }),
+      right: Bodies.rectangle(w * 0.45, 6, 5, h * 0.6, { isSensor: true })
     };
     const compoundBody = Body.create({
       parts: [mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
@@ -59,6 +59,10 @@ export default class Android {
     //var
     this.invulnerable = false;
     this.alive = true;
+
+    //icono indicador
+    this.indicator = this.scene.add.image(-999,-999,"item2");
+    this.indicator.setScale(0.2);
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
@@ -68,11 +72,13 @@ export default class Android {
     if(bodyB.name == "interactableBody")  return;
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
-      if (pair.separation > 0.3) {this.sprite.x -= 0.1; this.rightMultiply = 0;}
+      this.rightMultiply = 0;
+      if (pair.separation > 3) {this.sprite.x -= 0.1}
     }
     if (bodyA === this.sensors.left) {
       this.isTouching.left = true;
-      if (pair.separation > 0.3) {this.sprite.x += 0.1} this.leftMultiply = 0;
+      this.leftMultiply = 0;
+      if (pair.separation > 3) {this.sprite.x += 0.1}
     }
   }
 
@@ -134,6 +140,11 @@ export default class Android {
       }
       this.leftMultiply = 1;
       this.rightMultiply = 1;
+
+      const cam = this.scene.cameras.main;
+      if(this.sprite.x < cam.scrollX){this.indicator.x = 10 + cam.scrollX; this.indicator.y = this.sprite.y;}
+      else if(this.sprite.x > cam.scrollX + 960){this.indicator.x = 950 + cam.scrollX; this.indicator.y = this.sprite.y;}
+      else{this.indicator.x = -999; this.indicator.y = -999;}
     }
   }
   playAnimation(){
