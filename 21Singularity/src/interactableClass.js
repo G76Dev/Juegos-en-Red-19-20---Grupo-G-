@@ -58,7 +58,7 @@ class Door extends InteractableClass{
 
 class GravityPlatform extends InteractableClass{
   constructor(scene, xObb, yObj, xAct, yAct){
-    super(scene, xObb, yObj, "bar", 0.5, xAct, yAct, "item2", 0.2, true, 0 ,0.5);
+    super(scene, xObb, yObj, "bar", 0.4, xAct, yAct, "item2", 0.2, true, 0 ,0.5);
     this.mainObject.setStatic(true).setAngle(90);
   }
   objectActivate(){
@@ -72,8 +72,9 @@ class GravityPlatform extends InteractableClass{
 export default class AllInteractablesArray{
   constructor(scene, n){
     this.items = [n];
-    this.items[0] = new Door(scene, 471, 290, 400, 200);
-    this.items[1] = new GravityPlatform(scene, 1600, 295, 0, 0);
+    this.items[0] = new GravityPlatform(scene, 1250, 476, 0, 0);
+    this.items[1] = new GravityPlatform(scene, 762, 476, 0, 0);
+    //this.items[0] = new Door(scene, 471, 290, 400, 200);
   }
 
   update(time, delta){

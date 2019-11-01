@@ -65,13 +65,13 @@ class draggableBomb extends draggableObject{
       var bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
       bombExprosion.setDepth(5).setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.sprite,
+        objectA: scene.android1.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
         context: scene.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.sprite,
+        objectA: scene.android2.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
         context: scene.android2
@@ -83,7 +83,7 @@ class draggableBomb extends draggableObject{
       bombExprosion.anims.play('exprosion', true);
       bombInstance.destroy();
     }
-    function inflictDamage(){this.damaged()}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
   }
 }
 
@@ -117,13 +117,13 @@ class draggableSpike extends draggableObject{
       var spike = scene.matter.add.image(0, 0, "item3",0);
       spike.setExistingBody(compoundBody).setOrigin(0.5,0.80).setPosition(posX,posY + 5).setStatic(true);
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.sprite,
+        objectA: scene.android1.mainBody,
         objectB: spike,
         callback: inflictDamage,
         context: scene.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.sprite,
+        objectA: scene.android2.mainBody,
         objectB: spike,
         callback: inflictDamage,
         context: scene.android2
@@ -134,7 +134,7 @@ class draggableSpike extends draggableObject{
       });
       harmlessSpike.destroy();
     }
-    function inflictDamage(){this.damaged()}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 70);}
   }
 }
 
@@ -159,13 +159,13 @@ class draggableLaser extends draggableObject{
       var laser = scene.matter.add.sprite(posX, posY, "laserSprite");
       laser.setDepth(5).setRectangle(1950,90).setScale(2,0.3).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.sprite,
+        objectA: scene.android1.mainBody,
         objectB: laser,
         callback: inflictDamage,
         context: scene.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.sprite,
+        objectA: scene.android2.mainBody,
         objectB: laser,
         callback: inflictDamage,
         context: scene.android2
@@ -177,7 +177,7 @@ class draggableLaser extends draggableObject{
       laser.anims.play('laserSprite', true);
       laserGadget.destroy();
     }
-    function inflictDamage(){this.damaged()}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}
   }
 }
 

@@ -14,14 +14,14 @@ export default class Android {
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
-    const mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8, { chamfer: { radius: 5 } });
+    this.mainBody = Bodies.rectangle(0, 6, w *0.75, h*0.8, { chamfer: { radius: 5 } });
     this.sensors = {
       bottom: Bodies.rectangle(0, 36, w * 0.6, 8, { isSensor: true }),
       left: Bodies.rectangle(-w * 0.45, 6, 5, h * 0.6, { isSensor: true }),
       right: Bodies.rectangle(w * 0.45, 6, 5, h * 0.6, { isSensor: true })
     };
     const compoundBody = Body.create({
-      parts: [mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
+      parts: [this.mainBody, this.sensors.bottom, this.sensors.left, this.sensors.right],
       frictionAir: 0.01,
       friction: 0.09
     });
@@ -60,6 +60,9 @@ export default class Android {
     this.invulnerable = false;
     this.alive = true;
 
+    this.deathStuff = [6]; this.deathStuff[0] = "deathHead"; this.deathStuff[1] = "deathLegs"; this.deathStuff[2] = "deathBodyL";
+    this.deathStuff[3] = "deathFootR"; this.deathStuff[4] = "deathFootL"; this.deathStuff[5] = "deathBodyR"
+
     //icono indicador
     this.indicator = this.scene.add.image(-999,-999,"item2");
     this.indicator.setScale(0.2);
@@ -73,12 +76,12 @@ export default class Android {
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       this.rightMultiply = 0;
-      if (pair.separation > 3) {this.sprite.x -= 0.1}
+      if (pair.separation > 2) {this.sprite.x -= 0.1}
     }
     if (bodyA === this.sensors.left) {
       this.isTouching.left = true;
       this.leftMultiply = 0;
-      if (pair.separation > 3) {this.sprite.x += 0.1}
+      if (pair.separation > 2) {this.sprite.x += 0.1}
     }
   }
 
@@ -126,13 +129,13 @@ export default class Android {
         });
       }
 
-      if(this.sprite.y > 600){
-        this.damaged();
+      if(this.sprite.y > 620){
+        this.damaged(new Phaser.Math.Vector2(0,-1), 40);
       }
 
       //BUGFIX
       if(isInAir && !this.cursors.left.isDown && !this.cursors.right.isDown){
-        if(this.sprite.body.velocity.y <= -Android.jumpVelocity * 0.95){
+        if(this.sprite.body.velocity.y <= -Android.jumpVelocity * 0.90){
           this.sprite.setVelocityX(0);
         }else{
           this.sprite.setVelocityX((Android.moveVelocity * Android.airVelocityFraction)*delta*Math.sign(this.sprite.body.velocity.x));
@@ -189,11 +192,11 @@ export default class Android {
        }
     }
   }
-  damaged(){
+  damaged(deathVector, deathSpread){
     if(!this.invulnerable){
       this.sprite.visible = false;
       this.sprite.setVelocityX(0);
-
+      this.deathSpawn(deathVector, deathSpread);
       if(this.otherAndroid.alive){
         if(Android.lives > 0 && this.alive){
           this.alive = false;
@@ -236,5 +239,26 @@ export default class Android {
       delay: 6*150,
       callback: () => (this.invulnerable = false)
     });
+  }
+  deathSpawn(deathVector, deathSpread){
+    var remainVelocity = 8;
+    const dirAngle = deathVector.angle() * (180/Math.PI);
+    var randomAng;
+    var randomVec;
+    for(var i=0; i<this.deathStuff.length; i++){
+      var debree = this.scene.matter.add.image(this.sprite.x,this.sprite.y,this.deathStuff[i],0,{isSensor: true});
+      randomAng = Phaser.Math.Between(dirAngle - deathSpread, dirAngle + deathSpread) * (Math.PI/180);
+      randomVec = new Phaser.Math.Vector2(Math.cos(randomAng), Math.sin(randomAng));
+      randomVec.normalize();
+      randomVec.scale(remainVelocity);
+      debree.setVelocity(randomVec.x,randomVec.y);
+      //debree.setAngularVelocity(Math.random()/10-0.05);
+      this.scene.time.addEvent({
+        delay: 3000,
+        callback: (destroyDebree),
+        args: [debree]
+      });
+    }
+    function destroyDebree(debree){debree.destroy()}
   }
 }

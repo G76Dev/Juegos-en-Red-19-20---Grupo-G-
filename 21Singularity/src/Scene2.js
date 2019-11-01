@@ -2,12 +2,6 @@
 //Zona de declaración de variables
 //Variable gameOver para finalizar la partida
 var gameOver = false;
-//Plataformas
-var bgItems;
-var deco;
-var floor;
-var overlapDeco;
-
 //Variables CAMARA
 var cam;
 var firstFollow;
@@ -18,18 +12,6 @@ var interactableItems;
 var vidas = 5;
 //mouse
 var mouse;
-//backgrounds
-var bg;
-var backg1;
-var backg2;
-var backg3;
-
-var layerminus2;
-var layerminus1;
-var baselayer;
-var lethallayer;
-var spikeslayer;
-var debuglayer;
 
 import Android from "./android.js";
 import ItemBar from "./itemClasses.js";
@@ -85,23 +67,23 @@ export default class Scene2 extends Phaser.Scene{
   create ()
   {
     //backgrounds
-    bg = this.add.image(0,0,'bg').setScale(30).setDepth(-503);
-    backg1 = this.add.image(1300,550,'bg1').setScale(0.9);
+    const bg = this.add.image(0,0,'bg').setScale(30).setDepth(-503);
+    const backg1 = this.add.image(1300,550,'bg1').setScale(0.9);
     backg1.setScrollFactor(0.25).setDepth(-502);
-    backg2 = this.add.image(1100,450,'bg2').setScale(1);
+    const backg2 = this.add.image(1100,450,'bg2').setScale(1);
     backg2.setScrollFactor(0.5).setDepth(-501);
-    backg3 = this.add.image(1200,650,'bg3').setScale(1.2);
+    const backg3 = this.add.image(1200,650,'bg3').setScale(1.2);
     backg3.setScrollFactor(0.75).setDepth(-500);
 
     //inicializacion y creacion de mapa de tiles
     const map = this.make.tilemap({ key: "map" });
     const tileset1 = map.addTilesetImage("Tileset Industrial x32", "tiles1");
 
-    layerminus2 = map.createDynamicLayer("background_layer_-2depth", tileset1, 0, 0);
-    layerminus1 = map.createDynamicLayer("deco_layer_-1depth", tileset1, 0, 0);
-    baselayer = map.createDynamicLayer("base_layer_0depth", tileset1, 0, 0);
-    lethallayer = map.createDynamicLayer("lethal_layer_0depth", tileset1, 0, 0);
-    debuglayer = map.createDynamicLayer("debug_layer_0depth", tileset1, 0, 0);
+    const layerminus2 = map.createDynamicLayer("background_layer_-2depth", tileset1, 0, 0);
+    const layerminus1 = map.createDynamicLayer("deco_layer_-1depth", tileset1, 0, 0);
+    const baselayer = map.createDynamicLayer("base_layer_0depth", tileset1, 0, 0);
+    const lethallayer = map.createDynamicLayer("lethal_layer_0depth", tileset1, 0, 0);
+    const debuglayer = map.createDynamicLayer("debug_layer_0depth", tileset1, 0, 0);
     //spikeslayer = map.createObjectLayer("offset_spikes_1_s", tileset1, 0, 0);
 
     baselayer.setCollisionByProperty({Collides: true});
@@ -166,7 +148,7 @@ export default class Scene2 extends Phaser.Scene{
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
     this.android1 = new Android(this, 100, 300, cursors);
-    var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
+    cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
     this.android2 = new Android(this, 200, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
@@ -181,33 +163,9 @@ export default class Scene2 extends Phaser.Scene{
     firstFollow = this.add.container(0,0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
-    /*
-    var asd1 = this.matter.add.image(100,100,"deathHead");
-    asd1.body.collisionFilter.group = -1;
-    var asd2 = this.matter.add.image(100,100,"deathLegs");
-    asd2.body.collisionFilter.group = -1;
-    var asd3 = this.matter.add.image(100,100,"deathBodyL");
-    asd3.body.collisionFilter.group = -1;
-    var asd4 = this.matter.add.image(100,100,"deathFootR");
-    asd4.body.collisionFilter.group = -1;
-    var asd5 = this.matter.add.image(100,100,"deathFootL");
-    asd5.body.collisionFilter.group = -1;
-    var asd6 = this.matter.add.image(100,100,"deathBodyR");
-    asd6.body.collisionFilter.group = -1;
 
-    this.time.addEvent({
-      delay: 5000,
-      callback: () => (asdasd)
-    });
-
-    function asdasd(){
-      asd1.applyForceFrom({ x: 100, y: 100 }, { x: 0, y: -1 });
-      asd2.applyForceFrom({ x: 100, y: 100 }, { x: 0, y: 0.5 });
-      asd3.applyForceFrom({ x: 100, y: 100 }, { x: -0.75, y: -0.25 });
-      asd4.applyForceFrom({ x: 100, y: 100 }, { x: -0.25, y: 0.75 });
-      asd5.applyForceFrom({ x: 100, y: 100 }, { x: 0.25, y: 0.75});
-      asd6.applyForceFrom({ x: 100, y: 100 }, { x: 0.75, y: -0.25});
-    }*/
+    const progressBar = this.add.image(480,10,'generic');
+    progressBar.setScrollFactor(0).setScale(5,0.1).setTint(0x645FC5);
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
   }
