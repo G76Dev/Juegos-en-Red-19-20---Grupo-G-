@@ -13,6 +13,9 @@ var vidas = 5;
 //mouse
 var mouse;
 
+var p1Tracker;
+var p2Tracker;
+
 import Android from "./android.js";
 import ItemBar from "./itemClasses.js";
 import AllInteractablesArray from "./interactableClass.js";
@@ -164,8 +167,12 @@ export default class Scene2 extends Phaser.Scene{
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
 
-    const progressBar = this.add.image(480,10,'generic');
-    progressBar.setScrollFactor(0).setScale(5,0.1).setTint(0x645FC5);
+    const progressBar = this.add.image(480,12,'generic');
+    progressBar.setScrollFactor(0).setScale(5,0.10).setTint(0x645FC5);
+    p1Tracker = this.add.image(0,25,'deathHead');
+    p1Tracker.setScrollFactor(0).setScale(0.65);
+    p2Tracker = this.add.image(0,25,'deathHead');
+    p2Tracker.setScrollFactor(0).setScale(0.65);
     //3º JUGADOR:
     //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
   }
@@ -177,13 +184,14 @@ export default class Scene2 extends Phaser.Scene{
     {
         return;
     }
-    document.getElementById('info').innerHTML = Android.lives;
-    //players.update(time, delta, this);
     firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
-    //firstFollow.y = (players.player1.x > players.player2.x)? players.player1.y : players.player2.y;
     firstFollow.y = Math.max(Math.min((this.android1.sprite.y + this.android2.sprite.y)/2, 360),-500);
     usableItems.update(time, delta);
     interactableItems.update(time, delta);
+
+    p1Tracker.x = this.android1.sprite.x/9.1 + 40;
+    p2Tracker.x = this.android2.sprite.x/9.1 + 40;
+
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }
 }

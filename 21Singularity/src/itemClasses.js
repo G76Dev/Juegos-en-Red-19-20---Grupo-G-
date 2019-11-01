@@ -109,13 +109,14 @@ class draggableSpike extends draggableObject{
     }
 
     function createSpike(scene, posX, posY){
-      const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules {"x":99,"y":79}, {"x":77,"y":118}, {"x":124,"y":118}
-      var shapes = [{x : 33 , y : 26},{x : 27 , y : 42},{x : 39 , y : 42}];
-      const body1 = Bodies.fromVertices(-8,0,shapes,{isSensor: true});
-      const body2 = Bodies.fromVertices(8,0,shapes,{isSensor: true});
-      const compoundBody = Body.create({ parts: [body1, body2] });
       var spike = scene.matter.add.image(0, 0, "item3",0);
-      spike.setExistingBody(compoundBody).setOrigin(0.5,0.80).setPosition(posX,posY + 5).setStatic(true);
+      spike.setBody({
+        type: 'trapezoid',
+        width: 36,
+        height: 16,
+        slope: 0.6
+      });
+      spike.setSensor(true).setOrigin(0.5,0.80).setPosition(posX,posY + 4).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.mainBody,
         objectB: spike,
