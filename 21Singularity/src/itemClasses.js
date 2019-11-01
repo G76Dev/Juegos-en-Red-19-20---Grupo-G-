@@ -135,7 +135,7 @@ class draggableSpike extends draggableObject{
       });
       harmlessSpike.destroy();
     }
-    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 70);}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(0, bodyA.gameObject.y-bodyB.gameObject.y), 60);}
   }
 }
 

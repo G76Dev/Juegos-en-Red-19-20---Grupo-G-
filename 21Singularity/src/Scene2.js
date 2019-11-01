@@ -16,6 +16,10 @@ var mouse;
 var p1Tracker;
 var p2Tracker;
 
+var blueRays = [];
+var orangeRays = [];
+var doors = [];
+
 import Android from "./android.js";
 import ItemBar from "./itemClasses.js";
 import AllInteractablesArray from "./interactableClass.js";
@@ -29,7 +33,7 @@ export default class Scene2 extends Phaser.Scene{
   {
     //imagenes fondo TILED
     this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
-    this.load.tilemapTiledJSON("map", "../assets/Mapas/industrial_easy_debug.json");
+    this.load.tilemapTiledJSON("map", "../assets/Mapas/Industrial_Easy.json");
 
     this.load.image('generic', 'assets/Test/virtual.png');
 
@@ -65,6 +69,12 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('bg1', 'assets/Backgrounds/Industrial/IndustrialFar.png');
     this.load.image('bg2', 'assets/Backgrounds/Industrial/IndustrialMid.png');
     this.load.image('bg3', 'assets/Backgrounds/Industrial/IndustrialClose.png');
+
+    this.load.spritesheet('blueRay', 'assets/Sprites/Rays/Blue_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('orangeRay', 'assets/Sprites/Rays/Orange_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
+
+    this.load.image('blueDoor', 'assets/Sprites/Doors/Door_blue.png');
+    this.load.image('orangeDoor', 'assets/Sprites/Doors/Door_orange.png');
   }
   //Función create, que crea los elementos del propio juego
   create ()
@@ -90,10 +100,131 @@ export default class Scene2 extends Phaser.Scene{
     //spikeslayer = map.createObjectLayer("offset_spikes_1_s", tileset1, 0, 0);
 
     baselayer.setCollisionByProperty({Collides: true});
-    this.matter.world.convertTilemapLayer(baselayer);
+    var baselayerObjs = this.matter.world.convertTilemapLayer(baselayer);
 
     debuglayer.setCollisionByProperty({Collides: true});
     this.matter.world.convertTilemapLayer(debuglayer);
+
+    lethallayer.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(lethallayer);
+
+    var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
+    this.android1 = new Android(this, 200, 300, cursors);
+    cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
+    this.android2 = new Android(this, 250, 300, cursors);
+    this.android1.coLink(this.android2);
+    this.android2.coLink(this.android1);
+
+    this.matterCollision.addOnCollideStart({
+      objectA: this.android1.mainBody,
+      callback: lethalCollide,
+      context: this.android1
+    });
+    function lethalCollide({ gameObjectB }){
+      if (!gameObjectB || !(gameObjectB instanceof Phaser.Tilemaps.Tile)) return;
+        const tile = gameObjectB;
+        if (tile.properties.lethal) {
+          this.damaged(new Phaser.Math.Vector2(0, -(this.sprite.y-gameObjectB.y)), 60);
+      }
+    }
+
+    //Elementos animados
+    //Rayos
+    //Naranjas
+    //Verticales
+    orangeRays[0] = this.matter.add.sprite(80, 304, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[1] = this.matter.add.sprite(80, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[2] = this.matter.add.sprite(80, 368, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    orangeRays[3] = this.matter.add.sprite(1648, 112, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[4] = this.matter.add.sprite(1648, 144, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[5] = this.matter.add.sprite(1648, 176, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    orangeRays[6] = this.matter.add.sprite(6864, 272, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[7] = this.matter.add.sprite(6864, 304, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    orangeRays[8] = this.matter.add.sprite(7792, 368, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[9] = this.matter.add.sprite(7792, 400, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[10] = this.matter.add.sprite(7792, 432, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    //Horizontales
+    orangeRays[11] = this.matter.add.sprite(6448, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[12] = this.matter.add.sprite(6480, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[13] = this.matter.add.sprite(6512, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[14] = this.matter.add.sprite(6544, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[15] = this.matter.add.sprite(6576, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[16] = this.matter.add.sprite(6608, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[17] = this.matter.add.sprite(6640, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[18] = this.matter.add.sprite(6672, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[19] = this.matter.add.sprite(6704, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[20] = this.matter.add.sprite(6736, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[21] = this.matter.add.sprite(6768, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[22] = this.matter.add.sprite(6800, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[23] = this.matter.add.sprite(6832, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    orangeRays[24] = this.matter.add.sprite(6928, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[25] = this.matter.add.sprite(6960, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[26] = this.matter.add.sprite(6992, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[27] = this.matter.add.sprite(7024, 336, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    orangeRays[28] = this.matter.add.sprite(7824, 240, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[29] = this.matter.add.sprite(7856, 240, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[30] = this.matter.add.sprite(7888, 240, "orangeRay", 0, {isStatic : true, isSensor : true});
+    orangeRays[31] = this.matter.add.sprite(7920, 240, "orangeRay", 0, {isStatic : true, isSensor : true});
+
+    for(var i = 11; i <= 31; i++) {
+      orangeRays[i].setAngle(90);
+    }
+
+    //Azules
+    //Verticales
+    blueRays[0] = this.matter.add.sprite(6000, 272, "blueRay", 0, {isStatic : true, isSensor : true});
+    blueRays[1] = this.matter.add.sprite(6000, 304, "blueRay", 0, {isStatic : true, isSensor : true});
+    blueRays[2] = this.matter.add.sprite(6000, 336, "blueRay", 0, {isStatic : true, isSensor : true});
+    blueRays[3] = this.matter.add.sprite(6000, 432, "blueRay", 0, {isStatic : true, isSensor : true});
+    blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0, {isStatic : true, isSensor : true});
+    blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0, {isStatic : true, isSensor : true});
+
+    //Añadimos colisiones entre jugadores y rayos.
+    for(var i = 0; i < blueRays.length; i++) {
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android1.mainBody,
+        objectB: blueRays[i],
+        callback: inflictDamage,
+        context: this.android1
+      });
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android2.mainBody,
+        objectB: blueRays[i],
+        callback: inflictDamage,
+        context: this.android2
+      });
+    }
+
+    for(var i = 0; i < orangeRays.length; i++) {
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android1.mainBody,
+        objectB: orangeRays[i],
+        callback: inflictDamage,
+        context: this.android1
+      });
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android2.mainBody,
+        objectB: orangeRays[i],
+        callback: inflictDamage,
+        context: this.android2
+      });
+    }
+
+    //Función inflictDamage, que hiere a los androides.
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
+
+    //Puertas
+    doors[0] = this.matter.add.sprite(2800, 432, "blueDoor", 0, {isStatic : true});
+    doors[1] = this.matter.add.sprite(4272, 272, "orangeDoor", 0, {isStatic : true});
+    doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor", 0, {isStatic : true});
+    doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor", 0, {isStatic : true});
+    doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor", 0, {isStatic : true});
 
     //INTERFAZ
     mouse = this.input.activePointer;
@@ -148,13 +279,27 @@ export default class Scene2 extends Phaser.Scene{
       frameRate: 20,
       repeat: -1
     });
+    this.anims.create({
+      key: 'blueRayS',
+      frames: this.anims.generateFrameNumbers('blueRay', { start: 0, end: 2 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'orangeRayS',
+      frames: this.anims.generateFrameNumbers('orangeRay', { start: 0, end: 2 }),
+      frameRate: 10,
+      repeat: -1
+    });
 
-    var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 100, 300, cursors);
-    cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    this.android2 = new Android(this, 200, 300, cursors);
-    this.android1.coLink(this.android2);
-    this.android2.coLink(this.android1);
+    //Objetos animados
+    for(var i = 0; i < orangeRays.length; i++) {
+      orangeRays[i].anims.play('orangeRayS', true);
+    }
+
+    for(var i = 0; i < blueRays.length; i++) {
+      blueRays[i].anims.play('blueRayS', true);
+    }
 
     //interactuables
     interactableItems = new AllInteractablesArray(this, 10);

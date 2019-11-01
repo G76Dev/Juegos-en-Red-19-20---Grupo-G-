@@ -1,7 +1,7 @@
 export default class Android {
   static lives = 5;
   static respawnTime = 1500;
-  static jumpVelocity = 7;
+  static jumpVelocity = 5.5;
   static moveVelocity = 0.23;
   static airVelocityFraction = 0.3;
   constructor(scene, x, y, cursors) {
@@ -43,6 +43,18 @@ export default class Android {
     this.canCoopImpulse = true;
     this.coopTimer = null;
 
+    this.aditionalJumpVelocity = -0.25;
+    this.cursors.up.on('down', function(event){
+      if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
+        this.aditionalJumpVelocity = -0.25;
+        this.sprite.setVelocityY(-Android.jumpVelocity);
+        this.canJump = false;
+        this.cursors.up.on('up', function(event){
+          this.canJump = true
+        }, this);
+      }
+    }, this);
+
     scene.matter.world.on("beforeupdate", this.resetTouching, this);
 
     scene.matterCollision.addOnCollideStart({
@@ -59,6 +71,7 @@ export default class Android {
     //var
     this.invulnerable = false;
     this.alive = true;
+    this.canDeathSpawn = true;
 
     this.deathStuff = [6]; this.deathStuff[0] = "deathHead"; this.deathStuff[1] = "deathLegs"; this.deathStuff[2] = "deathBodyL";
     this.deathStuff[3] = "deathFootR"; this.deathStuff[4] = "deathFootL"; this.deathStuff[5] = "deathBodyR"
@@ -73,6 +86,7 @@ export default class Android {
       this.isTouching.ground = true;
     }
     if(bodyB.name == "interactableBody")  return;
+    if(bodyB.label == "Body" && bodyB.parent.gameObject.tile.properties.lethal)  return;
     if (bodyA === this.sensors.right) {
       this.isTouching.right = true;
       this.rightMultiply = 0;
@@ -108,14 +122,13 @@ export default class Android {
       }
       this.playAnimation();
 
-      if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
-        this.sprite.setVelocityY(-Android.jumpVelocity);
-
-        this.canJump = false;
-        this.jumpCooldownTimer = this.scene.time.addEvent({
-          delay: 250,
-          callback: () => (this.canJump = true)
-        });
+      if (this.cursors.up.isDown && !this.isTouching.ground && this.sprite.body.velocity.y < 0) {
+        this.sprite.setVelocityY(this.sprite.body.velocity.y + this.aditionalJumpVelocity);
+        if(this.aditionalJumpVelocity < 0){
+          this.aditionalJumpVelocity += 0.01;
+        }else {
+          this.aditionalJumpVelocity = 0;
+        }
       }
 
       if (this.cursors.coop.isDown)
@@ -129,7 +142,7 @@ export default class Android {
         });
       }
 
-      if(this.sprite.y > 620){
+      if(this.sprite.y > 640){
         this.damaged(new Phaser.Math.Vector2(0,-1), 40);
       }
 
@@ -195,6 +208,7 @@ export default class Android {
   damaged(deathVector, deathSpread){
     if(!this.invulnerable){
       this.sprite.visible = false;
+      this.sprite.setActive(false);
       this.sprite.setVelocityX(0);
       this.deathSpawn(deathVector, deathSpread);
       if(this.otherAndroid.alive){
@@ -226,6 +240,7 @@ export default class Android {
 
     this.invulnerable = true;
     this.sprite.visible = true;
+    this.sprite.setActive(true);
     this.scene.tweens.add({
         targets: this.sprite,
         alpha: 0.5,
@@ -241,22 +256,29 @@ export default class Android {
     });
   }
   deathSpawn(deathVector, deathSpread){
-    var remainVelocity = 8;
-    const dirAngle = deathVector.angle() * (180/Math.PI);
-    var randomAng;
-    var randomVec;
-    for(var i=0; i<this.deathStuff.length; i++){
-      var debree = this.scene.matter.add.image(this.sprite.x,this.sprite.y,this.deathStuff[i],0,{isSensor: true});
-      randomAng = Phaser.Math.Between(dirAngle - deathSpread, dirAngle + deathSpread) * (Math.PI/180);
-      randomVec = new Phaser.Math.Vector2(Math.cos(randomAng), Math.sin(randomAng));
-      randomVec.normalize();
-      randomVec.scale(remainVelocity);
-      debree.setVelocity(randomVec.x,randomVec.y);
-      //debree.setAngularVelocity(Math.random()/10-0.05);
+    if(this.canDeathSpawn){
+      this.canDeathSpawn = false;
+      var remainVelocity = 8;
+      const dirAngle = deathVector.angle() * (180/Math.PI);
+      var randomAng;
+      var randomVec;
+      for(var i=0; i<this.deathStuff.length; i++){
+        var debree = this.scene.matter.add.image(this.sprite.x,this.sprite.y,this.deathStuff[i],0,{isSensor: true});
+        randomAng = Phaser.Math.Between(dirAngle - deathSpread, dirAngle + deathSpread) * (Math.PI/180);
+        randomVec = new Phaser.Math.Vector2(Math.cos(randomAng), Math.sin(randomAng));
+        randomVec.normalize();
+        randomVec.scale(remainVelocity);
+        debree.setVelocity(randomVec.x,randomVec.y);
+        //debree.setAngularVelocity(Math.random()/10-0.05);
+        this.scene.time.addEvent({
+          delay: 3000,
+          callback: (destroyDebree),
+          args: [debree]
+        });
+      }
       this.scene.time.addEvent({
-        delay: 3000,
-        callback: (destroyDebree),
-        args: [debree]
+        delay: Android.respawnTime - 50,
+        callback: () => (this.canDeathSpawn = true)
       });
     }
     function destroyDebree(debree){debree.destroy()}
