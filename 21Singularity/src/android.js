@@ -1,8 +1,8 @@
 export default class Android {
   static lives = 5;
   static respawnTime = 1500;
-  static jumpVelocity = 5.5;
-  static moveVelocity = 0.23;
+  static jumpVelocity = 5.05;
+  static moveVelocity = 0.215;
   static airVelocityFraction = 0.3;
   constructor(scene, x, y, cursors) {
     this.scene = scene;

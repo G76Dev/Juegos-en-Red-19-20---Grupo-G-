@@ -26,7 +26,7 @@ export default class Press {
       if(n < 0 ||n > 0){
       obj.isReady = false;
         scene.time.addEvent({
-          delay: 1000,
+          delay: 2000,
           callback: () => (initiateDescend(scene, obj))
         });
         function initiateDescend(scene, obj){

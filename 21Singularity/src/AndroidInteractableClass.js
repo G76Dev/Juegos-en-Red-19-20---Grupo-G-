@@ -105,7 +105,33 @@ class Door extends AndroidInteractableClass{
     this.endPosY = this.startPosY + distance;
     this.objectiveY = this.startPosY;
     this.increaseY = 0.075;
-    this.scene = scene;
+  }
+  objectActivate(){
+    if(!this.isActive){
+      this.objectiveY = this.startPosY;
+    }else{
+      this.objectiveY = this.endPosY;
+    }
+  }
+  update(time, delta){
+    super.update();
+    if(Math.abs(this.mainObject.y - this.objectiveY) > 1){
+      if(this.mainObject.y < this.objectiveY)
+        this.mainObject.y += this.increaseY * delta;
+      else if(this.mainObject.y > this.objectiveY)
+        this.mainObject.y -= this.increaseY * delta;
+    }
+  }
+}
+
+class DoorTimer extends AndroidInteractableClass{
+  constructor(scene, door, xAct, yAct, distance){
+    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1);
+    this.mainObject.setDepth(-1);
+    this.startPosY = this.mainObject.y;
+    this.endPosY = this.startPosY + distance;
+    this.objectiveY = this.startPosY;
+    this.increaseY = 0.075;
   }
   objectActivate(){
     if(this.objectiveY = this.startPosY){
@@ -114,7 +140,7 @@ class Door extends AndroidInteractableClass{
         delay: 2000,
         callback: () => (reset(this)),
       });
-      function reset(obj){console.log("asd");obj.objectiveY = obj.startPosY;}
+      function reset(obj){obj.objectiveY = obj.startPosY;}
     }
   }
   update(time, delta){
@@ -186,8 +212,11 @@ export default class AndroidInteractablesArray{
     this.items[0] = new Elevator(scene, 2258, 424, 0.5 ,2125,144, 200);
     this.items[1] = new OrangeRay(scene, [orangeRays[3],orangeRays[4],orangeRays[5]] ,1616,176);
     this.items[2] = new Elevator(scene, 4078, 574, 0.25 ,4145, 560, 328);
-    this.items[3] = new Door(scene, doors[1], 4240, 562, -100);
-    this.items[4] = new Door(scene, doors[2], 4240, 306, -100);
+    this.items[3] = new DoorTimer(scene, doors[1], 4240, 562, -100);
+    this.items[4] = new DoorTimer(scene, doors[2], 4240, 306, -100);
+    this.items[5] = new Door(scene, doors[3], 6512, 466, 100);
+    this.items[6] = new Door(scene, doors[4], 7182, 466, 100);
+    this.items[7] = new Elevator(scene, 7280, 613, 0.25 ,7342, 560, 356);
   }
 
   update(time, delta){
@@ -195,6 +224,9 @@ export default class AndroidInteractablesArray{
     this.items[2].update(time, delta);
     this.items[3].update(time, delta);
     this.items[4].update(time, delta);
+    this.items[5].update(time, delta);
+    this.items[6].update(time, delta);
+    this.items[7].update(time, delta);
     //this.items[1].update(time, delta);564 - 326 = 238
   }
 }

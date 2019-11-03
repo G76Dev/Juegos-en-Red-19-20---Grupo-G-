@@ -114,8 +114,8 @@ export default class Scene2 extends Phaser.Scene{
     blades[1] = this.matter.add.sprite(3296, 288, "rBlade", 0);
     blades[2] = this.matter.add.sprite(3902, 576, "rBlade", 0);
     blades[3] = this.matter.add.sprite(6336, 608, "rBlade", 0);
-    blades[4] = this.matter.add.sprite(6656, 576, "rBlade", 0);
-    blades[5] = this.matter.add.sprite(6944, 576, "rBlade", 0);
+    blades[4] = this.matter.add.sprite(6736, 576, "rBlade", 0);
+    blades[5] = this.matter.add.sprite(6864, 576, "rBlade", 0);
 
     const layerminus1 = map.createStaticLayer("deco_layer_-1depth", tileset1, 0, 0);
     const baselayer = map.createStaticLayer("base_layer_0depth", tileset1, 0, 0);
@@ -133,31 +133,32 @@ export default class Scene2 extends Phaser.Scene{
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 200, 300, cursors);
+    this.android1 = new Android(this, 7500, 280, cursors);
     cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    this.android2 = new Android(this, 300, 300, cursors);
+    this.android2 = new Android(this, 7500, 280, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
     const conveyer1 = new Conveyer(this, 4767, 575,2);
     const conveyer2 = new Conveyer(this, 4767, 315,-2);
+    const conveyer3 = new Conveyer(this, 6800, 600,2);
     const presses = [];
     presses[0] = new Press(this,4464, 140);
     presses[0].startCycle(-1,0);
     presses[1] = new Press(this,4524, 140);
-    presses[1].startCycle(-1,1300);
+    presses[1].startCycle(-1,1800);
     presses[2] = new Press(this,4584, 140);
-    presses[2].startCycle(-1,1);
+    presses[2].startCycle(-1,0);
     presses[3] = new Press(this,4644, 140);
-    presses[3].startCycle(-1,1300);
+    presses[3].startCycle(-1,1800);
     presses[4] = new Press(this,4864, 400);
     presses[4].startCycle(-1,0);
     presses[5] = new Press(this,4924, 400);
-    presses[5].startCycle(-1,1300);
+    presses[5].startCycle(-1,1800);
     presses[6] = new Press(this,4984, 400);
-    presses[6].startCycle(-1,1);
+    presses[6].startCycle(-1,0);
     presses[7] = new Press(this,5044, 400);
-    presses[7].startCycle(-1,1300);
+    presses[7].startCycle(-1,1800);
 
     presses[8] = new Press(this,4464, 400);
     presses[8].startCycle(1,0);
@@ -241,6 +242,7 @@ export default class Scene2 extends Phaser.Scene{
     blueRays[0] = this.matter.add.sprite(6000, 272, "blueRay", 0);
     blueRays[1] = this.matter.add.sprite(6000, 304, "blueRay", 0);
     blueRays[2] = this.matter.add.sprite(6000, 336, "blueRay", 0);
+
     blueRays[3] = this.matter.add.sprite(6000, 432, "blueRay", 0);
     blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0);
     blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0);
@@ -270,8 +272,9 @@ export default class Scene2 extends Phaser.Scene{
 
     for(var i = 0; i < blueRays.length; i++) {
       blueRays[i].setRectangle(16,32);
+      if(i >= 6)
+        blueRays[i].setAngle(90);
       blueRays[i].setStatic(true).setSensor(true);
-
       this.matterCollision.addOnCollideStart({
         objectA: this.android1.mainBody,
         objectB: blueRays[i],

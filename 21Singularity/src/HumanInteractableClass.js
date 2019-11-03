@@ -84,10 +84,14 @@ class GravityPlatform extends HumanInteractableClass{
 class GravityPlatform2 extends HumanInteractableClass{
   constructor(scene, xObb, yObj){
     super(scene, false, null, xObb, yObj, "bar", 0.4, false);
-    this.mainObject.setStatic(true).setAngle(90);
+    this.mainObject.setStatic(true).setSensor(false).setAngle(90);
   }
   objectActivate(){
     this.mainObject.setStatic(false);
+    this.scene.time.addEvent({
+      delay: 250,
+      callback: () => (this.mainObject.setSensor(true))
+    });
   }
 }
 
@@ -103,6 +107,34 @@ class BlueRay extends HumanInteractableClass{
   objectActivate(){
     for(var i=0; i<this.mainObject.length; i++){
       this.mainObject[i].y = this.ActiveYPos[i];
+    }
+  }
+}
+
+class BlueRayDouble extends HumanInteractableClass{
+  constructor(scene, mainObj, xAct, yAct){
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    this.ActiveYPos = [];
+    for(var i=0; i<this.mainObject.length; i++){
+      this.ActiveYPos[i] = this.mainObject[i].y;
+      this.mainObject[i].y = -999;
+    }
+  }
+  objectActivate(){
+    if(this.isActive){
+      for(var i=0; i<3; i++){
+        this.mainObject[i].y = this.ActiveYPos[i];
+      }
+      for(var i=3; i<6; i++){
+        this.mainObject[i].y = -999;
+      }
+    }else{
+      for(var i=0; i<3; i++){
+        this.mainObject[i].y = -999;
+      }
+      for(var i=3; i<6; i++){
+        this.mainObject[i].y = this.ActiveYPos[i];
+      }
     }
   }
 }
@@ -164,6 +196,12 @@ export default class HumanInteractablesArray{
     this.items[6] = new Press(scene, presses[11]);
     this.items[7] = new Press(scene, presses[12]);
     this.items[8] = new Press(scene, presses[13]);
+
+    this.items[9] = new BlueRayDouble(scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
+
+    this.items[10] = new GravityPlatform2(scene, 6972, 286);
+    this.items[11] = new GravityPlatform2(scene, 6426, 551);
+    this.items[12] = new GravityPlatform2(scene, 6800, 530);
   }
 
   update(time, delta){
