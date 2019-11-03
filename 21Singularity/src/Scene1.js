@@ -1,78 +1,22 @@
 //Variables del menú
 var buttonArray;
 var fade;
-//Clase 'Button' correspondiente a la luz que aparece detrás de los textos
-class Button extends Phaser.GameObjects.Image {
-  static lightChangeVelocity = 0.01;
-  Behaviour = function() {};
-  constructor(scene, x, y, texture, Behaviour = function() {}, isActive = false) {
-    super(scene, x, y, texture);
-    scene.add.existing(this);
-
-    this.isActive = isActive;
-    this.Behaviour = Behaviour;
-  }
-  LightOn(delta) {
-    this.alpha = Math.max(Math.min(this.alpha + Button.lightChangeVelocity * delta, 1), 0);
-  }
-  LightOff(delta) {
-    this.alpha = Math.max(Math.min(this.alpha - Button.lightChangeVelocity * delta, 1), 0);
-  }
-  Update(time, delta) {
-    if (this.isActive)
-      this.LightOn(delta);
-      else
-      this.LightOff(delta);
-  }
-}
-//Clase 'Fade' correspondiente al efecto de transición
-class Fade extends Phaser.GameObjects.Image {
-  static fadeChangeVelocity = 0.001;
-  constructor(scene, x, y, texture, nextScene = "scene", isChangingScene = false) {
-    super(scene, x, y, texture);
-    scene.add.existing(this);
-    this.scene = scene;
-    this.isChangingScene = isChangingScene;
-    this.nextScene = nextScene;
-    this.depth++;
-  }
-  FadeOn(delta) {
-  this.alpha = Math.max(Math.min(this.alpha - Fade.fadeChangeVelocity * delta, 1), 0);
-  }
-  FadeOff(delta) {
-    this.alpha = Math.max(Math.min(this.alpha + Fade.fadeChangeVelocity * delta, 1), 0);
-    if (this.alpha == 1) {
-      this.LoadScene(this.nextScene);
-    }
-  }
-  Update(time, delta) {
-    if (this.isChangingScene)
-      this.FadeOff(delta);
-    else
-      this.FadeOn(delta);
-  }
-  //Método que carga una escena dado el nombre de ésta
-  LoadScene(name) {
-    this.scene.scene.start(name);
-  }
-}
+var audioManager;
+import Button from "./button.js";
+import AudioManager from "./audioManager.js";
+import Fade from "./fade.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
 
-  for (var i = 0; i < buttonArray.length; i++) {
-    buttonArray[i].isActive = false;
-  }
-
-  var i = 0;
-  var found = false;
-
-  while (i < buttonArray.length && !found) {
+  for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 209 + 70 * i && scene.input.mousePointer.y < 279 + 70 * i){
+      if (!buttonArray[i].isActive)
+        audioManager.PlayMenuHover();
       buttonArray[i].isActive = true;
-      found = true;
     }
-    else
-      i++;
+    else {
+      buttonArray[i].isActive = false;
+    }
   }
 }
 //clase escena 1
@@ -84,6 +28,8 @@ export default class Scene1 extends Phaser.Scene{
   //Función preload, que carga elementos antes de iniciar el juego
   preload ()
   {
+    audioManager = new AudioManager(this);
+    audioManager.preload();
   	//Cargamos el fondo y la pantalla negra que servirá como transición
     this.load.image('interfazBg', 'assets/Interfaz/BG.png');
 	  this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
@@ -101,6 +47,8 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
+	  audioManager.create();
+	  audioManager.PlayMenuMusic();
     //Añadimos el background y el título
     this.add.image(960/2, 540/2, 'interfazBg');
 	  this.add.image(960/2, 540/2, 'interfazTitle');
@@ -110,13 +58,19 @@ export default class Scene1 extends Phaser.Scene{
   	buttonArray = [
   		new Button(this, 960/2, 244, 'light', function() {
   			fade.isChangingScene = true;
-  			fade.nextScene = "onlineMode";
+        fade.nextScene = "onlineMode";
+        audioManager.PlayMenuSelected();
   		}),
   		new Button(this, 960/2, 314, 'light', function() {
   			fade.isChangingScene = true;
-  			fade.nextScene = "level1";
+        fade.nextScene = "level1";
+        audioManager.PlayMenuSelected();
   		}),
-  		new Button(this, 960/2, 384, 'light', function() {},),
+  		new Button(this, 960/2, 384, 'light', function() {
+  			fade.isChangingScene = true;
+        fade.nextScene = "options";
+        audioManager.PlayMenuSelected();
+  		}),
   		new Button(this, 960/2, 450, 'light', function() {},)
   	];
   	//Hacemos a todas las luces invisibles en un primer momento.
