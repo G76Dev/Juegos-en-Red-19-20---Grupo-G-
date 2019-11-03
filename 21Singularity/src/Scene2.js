@@ -9,8 +9,7 @@ var firstFollow;
 var usableItems;
 var humanInteractableItems;
 var androidInteractableItems;
-//Vidas de los jugadores
-var vidas = 5;
+
 //mouse
 var mouse;
 
@@ -84,10 +83,17 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('blueDoor', 'assets/Sprites/Doors/Door_blue.png');
     this.load.image('orangeDoor', 'assets/Sprites/Doors/Door_orange.png');
 
-    this.load.spritesheet('rBlade', 'assets/Sprites/Rotating_Blade/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
+    this.load.spritesheet('rBlade', 'assets/Sprites/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
 
-    this.load.image('buttonUn', 'assets/Sprites/Buttons/button_unpressed.png');
-    this.load.image('buttonPre', 'assets/Sprites/Buttons/button_pressed.png');
+    this.load.spritesheet('orangeButton', 'assets/Sprites/Buttons/orange_button.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
+
+    this.load.spritesheet('life', 'assets/Sprites/life.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('conveyer3', 'assets/Sprites/Conveyers/conveyer_3.png', { frameWidth: 408, frameHeight: 20 });
+
+    this.load.image('elevator', 'assets/Sprites/elevator.png');
+    this.load.image('press', 'assets/Sprites/press.png');
+    this.load.image('blue_fp', 'assets/Sprites/Falling_platforms/blue_fp.png');
 
   }
   //Función create, que crea los elementos del propio juego
@@ -114,64 +120,59 @@ export default class Scene2 extends Phaser.Scene{
     blades[1] = this.matter.add.sprite(3296, 288, "rBlade", 0);
     blades[2] = this.matter.add.sprite(3902, 576, "rBlade", 0);
     blades[3] = this.matter.add.sprite(6336, 608, "rBlade", 0);
-    blades[4] = this.matter.add.sprite(6736, 576, "rBlade", 0);
-    blades[5] = this.matter.add.sprite(6864, 576, "rBlade", 0);
+    blades[4] = this.matter.add.sprite(6736, 592, "rBlade", 0);
+    blades[5] = this.matter.add.sprite(6864, 592, "rBlade", 0);
 
     const layerminus1 = map.createStaticLayer("deco_layer_-1depth", tileset1, 0, 0);
     const baselayer = map.createStaticLayer("base_layer_0depth", tileset1, 0, 0);
     const lethallayer = map.createStaticLayer("lethal_layer_0depth", tileset1, 0, 0);
-    const debuglayer = map.createStaticLayer("debug_layer_0depth", tileset1, 0, 0);
-    //spikeslayer = map.createObjectLayer("offset_spikes_1_s", tileset1, 0, 0);
+
+    layerminus1.setCollisionByProperty({Collides: true});
+    this.matter.world.convertTilemapLayer(layerminus1);
 
     baselayer.setCollisionByProperty({Collides: true});
-    var baselayerObjs = this.matter.world.convertTilemapLayer(baselayer);
-
-    debuglayer.setCollisionByProperty({Collides: true});
-    this.matter.world.convertTilemapLayer(debuglayer);
+    this.matter.world.convertTilemapLayer(baselayer);
 
     lethallayer.setCollisionByProperty({Collides: true});
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 7600, 300, cursors);
+    this.android1 = new Android(this, 1200, 300, cursors);
     cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
     this.android2 = new Android(this, 300, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
-    const conveyer1 = new Conveyer(this, 4767, 575,2);
-    const conveyer2 = new Conveyer(this, 4767, 315,-2);
-    const conveyer3 = new Conveyer(this, 6800, 600,2);
     const presses = [];
-    presses[0] = new Press(this,4464, 140);
+    presses[0] = new Press(this,4464, 140, "press");
     presses[0].startCycle(-1,0);
-    presses[1] = new Press(this,4524, 140);
+    presses[1] = new Press(this,4534, 140, "press");
     presses[1].startCycle(-1,1800);
-    presses[2] = new Press(this,4584, 140);
+    presses[2] = new Press(this,4604, 140, "press");
     presses[2].startCycle(-1,0);
-    presses[3] = new Press(this,4644, 140);
+    presses[3] = new Press(this,4674, 140, "press");
     presses[3].startCycle(-1,1800);
-    presses[4] = new Press(this,4864, 400);
+    presses[4] = new Press(this,4864, 400, "press");
     presses[4].startCycle(-1,0);
-    presses[5] = new Press(this,4924, 400);
+    presses[5] = new Press(this,4934, 400, "press");
     presses[5].startCycle(-1,1800);
-    presses[6] = new Press(this,4984, 400);
+    presses[6] = new Press(this,5004, 400, "press");
     presses[6].startCycle(-1,0);
-    presses[7] = new Press(this,5044, 400);
+    presses[7] = new Press(this,5074, 400, "press");
     presses[7].startCycle(-1,1800);
 
-    presses[8] = new Press(this,4464, 400);
+    presses[8] = new Press(this,4464, 400, "press");
     presses[8].startCycle(1,0);
-    presses[9] = new Press(this,4564, 400);
+    presses[9] = new Press(this,4564, 400, "press");
     presses[9].startCycle(1,0);
-    presses[10] = new Press(this,4664, 400);
+    presses[10] = new Press(this,4664, 400, "press");
     presses[10].startCycle(1,0);
 
-    presses[11] = new Press(this,4864, 140);
+    presses[11] = new Press(this,4864, 140, "press");
     presses[11].startCycle(1,0);
-    presses[12] = new Press(this,4964, 140);
+    presses[12] = new Press(this,4964, 140, "press");
     presses[12].startCycle(1,0);
-    presses[13] = new Press(this,5064, 140);
+    presses[13] = new Press(this,5064, 140, "press");
     presses[13].startCycle(1,0);
 
     this.matterCollision.addOnCollideStart({
@@ -394,7 +395,24 @@ export default class Scene2 extends Phaser.Scene{
       frameRate: 30,
       repeat: -1
     });
+    this.anims.create({
+      key: 'lifeS',
+      frames: this.anims.generateFrameNumbers('life', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'conveyer3S',
+      frames: this.anims.generateFrameNumbers('conveyer3', { start: 0, end: 3 }),
+      frameRate: 20,
+      repeat: -1
+    });
 
+    const conveyer1 = new Conveyer(this, 4767, 575,"conveyer_3",2);
+    const conveyer2 = new Conveyer(this, 4767, 315,"conveyer_3",-2);
+    const conveyer3 = new Conveyer(this, 6800, 600,"conveyer_3",2);
+
+    conveyer3.sprite.anims.play('conveyer3S', true);
     //Objetos animados
     for(var i = 0; i < orangeRays.length; i++) {
       orangeRays[i].anims.play('orangeRayS', true);

@@ -43,7 +43,7 @@ class HumanInteractableClass{
 
 class Door extends HumanInteractableClass{
   constructor(scene, door, xAct, yAct, distance){
-    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1);
+    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1);
     this.mainObject.setDepth(-1);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
@@ -83,8 +83,8 @@ class GravityPlatform extends HumanInteractableClass{
 
 class GravityPlatform2 extends HumanInteractableClass{
   constructor(scene, xObb, yObj){
-    super(scene, false, null, xObb, yObj, "bar", 0.4, false);
-    this.mainObject.setStatic(true).setSensor(false).setAngle(90);
+    super(scene, false, null, xObb, yObj, "blue_fp", 1, false);
+    this.mainObject.setStatic(true).setSensor(false);
   }
   objectActivate(){
     this.mainObject.setStatic(false);
@@ -97,7 +97,7 @@ class GravityPlatform2 extends HumanInteractableClass{
 
 class BlueRay extends HumanInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
     this.ActiveYPos = [];
     for(var i=0; i<this.mainObject.length; i++){
       this.ActiveYPos[i] = this.mainObject[i].y;
@@ -113,7 +113,7 @@ class BlueRay extends HumanInteractableClass{
 
 class BlueRayDouble extends HumanInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
     this.ActiveYPos = [];
     for(var i=0; i<this.mainObject.length; i++){
       this.ActiveYPos[i] = this.mainObject[i].y;
@@ -151,7 +151,7 @@ class Press extends HumanInteractableClass{
 
 class InteractiveBlade extends HumanInteractableClass{
   constructor(scene, blade, xObb, yObj, xAct, yAct, distance){
-    super(scene, true, blade, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    super(scene, true, blade, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
 
     this.startPosX = xObb;
     this.endPosX = xObb + distance;

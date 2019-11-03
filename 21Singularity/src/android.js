@@ -1,5 +1,5 @@
 export default class Android {
-  static lives = 5;
+  static lives = 8981;
   static respawnTime = 1500;
   static jumpVelocity = 5.05;
   static moveVelocity = 0.215;

@@ -86,7 +86,9 @@ class AndroidInteractableClass{
       }
     }, this);
   }
-  objectActivate(){}
+  objectActivate(){
+    (this.isActive) ? this.activator.setFrame(1) : this.activator.setFrame(0);
+  }
   update(){
     if(this.follow){
       this.activator.x = this.mainObject.x + this.followXoffset;
@@ -99,7 +101,7 @@ class AndroidInteractableClass{
 
 class Door extends AndroidInteractableClass{
   constructor(scene, door, xAct, yAct, distance){
-    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1);
+    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
     this.mainObject.setDepth(-1);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
@@ -107,6 +109,7 @@ class Door extends AndroidInteractableClass{
     this.increaseY = 0.075;
   }
   objectActivate(){
+    super.objectActivate();
     if(!this.isActive){
       this.objectiveY = this.startPosY;
     }else{
@@ -126,7 +129,7 @@ class Door extends AndroidInteractableClass{
 
 class DoorTimer extends AndroidInteractableClass{
   constructor(scene, door, xAct, yAct, distance){
-    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1);
+    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
     this.mainObject.setDepth(-1);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
@@ -134,6 +137,7 @@ class DoorTimer extends AndroidInteractableClass{
     this.increaseY = 0.075;
   }
   objectActivate(){
+    super.objectActivate();
     if(this.objectiveY = this.startPosY){
       this.objectiveY = this.endPosY;
       this.scene.time.addEvent({
@@ -156,14 +160,15 @@ class DoorTimer extends AndroidInteractableClass{
 
 class Elevator extends AndroidInteractableClass{
   constructor(scene, xObb, yObj, scale, xAct, yAct, newPosY){
-    super(scene, false , null, xObb, yObj, "bar", scale, true, xAct, yAct, "buttonUn", 1);
-    this.mainObject.setStatic(true).setAngle(90);
+    super(scene, false , null, xObb, yObj, "elevator", scale, true, xAct, yAct, "orangeButton", 1);
+    this.mainObject.setRectangle(92,12).setOrigin(0.5,0.3).setStatic(true);
     this.startPosY = yObj;
     this.endPosY = newPosY;
     this.objectiveY = this.startPosY;
     this.increaseY = 0.075;
   }
   objectActivate(){
+    super.objectActivate();
     if(!this.isActive){
       this.objectiveY = this.startPosY;
     }else{
@@ -183,9 +188,10 @@ class Elevator extends AndroidInteractableClass{
 
 class OrangeRay extends AndroidInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
   }
   objectActivate(){
+    super.objectActivate();
     for(var i=0; i<this.mainObject.length; i++){
       this.mainObject[i].destroy();
     }
@@ -194,7 +200,7 @@ class OrangeRay extends AndroidInteractableClass{
 
 class OrangeRayRestore extends AndroidInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
     this.isReady = true;
     this.initialY = [];
     for(var i=0; i<this.mainObject.length; i++){
@@ -202,6 +208,7 @@ class OrangeRayRestore extends AndroidInteractableClass{
     }
   }
   objectActivate(){
+    super.objectActivate();
     if(this.isReady){
       this.isReady = false;
       for(var i=0; i<this.mainObject.length; i++){
@@ -215,6 +222,8 @@ class OrangeRayRestore extends AndroidInteractableClass{
         for(var i=0; i<obj.mainObject.length; i++){
           obj.mainObject[i].y = initialY[i];
         }
+        obj.isActive = false;
+        obj.activator.setFrame(0);
         obj.isReady = true;
       }
     }
@@ -227,6 +236,7 @@ class GravityPlatform2 extends AndroidInteractableClass{
     this.mainObject.setStatic(true).setAngle(90);
   }
   objectActivate(){
+    super.objectActivate();
     this.mainObject.setStatic(false);
   }
 }*/
@@ -235,17 +245,17 @@ export default class AndroidInteractablesArray{
   constructor(scene, orangeRays, doors){
 
     this.items = [];
-    this.items[0] = new Elevator(scene, 2258, 424, 0.5 ,2125,144, 200);
+    this.items[0] = new Elevator(scene, 2258, 424, 1 ,2125,144, 200);
     this.items[1] = new OrangeRay(scene, [orangeRays[3],orangeRays[4],orangeRays[5]] ,1616,176);
-    this.items[2] = new Elevator(scene, 4078, 574, 0.25 ,4145, 560, 328);
+    this.items[2] = new Elevator(scene, 4078, 574, 1 ,4145, 560, 328);
     this.items[3] = new DoorTimer(scene, doors[1], 4240, 562, -100);
     this.items[4] = new DoorTimer(scene, doors[2], 4240, 306, -100);
     this.items[5] = new Door(scene, doors[3], 6512, 466, 100);
     this.items[6] = new Door(scene, doors[4], 7182, 466, 100);
-    this.items[7] = new Elevator(scene, 7280, 613, 0.25 ,7342, 560, 356);
+    this.items[7] = new Elevator(scene, 7280, 613, 1 ,7342, 560, 356);
     this.items[8] = new OrangeRayRestore(scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
     this.items[9] = new OrangeRay(scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
-    this.items[10] = new Elevator(scene, 7696, 456, 0.25 ,7600, 338, 70);
+    this.items[10] = new Elevator(scene, 7696, 456, 1 ,7600, 338, 70);
   }
 
   update(time, delta){
@@ -270,6 +280,7 @@ class GravityPlatform2 extends InteractableClass{
     this.mainObject.body.name = "interactableBody";
   }
   objectActivate(){
+    super.objectActivate();
     if(this.isActive){
       this.mainObject.setStatic(false).setTint(0x00E3F2);
     }else{
