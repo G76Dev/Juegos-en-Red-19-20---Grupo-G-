@@ -189,9 +189,35 @@ class OrangeRay extends AndroidInteractableClass{
     for(var i=0; i<this.mainObject.length; i++){
       this.mainObject[i].destroy();
     }
-    /*
-      buttonSprites[i].setRectangle(16,32)
-      buttonSprites[i].setStatic(true).setSensor(true);*/
+  }
+}
+
+class OrangeRayRestore extends AndroidInteractableClass{
+  constructor(scene, mainObj, xAct, yAct){
+    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "buttonUn", 1, false);
+    this.isReady = true;
+    this.initialY = [];
+    for(var i=0; i<this.mainObject.length; i++){
+      this.initialY[i] = this.mainObject[i].y;
+    }
+  }
+  objectActivate(){
+    if(this.isReady){
+      this.isReady = false;
+      for(var i=0; i<this.mainObject.length; i++){
+        this.mainObject[i].y = -999;
+      }
+      this.scene.time.addEvent({
+        delay: 400,
+        callback: () => (restoreLaser(this, this.initialY)),
+      });
+      function restoreLaser(obj, initialY){
+        for(var i=0; i<obj.mainObject.length; i++){
+          obj.mainObject[i].y = initialY[i];
+        }
+        obj.isReady = true;
+      }
+    }
   }
 }
 /*
@@ -217,6 +243,9 @@ export default class AndroidInteractablesArray{
     this.items[5] = new Door(scene, doors[3], 6512, 466, 100);
     this.items[6] = new Door(scene, doors[4], 7182, 466, 100);
     this.items[7] = new Elevator(scene, 7280, 613, 0.25 ,7342, 560, 356);
+    this.items[8] = new OrangeRayRestore(scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
+    this.items[9] = new OrangeRay(scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
+    this.items[10] = new Elevator(scene, 7696, 456, 0.25 ,7600, 338, 70);
   }
 
   update(time, delta){
@@ -227,6 +256,7 @@ export default class AndroidInteractablesArray{
     this.items[5].update(time, delta);
     this.items[6].update(time, delta);
     this.items[7].update(time, delta);
+    this.items[10].update(time, delta);
     //this.items[1].update(time, delta);564 - 326 = 238
   }
 }
