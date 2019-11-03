@@ -30,7 +30,9 @@ class HumanInteractableClass{
     (this.isActive)? console.log("activated object") : console.log("desactivated object");
     this.objectActivate();
   }
-  objectActivate(){}
+  objectActivate(){
+    (this.isActive) ? this.activator.setFrame(1) : this.activator.setFrame(0);
+  }
   update(){
     if(this.follow){
       this.activator.x = this.mainObject.x + this.followXoffset;
@@ -51,6 +53,7 @@ class Door extends HumanInteractableClass{
     this.increaseY = 0.075;
   }
   objectActivate(){
+    super.objectActivate();
     if(!this.isActive){
       this.objectiveY = this.startPosY;
     }else{
@@ -74,6 +77,7 @@ class GravityPlatform extends HumanInteractableClass{
     this.mainObject.setStatic(true).setAngle(90);
   }
   objectActivate(){
+    super.objectActivate();
     this.mainObject.setStatic(false);
   }
   update(){
@@ -105,6 +109,7 @@ class BlueRay extends HumanInteractableClass{
     }
   }
   objectActivate(){
+    super.objectActivate();
     for(var i=0; i<this.mainObject.length; i++){
       this.mainObject[i].y = this.ActiveYPos[i];
     }
@@ -117,23 +122,22 @@ class BlueRayDouble extends HumanInteractableClass{
     this.ActiveYPos = [];
     for(var i=0; i<this.mainObject.length; i++){
       this.ActiveYPos[i] = this.mainObject[i].y;
+      if(i < 3)
       this.mainObject[i].y = -999;
     }
   }
   objectActivate(){
-    if(this.isActive){
+    super.objectActivate();
+    this.scene.time.addEvent({
+      delay: 750,
+      callback: () => (change(this))
+    });
+    function change(obj) {
       for(var i=0; i<3; i++){
-        this.mainObject[i].y = this.ActiveYPos[i];
+        obj.mainObject[i].y = obj.ActiveYPos[i];
       }
       for(var i=3; i<6; i++){
-        this.mainObject[i].y = -999;
-      }
-    }else{
-      for(var i=0; i<3; i++){
-        this.mainObject[i].y = -999;
-      }
-      for(var i=3; i<6; i++){
-        this.mainObject[i].y = this.ActiveYPos[i];
+        obj.mainObject[i].y = -999;
       }
     }
   }
@@ -159,6 +163,7 @@ class InteractiveBlade extends HumanInteractableClass{
     this.increaseX = 0;
   }
   objectActivate(){
+    super.objectActivate();
     if(!this.isActive){
       this.increaseX = 0;
     }else{
@@ -200,7 +205,7 @@ export default class HumanInteractablesArray{
     this.items[9] = new BlueRayDouble(scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
 
     this.items[10] = new GravityPlatform2(scene, 6972, 286);
-    this.items[11] = new GravityPlatform2(scene, 6426, 551);
+    this.items[11] = new GravityPlatform2(scene, 6480, 296);
     this.items[12] = new GravityPlatform2(scene, 6800, 530);
   }
 
@@ -219,6 +224,7 @@ class GravityPlatform2 extends InteractableClass{
     this.mainObject.body.name = "interactableBody";
   }
   objectActivate(){
+    super.objectActivate();
     if(this.isActive){
       this.mainObject.setStatic(false).setTint(0x00E3F2);
     }else{

@@ -256,6 +256,7 @@ export default class AndroidInteractablesArray{
     this.items[8] = new OrangeRayRestore(scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
     this.items[9] = new OrangeRay(scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
     this.items[10] = new Elevator(scene, 7696, 456, 1 ,7600, 338, 70);
+    this.items[11] = new OrangeRay(scene, [orangeRays[6],orangeRays[7]] ,6864,208);
   }
 
   update(time, delta){

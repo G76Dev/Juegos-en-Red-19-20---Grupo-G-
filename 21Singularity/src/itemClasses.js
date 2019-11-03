@@ -198,7 +198,7 @@ export default class ItemBar{
     this.item_bar.originY = 1;
     this.item_bar.setDepth(90).setScrollFactor(0);
     //sprite barra de energia
-    this.bar = scene.add.image(positionX + 60,540/2,'bar');
+    this.bar = scene.add.image(positionX + 45,540/2,'bar');
     this.bar.originY = 1;
     this.bar.setDepth(99).setTint(0xFF5923).setScrollFactor(0);
 

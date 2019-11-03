@@ -23,6 +23,7 @@ var blades = [];
 var buttonSprites = [];
 var buttonBoolsP1 = [];
 var buttonBoolsP2 = [];
+var presses = [];
 
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
@@ -62,7 +63,7 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('deathLegs', "assets/Sprites/Androids/piernas.png");
 
     //cambiar por imagenes de la barra de objetos
-    this.load.image('item_bar', 'assets/Test/item_bar.png');
+    this.load.image('item_bar', 'assets/Interfaz/InGame/item_bar.png');
     this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
     this.load.image('item2', 'assets/Test/selector.png');
     this.load.image('item3', 'assets/Sprites/pinchos/spike.png');
@@ -89,11 +90,14 @@ export default class Scene2 extends Phaser.Scene{
     this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
 
     this.load.spritesheet('life', 'assets/Sprites/life.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('conveyer1', 'assets/Sprites/Conveyers/conveyer_1.png', { frameWidth: 952, frameHeight: 20 });
     this.load.spritesheet('conveyer3', 'assets/Sprites/Conveyers/conveyer_3.png', { frameWidth: 408, frameHeight: 20 });
 
     this.load.image('elevator', 'assets/Sprites/elevator.png');
-    this.load.image('press', 'assets/Sprites/press.png');
     this.load.image('blue_fp', 'assets/Sprites/Falling_platforms/blue_fp.png');
+
+    this.load.image('pressI', 'assets/Sprites/human_press.png');
+    this.load.image('pressNI', 'assets/Sprites/ni_press.png');
 
   }
   //Función create, que crea los elementos del propio juego
@@ -137,42 +141,41 @@ export default class Scene2 extends Phaser.Scene{
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 1200, 300, cursors);
+    this.android1 = new Android(this, 6000, 300, cursors);
     cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
     this.android2 = new Android(this, 300, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
-    const presses = [];
-    presses[0] = new Press(this,4464, 140, "press");
+    presses[0] = new Press(this,4464, 148, "pressNI");
     presses[0].startCycle(-1,0);
-    presses[1] = new Press(this,4534, 140, "press");
+    presses[1] = new Press(this,4534, 146, "pressNI");
     presses[1].startCycle(-1,1800);
-    presses[2] = new Press(this,4604, 140, "press");
+    presses[2] = new Press(this,4604, 146, "pressNI");
     presses[2].startCycle(-1,0);
-    presses[3] = new Press(this,4674, 140, "press");
+    presses[3] = new Press(this,4674, 146, "pressNI");
     presses[3].startCycle(-1,1800);
-    presses[4] = new Press(this,4864, 400, "press");
+    presses[4] = new Press(this,4864, 403, "pressNI");
     presses[4].startCycle(-1,0);
-    presses[5] = new Press(this,4934, 400, "press");
+    presses[5] = new Press(this,4934, 403, "pressNI");
     presses[5].startCycle(-1,1800);
-    presses[6] = new Press(this,5004, 400, "press");
+    presses[6] = new Press(this,5004, 403, "pressNI");
     presses[6].startCycle(-1,0);
-    presses[7] = new Press(this,5074, 400, "press");
+    presses[7] = new Press(this,5074, 403, "pressNI");
     presses[7].startCycle(-1,1800);
 
-    presses[8] = new Press(this,4464, 400, "press");
+    presses[8] = new Press(this,4464, 403, "pressI");
     presses[8].startCycle(1,0);
-    presses[9] = new Press(this,4564, 400, "press");
+    presses[9] = new Press(this,4564, 403, "pressI");
     presses[9].startCycle(1,0);
-    presses[10] = new Press(this,4664, 400, "press");
+    presses[10] = new Press(this,4664, 403, "pressI");
     presses[10].startCycle(1,0);
 
-    presses[11] = new Press(this,4864, 140, "press");
+    presses[11] = new Press(this,4864, 146, "pressI");
     presses[11].startCycle(1,0);
-    presses[12] = new Press(this,4964, 140, "press");
+    presses[12] = new Press(this,4964, 146, "pressI");
     presses[12].startCycle(1,0);
-    presses[13] = new Press(this,5064, 140, "press");
+    presses[13] = new Press(this,5064, 146, "pressI");
     presses[13].startCycle(1,0);
 
     this.matterCollision.addOnCollideStart({
@@ -327,7 +330,7 @@ export default class Scene2 extends Phaser.Scene{
     //INTERFAZ
     mouse = this.input.activePointer;
     //instancia de barra de objetos
-    usableItems = new ItemBar(this,875,100,170);
+    usableItems = new ItemBar(this,900,70,200);
 
     //players = new AndroidPlayers(this);
     //players.setGround(floor);
@@ -402,16 +405,24 @@ export default class Scene2 extends Phaser.Scene{
       repeat: -1
     });
     this.anims.create({
+      key: 'conveyer1S',
+      frames: this.anims.generateFrameNumbers('conveyer1', { start: 0, end: 3 }),
+      frameRate: 20,
+      repeat: -1
+    });
+    this.anims.create({
       key: 'conveyer3S',
       frames: this.anims.generateFrameNumbers('conveyer3', { start: 0, end: 3 }),
       frameRate: 20,
       repeat: -1
     });
 
-    const conveyer1 = new Conveyer(this, 4767, 575,"conveyer_3",2);
-    const conveyer2 = new Conveyer(this, 4767, 315,"conveyer_3",-2);
-    const conveyer3 = new Conveyer(this, 6800, 600,"conveyer_3",2);
+    const conveyer1 = new Conveyer(this, 4767, 310,"conveyer_1",928, 2);
+    const conveyer2 = new Conveyer(this, 4767, 566,"conveyer_1",928, -2);
+    const conveyer3 = new Conveyer(this, 6800, 600,"conveyer_3",400, 2);
 
+    conveyer1.sprite.anims.play('conveyer1S', true);
+    conveyer2.sprite.anims.play('conveyer1S', true);
     conveyer3.sprite.anims.play('conveyer3S', true);
     //Objetos animados
     for(var i = 0; i < orangeRays.length; i++) {
@@ -459,7 +470,9 @@ export default class Scene2 extends Phaser.Scene{
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
-
+    for(var i=0; i<presses.length; i++){
+      presses[i].update();
+    }
 
     p1Tracker.x = this.android1.sprite.x/9.1 + 40;
     p2Tracker.x = this.android2.sprite.x/9.1 + 40;

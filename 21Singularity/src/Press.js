@@ -1,12 +1,10 @@
 export default class Press {
   constructor(scene, posX, posY, sprt){
     this.sprite = scene.matter.add.sprite(posX, posY, sprt);
-    this.sprite.setScale(1).setStatic(true).setIgnoreGravity(true).setAngle(0);
+    this.sprite.setScale(1).setStatic(true).setIgnoreGravity(true).setDepth(-20);
     this.scene = scene;
     this.initialX = posX;
     this.initialY = posY;
-
-    this.scene.events.on("update", this.update, this);
   }
   update(){
     this.sprite.y  += this.staticVelY;
@@ -46,7 +44,7 @@ export default class Press {
 
           obj.setStaticVelY(20);
           scene.time.addEvent({
-            delay: 83,
+            delay: 80,
             callback: () => (stop(scene, obj))
           });
           function stop(scene, obj){
