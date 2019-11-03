@@ -7,7 +7,8 @@ var cam;
 var firstFollow;
 
 var usableItems;
-var interactableItems;
+var humanInteractableItems;
+var androidInteractableItems;
 //Vidas de los jugadores
 var vidas = 5;
 //mouse
@@ -24,9 +25,12 @@ var buttonSprites = [];
 var buttonBoolsP1 = [];
 var buttonBoolsP2 = [];
 
-import Android from "./android.js";
-import ItemBar from "./itemClasses.js";
-import AllInteractablesArray from "./interactableClass.js";
+import Android from "./Android.js";
+import ItemBar from "./ItemClasses.js";
+import Conveyer from "./Conveyer.js";
+import Press from "./Press.js";
+import HumanInteractablesArray from "./HumanInteractableClass.js";
+import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 
 export default class Scene2 extends Phaser.Scene{
   constructor(){
@@ -81,10 +85,10 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('orangeDoor', 'assets/Sprites/Doors/Door_orange.png');
 
     this.load.spritesheet('rBlade', 'assets/Sprites/Rotating_Blade/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
-  
+
     this.load.image('buttonUn', 'assets/Sprites/Buttons/button_unpressed.png');
     this.load.image('buttonPre', 'assets/Sprites/Buttons/button_pressed.png');
-  
+
   }
   //Función create, que crea los elementos del propio juego
   create ()
@@ -102,7 +106,8 @@ export default class Scene2 extends Phaser.Scene{
     const map = this.make.tilemap({ key: "map" });
     const tileset1 = map.addTilesetImage("Tileset Industrial x32", "tiles1");
 
-    const layerminus2 = map.createDynamicLayer("background_layer_-2depth", tileset1, 0, 0);
+    const layerminus2 = map.createStaticLayer("background_layer_-2depth", tileset1, 0, 0);
+    layerminus2.depth = -20;
 
     //Sierras giratorias
     blades[0] = this.matter.add.sprite(2080, 416, "rBlade", 0);
@@ -112,10 +117,10 @@ export default class Scene2 extends Phaser.Scene{
     blades[4] = this.matter.add.sprite(6656, 576, "rBlade", 0);
     blades[5] = this.matter.add.sprite(6944, 576, "rBlade", 0);
 
-    const layerminus1 = map.createDynamicLayer("deco_layer_-1depth", tileset1, 0, 0);
-    const baselayer = map.createDynamicLayer("base_layer_0depth", tileset1, 0, 0);
-    const lethallayer = map.createDynamicLayer("lethal_layer_0depth", tileset1, 0, 0);
-    const debuglayer = map.createDynamicLayer("debug_layer_0depth", tileset1, 0, 0);
+    const layerminus1 = map.createStaticLayer("deco_layer_-1depth", tileset1, 0, 0);
+    const baselayer = map.createStaticLayer("base_layer_0depth", tileset1, 0, 0);
+    const lethallayer = map.createStaticLayer("lethal_layer_0depth", tileset1, 0, 0);
+    const debuglayer = map.createStaticLayer("debug_layer_0depth", tileset1, 0, 0);
     //spikeslayer = map.createObjectLayer("offset_spikes_1_s", tileset1, 0, 0);
 
     baselayer.setCollisionByProperty({Collides: true});
@@ -133,6 +138,40 @@ export default class Scene2 extends Phaser.Scene{
     this.android2 = new Android(this, 300, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
+
+    const conveyer1 = new Conveyer(this, 4767, 575,2);
+    const conveyer2 = new Conveyer(this, 4767, 315,-2);
+    const presses = [];
+    presses[0] = new Press(this,4464, 140);
+    presses[0].startCycle(-1,0);
+    presses[1] = new Press(this,4524, 140);
+    presses[1].startCycle(-1,1300);
+    presses[2] = new Press(this,4584, 140);
+    presses[2].startCycle(-1,1);
+    presses[3] = new Press(this,4644, 140);
+    presses[3].startCycle(-1,1300);
+    presses[4] = new Press(this,4864, 400);
+    presses[4].startCycle(-1,0);
+    presses[5] = new Press(this,4924, 400);
+    presses[5].startCycle(-1,1300);
+    presses[6] = new Press(this,4984, 400);
+    presses[6].startCycle(-1,1);
+    presses[7] = new Press(this,5044, 400);
+    presses[7].startCycle(-1,1300);
+
+    presses[8] = new Press(this,4464, 400);
+    presses[8].startCycle(1,0);
+    presses[9] = new Press(this,4564, 400);
+    presses[9].startCycle(1,0);
+    presses[10] = new Press(this,4664, 400);
+    presses[10].startCycle(1,0);
+
+    presses[11] = new Press(this,4864, 140);
+    presses[11].startCycle(1,0);
+    presses[12] = new Press(this,4964, 140);
+    presses[12].startCycle(1,0);
+    presses[13] = new Press(this,5064, 140);
+    presses[13].startCycle(1,0);
 
     this.matterCollision.addOnCollideStart({
       objectA: this.android1.mainBody,
@@ -206,13 +245,15 @@ export default class Scene2 extends Phaser.Scene{
     blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0);
     blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0);
 
+    blueRays[6] = this.matter.add.sprite(3054, 144, "blueRay", 0);
+    blueRays[7] = this.matter.add.sprite(3086, 144, "blueRay", 0);
+
     //Colisiones entre androides y rayos.
     for(var i = 0; i < orangeRays.length; i++) {
       orangeRays[i].setRectangle(16,32);
       if(i >= 11)
         orangeRays[i].setAngle(90);
       orangeRays[i].setStatic(true).setSensor(true);
-
       this.matterCollision.addOnCollideStart({
         objectA: this.android1.mainBody,
         objectB: orangeRays[i],
@@ -251,7 +292,7 @@ export default class Scene2 extends Phaser.Scene{
     doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor", 0);
     doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor", 0);
     doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor", 0);
-    
+
     for(var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8,96);
       doors[i].setStatic(true);
@@ -275,72 +316,9 @@ export default class Scene2 extends Phaser.Scene{
         context: this.android2
       });
     }
-
-    //Botones
-    buttonSprites[0] = this.matter.add.sprite(1616, 176, "buttonUn", 0);
-    buttonSprites[1] = this.matter.add.sprite(2128, 144, "buttonUn", 0);
-    buttonSprites[2] = this.matter.add.sprite(4208, 304, "buttonUn", 0);
-    buttonSprites[3] = this.matter.add.sprite(4208, 560, "buttonUn", 0);
-    buttonSprites[4] = this.matter.add.sprite(6512, 464, "buttonUn", 0);
-    buttonSprites[5] = this.matter.add.sprite(7184, 464, "buttonUn", 0);
-    buttonSprites[6] = this.matter.add.sprite(7344, 560, "buttonUn", 0);
-    buttonSprites[7] = this.matter.add.sprite(7568, 336, "buttonUn", 0);
-
-    for (var i = 0; i < buttonSprites.length; i++) {
-      buttonSprites[i].setRectangle(16,32)
-      buttonSprites[i].setStatic(true).setSensor(true);
-      buttonBoolsP1[i] = false;
-      buttonBoolsP2[i] = false;
-    }
-
-    //Triggers entre androides y botones.
-    for(var i = 0; i < buttonSprites.length; i++) {
-      this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
-        objectB: buttonSprites[i],
-        callback: changeButtonBoolP1,
-        context: this.android1
-      });
-      this.matterCollision.addOnCollideEnd({
-        objectA: this.android1.mainBody,
-        objectB: buttonSprites[i],
-        callback: changeButtonBoolP1,
-        context: this.android1
-      });
-      this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
-        objectB: buttonSprites[i],
-        callback: changeButtonBoolP2,
-        context: this.android2
-      });
-      this.matterCollision.addOnCollideEnd({
-        objectA: this.android2.mainBody,
-        objectB: buttonSprites[i],
-        callback: changeButtonBoolP2,
-        context: this.android2
-      });
-    }
-
     //Función inflictDamage, que hiere a los androides.
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
 
-    //Función changeButtonBoolP1, que avisa de cuando están activos.
-    function changeButtonBoolP1({bodyA, bodyB, pair}){
-      for (var i = 0; i < buttonSprites.length; i++) {
-        if (bodyB.gameObject === buttonSprites[i]) {
-          buttonBoolsP1[i] == true ? buttonBoolsP1[i] = false : buttonBoolsP1[i] = true;
-        }
-      }
-    };
-
-    //Función changeButtonBoolP2, que avisa de cuando están activos.
-    function changeButtonBoolP2({bodyA, bodyB, pair}){
-      for (var i = 0; i < buttonSprites.length; i++) {
-        if (bodyB.gameObject === buttonSprites[i]) {
-          buttonBoolsP2[i] == true ? buttonBoolsP2[i] = false : buttonBoolsP2[i] = true;
-        }
-      }
-    };
 
     //INTERFAZ
     mouse = this.input.activePointer;
@@ -427,7 +405,8 @@ export default class Scene2 extends Phaser.Scene{
     }
 
     //interactuables
-    interactableItems = new AllInteractablesArray(this, 10);
+    humanInteractableItems = new HumanInteractablesArray(this, blueRays, blades, presses, doors);
+    androidInteractableItems = new AndroidInteractablesArray(this, orangeRays, doors);
 
     //CAMARA:
     cam = this.cameras.main;
@@ -457,7 +436,9 @@ export default class Scene2 extends Phaser.Scene{
     firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
     firstFollow.y = Math.max(Math.min((this.android1.sprite.y + this.android2.sprite.y)/2, 360),-500);
     usableItems.update(time, delta);
-    interactableItems.update(time, delta);
+    androidInteractableItems.update(time, delta);
+    humanInteractableItems.update(time, delta);
+
 
     p1Tracker.x = this.android1.sprite.x/9.1 + 40;
     p2Tracker.x = this.android2.sprite.x/9.1 + 40;

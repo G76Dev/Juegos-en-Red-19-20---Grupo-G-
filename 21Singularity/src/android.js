@@ -11,6 +11,7 @@ export default class Android {
 
     this.leftMultiply = 1;
     this.rightMultiply = 1;
+    this.velInfluence = 0;
 
     const { Body, Bodies } = Phaser.Physics.Matter.Matter; // Native Matter modules
     const { width: w, height: h } = this.sprite;
@@ -120,6 +121,7 @@ export default class Android {
           this.sprite.setVelocityX(-Android.moveVelocity * delta* this.leftMultiply);
         }
       }
+      this.sprite.x += this.velInfluence;
       this.playAnimation();
 
       if (this.cursors.up.isDown && !this.isTouching.ground && this.sprite.body.velocity.y < 0) {
