@@ -1,13 +1,18 @@
 "use strict";
+import SceneLoading from "./SceneLoading.js";
 import Scene1 from "./Scene1.js";
 import Scene2 from "./Scene2.js";
 import SceneOnlineMode from "./SceneOnlineMode.js";
+import SceneOptions from "./SceneOptions.js";
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
     //Dimensiones de la ventana de juego (ancho y alto)
     width: 960,
     height: 540,
+    audio: {
+      disableWebAudio: true
+    },
     //Físicas del juego
     physics: {
         default: 'matter',
@@ -17,7 +22,7 @@ var config = {
         }
     },
     //Escena principal
-    scene: [Scene1, Scene2, SceneOnlineMode],
+    scene: [SceneLoading, Scene1, Scene2, SceneOnlineMode, SceneOptions],
     plugins: {
     scene: [
       {
