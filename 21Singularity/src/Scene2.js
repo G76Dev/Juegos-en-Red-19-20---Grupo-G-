@@ -20,11 +20,9 @@ var blueRays = [];
 var orangeRays = [];
 var doors = [];
 var blades = [];
-var buttonSprites = [];
-var buttonBoolsP1 = [];
-var buttonBoolsP2 = [];
 var presses = [];
 var extraLifes = [];
+var monitors = [];
 
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
@@ -32,7 +30,7 @@ import Conveyer from "./Conveyer.js";
 import Press from "./Press.js";
 import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
-import Monitor from "./monitor.js";
+import Monitor from "./Monitor.js";
 
 export default class Scene2 extends Phaser.Scene{
   constructor(){
@@ -100,6 +98,8 @@ export default class Scene2 extends Phaser.Scene{
     this.load.image('pressI', 'assets/Sprites/human_press.png');
     this.load.image('pressNI', 'assets/Sprites/ni_press.png');
 
+    this.load.image('monitor', 'assets/Sprites/monitor.png');
+
   }
   //Función create, que crea los elementos del propio juego
   create ()
@@ -147,7 +147,6 @@ export default class Scene2 extends Phaser.Scene{
     this.android2 = new Android(this, 400, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
-    const monitorTest = new Monitor(this,300,300);
 
     presses[0] = new Press(this,4464, 148, "pressNI");
     presses[0].startCycle(-1,0);
@@ -200,6 +199,16 @@ export default class Scene2 extends Phaser.Scene{
     }
 
     //Elementos animados o interactuables
+    //Monitores
+    monitors[0] = new Monitor(this, 720, 552, "hola");
+    monitors[1] = new Monitor(this, 1232, 232, "hola2");
+    monitors[2] = new Monitor(this, 1936, 232, "hola3");
+    monitors[3] = new Monitor(this, 2000, 392, "hola4");
+    monitors[4] = new Monitor(this, 2096, 136, "hola5");
+    monitors[5] = new Monitor(this, 2448, 136, "hola6");
+    monitors[6] = new Monitor(this, 2704, 136, "hola7");
+    monitors[7] = new Monitor(this, 3952, 296, "hola8");
+
     //Rayos
     //Naranjas
     //Verticales

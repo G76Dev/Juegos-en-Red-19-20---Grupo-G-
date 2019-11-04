@@ -1,7 +1,7 @@
 export default class Press {
   constructor(scene, posX, posY, sprt){
-    this.sprite = scene.matter.add.sprite(posX, posY, sprt);
-    this.sprite.setScale(1).setStatic(true).setIgnoreGravity(true).setDepth(-20);
+    this.sprite = scene.matter.add.image(posX, posY, sprt);
+    this.sprite.setStatic(true).setIgnoreGravity(true).setDepth(-20);
     this.scene = scene;
     this.initialX = posX;
     this.initialY = posY;

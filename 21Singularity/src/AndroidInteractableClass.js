@@ -245,9 +245,9 @@ export default class AndroidInteractablesArray{
   constructor(scene, orangeRays, doors){
 
     this.items = [];
-    this.items[0] = new Elevator(scene, 2258, 424, 1 ,2125,144, 200);
+    this.items[0] = new Elevator(scene, 2258, 424, 1 ,2128,144, 200);
     this.items[1] = new OrangeRay(scene, [orangeRays[3],orangeRays[4],orangeRays[5]] ,1616,176);
-    this.items[2] = new Elevator(scene, 4078, 574, 1 ,4145, 560, 328);
+    this.items[2] = new Elevator(scene, 4078, 574, 1 ,4148, 560, 328);
     this.items[3] = new DoorTimer(scene, doors[1], 4240, 562, -100);
     this.items[4] = new DoorTimer(scene, doors[2], 4240, 306, -100);
     this.items[5] = new Door(scene, doors[3], 6512, 466, 100);

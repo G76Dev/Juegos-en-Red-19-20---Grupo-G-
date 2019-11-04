@@ -1,11 +1,11 @@
 export default class Monitor {
-    constructor(scene, posX, posY){
-      this.sprite = scene.matter.add.sprite(posX, posY, 'blueButton', 0);
+    constructor(scene, posX, posY, txt){
+      this.sprite = scene.matter.add.image(posX, posY, 'monitor', 0);
       this.sprite.setStatic(true).setSensor(true);
-      this.container = scene.matter.add.sprite(posX, posY, 'generic', 0);
-      this.container.setStatic(true).setSensor(true).setVisible(false);
+      this.container = scene.add.image(posX, posY, 'generic');
+      this.container.setVisible(false);
       const containerTopLeft = this.container.getTopLeft();
-      this.message = scene.add.text(containerTopLeft.x, containerTopLeft.y, 'Hello World', { fontSize: '32px', fill: '#000' });
+      this.message = scene.add.text(containerTopLeft.x, containerTopLeft.y, txt, { fontSize: '32px', fill: '#000' });
       this.message.setVisible(false);
       scene.matterCollision.addOnCollideActive({
         objectA: scene.android1.mainBody,
