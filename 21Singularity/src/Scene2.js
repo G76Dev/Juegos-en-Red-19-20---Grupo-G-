@@ -32,6 +32,7 @@ import Conveyer from "./Conveyer.js";
 import Press from "./Press.js";
 import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
+import Monitor from "./monitor.js";
 
 export default class Scene2 extends Phaser.Scene{
   constructor(){
@@ -141,11 +142,12 @@ export default class Scene2 extends Phaser.Scene{
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 6464, 500, cursors);
+    this.android1 = new Android(this, 300, 300, cursors);
     cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    this.android2 = new Android(this, 6464, 400, cursors);
+    this.android2 = new Android(this, 400, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
+    const monitorTest = new Monitor(this,300,300);
 
     presses[0] = new Press(this,4464, 148, "pressNI");
     presses[0].startCycle(-1,0);
