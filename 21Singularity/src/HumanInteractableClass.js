@@ -193,25 +193,24 @@ export default class HumanInteractablesArray{
     //this.items[1] = new GravityPlatform(scene, 1250, 476);
     this.items[1] = new InteractiveBlade(scene, blades[2], 3902, 576, 3950, 560, -300);
     //this.items[0] = new GravityPlatform2(scene, 762, 476);
-    this.items[2] = new Door(scene, doors[0], 2830, 464, -100);
+    //this.items[2] = new Door(scene, doors[0], 2830, 464, -100);
 
-    this.items[3] = new Press(scene, presses[8]);
-    this.items[4] = new Press(scene, presses[9]);
-    this.items[5] = new Press(scene, presses[10]);
-    this.items[6] = new Press(scene, presses[11]);
-    this.items[7] = new Press(scene, presses[12]);
-    this.items[8] = new Press(scene, presses[13]);
+    this.items[2] = new Press(scene, presses[8]);
+    this.items[3] = new Press(scene, presses[9]);
+    this.items[4] = new Press(scene, presses[10]);
+    this.items[5] = new Press(scene, presses[11]);
+    this.items[6] = new Press(scene, presses[12]);
+    this.items[7] = new Press(scene, presses[13]);
 
-    this.items[9] = new BlueRayDouble(scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
+    this.items[8] = new BlueRayDouble(scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
 
-    this.items[10] = new GravityPlatform2(scene, 6972, 286);
-    this.items[11] = new GravityPlatform2(scene, 6480, 296);
-    this.items[12] = new GravityPlatform2(scene, 6800, 530);
+    this.items[9] = new GravityPlatform2(scene, 6972, 286);
+    this.items[10] = new GravityPlatform2(scene, 6480, 296);
+    this.items[11] = new GravityPlatform2(scene, 6800, 530);
   }
 
   update(time, delta){
     this.items[1].update(time, delta);
-    this.items[2].update(time, delta);
   }
 }
 

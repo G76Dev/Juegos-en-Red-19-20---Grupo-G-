@@ -24,6 +24,7 @@ var buttonSprites = [];
 var buttonBoolsP1 = [];
 var buttonBoolsP2 = [];
 var presses = [];
+var extraLifes = [];
 
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
@@ -81,7 +82,6 @@ export default class Scene2 extends Phaser.Scene{
     this.load.spritesheet('blueRay', 'assets/Sprites/Rays/Blue_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('orangeRay', 'assets/Sprites/Rays/Orange_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
 
-    this.load.image('blueDoor', 'assets/Sprites/Doors/Door_blue.png');
     this.load.image('orangeDoor', 'assets/Sprites/Doors/Door_orange.png');
 
     this.load.spritesheet('rBlade', 'assets/Sprites/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
@@ -141,9 +141,9 @@ export default class Scene2 extends Phaser.Scene{
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S } );
-    this.android1 = new Android(this, 6000, 300, cursors);
+    this.android1 = new Android(this, 6464, 500, cursors);
     cursors = this.input.keyboard.addKeys( { 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K } );
-    this.android2 = new Android(this, 300, 300, cursors);
+    this.android2 = new Android(this, 6464, 400, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
@@ -294,7 +294,7 @@ export default class Scene2 extends Phaser.Scene{
     }
 
     //Puertas
-    doors[0] = this.matter.add.sprite(2800, 432, "blueDoor", 0);
+    doors[0] = this.matter.add.sprite(2800, 432, "orangeDoor", 0);
     doors[1] = this.matter.add.sprite(4272, 272, "orangeDoor", 0);
     doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor", 0);
     doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor", 0);
@@ -323,6 +323,38 @@ export default class Scene2 extends Phaser.Scene{
         context: this.android2
       });
     }
+
+    this.lifesText = this.add.text(0, 24, 'Lifes: 7', { fontSize: '32px', fill: '#000' });
+    this.lifesText.setScrollFactor(0);
+
+    //Vidas Extras
+    extraLifes[0] = this.matter.add.sprite(2640, 406, "life", 0);
+    extraLifes[1] = this.matter.add.sprite(3664, 272, "life", 0);
+    extraLifes[2] = this.matter.add.sprite(6560, 582, "life", 0);
+
+    for(var i = 0; i < extraLifes.length; i++) {
+      extraLifes[i].setStatic(true).setSensor(true);
+
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android1.mainBody,
+        objectB: extraLifes[i],
+        callback: addLife,
+        context: this
+      });
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android2.mainBody,
+        objectB: extraLifes[i],
+        callback: addLife,
+        context: this
+      });
+    }
+
+    function addLife({gameObjectB}) {
+      Android.lives ++;
+      this.lifesText.setText("Lives: " + Android.lives);
+      gameObjectB.destroy();
+    }
+
     //Función inflictDamage, que hiere a los androides.
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
 
@@ -401,7 +433,7 @@ export default class Scene2 extends Phaser.Scene{
     this.anims.create({
       key: 'lifeS',
       frames: this.anims.generateFrameNumbers('life', { start: 0, end: 3 }),
-      frameRate: 10,
+      frameRate: 4,
       repeat: -1
     });
     this.anims.create({
@@ -421,9 +453,6 @@ export default class Scene2 extends Phaser.Scene{
     const conveyer2 = new Conveyer(this, 4767, 566,"conveyer_1",928, -2);
     const conveyer3 = new Conveyer(this, 6800, 600,"conveyer_3",400, 2);
 
-    conveyer1.sprite.anims.play('conveyer1S', true);
-    conveyer2.sprite.anims.play('conveyer1S', true);
-    conveyer3.sprite.anims.play('conveyer3S', true);
     //Objetos animados
     for(var i = 0; i < orangeRays.length; i++) {
       orangeRays[i].anims.play('orangeRayS', true);
@@ -434,6 +463,14 @@ export default class Scene2 extends Phaser.Scene{
     }
     for(var i = 0; i < blades.length; i++) {
       blades[i].anims.play('rotatingBlade', true);
+    }
+
+    conveyer1.sprite.anims.play('conveyer1S', true);
+    conveyer2.sprite.anims.play('conveyer1S', true);
+    conveyer3.sprite.anims.play('conveyer3S', true);
+
+    for(var i = 0; i < extraLifes.length; i++) {
+      extraLifes[i].anims.play('lifeS', true);
     }
 
     //interactuables

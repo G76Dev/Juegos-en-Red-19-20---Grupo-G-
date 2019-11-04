@@ -257,6 +257,7 @@ export default class AndroidInteractablesArray{
     this.items[9] = new OrangeRay(scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
     this.items[10] = new Elevator(scene, 7696, 456, 1 ,7600, 338, 70);
     this.items[11] = new OrangeRay(scene, [orangeRays[6],orangeRays[7]] ,6864,208);
+    this.items[12] = new Door(scene, doors[0], 2830, 464, -100);
   }
 
   update(time, delta){
@@ -268,6 +269,7 @@ export default class AndroidInteractablesArray{
     this.items[6].update(time, delta);
     this.items[7].update(time, delta);
     this.items[10].update(time, delta);
+    this.items[12].update(time, delta);
     //this.items[1].update(time, delta);564 - 326 = 238
   }
 }

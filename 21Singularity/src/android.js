@@ -1,5 +1,5 @@
 export default class Android {
-  static lives = 8981;
+  static lives = 7;
   static respawnTime = 1500;
   static jumpVelocity = 5.05;
   static moveVelocity = 0.215;
@@ -217,6 +217,7 @@ export default class Android {
         if(Android.lives > 0 && this.alive){
           this.alive = false;
           Android.lives--;
+          this.scene.lifesText.setText("Lives: " + Android.lives);
           this.scene.time.addEvent({
             delay: Android.respawnTime,
             callback: () => (this.respawn())
