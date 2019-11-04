@@ -39,6 +39,9 @@ export default class Scene2 extends Phaser.Scene{
   //Función preload, que carga elementos antes de iniciar el juego
   preload ()
   {
+    const music = this.sound.add('menuMusic');
+    music.play();
+    music.stop();
     //imagenes fondo TILED
     this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
     this.load.tilemapTiledJSON("map", "../assets/Mapas/Industrial_Easy.json");
