@@ -1,15 +1,15 @@
 //Variables del menú
 var backButton;
 var fade;
-var audioManager;
+var hoverSound;
+var selectedSound;
 import Button from "./button.js";
-import AudioManager from "./audioManager.js";
 import Fade from "./fade.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
   if ((scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) || fade.isChangingScene) {
     if (!backButton.isActive)
-      audioManager.PlayMenuHover();
+        hoverSound.play();
     backButton.isActive = true;
   }
   else
@@ -24,8 +24,6 @@ export default class Scene1 extends Phaser.Scene{
   //Función preload, que carga elementos antes de iniciar el juego
   preload ()
   {
-    audioManager = new AudioManager(this);
-    audioManager.preload();
   	//Cargamos el fondo y la pantalla negra que servirá como transición
     this.load.image('interfazBg', 'assets/Interfaz/BG.png');
   	this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
@@ -42,6 +40,9 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
+    //Añadimos los sonidos a la escena
+    hoverSound = this.sound.add('menuHover');
+    selectedSound = this.sound.add('menuSelected');
     //Añadimos el background
     this.add.image(960/2, 540/2, 'interfazBg');
     //Añadimos el texto de la pantalla del modo online provisional (hasta fase 3-4).
@@ -52,7 +53,7 @@ export default class Scene1 extends Phaser.Scene{
   	backButton = new Button(this, 960/2, 405, 'light', function() {
   			fade.isChangingScene = true;
         fade.nextScene = "menu";
-        audioManager.PlayMenuSelected();
+        selectedSound.play();
   		});
   	//Hacemos la luz invisible
   	backButton.alpha = 0;

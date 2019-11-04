@@ -1,4 +1,5 @@
 "use strict";
+import SceneLoading from "./SceneLoading.js";
 import Scene1 from "./Scene1.js";
 import Scene2 from "./Scene2.js";
 import SceneOnlineMode from "./SceneOnlineMode.js";
@@ -12,7 +13,6 @@ var config = {
     audio: {
       disableWebAudio: true
     },
-    pixelArt: true,
     //Físicas del juego
     physics: {
         default: 'matter',
@@ -22,7 +22,7 @@ var config = {
         }
     },
     //Escena principal
-    scene: [Scene1, Scene2, SceneOnlineMode, SceneOptions],
+    scene: [SceneLoading, Scene1, Scene2, SceneOnlineMode, SceneOptions],
     plugins: {
     scene: [
       {
