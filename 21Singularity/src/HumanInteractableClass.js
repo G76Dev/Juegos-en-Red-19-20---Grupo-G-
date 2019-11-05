@@ -92,17 +92,6 @@ class GravityPlatform extends HumanInteractableClass{
   }
 }
 
-class Tesla extends HumanInteractableClass{
-  constructor(scene, tesla){
-    super(scene, true, tesla, 0, 0, "", 1, false);
-  }
-  update(){}
-  objectActivate(){
-    if(this.mainObject.isReady)
-    this.mainObject.startCycle(false,1000,1000);
-  }
-}
-
 class BlueRay extends HumanInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
     super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
@@ -232,6 +221,30 @@ class InteractiveBlade extends HumanInteractableClass{
   }
 }
 
+class ElectricSurface extends HumanInteractableClass{
+  constructor(scene, elSurf){
+    super(scene, true, elSurf, 0, 0, "", 1, false);
+  }
+  update(){}
+  objectActivate(){
+    this.scene.time.addEvent({
+      delay: 500,
+      callback: () => (this.mainObject.turnOn())
+    });
+  }
+}
+
+class TeslaInteractable extends HumanInteractableClass{
+  constructor(scene, tesla){
+    super(scene, true, tesla, 0, 0, "", 1, false);
+  }
+  update(){}
+  objectActivate(){
+    if(this.mainObject.isReady)
+    this.mainObject.startCycle(false,1000,1000);
+  }
+}
+
 export default class HumanInteractablesArray{
   constructor(scene){
     this.items = [];
@@ -255,10 +268,11 @@ export default class HumanInteractablesArray{
     this.items[10] = new GravityPlatform(this.scene, 6480, 296);
     this.items[11] = new GravityPlatform(this.scene, 6800, 530);
   }
-  initializeScene3(teslas){
+  initializeScene3(teslas, eSurfaces){
     this.items = [];
     this.items[0] = new FirePlatform(this.scene, 6688, 434);
-    this.items[1] = new Tesla(this.scene, teslas[0]);
+    this.items[1] = new TeslaInteractable(this.scene, teslas[0]);
+    this.items[2] = new ElectricSurface(this.scene, eSurfaces[0]);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){

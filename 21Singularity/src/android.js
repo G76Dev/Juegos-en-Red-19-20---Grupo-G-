@@ -221,9 +221,9 @@ export default class Android {
   damaged(deathVector, deathSpread) {
     if (!this.invulnerable) {
       this.sprite.visible = false;
-      this.sprite.setActive(false);
       this.sprite.setVelocityX(0);
       this.deathSpawn(deathVector, deathSpread);
+      this.sprite.y = 900;
       if (this.otherAndroid.alive) {
         if (Android.lives > 0 && this.alive) {
           this.alive = false;

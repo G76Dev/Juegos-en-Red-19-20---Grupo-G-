@@ -41,6 +41,7 @@ export default class Scene3 extends Phaser.Scene {
   const extraLifes = [];
   const firePlatforms = [];
   const teslas = [];
+  const eSurfaces = [];
 
     //backgrounds
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
@@ -117,6 +118,9 @@ export default class Scene3 extends Phaser.Scene {
 
     //Teslas
     teslas[0] = new Tesla(this, 500, 100);
+
+    eSurfaces[0] = new ElectricSurface(this, 900, 500, false);
+    eSurfaces[1] = new ElectricSurface(this, 600, 500, false);
 
     //const eS = new ElectricSurface(this, 1000, 500);
 
@@ -202,9 +206,9 @@ export default class Scene3 extends Phaser.Scene {
 
     //interactuables
     humanInteractableItems = new HumanInteractablesArray(this);
-    humanInteractableItems.initializeScene3(teslas);
+    humanInteractableItems.initializeScene3(teslas, eSurfaces);
     androidInteractableItems = new AndroidInteractablesArray(this);
-    androidInteractableItems.initializeScene3();
+    androidInteractableItems.initializeScene3(eSurfaces);
 
     //CAMARA:
     cam = this.cameras.main;

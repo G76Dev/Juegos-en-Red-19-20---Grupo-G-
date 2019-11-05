@@ -263,6 +263,21 @@ class FirePlatform extends AndroidInteractableClass{
   update(){}
 }
 
+class ElectricSurface extends AndroidInteractableClass{
+  constructor(scene, elSurf, xAct, yAct){
+    super(scene, true, elSurf, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
+  }
+  update(){}
+  objectActivate(){
+    super.objectActivate();
+    if(!this.isActive){
+      this.mainObject.turnOff();
+    }else{
+      this.mainObject.turnOn();
+    }
+  }
+}
+
 export default class AndroidInteractablesArray{
   constructor(scene){
     this.items = [];
@@ -285,7 +300,7 @@ export default class AndroidInteractablesArray{
     this.items[11] = new OrangeRay(this.scene, [orangeRays[6],orangeRays[7]] ,6864,208);
     this.items[12] = new Door(this.scene, doors[0], 2830, 464, -100);
   }
-  initializeScene3(){
+  initializeScene3(eSurfaces){
     this.items = [];
     this.items[0] = new Elevator(this.scene, 1776, 324, 1 ,1714,308, 518);
     this.items[1] = new Elevator(this.scene, 2896, 518, 1 ,2832,368, 260);
@@ -297,6 +312,7 @@ export default class AndroidInteractablesArray{
     this.items[6] = new FirePlatform(this.scene, 3968, 176);
     this.items[7] = new FirePlatform(this.scene, 4160, 176);
     this.items[8] = new FirePlatform(this.scene, 4352, 176);
+    this.items[9] = new ElectricSurface(this.scene, eSurfaces[1],400,430);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){
