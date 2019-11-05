@@ -53,7 +53,7 @@ class draggableBomb extends draggableObject{
         bombInstance = super.dropItemInGame("item.setCircle(11)");
         bombInstance.setOrigin(0.5, 0.61);
         var mouseVel = this.scene.input.activePointer.velocity;
-        bombInstance.setVelocity(mouseVel.x/10,mouseVel.y/10);
+        bombInstance.setVelocity(mouseVel.x/12,mouseVel.y/12);
         bombInstance.setAngularVelocity(mouseVel.x/200);
         bombInstance.anims.play('eBomb', true);
         this.scene.time.addEvent({
@@ -95,7 +95,7 @@ class draggableSpike extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         var harmlessSpike = super.dropItemInGame("item.setRectangle(30,20)");
         var mouseVel = this.scene.input.activePointer.velocity;
-        harmlessSpike.setOrigin(0.5,0.65).setFixedRotation().setVelocity(mouseVel.x/20,mouseVel.y/20);
+        harmlessSpike.setOrigin(0.5,0.65).setFixedRotation().setVelocity(mouseVel.x/30,mouseVel.y/30);
         const unsubscribe = this.scene.matterCollision.addOnCollideStart({
           objectA: harmlessSpike,
           callback: eventData => {

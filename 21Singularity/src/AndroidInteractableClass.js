@@ -130,18 +130,18 @@ class Door extends AndroidInteractableClass{
 class DoorTimer extends AndroidInteractableClass{
   constructor(scene, door, xAct, yAct, distance){
     super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
-    this.mainObject.setDepth(-1);
+    this.mainObject.setDepth(-11);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
     this.objectiveY = this.startPosY;
-    this.increaseY = 0.075;
+    this.increaseY = 0.1;
   }
   objectActivate(){
     super.objectActivate();
     if(this.objectiveY = this.startPosY){
       this.objectiveY = this.endPosY;
       this.scene.time.addEvent({
-        delay: 2000,
+        delay: 1800,
         callback: () => (reset(this)),
       });
       function reset(obj){obj.objectiveY = obj.startPosY;}

@@ -82,7 +82,7 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 7300, 300, cursors);
+    this.android1 = new Android(this, '1', 4000, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
     this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
@@ -134,7 +134,7 @@ export default class Scene2 extends Phaser.Scene {
       if (!gameObjectB || !(gameObjectB instanceof Phaser.Tilemaps.Tile)) return;
       const tile = gameObjectB;
       if (tile.properties.lethal) {
-        this.damaged(new Phaser.Math.Vector2(0, -(this.sprite.y - gameObjectB.y)), 60);
+        this.damaged(new Phaser.Math.Vector2(this.sprite.x - gameObjectB.x, -(this.sprite.y - gameObjectB.y)), 60);
       }
     }
 
@@ -279,7 +279,7 @@ export default class Scene2 extends Phaser.Scene {
     this.lifesText.setScrollFactor(0);
 
     //Vidas Extras
-    extraLifes[0] = this.matter.add.sprite(2640, 406, "life", 0);
+    extraLifes[0] = this.matter.add.sprite(2640, 412, "life", 0);
     extraLifes[1] = this.matter.add.sprite(3664, 272, "life", 0);
     extraLifes[2] = this.matter.add.sprite(6560, 582, "life", 0);
 
@@ -318,9 +318,9 @@ export default class Scene2 extends Phaser.Scene {
     //players = new AndroidPlayers(this);
     //players.setGround(floor);
 
-    conveyers[0] = new Conveyer(this, 4767, 310, "conveyer_1", 928, 2);
-    conveyers[1] = new Conveyer(this, 4767, 566, "conveyer_1", 928, -2);
-    conveyers[2] = new Conveyer(this, 6800, 600, "conveyer_3", 400, 2);
+    conveyers[0] = new Conveyer(this, 4767, 310, "conveyer_1",'conveyer1S', 928, 2);
+    conveyers[1] = new Conveyer(this, 4767, 566, "conveyer_1",'conveyer1S', 928, -2);
+    conveyers[2] = new Conveyer(this, 6800, 600, "conveyer_3",'conveyer3S', 400, 2);
 
     //Objetos animados
     for (var i = 0; i < orangeRays.length; i++) {
@@ -332,9 +332,6 @@ export default class Scene2 extends Phaser.Scene {
     }
     for (var i = 0; i < blades.length; i++) {
       blades[i].anims.play('rotatingBlade', true);
-    }
-    for (var i = 0; i < conveyers.length; i++) {
-      (i == 2) ? conveyers[i].anims.play('conveyer3S', true) : conveyers[i].anims.play('conveyer1S', true);
     }
 
     for (var i = 0; i < extraLifes.length; i++) {

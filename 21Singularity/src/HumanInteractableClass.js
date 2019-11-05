@@ -1,6 +1,7 @@
 class HumanInteractableClass{
   constructor(scene, existingObj, mainObject, xObb, yObj, sprObj, sclObj, includeActivator = false, xAct = 0, yAct = 0, sprAct = "", sclAct = 0, follow = false, followXoffset = 0, followYoffset = 0){
     this.scene = scene;
+    this.canActivate = true;
     if(!existingObj){
       this.mainObject = scene.matter.add.sprite(xObb, yObj, sprObj, 0);
       this.mainObject.setScale(sclObj);
@@ -26,12 +27,17 @@ class HumanInteractableClass{
     }
   }
   onClick(pointer, localX, localY, event){
-    this.isActive = !this.isActive;
-    (this.isActive)? console.log("activated object") : console.log("desactivated object");
-    this.objectActivate();
+    if(this.canActivate){
+      this.isActive = !this.isActive;
+      (this.isActive)? console.log("activated object") : console.log("desactivated object");
+      this.objectActivate();
+    }
   }
-  objectActivate(){
+  objectActivate(delay = false){
     (this.isActive) ? this.activator.setFrame(1) : this.activator.setFrame(0);
+    if(delay){
+      this.canActivate = false;
+    }
   }
   update(){
     if(this.follow){
@@ -109,9 +115,22 @@ class BlueRay extends HumanInteractableClass{
     }
   }
   objectActivate(){
-    super.objectActivate();
-    for(var i=0; i<this.mainObject.length; i++){
-      this.mainObject[i].y = this.ActiveYPos[i];
+    super.objectActivate(true);
+    this.scene.time.addEvent({
+      delay: 750,
+      callback: () => (change(this))
+    });
+    function change(obj) {
+      if(obj.isActive){
+        for(var i=0; i<obj.mainObject.length; i++){
+          obj.mainObject[i].y = obj.ActiveYPos[i];
+        }
+      }else{
+        for(var i=0; i<obj.mainObject.length; i++){
+          obj.mainObject[i].y = -999;
+        }
+      }
+      obj.canActivate = true;
     }
   }
 }
@@ -127,18 +146,28 @@ class BlueRayDouble extends HumanInteractableClass{
     }
   }
   objectActivate(){
-    super.objectActivate();
+    super.objectActivate(true);
     this.scene.time.addEvent({
       delay: 750,
       callback: () => (change(this))
     });
     function change(obj) {
-      for(var i=0; i<3; i++){
-        obj.mainObject[i].y = obj.ActiveYPos[i];
+      if(obj.isActive){
+        for(var i=0; i<3; i++){
+          obj.mainObject[i].y = obj.ActiveYPos[i];
+        }
+        for(var i=3; i<6; i++){
+          obj.mainObject[i].y = -999;
+        }
+      }else{
+        for(var i=0; i<3; i++){
+          obj.mainObject[i].y = -999;
+        }
+        for(var i=3; i<6; i++){
+          obj.mainObject[i].y = obj.ActiveYPos[i];
+        }
       }
-      for(var i=3; i<6; i++){
-        obj.mainObject[i].y = -999;
-      }
+      obj.canActivate = true;
     }
   }
 }

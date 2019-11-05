@@ -37,9 +37,9 @@ export default class Scene2 extends Phaser.Scene {
   create() {
     //backgrounds
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
-    this.add.image(1300, 400, 'bg1_e').setScale(4).setScrollFactor(0.25).setDepth(-502);
-    this.add.image(1100, 430, 'bg2_e').setScale(4).setScrollFactor(0.5).setDepth(-501);
-    this.add.image(1200, 460, 'bg3_e').setScale(4).setScrollFactor(0.75).setDepth(-500);
+    this.add.image(1300, 290, 'bg1_e').setScale(2).setScrollFactor(0.25).setDepth(-502);
+    this.add.image(1100, 320, 'bg2_e').setScale(2).setScrollFactor(0.5).setDepth(-501);
+    this.add.image(1200, 400, 'bg3_e').setScale(2).setScrollFactor(0.75).setDepth(-500);
 
     //inicializacion y creacion de mapa de tiles
     const map2 = this.make.tilemap({ key: "map2" });
@@ -50,7 +50,7 @@ export default class Scene2 extends Phaser.Scene {
 
     //Sierras giratorias
     //blades[0] = this.matter.add.sprite(2080, 416, "rBlade", 0);
-    
+
     const layerminus1 = map2.createStaticLayer("deco_layer_-1depth", tileset2, 0, 0);
     layerminus1.depth = -10;
     const baselayer = map2.createStaticLayer("base_layer_0depth", tileset2, 0, 0);

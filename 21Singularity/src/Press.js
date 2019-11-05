@@ -11,10 +11,9 @@ export default class Press {
   }
   setStaticVelY(v){this.staticVelY = v}
   startCycle(n, del=0){
+    this.sprite.setSensor(false)
     this.isReady = false;
       this.setStaticVelY(0);
-      this.sprite.x = this.initialX;
-      this.sprite.y = this.initialY;
       this.scene.time.addEvent({
         delay: del,
         callback: () => (delayedStart(this.scene, this))
@@ -24,7 +23,7 @@ export default class Press {
       if(n < 0 ||n > 0){
       obj.isReady = false;
         scene.time.addEvent({
-          delay: 2000,
+          delay: 1000,
           callback: () => (initiateDescend(scene, obj))
         });
         function initiateDescend(scene, obj){
@@ -59,8 +58,18 @@ export default class Press {
               obj.setStaticVelY(-2.5);
               scene.time.addEvent({
                 delay: 700,
-                callback: () => (obj.startCycle(n-1, 0))
+                callback: () => (stop2(scene, obj))
               });
+              function stop2(){
+                obj.sprite.setSensor(true)
+                obj.setStaticVelY(0);
+                obj.sprite.x = obj.initialX;
+                obj.sprite.y = obj.initialY;
+                scene.time.addEvent({
+                  delay: 2000,
+                  callback: () => (obj.startCycle(n-1, 0))
+                });
+              }
             }
           }
         }

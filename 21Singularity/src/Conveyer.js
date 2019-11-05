@@ -1,8 +1,9 @@
 export default class Conveyer {
-  constructor(scene, posX, posY, sprt, colSizeX, accelerator){
+  constructor(scene, posX, posY, sprt, anim, colSizeX, accelerator){
     this.sprite = scene.matter.add.sprite(posX, posY, sprt, 0);
     this.sprite.setRectangle(colSizeX, 20).setStatic(true);
     (accelerator > 0) ? this.sprite.setFlipX(false) : this.sprite.setFlipX(true);
+    this.sprite.anims.play(anim,true);
     scene.matterCollision.addOnCollideStart({
       objectA: scene.android1.mainBody,
       objectB: this.sprite,
