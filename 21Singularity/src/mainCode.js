@@ -2,6 +2,7 @@
 import SceneLoading from "./SceneLoading.js";
 import Scene1 from "./Scene1.js";
 import Scene2 from "./Scene2.js";
+import Scene3 from "./Scene3.js";
 import SceneOnlineMode from "./SceneOnlineMode.js";
 import SceneOptions from "./SceneOptions.js";
 //Configuración de Phaser 3
@@ -22,7 +23,7 @@ var config = {
         }
     },
     //Escena principal
-    scene: [SceneLoading, Scene1, Scene2, SceneOnlineMode, SceneOptions],
+    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions],
     plugins: {
     scene: [
       {
