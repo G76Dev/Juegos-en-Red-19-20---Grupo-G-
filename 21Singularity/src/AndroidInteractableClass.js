@@ -190,6 +190,7 @@ class OrangeRay extends AndroidInteractableClass{
   constructor(scene, mainObj, xAct, yAct){
     super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
   }
+  update(){}
   objectActivate(){
     super.objectActivate();
     for(var i=0; i<this.mainObject.length; i++){
@@ -207,6 +208,7 @@ class OrangeRayRestore extends AndroidInteractableClass{
       this.initialY[i] = this.mainObject[i].y;
     }
   }
+  update(){}
   objectActivate(){
     super.objectActivate();
     if(this.isReady){
@@ -229,48 +231,77 @@ class OrangeRayRestore extends AndroidInteractableClass{
     }
   }
 }
-/*
-class GravityPlatform2 extends AndroidInteractableClass{
+
+class FirePlatform extends AndroidInteractableClass{
   constructor(scene, xObb, yObj){
-    super(scene, xObb, yObj, "bar", 0.4, false);
-    this.mainObject.setStatic(true).setAngle(90);
+    super(scene, false, null, xObb, yObj, "fire_fp", 1, false);
+    this.mainObject.setRectangle(64, 21).setStatic(true);
+    this.mainObject.setOrigin(0.5, 0.3);
+    this.mainObject.anims.play('fire_fpS',true);
+
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.android1.mainBody,
+      objectB: this.mainObject,
+      callback: objectActivate,
+      context: this
+    });
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.android2.mainBody,
+      objectB: this.mainObject,
+      callback: objectActivate,
+      context: this
+    });
+
+    function objectActivate(){
+      this.scene.time.addEvent({
+        delay: 250,
+        callback: () => (this.mainObject.setStatic(false))
+      });
+    }
+
   }
-  objectActivate(){
-    super.objectActivate();
-    this.mainObject.setStatic(false);
-  }
-}*/
+  update(){}
+}
 
 export default class AndroidInteractablesArray{
-  constructor(scene, orangeRays, doors){
-
+  constructor(scene){
     this.items = [];
-    this.items[0] = new Elevator(scene, 2258, 424, 1 ,2128,144, 200);
-    this.items[1] = new OrangeRay(scene, [orangeRays[3],orangeRays[4],orangeRays[5]] ,1616,176);
-    this.items[2] = new Elevator(scene, 4078, 574, 1 ,4148, 560, 328);
-    this.items[3] = new DoorTimer(scene, doors[1], 4240, 562, -100);
-    this.items[4] = new DoorTimer(scene, doors[2], 4240, 306, -100);
-    this.items[5] = new Door(scene, doors[3], 6512, 466, 100);
-    this.items[6] = new Door(scene, doors[4], 7182, 466, 100);
-    this.items[7] = new Elevator(scene, 7280, 613, 1 ,7342, 560, 356);
-    this.items[8] = new OrangeRayRestore(scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
-    this.items[9] = new OrangeRay(scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
-    this.items[10] = new Elevator(scene, 7696, 456, 1 ,7600, 338, 70);
-    this.items[11] = new OrangeRay(scene, [orangeRays[6],orangeRays[7]] ,6864,208);
-    this.items[12] = new Door(scene, doors[0], 2830, 464, -100);
+    this.scene = scene;
   }
 
+  initializeScene2(orangeRays, doors){
+    this.items = [];
+    this.items[0] = new Elevator(this.scene, 2258, 424, 1 ,2128,144, 200);
+    this.items[1] = new OrangeRay(this.scene, [orangeRays[3],orangeRays[4],orangeRays[5]] ,1616,176);
+    this.items[2] = new Elevator(this.scene, 4078, 574, 1 ,4148, 560, 328);
+    this.items[3] = new DoorTimer(this.scene, doors[1], 4240, 562, -100);
+    this.items[4] = new DoorTimer(this.scene, doors[2], 4240, 306, -100);
+    this.items[5] = new Door(this.scene, doors[3], 6512, 466, 100);
+    this.items[6] = new Door(this.scene, doors[4], 7182, 466, 100);
+    this.items[7] = new Elevator(this.scene, 7280, 613, 1 ,7342, 560, 356);
+    this.items[8] = new OrangeRayRestore(this.scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
+    this.items[9] = new OrangeRay(this.scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
+    this.items[10] = new Elevator(this.scene, 7696, 456, 1 ,7600, 338, 70);
+    this.items[11] = new OrangeRay(this.scene, [orangeRays[6],orangeRays[7]] ,6864,208);
+    this.items[12] = new Door(this.scene, doors[0], 2830, 464, -100);
+  }
+  initializeScene3(){
+    this.items = [];
+    this.items[0] = new Elevator(this.scene, 1776, 324, 1 ,1714,308, 518);
+    this.items[1] = new Elevator(this.scene, 2896, 518, 1 ,2832,368, 260);
+    this.items[2] = new Elevator(this.scene, 3024, 112, 1 ,2960,518, 134);
+    this.items[3] = new Elevator(this.scene, 5586, 518, 1 ,5520,498, 390);
+
+    this.items[4] = new FirePlatform(this.scene, 1472, 300);
+    this.items[5] = new FirePlatform(this.scene, 3776, 176);
+    this.items[6] = new FirePlatform(this.scene, 3968, 176);
+    this.items[7] = new FirePlatform(this.scene, 4160, 176);
+    this.items[8] = new FirePlatform(this.scene, 4352, 176);
+  }
   update(time, delta){
-    this.items[0].update(time, delta);
-    this.items[2].update(time, delta);
-    this.items[3].update(time, delta);
-    this.items[4].update(time, delta);
-    this.items[5].update(time, delta);
-    this.items[6].update(time, delta);
-    this.items[7].update(time, delta);
-    this.items[10].update(time, delta);
-    this.items[12].update(time, delta);
-    //this.items[1].update(time, delta);564 - 326 = 238
+    for(var i=0; i<this.items.length; i++){
+      this.items[i].update(time, delta);
+    }
   }
 }
 

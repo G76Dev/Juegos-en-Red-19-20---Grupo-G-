@@ -79,29 +79,27 @@ class Door extends HumanInteractableClass{
 
 class GravityPlatform extends HumanInteractableClass{
   constructor(scene, xObb, yObj){
-    super(scene, false, null, xObb, yObj, "bar", 0.4, true, 0, 0, "item2", 0.2, true, 0 ,0.5);
-    this.mainObject.setStatic(true).setAngle(90);
-  }
-  objectActivate(){
-    super.objectActivate();
-    this.mainObject.setStatic(false);
-  }
-  update(){
-    super.update();
-  }
-}
-
-class GravityPlatform2 extends HumanInteractableClass{
-  constructor(scene, xObb, yObj){
     super(scene, false, null, xObb, yObj, "blue_fp", 1, false);
     this.mainObject.setStatic(true).setSensor(false);
   }
+  update(){}
   objectActivate(){
     this.mainObject.setStatic(false);
     this.scene.time.addEvent({
       delay: 250,
       callback: () => (this.mainObject.setSensor(true))
     });
+  }
+}
+
+class Tesla extends HumanInteractableClass{
+  constructor(scene, tesla){
+    super(scene, true, tesla, 0, 0, "", 1, false);
+  }
+  update(){}
+  objectActivate(){
+    if(this.mainObject.isReady)
+    this.mainObject.startCycle(false,1000,1000);
   }
 }
 
@@ -114,6 +112,7 @@ class BlueRay extends HumanInteractableClass{
       this.mainObject[i].y = -999;
     }
   }
+  update(){}
   objectActivate(){
     super.objectActivate(true);
     this.scene.time.addEvent({
@@ -145,6 +144,7 @@ class BlueRayDouble extends HumanInteractableClass{
       this.mainObject[i].y = -999;
     }
   }
+  update(){}
   objectActivate(){
     super.objectActivate(true);
     this.scene.time.addEvent({
@@ -176,9 +176,26 @@ class Press extends HumanInteractableClass{
   constructor(scene, press){
     super(scene, true, press, 0, 0, "", 1, false);
   }
+  update(){}
   objectActivate(){
     if(this.mainObject.isReady)
     this.mainObject.startCycle(1,0);
+  }
+}
+
+class FirePlatform extends HumanInteractableClass{
+  constructor(scene, xObb, yObj){
+    super(scene, false, null, xObb, yObj, "fire_fp", 1, false);
+    this.mainObject.setRectangle(64, 21).setStatic(true);
+    this.mainObject.setOrigin(0.5, 0.3);
+    this.mainObject.anims.play('fire_fpS',true);
+  }
+  update(){}
+  objectActivate(){
+    this.scene.time.addEvent({
+      delay: 250,
+      callback: () => (this.mainObject.setStatic(false))
+    });
   }
 }
 
@@ -216,30 +233,37 @@ class InteractiveBlade extends HumanInteractableClass{
 }
 
 export default class HumanInteractablesArray{
-  constructor(scene, blueRays, blades,presses, doors){
+  constructor(scene){
     this.items = [];
-    this.items[0] = new BlueRay(scene,[blueRays[6], blueRays[7]], 3118, 113);
-    //this.items[1] = new GravityPlatform(scene, 1250, 476);
-    this.items[1] = new InteractiveBlade(scene, blades[2], 3902, 576, 3950, 560, -300);
-    //this.items[0] = new GravityPlatform2(scene, 762, 476);
-    //this.items[2] = new Door(scene, doors[0], 2830, 464, -100);
-
-    this.items[2] = new Press(scene, presses[8]);
-    this.items[3] = new Press(scene, presses[9]);
-    this.items[4] = new Press(scene, presses[10]);
-    this.items[5] = new Press(scene, presses[11]);
-    this.items[6] = new Press(scene, presses[12]);
-    this.items[7] = new Press(scene, presses[13]);
-
-    this.items[8] = new BlueRayDouble(scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
-
-    this.items[9] = new GravityPlatform2(scene, 6972, 286);
-    this.items[10] = new GravityPlatform2(scene, 6480, 296);
-    this.items[11] = new GravityPlatform2(scene, 6800, 530);
+    this.scene = scene;
   }
 
+  initializeScene2(blueRays, blades,presses, doors){
+    this.items = [];
+    this.items[0] = new BlueRay(this.scene,[blueRays[6], blueRays[7]], 3118, 113);
+    this.items[1] = new InteractiveBlade(this.scene, blades[2], 3902, 576, 3950, 560, -300);
+    this.items[2] = new Press(this.scene, presses[8]);
+    this.items[3] = new Press(this.scene, presses[9]);
+    this.items[4] = new Press(this.scene, presses[10]);
+    this.items[5] = new Press(this.scene, presses[11]);
+    this.items[6] = new Press(this.scene, presses[12]);
+    this.items[7] = new Press(this.scene, presses[13]);
+
+    this.items[8] = new BlueRayDouble(this.scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
+
+    this.items[9] = new GravityPlatform(this.scene, 6972, 286);
+    this.items[10] = new GravityPlatform(this.scene, 6480, 296);
+    this.items[11] = new GravityPlatform(this.scene, 6800, 530);
+  }
+  initializeScene3(teslas){
+    this.items = [];
+    this.items[0] = new FirePlatform(this.scene, 6688, 434);
+    this.items[1] = new Tesla(this.scene, teslas[0]);
+  }
   update(time, delta){
-    this.items[1].update(time, delta);
+    for(var i=0; i<this.items.length; i++){
+      this.items[i].update(time, delta);
+    }
   }
 }
 

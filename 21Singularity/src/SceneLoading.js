@@ -103,7 +103,8 @@ export default class SceneLoading extends Phaser.Scene {
 
         this.load.image('elevator', 'assets/Sprites/elevator.png');
         this.load.image('blue_fp', 'assets/Sprites/Falling_platforms/blue_fp.png');
-
+        this.load.spritesheet('fire_fp', 'assets/Sprites/Falling_platforms/fire_fp.png', { frameWidth: 64, frameHeight: 32 });
+        this.load.spritesheet('moving_platform', 'assets/Sprites/Falling_platforms/moving_platform.png', { frameWidth: 96, frameHeight: 16 });
         this.load.image('pressI', 'assets/Sprites/human_press.png');
         this.load.image('pressNI', 'assets/Sprites/ni_press.png');
 
@@ -338,6 +339,19 @@ export default class SceneLoading extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         });
+        this.anims.create({
+            key: 'fire_fpS',
+            frames: this.anims.generateFrameNumbers('fire_fp', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'moving_platformS',
+            frames: this.anims.generateFrameNumbers('moving_platform', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        
 
         this.sound.pauseOnBlur = false;
         this.input.on('pointerdown', function () {

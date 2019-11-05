@@ -15,15 +15,17 @@ var mouse;
 var p1Tracker;
 var p2Tracker;
 
-var doors = [];
-var extraLifes = [];
+var movingP;
 
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
 import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
+import MovingPlatform from "./MovingPlatform.js";
+import Tesla from "./Tesla.js";
+import ElectricSurface from "./ElectricSurface.js";
 
-export default class Scene2 extends Phaser.Scene {
+export default class Scene3 extends Phaser.Scene {
   constructor() {
     super("level2");
   }
@@ -35,6 +37,11 @@ export default class Scene2 extends Phaser.Scene {
   }
   //Función create, que crea los elementos del propio juego
   create() {
+  const doors = [];
+  const extraLifes = [];
+  const firePlatforms = [];
+  const teslas = [];
+
     //backgrounds
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
     this.add.image(1300, 290, 'bg1_e').setScale(2).setScrollFactor(0.25).setDepth(-502);
@@ -57,8 +64,10 @@ export default class Scene2 extends Phaser.Scene {
     baselayer.depth = -5;
     const lethallayer = map2.createStaticLayer("lethal_layer_0depth", tileset2, 0, 0);
     lethallayer.depth = -5;
-    const offsetlethallayer = map2.createStaticLayer("offset_lethal_layer", tileset2, 0, 0);
-    offsetlethallayer.depth = -5;
+    const debuglayer = map2.createStaticLayer("debug_layer_0depth", tileset2, 0, 0);
+    debuglayer.depth = -5;
+    /*const offsetlethallayer = map2.createStaticLayer("offset_lethal_layer", tileset2, 0, 0);
+    offsetlethallayer.depth = -5;*/
 
     layerminus1.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(layerminus1);
@@ -69,8 +78,11 @@ export default class Scene2 extends Phaser.Scene {
     lethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(lethallayer);
 
-    offsetlethallayer.setCollisionByProperty({ Collides: true });
-    this.matter.world.convertTilemapLayer(offsetlethallayer);
+    debuglayer.setCollisionByProperty({ Collides: true });
+    this.matter.world.convertTilemapLayer(debuglayer);
+
+    /*offsetlethallayer.setCollisionByProperty({ Collides: true });
+    this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
     this.android1 = new Android(this, '1', 300, 300, cursors);
@@ -99,6 +111,14 @@ export default class Scene2 extends Phaser.Scene {
     }
 
     //Elementos animados o interactuables
+
+    //Plataforma que se mueve
+    movingP = new MovingPlatform(this, 4992, 338, 5394, 'moving_platform', 'moving_platformS');
+
+    //Teslas
+    teslas[0] = new Tesla(this, 500, 100);
+
+    //const eS = new ElectricSurface(this, 1000, 500);
 
     //Puertas
     /*doors[0] = this.matter.add.sprite(2800, 432, "orangeDoor", 0);
@@ -181,8 +201,10 @@ export default class Scene2 extends Phaser.Scene {
     }*/
 
     //interactuables
-    /*humanInteractableItems = new HumanInteractablesArray(this, blueRays, blades, presses, doors);
-    androidInteractableItems = new AndroidInteractablesArray(this, orangeRays, doors);*/
+    humanInteractableItems = new HumanInteractablesArray(this);
+    humanInteractableItems.initializeScene3(teslas);
+    androidInteractableItems = new AndroidInteractablesArray(this);
+    androidInteractableItems.initializeScene3();
 
     //CAMARA:
     cam = this.cameras.main;
@@ -210,8 +232,9 @@ export default class Scene2 extends Phaser.Scene {
     firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
     firstFollow.y = Math.max(Math.min((this.android1.sprite.y + this.android2.sprite.y) / 2, 360), -500);
     usableItems.update(time, delta);
-    //androidInteractableItems.update(time, delta);
-    //humanInteractableItems.update(time, delta);
+    androidInteractableItems.update(time, delta);
+    humanInteractableItems.update(time, delta);
+    movingP.update(time,delta);
 
     p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
     p2Tracker.x = this.android2.sprite.x / 9.1 + 40;

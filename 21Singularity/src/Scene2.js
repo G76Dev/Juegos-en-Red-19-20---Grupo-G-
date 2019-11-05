@@ -82,7 +82,7 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 4000, 300, cursors);
+    this.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
     this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
@@ -260,6 +260,7 @@ export default class Scene2 extends Phaser.Scene {
     for (var i = 0; i < blades.length; i++) {
       blades[i].setCircle(28)
       blades[i].setStatic(true).setSensor(true);
+      blades[i].setDepth(-15);
 
       this.matterCollision.addOnCollideStart({
         objectA: this.android1.mainBody,
@@ -339,8 +340,10 @@ export default class Scene2 extends Phaser.Scene {
     }
 
     //interactuables
-    humanInteractableItems = new HumanInteractablesArray(this, blueRays, blades, presses, doors);
-    androidInteractableItems = new AndroidInteractablesArray(this, orangeRays, doors);
+    humanInteractableItems = new HumanInteractablesArray(this);
+    humanInteractableItems.initializeScene2( blueRays, blades, presses, doors);
+    androidInteractableItems = new AndroidInteractablesArray(this);
+    androidInteractableItems.initializeScene2( orangeRays, doors);
 
     //CAMARA:
     cam = this.cameras.main;
