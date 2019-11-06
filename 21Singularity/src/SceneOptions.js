@@ -7,7 +7,7 @@ import Button from "./button.js";
 import Fade from "./fade.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
-  if ((scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) || fade.isChangingScene) {
+  if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
       hoverSound.play();
     backButton.isActive = true;
@@ -20,22 +20,7 @@ export default class Scene1 extends Phaser.Scene{
   constructor(){
     super("options");
   }
-  //Función preload, que carga elementos antes de iniciar el juego
-  preload ()
-  {
-  	//Cargamos el fondo y la pantalla negra que servirá como transición
-    this.load.image('interfazBg', 'assets/Interfaz/BG.png');
-  	this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
-    
-    //Cargamos la imagen correspondiente a las opciones de música y sonido
-    this.load.image('options', 'assets/Interfaz/Options.png');
-    
-  	//Cargamos el texto 'back'
-  	this.load.image('text_back', 'assets/Interfaz/Text_Back.png');
-
-  	//Cargamos el sprite de la luz
-  	this.load.image('light', 'assets/Interfaz/Light.png');
-  }
+  
   //Función create, que crea los elementos del propio juego
   create ()
   {
@@ -69,7 +54,8 @@ export default class Scene1 extends Phaser.Scene{
   //Función update, que se ejecuta en cada frame
   update (time, delta)
   {
-    CheckOption(this);
+    if (!fade.isChangingScene)
+      CheckOption(this);
   	backButton.Update(time, delta);
   	fade.Update(time, delta);
   }

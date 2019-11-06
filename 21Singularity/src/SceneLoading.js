@@ -8,13 +8,19 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('interfazBg', 'assets/Interfaz/BG.png');
         this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
         this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
-        this.load.image('text_click', 'assets/Interfaz/ClickToStart.png')
+        this.load.image('text_click', 'assets/Interfaz/ClickToStart.png');
+
+        this.load.image('menuTutorial', 'assets/Interfaz/TutorialScreen.png');
+        this.load.image('text_onlineMode', 'assets/Interfaz/Text_OnlineMode.png');
+        this.load.image('options', 'assets/Interfaz/Options.png');
 
         //Cargamos los textos del menú
         this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
         this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
         this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
         this.load.image('text_credits', 'assets/Interfaz/Text_Credits.png');
+        this.load.image('text_tutorial', 'assets/Interfaz/Text_Tutorial.png');
+        this.load.image('text_back', 'assets/Interfaz/Text_Back.png');
 
         //Cargamos el sprite de la luz
         this.load.image('light', 'assets/Interfaz/Light.png');
@@ -23,6 +29,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.audio('menuHover', 'assets/Audio/Sounds/Menu/MenuHover.wav');
         this.load.audio('menuSelected', 'assets/Audio/Sounds/Menu/MenuSelected.wav');
         this.load.audio('menuMusic', 'assets/Audio/Music/MenuMusic.wav');
+        this.load.audio('theme', 'assets/Audio/Music/Theme.wav');
 
         //imagenes fondo TILED
         this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");

@@ -36,9 +36,10 @@ export default class Scene2 extends Phaser.Scene {
   }
   //Función preload, que carga elementos antes de iniciar el juego
   preload() {
-    const music = this.sound.add('menuMusic');
-    music.play();
-    music.stop();
+    const menuMusic = this.sound.add('menuMusic');
+    menuMusic.play();
+    menuMusic.stop();
+    this.sound.play('theme', { loop: true });
   }
   //Función create, que crea los elementos del propio juego
   create() {

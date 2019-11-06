@@ -9,7 +9,7 @@ import Fade from "./fade.js";
 function CheckOption(scene) {
 
   for(var i = 0; i < buttonArray.length; i++) {
-    if (scene.input.mousePointer.y > 209 + 70 * i && scene.input.mousePointer.y < 279 + 70 * i){
+    if (scene.input.mousePointer.y > 179 + 70 * i && scene.input.mousePointer.y < 249 + 70 * i){
       if (!buttonArray[i].isActive)
         hoverSound.play();
       buttonArray[i].isActive = true;
@@ -38,32 +38,42 @@ export default class Scene1 extends Phaser.Scene{
   	fade = new Fade(this, 960/2, 540/2, 'interfazBs');
   	//Añadimos las luces que indicarán que botón del menú está activo
   	buttonArray = [
-  		new Button(this, 960/2, 244, 'light', function() {
+  		new Button(this, 960/2, 214, 'light', function() {
   			fade.isChangingScene = true;
         	fade.nextScene = "onlineMode";
 			selectedSound.play();
   		}),
-  		new Button(this, 960/2, 314, 'light', function() {
+  		new Button(this, 960/2, 284, 'light', function() {
   			fade.isChangingScene = true;
         	fade.nextScene = "level2";
 			selectedSound.play();
   		}),
-  		new Button(this, 960/2, 384, 'light', function() {
+  		new Button(this, 960/2, 354, 'light', function() {
   			fade.isChangingScene = true;
         	fade.nextScene = "options";
 			selectedSound.play();
   		}),
-  		new Button(this, 960/2, 450, 'light', function() {},)
+  		new Button(this, 960/2, 420, 'light', function() {
+			//fade.isChangingScene = true;
+        	//fade.nextScene = "menuTutorial";
+			//selectedSound.play();
+		  },),
+		new Button(this, 960/2, 486, 'light', function() {
+			fade.isChangingScene = true;
+        	fade.nextScene = "menuTutorial";
+			selectedSound.play();
+		},)
   	];
   	//Hacemos a todas las luces invisibles en un primer momento.
   	for (var i = 0; i < buttonArray.length; i++) {
   		buttonArray[i].alpha = 0;
   	}
   	//Añadimos los textos de los botones.
-  	this.add.image(960/2, 244, 'text_online');
-  	this.add.image(960/2, 314, 'text_local');
-  	this.add.image(960/2, 384, 'text_options');
-  	this.add.image(960/2, 450, 'text_credits');
+  	this.add.image(960/2, 214, 'text_online');
+  	this.add.image(960/2, 284, 'text_local');
+  	this.add.image(960/2, 354, 'text_options');
+	this.add.image(960/2, 420, 'text_credits');
+	this.add.image(960/2, 486, 'text_tutorial');
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
   	//Indica qué función hay que ejecutar según la opción seleccionada en el menú
   	this.input.on('pointerdown', function () {
@@ -77,7 +87,8 @@ export default class Scene1 extends Phaser.Scene{
   //Función update, que se ejecuta en cada frame
   update (time, delta)
   {
-    CheckOption(this);
+	if (!fade.isChangingScene)
+    	CheckOption(this);
   	for (var i = 0; i < buttonArray.length; i++) {
   	  buttonArray[i].Update(time, delta);
   	}
