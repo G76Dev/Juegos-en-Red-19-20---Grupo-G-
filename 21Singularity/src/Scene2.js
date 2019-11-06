@@ -143,14 +143,14 @@ export default class Scene2 extends Phaser.Scene {
 
     //Elementos animados o interactuables
     //Monitores
-    monitors[0] = new Monitor(this, 720, 552, "hola");
-    monitors[1] = new Monitor(this, 1232, 232, "hola2");
-    monitors[2] = new Monitor(this, 1936, 232, "hola3");
-    monitors[3] = new Monitor(this, 2000, 392, "hola4");
-    monitors[4] = new Monitor(this, 2096, 136, "hola5");
-    monitors[5] = new Monitor(this, 2448, 136, "hola6");
-    monitors[6] = new Monitor(this, 2704, 136, "hola7");
-    monitors[7] = new Monitor(this, 3952, 296, "hola8");
+    monitors[0] = new Monitor(this, 720, 552, "Press w/up arrow to\njump!");
+    monitors[1] = new Monitor(this, 1232, 232, "Watch out for spikes\nand menacing objects!");
+    monitors[2] = new Monitor(this, 1936, 232, "Try pressing s/down\nkey while your partner\nis in mid air!");
+    monitors[3] = new Monitor(this, 2000, 392, "Pressing s/down key\nyou can also operate\nORANGE buttons\nand levers.");
+    monitors[4] = new Monitor(this, 2096, 136, "Coordinate with your\npartner to progress\nthrough the levels!");
+    monitors[5] = new Monitor(this, 2448, 136, "Orange floating\ncapsules give you\nextra lifes, but\nare difficult to get."); 
+    monitors[6] = new Monitor(this, 2704, 136, "The human can activate\nblue objects like\ndoors and rays.");
+    monitors[7] = new Monitor(this, 3952, 296, "Some objects can only be\nactivated for a short\ntime.");
 
     //Rayos
     //Naranjas
@@ -342,7 +342,7 @@ export default class Scene2 extends Phaser.Scene {
     }
 
     //interactuables
-    humanInteractableItems = new HumanInteractablesArray(this);
+    humanInteractableItems = new HumanInteractablesArray(this, usableItems);
     humanInteractableItems.initializeScene2( blueRays, blades, presses, doors);
     androidInteractableItems = new AndroidInteractablesArray(this);
     androidInteractableItems.initializeScene2( orangeRays, doors);
