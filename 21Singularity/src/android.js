@@ -1,5 +1,5 @@
 export default class Android {
-  static lives = 7;
+  static lives = 10;
   static respawnTime = 1500;
   static jumpVelocity = 5.05;
   static moveVelocity = 0.215;
@@ -211,8 +211,8 @@ export default class Android {
     this.otherAndroid = otherA;
   }
   coopJump() {
-    if (((this.otherAndroid.sprite.x > (this.sprite.x - 16)) && (this.otherAndroid.sprite.x < (this.sprite.x + 16))) &&
-      ((this.otherAndroid.sprite.y < this.sprite.y + 32) && (this.otherAndroid.sprite.y > (this.sprite.y - 32)))) {
+    if (((this.otherAndroid.sprite.x > (this.sprite.x - 32)) && (this.otherAndroid.sprite.x < (this.sprite.x + 32))) &&
+      ((this.otherAndroid.sprite.y < this.sprite.y + 48) && (this.otherAndroid.sprite.y > (this.sprite.y - 48)))) {
       if (this.canCoopImpulse && this.otherAndroid.canCoopImpulse) {
         this.otherAndroid.sprite.setVelocityY(-Android.jumpVelocity * 1.1);
         this.canCoopImpulse = false;

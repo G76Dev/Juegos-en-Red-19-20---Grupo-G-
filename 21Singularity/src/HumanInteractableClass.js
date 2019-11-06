@@ -28,11 +28,11 @@ class HumanInteractableClass{
     }
   }
   onClick(pointer, localX, localY, event){
-    if(this.canActivate && this.itemBar.energy > 20){
+    if(this.canActivate && this.itemBar.energy > 10){
       this.isActive = !this.isActive;
       (this.isActive)? console.log("activated object") : console.log("desactivated object");
       this.objectActivate();
-      this.itemBar.changeBar(this.itemBar.energy - 20);
+      this.itemBar.changeBar(this.itemBar.energy - 10);
     }
   }
   objectActivate(delay = false){
@@ -151,7 +151,7 @@ class Press extends HumanInteractableClass{
     if(this.mainObject.isReady)
       this.mainObject.startCycle(1,0);
     else
-      this.itemBar.changeBar(this.itemBar.energy + 20);
+      this.itemBar.changeBar(this.itemBar.energy + 10);
   }
 }
 
@@ -257,7 +257,7 @@ class TeslaInteractable extends HumanInteractableClass{
     if(this.mainObject.isReady)
       this.mainObject.startCycle(false,1000,1000);
     else
-      this.itemBar.changeBar(this.itemBar.energy + 20);
+      this.itemBar.changeBar(this.itemBar.energy + 10);
   }
 }
 

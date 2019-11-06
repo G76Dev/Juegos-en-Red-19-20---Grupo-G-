@@ -43,7 +43,7 @@ class draggableObject extends Phaser.GameObjects.Sprite{
 //LISTA DE ITEMS ARRASTRABLES (heredan de draggableObject):
 //objeto bomba
 class draggableBomb extends draggableObject{
-  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 3000) {
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 20, expireTime = 2000) {
       super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
@@ -92,14 +92,13 @@ class draggableBomb extends draggableObject{
 }
 
 class draggableSpike extends draggableObject{
-  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0, coste = 25, expireTime = 1500) { //duracion 9000
+  constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0, coste = 50, expireTime = 1500) { //duracion 9000
       super(scene, itemsBar, x, y, 'item3', 'spikeBox', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   dropItemInGame() {
     if(this.itemsBar.energy > this.cost){
         var harmlessSpike = super.dropItemInGame("item.setRectangle(30,20)");
-        var mouseVel = this.scene.input.activePointer.velocity;
-        harmlessSpike.setOrigin(0.5,0.65).setFixedRotation().setVelocity(mouseVel.x/30,mouseVel.y/30);
+        harmlessSpike.setOrigin(0.5,0.65).setFixedRotation();
         const unsubscribe = this.scene.matterCollision.addOnCollideStart({
           objectA: harmlessSpike,
           callback: eventData => {
@@ -145,7 +144,7 @@ class draggableSpike extends draggableObject{
 
 //objeto laser
 class draggableLaser extends draggableObject{
-  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 4000) {
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 90, expireTime = 4000) {
     super(scene, itemsBar, x, y, 'item1', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
@@ -234,7 +233,7 @@ export default class ItemBar{
 
   //funcion que restaura la cantidad de energia (ajustando la barra) cada update
   update(time, delta){
-    var increaseRate = 0.01 * delta;
+    var increaseRate = 0.005 * delta;
     if(this.bar.scaleY < 1){
       this.bar.scaleY += increaseRate/100;
       this.energy += increaseRate;

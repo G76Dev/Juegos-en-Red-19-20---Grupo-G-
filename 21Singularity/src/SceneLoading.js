@@ -324,7 +324,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.anims.create({
             key: 'eBomb',
             frames: this.anims.generateFrameNumbers('explodingBomb', { start: 0, end: 13 }),
-            frameRate: 5,
+            frameRate: 7,
             repeat: 0
         });
 
