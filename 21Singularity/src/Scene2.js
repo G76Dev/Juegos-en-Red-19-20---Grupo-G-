@@ -148,7 +148,7 @@ export default class Scene2 extends Phaser.Scene {
     monitors[2] = new Monitor(this, 1936, 232, "Try pressing s/down\nkey while your partner\nis in mid air!");
     monitors[3] = new Monitor(this, 2000, 392, "Pressing s/down key\nyou can also operate\nORANGE buttons\nand levers.");
     monitors[4] = new Monitor(this, 2096, 136, "Coordinate with your\npartner to progress\nthrough the levels!");
-    monitors[5] = new Monitor(this, 2448, 136, "Orange floating\ncapsules give you\nextra lifes, but\nare difficult to get."); 
+    monitors[5] = new Monitor(this, 2448, 136, "Orange floating\ncapsules give you\nextra lifes, but\nare difficult to get.");
     monitors[6] = new Monitor(this, 2704, 136, "The human can activate\nblue objects like\ndoors and rays.");
     monitors[7] = new Monitor(this, 3952, 296, "Some objects can only be\nactivated for a short\ntime.");
 
@@ -253,6 +253,7 @@ export default class Scene2 extends Phaser.Scene {
     doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor1", 0);
     doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor1", 0);
     doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor1", 0);
+    doors[5] = this.matter.add.sprite(8200, 400, "orangeDoor1", 0);
 
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);
@@ -378,7 +379,7 @@ export default class Scene2 extends Phaser.Scene {
     for (var i = 0; i < presses.length; i++) {
       presses[i].update();
     }
-    
+
     if(this.android1.arrived && this.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);

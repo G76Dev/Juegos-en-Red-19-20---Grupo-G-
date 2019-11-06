@@ -58,11 +58,18 @@ class GravityPlatform extends HumanInteractableClass{
   }
   update(){}
   objectActivate(){
-    this.mainObject.setStatic(false);
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (this.mainObject.setStatic(false))
+      callback: () => (fall(this.scene, this))
     });
+    function fall(scene, obj){
+      obj.mainObject.setStatic(false);
+      obj.mainObject.setFixedRotation();
+      scene.time.addEvent({
+        delay: 250,
+        callback: () => (obj.mainObject.setSensor(true))
+      });
+    }
   }
 }
 
@@ -162,8 +169,16 @@ class FirePlatform extends HumanInteractableClass{
   objectActivate(){
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (this.mainObject.setStatic(false), this.mainObject.setFixedRotation())
+      callback: () => (fall(this.scene, this))
     });
+    function fall(scene, obj){
+      obj.mainObject.setStatic(false);
+      obj.mainObject.setFixedRotation();
+      scene.time.addEvent({
+        delay: 250,
+        callback: () => (obj.mainObject.setSensor(true))
+      });
+    }
   }
 }
 
@@ -272,7 +287,7 @@ export default class HumanInteractablesArray{
   }
   initializeScene3(teslas, eSurfaces, bladesBig){
     this.items = [];
-    this.items[0] = new GravityPlatform(this.scene,this.itemBar, 2286, 155);
+    this.items[0] = new FirePlatform(this.scene,this.itemBar, 2286, 155);
     this.items[1] = new ElectricSurface(this.scene,this.itemBar, eSurfaces[1]);
     this.items[2] = new InteractiveBlade2(this.scene,this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
     this.items[3] = new TeslaInteractable(this.scene,this.itemBar, teslas[2]);
@@ -280,7 +295,7 @@ export default class HumanInteractablesArray{
     this.items[5] = new TeslaInteractable(this.scene,this.itemBar, teslas[4]);
     this.items[6] = new TeslaInteractable(this.scene,this.itemBar, teslas[5]);
     this.items[7] = new TeslaInteractable(this.scene,this.itemBar, teslas[6]);
-    this.items[8] = new GravityPlatform(this.scene,this.itemBar, 6688, 460);
+    this.items[8] = new FirePlatform(this.scene,this.itemBar, 6688, 460);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){

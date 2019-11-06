@@ -80,6 +80,9 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('deathBodyR2', "assets/Sprites/Androids/CuerpoDer2.png");
         this.load.image('deathLegs2', "assets/Sprites/Androids/piernas2.png");
 
+        this.load.image('farHead1', "assets/Sprites/Androids/angry_android1.png");
+        this.load.image('farHead2', "assets/Sprites/Androids/angry_android2.png");
+
         //cambiar por imagenes de la barra de objetos
         this.load.image('item_bar', 'assets/Interfaz/InGame/item_bar.png');
         this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');

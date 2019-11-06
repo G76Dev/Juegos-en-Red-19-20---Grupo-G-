@@ -17,14 +17,14 @@ export default class ElectricSurface {
       callback: inflictDamage,
       context: this.scene.android2
     });
-    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(0, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
 
     if(!active){
       this.turnOff(scene);
     }
   }
   turnOn(scene, posX, posY, sprtElec, animElec){
-    this.elecSprite.setVisible(true); 
+    this.elecSprite.setVisible(true);
     this.unsubscribe1 = this.scene.matterCollision.addOnCollideActive({
       objectA: this.scene.android1.mainBody,
       objectB: this.sprite,
@@ -37,7 +37,7 @@ export default class ElectricSurface {
       callback: inflictDamage,
       context: this.scene.android2
     });
-    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
+    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(0, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
   }
   turnOff(scene, posX, sprtElec){
     this.elecSprite.setVisible(false);

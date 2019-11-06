@@ -87,8 +87,7 @@ export default class Android {
     this.deathStuff[3] = 'deathFootR' + this.androidNumber; this.deathStuff[4] = 'deathFootL' + this.androidNumber; this.deathStuff[5] = 'deathBodyR' + this.androidNumber;
 
     //icono indicador
-    this.indicator = this.scene.add.image(-999, -999, "deathHead" + this.androidNumber);
-    this.indicator.setScale(3);
+    this.indicator = this.scene.add.image(-999, -999, "farHead" + this.androidNumber);
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
@@ -130,6 +129,7 @@ export default class Android {
           this.sprite.setVelocityX(-Android.moveVelocity * delta * this.leftMultiply);
         }
       }
+      //document.getElementById('info').innerHTML = this.sprite;
       this.sprite.x += this.velInfluence;
       this.playAnimation();
 
@@ -165,8 +165,8 @@ export default class Android {
       this.rightMultiply = 1;
 
       const cam = this.scene.cameras.main;
-      if (this.sprite.x < cam.scrollX) { this.indicator.x = 10 + cam.scrollX; this.indicator.y = this.sprite.y; }
-      else if (this.sprite.x > cam.scrollX + 960) { this.indicator.x = 950 + cam.scrollX; this.indicator.y = this.sprite.y; }
+      if (this.sprite.x < cam.scrollX) { this.indicator.x = 24 + cam.scrollX; this.indicator.y = this.sprite.y; }
+      else if (this.sprite.x > cam.scrollX + 960) { this.indicator.x = 936 + cam.scrollX; this.indicator.y = this.sprite.y; }
       else { this.indicator.x = -999; this.indicator.y = -999; }
     }
   }

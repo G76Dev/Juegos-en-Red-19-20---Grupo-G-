@@ -84,9 +84,9 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 500, 142, cursors);
+    this.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
-    this.android2 = new Android(this, '2', 6000, 55, cursors);
+    this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
@@ -166,6 +166,7 @@ export default class Scene3 extends Phaser.Scene {
     doors[2] = this.matter.add.sprite(2192, 342, "orangeDoor2", 0);
     doors[3] = this.matter.add.sprite(6832, 464, "orangeDoor2", 0);
     doors[4] = this.matter.add.sprite(16, 432, "orangeDoor2", 0);
+    doors[4] = this.matter.add.sprite(7200, 464, "orangeDoor2", 0);
 
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);
@@ -288,7 +289,7 @@ export default class Scene3 extends Phaser.Scene {
       cam.fadeOut(2000);
       this.time.addEvent({
         delay: 2000,
-        callback: () => (this.scene.start('menu'))
+        callback: () => (this.scene.start('level1'))
       });
     }
 
