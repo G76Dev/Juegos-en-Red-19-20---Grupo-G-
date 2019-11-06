@@ -281,6 +281,39 @@ class ElectricSurface extends AndroidInteractableClass{
   }
 }
 
+/*class FinishLine{
+  constructor(scene, xObb, yObj){
+    this.mainObject = scene.matter.add.sprite(xObb, yObj, 'finishLine', 0);
+    this,mainObject.setStatic(true).setSensor(true);
+
+    this.matterCollision.addOnCollideStart({
+        objectA: this.android1.mainBody,
+        objectB: this.mainObject,
+        callback: function() {this.arrived = true},
+        context: this.android1
+      });
+      this.matterCollision.addOnCollideStart({
+        objectA: this.android2.mainBody,
+        objectB: this.mainObject,
+        callback: function() {this.arrived = true},
+        context: this.android2
+      });
+
+      this.matterCollision.addOnCollideEnd({
+        objectA: this.android1.mainBody,
+        objectB: this.mainObject,
+        callback: function() {this.arrived = false},
+        context: this.android1
+      });
+      this.matterCollision.addOnCollideEnd({
+        objectA: this.android2.mainBody,
+        objectB: this.mainObject,
+        callback: function() {this.arrived = false},
+        context: this.android2
+      });
+  }
+}*/
+
 export default class AndroidInteractablesArray{
   constructor(scene){
     this.items = [];
@@ -299,9 +332,10 @@ export default class AndroidInteractablesArray{
     this.items[7] = new Elevator(this.scene, 7280, 613, "elevator1" ,7342, 560, "orangeButton", 356);
     this.items[8] = new OrangeRayRestore(this.scene, [orangeRays[28],orangeRays[29],orangeRays[30],orangeRays[31]] ,7488,336);
     this.items[9] = new OrangeRay(this.scene, [orangeRays[8],orangeRays[9],orangeRays[10]] ,7886,434);
-    this.items[10] = new Elevator(this.scene, 7696, 456, "elevator1" ,7600, 338, "orangeButton", 70);
+    this.items[10] = new Elevator(this.scene, 7696, 456, "elevator1" ,7600, 338, "orangeButton", 134);
     this.items[11] = new OrangeRay(this.scene, [orangeRays[6],orangeRays[7]] ,6864,208);
     this.items[12] = new Door(this.scene, doors[0], 2830, 464, "orangeButton", -100);
+    //this.items[13] = new FinishLine(this.scene, 7936, 400);
   }
   initializeScene3(eSurfaces, doors){
     this.items = [];

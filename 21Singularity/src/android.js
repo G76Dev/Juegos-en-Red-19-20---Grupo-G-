@@ -9,6 +9,7 @@ export default class Android {
     this.sprite = scene.matter.add.sprite(x, y, 'androidIdle' + androidNumber, 0);
     this.androidNumber = androidNumber;
     this.otherAndroid;
+    this.arrived = false;
 
     this.leftMultiply = 1;
     this.rightMultiply = 1;

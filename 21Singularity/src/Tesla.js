@@ -1,7 +1,10 @@
 export default class Tesla {
-  constructor(scene, posX, posY){
-    this.sprite = scene.matter.add.image(posX, posY, "generic");
-    this.sprite.setSensor(true).setStatic(true).setScale(0.25).setDepth(-4);;
+  constructor(scene, posX, posY, sprt, anim){
+    this.sprite = scene.matter.add.sprite(posX, posY, sprt,0);
+    this.sprite.setSensor(true).setStatic(true).setScale(1).setDepth(-4);
+    this.oPosX = posX;
+    this.oPosY = posY;
+    this.oSprt = sprt;
     this.isReady = true;
     this.scene = scene;
   }
@@ -13,7 +16,11 @@ export default class Tesla {
         callback: () => (delayedOn(this.scene, this))
       });
       function delayedOn(scene, obj){
-        obj.sprite.setTint(0xa1a1a1);
+        obj.sprite = scene.matter.add.sprite(obj.oPosX, obj.oPosY-16, obj.oSprt, 0);
+        obj.sprite.setStatic(true).setSensor(true);
+        obj.sprite.setActive(true);
+        //obj.sprite.anims.play('teslaHumanS', true);
+        //obj.sprite.setTint(0xa1a1a1);
         const unsubscribe1 = scene.matterCollision.addOnCollideActive({
           objectA: scene.android1.mainBody,
           objectB: obj.sprite,
@@ -33,7 +40,10 @@ export default class Tesla {
           callback: () => (off(scene, obj))
         });
           function off(scene, obj){
-            obj.sprite.setTint(0x000000);
+            //obj.sprite.setTint(0x000000);
+            obj.sprite = scene.matter.add.sprite(obj.oPosX, obj.oPosY, obj.oSprt, 0);
+            obj.sprite.setStatic(true).setSensor(true);
+            obj.sprite.setActive(false);
             unsubscribe1();
             unsubscribe2();
             scene.time.addEvent({

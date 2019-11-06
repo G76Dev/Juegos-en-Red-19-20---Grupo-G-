@@ -42,6 +42,8 @@ export default class Scene3 extends Phaser.Scene {
   const teslas = [];
   const eSurfaces = [];
 
+  const eSurfAnim = [];
+
     //backgrounds
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
     this.add.image(1300, 290, 'bg1_e').setScale(2).setScrollFactor(0.25).setDepth(-502);
@@ -85,9 +87,9 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 5950, 360, cursors);
+    this.android1 = new Android(this, '1', 6864, 142, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
-    this.android2 = new Android(this, '2', 400, 300, cursors);
+    this.android2 = new Android(this, '2', 3510, 142, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
@@ -111,9 +113,10 @@ export default class Scene3 extends Phaser.Scene {
     }
 
 
-    const bladesBig = this.matter.add.sprite(5712, 464, "rBlade", 0);
-    bladesBig.setCircle(28)
+    const bladesBig = this.matter.add.sprite(5712, 464, "rBigBlade", 0);
+    bladesBig.setCircle(30)
     bladesBig.setStatic(true).setSensor(true);
+    bladesBig.anims.play('rotatingBigBlade', true);
     this.matterCollision.addOnCollideStart({
       objectA: this.android1.mainBody,
       objectB: bladesBig,
@@ -126,7 +129,7 @@ export default class Scene3 extends Phaser.Scene {
       callback: inflictDamage,
       context: this.android2
     });
-    bladesBig.anims.play('rotatingBlade', true);
+
     //Elementos animados o interactuables
 
     //Plataforma que se mueve
@@ -135,19 +138,29 @@ export default class Scene3 extends Phaser.Scene {
     movingP[2] = new MovingPlatform(this, 5454, 526, 5248, 'moving_platform', 'moving_platformS');
 
     //Teslas
-    teslas[0] = new Tesla(this, 1936, 458);
-    teslas[1] = new Tesla(this, 3632, 314);
-    teslas[2] = new Tesla(this, 5392, 526);
+    //Automáticas
+    teslas[0] = new Tesla(this, 1936, 480, 'teslaAutoOFF', 'teslaAutoS');
+    teslas[1] = new Tesla(this, 3632, 320, 'teslaAutoOFF', 'teslaAutoS');
+    teslas[2] = new Tesla(this, 5392, 512, 'teslaAutoOFF', 'teslaAutoS');
 
-    teslas[3] = new Tesla(this, 4238, 142);
-    teslas[4] = new Tesla(this, 4976, 526);
-    teslas[5] = new Tesla(this, 5200, 526);
-    teslas[6] = new Tesla(this, 6864, 336);
+    //Activables por el humano
+    teslas[3] = new Tesla(this, 4240, 128, 'teslaHumanOFF', 'teslaHumanS');
+    teslas[4] = new Tesla(this, 4976, 512, 'teslaHumanOFF', 'teslaHumanS');
+    teslas[5] = new Tesla(this, 5200, 512, 'teslaHumanOFF', 'teslaHumanS');
+    teslas[6] = new Tesla(this, 6864, 352, 'teslaHumanOFF', 'teslaHumanS');
 
-    eSurfaces[0] = new ElectricSurface(this, 1294, 592,"generic", true);
-    eSurfaces[1] = new ElectricSurface(this, 2546, 546,"generic", false);
-    eSurfaces[2] = new ElectricSurface(this, 4064, 384,"generic", true);
-    //const eS = new ElectricSurface(this, 1000, 500);
+    eSurfaces[0] = new ElectricSurface(this, 1280, 576,"eSurf1", true, 'eSurf1_anim', 'eSurf1S');
+    eSurfaces[1] = new ElectricSurface(this, 2544, 544,"eSurf2", false, 'eSurf2_anim', 'eSurf2S');
+    eSurfaces[2] = new ElectricSurface(this, 4064, 384,"eSurf3", true, 'eSurf3_anim', 'eSurf3S');
+
+    /*eSurfAnim[0] = this.matter.add.sprite(1280, 576, 'eSurf1_anim', 0);
+    eSurfAnim[1] = this.matter.add.sprite(2544, 544, 'eSurf2_anim', 0);
+    eSurfAnim[2] = this.matter.add.sprite(4064, 384, 'eSurf3_anim', 0);
+
+    for (var i = 0; i < eSurfAnim.length; i++) {
+      eSurfAnim[i].setStatic(true);
+      eSurfAnim[i].anims.play('eSurf' + (i+1) + 'S', true);
+    }*/
 
     //Puertas
     doors[0] = this.matter.add.sprite(1830, 466, "orangeDoor2", 0);

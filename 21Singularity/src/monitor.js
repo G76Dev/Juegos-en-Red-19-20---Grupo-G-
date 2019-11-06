@@ -2,10 +2,10 @@ export default class Monitor {
     constructor(scene, posX, posY, txt){
       this.sprite = scene.matter.add.image(posX, posY, 'monitor', 0);
       this.sprite.setStatic(true).setSensor(true).setDepth(-1);
-      this.container = scene.add.image(posX, posY, 'generic');
+      this.container = scene.add.image(posX, posY, 'textbox');
       this.container.setVisible(false).setDepth(-1);
       const containerTopLeft = this.container.getTopLeft();
-      this.message = scene.add.text(containerTopLeft.x, containerTopLeft.y, txt, { fontSize: '32px', fill: '#000' });
+      this.message = scene.add.text(containerTopLeft.x + 8, containerTopLeft.y + 8, txt, { fontSize: '24px', fill: '#000' });
       this.message.setVisible(false).setDepth(-1);;
       scene.matterCollision.addOnCollideActive({
         objectA: scene.android1.mainBody,

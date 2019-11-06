@@ -101,6 +101,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('orangeDoor2', 'assets/Sprites/Doors/Door2_orange.png');
 
         this.load.spritesheet('rBlade', 'assets/Sprites/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('rBigBlade', 'assets/Sprites/BIG_rotating_blade.png', { frameWidth: 76, frameHeight: 76 });
 
         this.load.spritesheet('orangeButton', 'assets/Sprites/Buttons/orange_button.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
@@ -120,6 +121,21 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('pressNI', 'assets/Sprites/ni_press.png');
 
         this.load.image('monitor', 'assets/Sprites/monitor.png');
+
+        this.load.image('eSurf1', 'assets/Sprites/ElectricalSurfaces/eSurf1.png');
+        this.load.image('eSurf2', 'assets/Sprites/ElectricalSurfaces/eSurf2.png');
+        this.load.image('eSurf3', 'assets/Sprites/ElectricalSurfaces/eSurf3.png');
+        this.load.spritesheet('eSurf1_anim', 'assets/Sprites/ElectricalSurfaces/eSurf1_anim.png', { frameWidth: 448, frameHeight: 64 });
+        this.load.spritesheet('eSurf2_anim', 'assets/Sprites/ElectricalSurfaces/eSurf2_anim.png', { frameWidth: 96, frameHeight: 64 });
+        this.load.spritesheet('eSurf3_anim', 'assets/Sprites/ElectricalSurfaces/eSurf3_anim.png', { frameWidth: 768, frameHeight: 64 });
+
+        this.load.image('teslaAutoOFF', 'assets/Sprites/Teslas/Tesla_coil.png');
+        this.load.image('teslaHumanOFF', 'assets/Sprites/Teslas/Tesla_humancontrol_coil.png');
+        this.load.spritesheet('teslaAutoON', 'assets/Sprites/Teslas/Tesla_coil_on.png', { frameWidth: 96, frameHeight: 96 });
+        this.load.spritesheet('teslaHumanON', 'assets/Sprites/Teslas/Tesla_coil_humancontrol_on.png', { frameWidth: 96, frameHeight: 96 });
+        
+        this.load.image('textbox', 'assets/Sprites/textbox.png');
+        //this.load.image('finishLine', 'assets/Sprites/finishLine.png');
 
         let background = this.add.graphics({
             fillStyle: {
@@ -333,6 +349,12 @@ export default class SceneLoading extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
+            key: 'rotatingBigBlade',
+            frames: this.anims.generateFrameNumbers('rBigBlade', { start: 0, end: 4 }),
+            frameRate: 25,
+            repeat: -1
+        });
+        this.anims.create({
             key: 'lifeS',
             frames: this.anims.generateFrameNumbers('life', { start: 0, end: 3 }),
             frameRate: 4,
@@ -359,6 +381,38 @@ export default class SceneLoading extends Phaser.Scene {
         this.anims.create({
             key: 'moving_platformS',
             frames: this.anims.generateFrameNumbers('moving_platform', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'eSurf1S',
+            frames: this.anims.generateFrameNumbers('eSurf1_anim', { start: 0, end: 4 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'eSurf2S',
+            frames: this.anims.generateFrameNumbers('eSurf2_anim', { start: 0, end: 4 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'eSurf3S',
+            frames: this.anims.generateFrameNumbers('eSurf3_anim', { start: 0, end: 4 }),
+            frameRate: 20,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'teslaAutoS',
+            frames: this.anims.generateFrameNumbers('teslaAutoON', { start: 0, end: 8 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'teslaHumanS',
+            frames: this.anims.generateFrameNumbers('teslaHumanON', { start: 0, end: 8 }),
             frameRate: 20,
             repeat: -1
         });

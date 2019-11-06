@@ -51,34 +51,6 @@ class HumanInteractableClass{
   }
 }
 
-class Door extends HumanInteractableClass{
-  constructor(scene, itemBar, door, xAct, yAct, distance){
-    super(scene, itemBar, true, door, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1);
-    this.mainObject.setDepth(-1);
-    this.startPosY = this.mainObject.y;
-    this.endPosY = this.startPosY + distance;
-    this.objectiveY = this.startPosY;
-    this.increaseY = 0.075;
-  }
-  objectActivate(){
-    super.objectActivate();
-    if(!this.isActive){
-      this.objectiveY = this.startPosY;
-    }else{
-      this.objectiveY = this.endPosY;
-    }
-  }
-  update(time, delta){
-    super.update();
-    if(Math.abs(this.mainObject.y - this.objectiveY) > 1){
-      if(this.mainObject.y < this.objectiveY)
-        this.mainObject.y += this.increaseY * delta;
-      else if(this.mainObject.y > this.objectiveY)
-        this.mainObject.y -= this.increaseY * delta;
-    }
-  }
-}
-
 class GravityPlatform extends HumanInteractableClass{
   constructor(scene, itemBar, xObb, yObj){
     super(scene, itemBar, false, null, xObb, yObj, "blue_fp", 1, false);
@@ -230,7 +202,7 @@ class InteractiveBlade extends HumanInteractableClass{
 //
 class InteractiveBlade2 extends HumanInteractableClass{
   constructor(scene, itemBar, blade, xObb, yObj, xAct, yAct, distance){
-    super(scene, itemBar, true, blade, 0, 0, "", 1, true, xAct, yAct, "bluelever", 1, false);
+    super(scene, itemBar, true, blade, 0, 0, "", 1, true, xAct, yAct, "blueLever", 1, false);
 
     this.startPosX = xObb;
     this.endPosX = xObb + distance;
@@ -301,9 +273,12 @@ export default class HumanInteractablesArray{
   initializeScene3(teslas, eSurfaces, bladesBig){
     this.items = [];
     this.items[0] = new FirePlatform(this.scene,this.itemBar, 6688, 460);
-    this.items[1] = new TeslaInteractable(this.scene,this.itemBar, teslas[0]);
-    this.items[2] = new ElectricSurface(this.scene,this.itemBar, eSurfaces[1]);
-    this.items[1] = new InteractiveBlade2(this.scene,this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
+    this.items[1] = new ElectricSurface(this.scene,this.itemBar, eSurfaces[1]);
+    this.items[2] = new InteractiveBlade2(this.scene,this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
+    this.items[3] = new TeslaInteractable(this.scene,this.itemBar, teslas[3]);
+    this.items[4] = new TeslaInteractable(this.scene,this.itemBar, teslas[4]);
+    this.items[5] = new TeslaInteractable(this.scene,this.itemBar, teslas[5]);
+    this.items[6] = new TeslaInteractable(this.scene,this.itemBar, teslas[6]);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){
