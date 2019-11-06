@@ -60,11 +60,11 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.spritesheet('androidIdle2', 'assets/Sprites/Androids/female_android_idle.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidJumpUp2', 'assets/Sprites/Androids/female_android_jumping_up.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidJumpDown2', 'assets/Sprites/Androids/female_android_jumping_down.png', { frameWidth: 32, frameHeight: 64 });
+
         this.load.spritesheet('coopJumpUp2', 'assets/Sprites/Androids/female_android_jumping_up_coop.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('coopJumpDown2', 'assets/Sprites/Androids/female_android_jumping_down_coop.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('coopIdle2', 'assets/Sprites/Androids/female_android_idle_coop.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('coopRun2', 'assets/Sprites/Androids/female_android_running_coop.png', { frameWidth: 32, frameHeight: 64 });
-
 
         this.load.image('deathHead1', "assets/Sprites/Androids/cabeza.png");
         this.load.image('deathFootR1', "assets/Sprites/Androids/pieDer.png");
@@ -140,9 +140,9 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('teslaHumanOFF', 'assets/Sprites/Teslas/Tesla_humancontrol_coil.png');
         this.load.spritesheet('teslaAutoON', 'assets/Sprites/Teslas/Tesla_coil_on.png', { frameWidth: 96, frameHeight: 96 });
         this.load.spritesheet('teslaHumanON', 'assets/Sprites/Teslas/Tesla_coil_humancontrol_on.png', { frameWidth: 96, frameHeight: 96 });
-
+        
         this.load.image('textbox', 'assets/Sprites/textbox.png');
-        //this.load.image('finishLine', 'assets/Sprites/finishLine.png');
+        this.load.image('finishLine', 'assets/Sprites/finish_line.png');
 
         let background = this.add.graphics({
             fillStyle: {
@@ -331,21 +331,18 @@ export default class SceneLoading extends Phaser.Scene {
             frameRate: 12,
             repeat: 0
         });
-
-        this.anims.create({
-            key: 'laserLethal',
-            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 41 }),
-            frameRate: 20,
-            repeat: -1
-        });
-
         this.anims.create({
             key: 'laserNonLethal',
             frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 30 }),
             frameRate: 20,
             repeat: -1
         });
-
+        this.anims.create({
+            key: 'laserLethal',
+            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 41 }),
+            frameRate: 20,
+            repeat: -1
+        });
         this.anims.create({
             key: 'blueRayS',
             frames: this.anims.generateFrameNumbers('blueRay', { start: 0, end: 2 }),

@@ -87,8 +87,8 @@ export default class Android {
     this.deathStuff[3] = 'deathFootR' + this.androidNumber; this.deathStuff[4] = 'deathFootL' + this.androidNumber; this.deathStuff[5] = 'deathBodyR' + this.androidNumber;
 
     //icono indicador
-    this.indicator = this.scene.add.image(-999, -999, "item2");
-    this.indicator.setScale(0.2);
+    this.indicator = this.scene.add.image(-999, -999, "deathHead" + this.androidNumber);
+    this.indicator.setScale(3);
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;

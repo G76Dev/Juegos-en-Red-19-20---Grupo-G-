@@ -15,6 +15,8 @@ var mouse;
 var p1Tracker;
 var p2Tracker;
 
+var fadeOut = false;
+
 var blueRays = [];
 var doors = [];
 var blades = [];
@@ -29,6 +31,7 @@ import Press from "./Press.js";
 import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 import Monitor from "./Monitor.js";
+import Fade from "./Fade.js";
 
 export default class Scene2 extends Phaser.Scene {
   constructor() {
@@ -82,7 +85,7 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 7048, 300, cursors);
+    this.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
     this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
@@ -375,12 +378,15 @@ export default class Scene2 extends Phaser.Scene {
     for (var i = 0; i < presses.length; i++) {
       presses[i].update();
     }
-
-    /*if(this.android1.arrived && this.android2.arrived) {
-      fade = new Fade(this, 960/2, 540/2, 'interfazBs');
-      fade.isChangingScene = true;
-      fade.nextScene = "level2";
-    }*/
+    
+    if(this.android1.arrived && this.android2.arrived && !fadeOut) {
+      fadeOut = true;
+      cam.fadeOut(2000);
+      this.time.addEvent({
+        delay: 2000,
+        callback: () => (this.scene.start('level2'))
+      });
+    }
 
     p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
     p2Tracker.x = this.android2.sprite.x / 9.1 + 40;

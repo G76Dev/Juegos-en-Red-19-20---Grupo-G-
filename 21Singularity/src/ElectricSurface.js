@@ -24,7 +24,7 @@ export default class ElectricSurface {
     }
   }
   turnOn(scene, posX, posY, sprtElec, animElec){
-    this.elecSprite.setVisible(true);
+    this.elecSprite.setVisible(true); 
     this.unsubscribe1 = this.scene.matterCollision.addOnCollideActive({
       objectA: this.scene.android1.mainBody,
       objectB: this.sprite,
