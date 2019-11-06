@@ -87,9 +87,9 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 6864, 142, cursors);
+    this.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
-    this.android2 = new Android(this, '2', 3510, 142, cursors);
+    this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
@@ -134,8 +134,8 @@ export default class Scene3 extends Phaser.Scene {
 
     //Plataforma que se mueve
     movingP[0] = new MovingPlatform(this, 4992, 338, 5394, 'moving_platform', 'moving_platformS');
-    movingP[1] = new MovingPlatform(this, 4944, 526, 5152, 'moving_platform', 'moving_platformS');
-    movingP[2] = new MovingPlatform(this, 5454, 526, 5248, 'moving_platform', 'moving_platformS');
+    movingP[1] = new MovingPlatform(this, 4912, 526, 5454, 'moving_platform', 'moving_platformS');
+    //movingP[2] = new MovingPlatform(this, 5454, 526, 5248, 'moving_platform', 'moving_platformS');
 
     //Teslas
     //Automáticas

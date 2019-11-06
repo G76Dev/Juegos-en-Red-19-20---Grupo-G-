@@ -43,7 +43,9 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('ground', 'assets/Test/platform.png');
         this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('explosion', 'assets/Sprites/Explosions/explosion-6.png', { frameWidth: 48, frameHeight: 48 });
-        this.load.spritesheet('laser', 'assets/Sprites/laser/laser.png', { frameWidth: 1950, frameHeight: 450 });
+        this.load.spritesheet('laserNonLethal', 'assets/Sprites/laser/laser_non_letal_frames.png', { frameWidth: 1920, frameHeight: 32 }); //62
+        this.load.spritesheet('laserLethal', 'assets/Sprites/laser/laser_letal_frames.png', { frameWidth: 1920, frameHeight: 32 }); //42*/
+        //this.load.spritesheet('laserSprite', 'assets/Sprites/laser/2_primerso_frames_laser.png', { frameWidth: 1920, frameHeight: 32 }); //42*/
 
         this.load.spritesheet('androidRun1', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidIdle1', 'assets/Sprites/Androids/male_android_idle.png', { frameWidth: 32, frameHeight: 64 });
@@ -58,6 +60,11 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.spritesheet('androidIdle2', 'assets/Sprites/Androids/female_android_idle.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidJumpUp2', 'assets/Sprites/Androids/female_android_jumping_up.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidJumpDown2', 'assets/Sprites/Androids/female_android_jumping_down.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('coopJumpUp2', 'assets/Sprites/Androids/female_android_jumping_up_coop.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('coopJumpDown2', 'assets/Sprites/Androids/female_android_jumping_down_coop.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('coopIdle2', 'assets/Sprites/Androids/female_android_idle_coop.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('coopRun2', 'assets/Sprites/Androids/female_android_running_coop.png', { frameWidth: 32, frameHeight: 64 });
+
 
         this.load.image('deathHead1', "assets/Sprites/Androids/cabeza.png");
         this.load.image('deathFootR1', "assets/Sprites/Androids/pieDer.png");
@@ -133,7 +140,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('teslaHumanOFF', 'assets/Sprites/Teslas/Tesla_humancontrol_coil.png');
         this.load.spritesheet('teslaAutoON', 'assets/Sprites/Teslas/Tesla_coil_on.png', { frameWidth: 96, frameHeight: 96 });
         this.load.spritesheet('teslaHumanON', 'assets/Sprites/Teslas/Tesla_coil_humancontrol_on.png', { frameWidth: 96, frameHeight: 96 });
-        
+
         this.load.image('textbox', 'assets/Sprites/textbox.png');
         //this.load.image('finishLine', 'assets/Sprites/finishLine.png');
 
@@ -288,25 +295,25 @@ export default class SceneLoading extends Phaser.Scene {
         });
         this.anims.create({
             key: 'coopjumpUp2',
-            frames: this.anims.generateFrameNumbers('coopJumpUp1', { start: 0, end: 4 }),
+            frames: this.anims.generateFrameNumbers('coopJumpUp2', { start: 0, end: 4 }),
             frameRate: 15,
             repeat: -1
         });
         this.anims.create({
             key: 'coopjumpDown2',
-            frames: this.anims.generateFrameNumbers('coopJumpDown1', { start: 0, end: 4 }),
+            frames: this.anims.generateFrameNumbers('coopJumpDown2', { start: 0, end: 4 }),
             frameRate: 15,
             repeat: -1
         });
         this.anims.create({
             key: 'coopidle2',
-            frames: this.anims.generateFrameNumbers('coopIdle1', { start: 0, end: 4 }),
+            frames: this.anims.generateFrameNumbers('coopIdle2', { start: 0, end: 4 }),
             frameRate: 15,
             repeat: -1
         });
         this.anims.create({
             key: 'coopwRight2',
-            frames: this.anims.generateFrameNumbers('coopRun1', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('coopRun2', { start: 0, end: 3 }),
             frameRate: 12,
             repeat: -1
         })
@@ -324,12 +331,21 @@ export default class SceneLoading extends Phaser.Scene {
             frameRate: 12,
             repeat: 0
         });
+
         this.anims.create({
-            key: 'laserSprite',
-            frames: this.anims.generateFrameNumbers('laser', { start: 0, end: 1 }),
+            key: 'laserLethal',
+            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 41 }),
             frameRate: 20,
             repeat: -1
         });
+
+        this.anims.create({
+            key: 'laserNonLethal',
+            frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 30 }),
+            frameRate: 20,
+            repeat: -1
+        });
+
         this.anims.create({
             key: 'blueRayS',
             frames: this.anims.generateFrameNumbers('blueRay', { start: 0, end: 2 }),

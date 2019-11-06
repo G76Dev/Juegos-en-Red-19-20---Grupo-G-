@@ -142,7 +142,7 @@ class draggableSpike extends draggableObject{
 //objeto laser
 class draggableLaser extends draggableObject{
   constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 4000) {
-      super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+      super(scene, itemsBar, x, y, 'item1', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
   dropItemInGame() {
@@ -150,15 +150,15 @@ class draggableLaser extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         laserGadget = super.dropItemInGame();
         laserGadget.setStatic(true);
-        laserGadget.anims.play('eBomb', true);
+        laserGadget.anims.play('laserNonLethal', true);
         this.scene.time.addEvent({
           delay: this.expireTime,
           callback: () => (laserActivate(this.scene, laserGadget.x, laserGadget.y))
         });
     }
     function laserActivate(scene, posX, posY){
-      var laser = scene.matter.add.sprite(posX, posY, "laserSprite");
-      laser.setDepth(5).setRectangle(1950,90).setScale(2,0.3).setSensor(true).setStatic(true);
+      var laser = scene.matter.add.sprite(posX, posY, "laserLethal");
+      laser.setDepth(5).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.mainBody,
         objectB: laser,
@@ -175,7 +175,7 @@ class draggableLaser extends draggableObject{
         delay: 1000,
         callback: () => (laser.destroy())
       });
-      laser.anims.play('laserSprite', true);
+      laser.anims.play('laserLethal', true);
       laserGadget.destroy();
     }
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}

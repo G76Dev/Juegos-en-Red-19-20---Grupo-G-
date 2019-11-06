@@ -344,7 +344,7 @@ export default class AndroidInteractablesArray{
     this.items[1] = new Elevator(this.scene, 2896, 518, "elevator2" ,2832,368, "orangeLever", 260);
     this.items[2] = new Elevator(this.scene, 3024, 134, "elevator2" ,2960, 112, "orangeLever", 518);
     this.items[3] = new Elevator(this.scene, 5586, 518, "elevator2" ,5520,498, "orangeLever", 390);
-    this.items[4] = new Elevator(this.scene, 2370, 228, "elevator2" ,2208, 82, "orangeLever", 104);
+    this.items[4] = new Elevator(this.scene, 2370, 198, "elevator2" ,2208, 82, "orangeLever", 104);
 
     this.items[5] = new FirePlatform(this.scene, 1472, 300);
     this.items[6] = new FirePlatform(this.scene, 3776, 176);

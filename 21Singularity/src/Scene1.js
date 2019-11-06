@@ -45,7 +45,7 @@ export default class Scene1 extends Phaser.Scene{
   		}),
   		new Button(this, 960/2, 284, 'light', function() {
   			fade.isChangingScene = true;
-        	fade.nextScene = "level1";
+        	fade.nextScene = "level2";
 			selectedSound.play();
   		}),
   		new Button(this, 960/2, 354, 'light', function() {
