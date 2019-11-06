@@ -97,18 +97,22 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.spritesheet('blueRay', 'assets/Sprites/Rays/Blue_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('orangeRay', 'assets/Sprites/Rays/Orange_Ray_ss.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.image('orangeDoor', 'assets/Sprites/Doors/Door_orange.png');
+        this.load.image('orangeDoor1', 'assets/Sprites/Doors/Door_orange.png');
+        this.load.image('orangeDoor2', 'assets/Sprites/Doors/Door2_orange.png');
 
         this.load.spritesheet('rBlade', 'assets/Sprites/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
 
         this.load.spritesheet('orangeButton', 'assets/Sprites/Buttons/orange_button.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('orangeLever', 'assets/Sprites/Buttons/orange_lever.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('blueLever', 'assets/Sprites/Buttons/blue_lever.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('life', 'assets/Sprites/life.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('conveyer1', 'assets/Sprites/Conveyers/conveyer_1.png', { frameWidth: 952, frameHeight: 20 });
         this.load.spritesheet('conveyer3', 'assets/Sprites/Conveyers/conveyer_3.png', { frameWidth: 408, frameHeight: 20 });
 
-        this.load.image('elevator', 'assets/Sprites/elevator.png');
+        this.load.image('elevator1', 'assets/Sprites/elevator.png');
+        this.load.image('elevator2', 'assets/Sprites/electric_elevator.png');
         this.load.image('blue_fp', 'assets/Sprites/Falling_platforms/blue_fp.png');
         this.load.spritesheet('fire_fp', 'assets/Sprites/Falling_platforms/fire_fp.png', { frameWidth: 64, frameHeight: 32 });
         this.load.spritesheet('moving_platform', 'assets/Sprites/Falling_platforms/moving_platform.png', { frameWidth: 96, frameHeight: 16 });
@@ -358,7 +362,7 @@ export default class SceneLoading extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         });
-        
+
 
         this.sound.pauseOnBlur = false;
         this.input.on('pointerdown', function () {

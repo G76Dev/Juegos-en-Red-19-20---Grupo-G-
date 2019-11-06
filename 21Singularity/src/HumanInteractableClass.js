@@ -1,8 +1,8 @@
 class HumanInteractableClass{
   constructor(scene, itemBar, existingObj, mainObject, xObb, yObj, sprObj, sclObj, includeActivator = false, xAct = 0, yAct = 0, sprAct = "", sclAct = 0, follow = false, followXoffset = 0, followYoffset = 0){
     this.scene = scene;
-    this.itemBar = itemBar;
     this.canActivate = true;
+    this.itemBar = itemBar;
     if(!existingObj){
       this.mainObject = scene.matter.add.sprite(xObb, yObj, sprObj, 0);
       this.mainObject.setScale(sclObj);
@@ -86,6 +86,7 @@ class GravityPlatform extends HumanInteractableClass{
   }
   update(){}
   objectActivate(){
+    this.mainObject.setStatic(false);
     this.scene.time.addEvent({
       delay: 250,
       callback: () => (this.mainObject.setStatic(false))
@@ -181,12 +182,15 @@ class FirePlatform extends HumanInteractableClass{
     this.mainObject.setRectangle(64, 21).setStatic(true);
     this.mainObject.setOrigin(0.5, 0.3);
     this.mainObject.anims.play('fire_fpS',true);
+    this.initialX = xObb;
   }
-  update(){}
+  update(){
+    this.mainObject.x = this.initialX;
+  }
   objectActivate(){
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (this.mainObject.setStatic(false))
+      callback: () => (this.mainObject.setStatic(false), this.mainObject.setFixedRotation())
     });
   }
 }
@@ -221,6 +225,26 @@ class InteractiveBlade extends HumanInteractableClass{
       else if(Math.abs(this.mainObject.x - this.endPosX) < 10)
         this.objectiveX = this.startPosX;
     }
+  }
+}
+//
+class InteractiveBlade2 extends HumanInteractableClass{
+  constructor(scene, itemBar, blade, xObb, yObj, xAct, yAct, distance){
+    super(scene, itemBar, true, blade, 0, 0, "", 1, true, xAct, yAct, "bluelever", 1, false);
+
+    this.startPosX = xObb;
+    this.endPosX = xObb + distance;
+    this.objectiveX = this.startPosX;
+    this.increaseX = 0;
+  }
+  objectActivate(){
+    super.objectActivate();
+    this.increaseX = 0.1;
+  }
+  update(time, delta){
+    this.mainObject.x += this.increaseX * delta;
+    if(this.mainObject.x > 6900)
+      this.mainObject.y = -999;
   }
 }
 
@@ -260,7 +284,7 @@ export default class HumanInteractablesArray{
   initializeScene2(blueRays, blades,presses, doors){
     this.items = [];
     this.items[0] = new BlueRay(this.scene,this.itemBar,[blueRays[6], blueRays[7]], 3118, 113);
-    this.items[1] = new InteractiveBlade(this.scene, blades[2], 3902, 576, 3950, 560, -300);
+    this.items[1] = new InteractiveBlade(this.scene,this.itemBar, blades[2], 3902, 576, 3950, 560, -300);
     this.items[2] = new Press(this.scene,this.itemBar, presses[8]);
     this.items[3] = new Press(this.scene,this.itemBar, presses[9]);
     this.items[4] = new Press(this.scene,this.itemBar, presses[10]);
@@ -274,15 +298,12 @@ export default class HumanInteractablesArray{
     this.items[10] = new GravityPlatform(this.scene,this.itemBar, 6480, 296);
     this.items[11] = new GravityPlatform(this.scene,this.itemBar, 6800, 530);
   }
-  initializeScene3(teslas, eSurfaces){
+  initializeScene3(teslas, eSurfaces, bladesBig){
     this.items = [];
-    this.items[0] = new FirePlatform(this.scene, this.itemBar, 6688, 434);
-    this.items[1] = new TeslaInteractable(this.scene, this.itemBar, teslas[3]);
-    this.items[2] = new TeslaInteractable(this.scene, this.itemBar, teslas[4]);
-    this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[5]);
-    this.items[4] = new TeslaInteractable(this.scene, this.itemBar, teslas[6]);
-
-    this.items[5] = new ElectricSurface(this.scene, this.itemBar, eSurfaces[0]);
+    this.items[0] = new FirePlatform(this.scene,this.itemBar, 6688, 460);
+    this.items[1] = new TeslaInteractable(this.scene,this.itemBar, teslas[0]);
+    this.items[2] = new ElectricSurface(this.scene,this.itemBar, eSurfaces[1]);
+    this.items[1] = new InteractiveBlade2(this.scene,this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){

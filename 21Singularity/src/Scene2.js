@@ -36,10 +36,9 @@ export default class Scene2 extends Phaser.Scene {
   }
   //Función preload, que carga elementos antes de iniciar el juego
   preload() {
-    const menuMusic = this.sound.add('menuMusic');
-    menuMusic.play();
-    menuMusic.stop();
-    this.sound.play('theme', { loop: true });
+    const music = this.sound.add('menuMusic');
+    music.play();
+    music.stop();
   }
   //Función create, que crea los elementos del propio juego
   create() {
@@ -246,11 +245,11 @@ export default class Scene2 extends Phaser.Scene {
     }
 
     //Puertas
-    doors[0] = this.matter.add.sprite(2800, 432, "orangeDoor", 0);
-    doors[1] = this.matter.add.sprite(4272, 272, "orangeDoor", 0);
-    doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor", 0);
-    doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor", 0);
-    doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor", 0);
+    doors[0] = this.matter.add.sprite(2800, 432, "orangeDoor1", 0);
+    doors[1] = this.matter.add.sprite(4272, 272, "orangeDoor1", 0);
+    doors[2] = this.matter.add.sprite(4272, 528, "orangeDoor1", 0);
+    doors[3] = this.matter.add.sprite(6512, 560, "orangeDoor1", 0);
+    doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor1", 0);
 
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);

@@ -1,7 +1,7 @@
 export default class Tesla {
   constructor(scene, posX, posY){
     this.sprite = scene.matter.add.image(posX, posY, "generic");
-    this.sprite.setSensor(true).setStatic(true).setIgnoreGravity(true).setScale(0.25).setDepth(-4);
+    this.sprite.setSensor(true).setStatic(true).setScale(0.25).setDepth(-4);;
     this.isReady = true;
     this.scene = scene;
   }

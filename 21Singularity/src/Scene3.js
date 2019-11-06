@@ -31,10 +31,9 @@ export default class Scene3 extends Phaser.Scene {
   }
   //Función preload, que carga elementos antes de iniciar el juego
   preload() {
-    // Quitar en version definitiva.
-    const menuMusic = this.sound.add('menuMusic');
-    menuMusic.play();
-    menuMusic.stop();
+    const music = this.sound.add('menuMusic');
+    music.play();
+    music.stop();
   }
   //Función create, que crea los elementos del propio juego
   create() {
@@ -86,7 +85,7 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 300, 300, cursors);
+    this.android1 = new Android(this, '1', 5950, 360, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
     this.android2 = new Android(this, '2', 400, 300, cursors);
     this.android1.coLink(this.android2);
@@ -111,6 +110,23 @@ export default class Scene3 extends Phaser.Scene {
       }
     }
 
+
+    const bladesBig = this.matter.add.sprite(5712, 464, "rBlade", 0);
+    bladesBig.setCircle(28)
+    bladesBig.setStatic(true).setSensor(true);
+    this.matterCollision.addOnCollideStart({
+      objectA: this.android1.mainBody,
+      objectB: bladesBig,
+      callback: inflictDamage,
+      context: this.android1
+    });
+    this.matterCollision.addOnCollideStart({
+      objectA: this.android2.mainBody,
+      objectB: bladesBig,
+      callback: inflictDamage,
+      context: this.android2
+    });
+    bladesBig.anims.play('rotatingBlade', true);
     //Elementos animados o interactuables
 
     //Plataforma que se mueve
@@ -119,32 +135,32 @@ export default class Scene3 extends Phaser.Scene {
     movingP[2] = new MovingPlatform(this, 5454, 526, 5248, 'moving_platform', 'moving_platformS');
 
     //Teslas
-    //Automáticas
     teslas[0] = new Tesla(this, 1936, 458);
     teslas[1] = new Tesla(this, 3632, 314);
     teslas[2] = new Tesla(this, 5392, 526);
 
-    //Controlables por el jugador humano
     teslas[3] = new Tesla(this, 4238, 142);
     teslas[4] = new Tesla(this, 4976, 526);
     teslas[5] = new Tesla(this, 5200, 526);
     teslas[6] = new Tesla(this, 6864, 336);
 
-    eSurfaces[0] = new ElectricSurface(this, 900, 1500, false);
-    eSurfaces[1] = new ElectricSurface(this, 600, 1500, false);
+    eSurfaces[0] = new ElectricSurface(this, 1294, 592,"generic", true);
+    eSurfaces[1] = new ElectricSurface(this, 2546, 546,"generic", false);
+    eSurfaces[2] = new ElectricSurface(this, 4064, 384,"generic", true);
+    //const eS = new ElectricSurface(this, 1000, 500);
 
     //Puertas
-    doors[0] = this.matter.add.sprite(1830, 466, "orangeDoor", 0);
-    doors[1] = this.matter.add.sprite(2258, 466, "orangeDoor", 0);
-    doors[2] = this.matter.add.sprite(2192, 306, "orangeDoor", 0);
-    doors[3] = this.matter.add.sprite(6832, 466, "orangeDoor", 0);
+    doors[0] = this.matter.add.sprite(1830, 466, "orangeDoor2", 0);
+    doors[1] = this.matter.add.sprite(2258, 466, "orangeDoor2", 0);
+    doors[2] = this.matter.add.sprite(2192, 342, "orangeDoor2", 0);
+    doors[3] = this.matter.add.sprite(6832, 466, "orangeDoor2", 0);
 
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);
       doors[i].setStatic(true);
     }
-
-    /*//Colisiones entre androides y sierras.
+    /*
+    //Colisiones entre androides y sierras.
     for (var i = 0; i < blades.length; i++) {
       blades[i].setCircle(28)
       blades[i].setStatic(true).setSensor(true);
@@ -171,6 +187,7 @@ export default class Scene3 extends Phaser.Scene {
     extraLifes[1] = this.matter.add.sprite(2128, 208, "life", 0);
     extraLifes[2] = this.matter.add.sprite(5488, 304, "life", 0);
     extraLifes[3] = this.matter.add.sprite(6576, 408, "life", 0);
+
 
     for (var i = 0; i < extraLifes.length; i++) {
       extraLifes[i].setStatic(true).setSensor(true);
@@ -210,15 +227,15 @@ export default class Scene3 extends Phaser.Scene {
     //Objetos animados
     /*for (var i = 0; i < blades.length; i++) {
       blades[i].anims.play('rotatingBlade', true);
-    }*/
-
+    }
+    */
     for (var i = 0; i < extraLifes.length; i++) {
       extraLifes[i].anims.play('lifeS', true);
     }
 
     //interactuables
     humanInteractableItems = new HumanInteractablesArray(this, usableItems);
-    humanInteractableItems.initializeScene3(teslas, eSurfaces);
+    humanInteractableItems.initializeScene3(teslas, eSurfaces,bladesBig);
     androidInteractableItems = new AndroidInteractablesArray(this);
     androidInteractableItems.initializeScene3(eSurfaces, doors);
 
@@ -253,7 +270,6 @@ export default class Scene3 extends Phaser.Scene {
     for (var i = 0; i < movingP.length; i++) {
       movingP[i].update(time,delta);
     }
-
     p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
     p2Tracker.x = this.android2.sprite.x / 9.1 + 40;
 
