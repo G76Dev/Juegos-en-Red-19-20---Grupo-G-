@@ -102,7 +102,7 @@ class AndroidInteractableClass{
 class Door extends AndroidInteractableClass{
   constructor(scene, door, xAct, yAct, distance){
     super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
-    this.mainObject.setDepth(-1);
+    this.mainObject.setDepth(-9);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
     this.objectiveY = this.startPosY;
@@ -236,6 +236,7 @@ class FirePlatform extends AndroidInteractableClass{
   constructor(scene, xObb, yObj){
     super(scene, false, null, xObb, yObj, "fire_fp", 1, false);
     this.mainObject.setRectangle(64, 21).setStatic(true);
+    this.mainObject.setFixedRotation();
     this.mainObject.setOrigin(0.5, 0.3);
     this.mainObject.anims.play('fire_fpS',true);
 
@@ -300,19 +301,26 @@ export default class AndroidInteractablesArray{
     this.items[11] = new OrangeRay(this.scene, [orangeRays[6],orangeRays[7]] ,6864,208);
     this.items[12] = new Door(this.scene, doors[0], 2830, 464, -100);
   }
-  initializeScene3(eSurfaces){
+  initializeScene3(eSurfaces, doors){
     this.items = [];
     this.items[0] = new Elevator(this.scene, 1776, 324, 1 ,1714,308, 518);
     this.items[1] = new Elevator(this.scene, 2896, 518, 1 ,2832,368, 260);
-    this.items[2] = new Elevator(this.scene, 3024, 112, 1 ,2960,518, 134);
+    this.items[2] = new Elevator(this.scene, 3024, 134, 1 ,2960, 112, 518);
     this.items[3] = new Elevator(this.scene, 5586, 518, 1 ,5520,498, 390);
+    this.items[4] = new Elevator(this.scene, 2370, 228, 1 ,2208, 82, 104);
 
-    this.items[4] = new FirePlatform(this.scene, 1472, 300);
-    this.items[5] = new FirePlatform(this.scene, 3776, 176);
-    this.items[6] = new FirePlatform(this.scene, 3968, 176);
-    this.items[7] = new FirePlatform(this.scene, 4160, 176);
-    this.items[8] = new FirePlatform(this.scene, 4352, 176);
-    this.items[9] = new ElectricSurface(this.scene, eSurfaces[1],400,430);
+    this.items[5] = new FirePlatform(this.scene, 1472, 300);
+    this.items[6] = new FirePlatform(this.scene, 3776, 176);
+    this.items[7] = new FirePlatform(this.scene, 3968, 176);
+    this.items[8] = new FirePlatform(this.scene, 4160, 176);
+    this.items[9] = new FirePlatform(this.scene, 4352, 176);
+
+    this.items[10] = new Door(this.scene, doors[0], 1584, 306, -100);
+    this.items[11] = new Door(this.scene, doors[1], 2258, 368, 100);
+    this.items[12] = new Door(this.scene, doors[2], 2190, 498, -100);
+    this.items[13] = new Door(this.scene, doors[3], 6832, 368, 100);
+
+    this.items[14] = new ElectricSurface(this.scene, eSurfaces[1],400,430);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){

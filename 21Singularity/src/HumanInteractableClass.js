@@ -1,6 +1,7 @@
 class HumanInteractableClass{
-  constructor(scene, existingObj, mainObject, xObb, yObj, sprObj, sclObj, includeActivator = false, xAct = 0, yAct = 0, sprAct = "", sclAct = 0, follow = false, followXoffset = 0, followYoffset = 0){
+  constructor(scene, itemBar, existingObj, mainObject, xObb, yObj, sprObj, sclObj, includeActivator = false, xAct = 0, yAct = 0, sprAct = "", sclAct = 0, follow = false, followXoffset = 0, followYoffset = 0){
     this.scene = scene;
+    this.itemBar = itemBar;
     this.canActivate = true;
     if(!existingObj){
       this.mainObject = scene.matter.add.sprite(xObb, yObj, sprObj, 0);
@@ -27,10 +28,11 @@ class HumanInteractableClass{
     }
   }
   onClick(pointer, localX, localY, event){
-    if(this.canActivate){
+    if(this.canActivate && this.itemBar.energy > 20){
       this.isActive = !this.isActive;
       (this.isActive)? console.log("activated object") : console.log("desactivated object");
       this.objectActivate();
+      this.itemBar.changeBar(this.itemBar.energy - 20);
     }
   }
   objectActivate(delay = false){
@@ -50,8 +52,8 @@ class HumanInteractableClass{
 }
 
 class Door extends HumanInteractableClass{
-  constructor(scene, door, xAct, yAct, distance){
-    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1);
+  constructor(scene, itemBar, door, xAct, yAct, distance){
+    super(scene, itemBar, true, door, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1);
     this.mainObject.setDepth(-1);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
@@ -78,23 +80,22 @@ class Door extends HumanInteractableClass{
 }
 
 class GravityPlatform extends HumanInteractableClass{
-  constructor(scene, xObb, yObj){
-    super(scene, false, null, xObb, yObj, "blue_fp", 1, false);
+  constructor(scene, itemBar, xObb, yObj){
+    super(scene, itemBar, false, null, xObb, yObj, "blue_fp", 1, false);
     this.mainObject.setStatic(true).setSensor(false);
   }
   update(){}
   objectActivate(){
-    this.mainObject.setStatic(false);
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (this.mainObject.setSensor(true))
+      callback: () => (this.mainObject.setStatic(false))
     });
   }
 }
 
 class BlueRay extends HumanInteractableClass{
-  constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
+  constructor(scene, itemBar, mainObj, xAct, yAct){
+    super(scene, itemBar, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
     this.ActiveYPos = [];
     for(var i=0; i<this.mainObject.length; i++){
       this.ActiveYPos[i] = this.mainObject[i].y;
@@ -124,8 +125,8 @@ class BlueRay extends HumanInteractableClass{
 }
 
 class BlueRayDouble extends HumanInteractableClass{
-  constructor(scene, mainObj, xAct, yAct){
-    super(scene, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
+  constructor(scene, itemBar, mainObj, xAct, yAct){
+    super(scene, itemBar, true , mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
     this.ActiveYPos = [];
     for(var i=0; i<this.mainObject.length; i++){
       this.ActiveYPos[i] = this.mainObject[i].y;
@@ -162,19 +163,21 @@ class BlueRayDouble extends HumanInteractableClass{
 }
 
 class Press extends HumanInteractableClass{
-  constructor(scene, press){
-    super(scene, true, press, 0, 0, "", 1, false);
+  constructor(scene, itemBar, press){
+    super(scene, itemBar, true, press, 0, 0, "", 1, false);
   }
   update(){}
   objectActivate(){
     if(this.mainObject.isReady)
-    this.mainObject.startCycle(1,0);
+      this.mainObject.startCycle(1,0);
+    else
+      this.itemBar.changeBar(this.itemBar.energy + 20);
   }
 }
 
 class FirePlatform extends HumanInteractableClass{
-  constructor(scene, xObb, yObj){
-    super(scene, false, null, xObb, yObj, "fire_fp", 1, false);
+  constructor(scene, itemBar, xObb, yObj){
+    super(scene, itemBar, false, null, xObb, yObj, "fire_fp", 1, false);
     this.mainObject.setRectangle(64, 21).setStatic(true);
     this.mainObject.setOrigin(0.5, 0.3);
     this.mainObject.anims.play('fire_fpS',true);
@@ -189,8 +192,8 @@ class FirePlatform extends HumanInteractableClass{
 }
 
 class InteractiveBlade extends HumanInteractableClass{
-  constructor(scene, blade, xObb, yObj, xAct, yAct, distance){
-    super(scene, true, blade, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
+  constructor(scene, itemBar, blade, xObb, yObj, xAct, yAct, distance){
+    super(scene, itemBar, true, blade, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
 
     this.startPosX = xObb;
     this.endPosX = xObb + distance;
@@ -222,8 +225,8 @@ class InteractiveBlade extends HumanInteractableClass{
 }
 
 class ElectricSurface extends HumanInteractableClass{
-  constructor(scene, elSurf){
-    super(scene, true, elSurf, 0, 0, "", 1, false);
+  constructor(scene, itemBar, elSurf){
+    super(scene, itemBar, true, elSurf, 0, 0, "", 1, false);
   }
   update(){}
   objectActivate(){
@@ -235,44 +238,51 @@ class ElectricSurface extends HumanInteractableClass{
 }
 
 class TeslaInteractable extends HumanInteractableClass{
-  constructor(scene, tesla){
-    super(scene, true, tesla, 0, 0, "", 1, false);
+  constructor(scene, itemBar, tesla){
+    super(scene, itemBar, true, tesla, 0, 0, "", 1, false);
   }
   update(){}
   objectActivate(){
     if(this.mainObject.isReady)
-    this.mainObject.startCycle(false,1000,1000);
+      this.mainObject.startCycle(false,1000,1000);
+    else
+      this.itemBar.changeBar(this.itemBar.energy + 20);
   }
 }
 
 export default class HumanInteractablesArray{
-  constructor(scene){
+  constructor(scene, itemBar){
     this.items = [];
     this.scene = scene;
+    this.itemBar = itemBar;
   }
 
   initializeScene2(blueRays, blades,presses, doors){
     this.items = [];
-    this.items[0] = new BlueRay(this.scene,[blueRays[6], blueRays[7]], 3118, 113);
+    this.items[0] = new BlueRay(this.scene,this.itemBar,[blueRays[6], blueRays[7]], 3118, 113);
     this.items[1] = new InteractiveBlade(this.scene, blades[2], 3902, 576, 3950, 560, -300);
-    this.items[2] = new Press(this.scene, presses[8]);
-    this.items[3] = new Press(this.scene, presses[9]);
-    this.items[4] = new Press(this.scene, presses[10]);
-    this.items[5] = new Press(this.scene, presses[11]);
-    this.items[6] = new Press(this.scene, presses[12]);
-    this.items[7] = new Press(this.scene, presses[13]);
+    this.items[2] = new Press(this.scene,this.itemBar, presses[8]);
+    this.items[3] = new Press(this.scene,this.itemBar, presses[9]);
+    this.items[4] = new Press(this.scene,this.itemBar, presses[10]);
+    this.items[5] = new Press(this.scene,this.itemBar, presses[11]);
+    this.items[6] = new Press(this.scene,this.itemBar, presses[12]);
+    this.items[7] = new Press(this.scene,this.itemBar, presses[13]);
 
-    this.items[8] = new BlueRayDouble(this.scene,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
+    this.items[8] = new BlueRayDouble(this.scene,this.itemBar,[blueRays[0], blueRays[1], blueRays[2], blueRays[3], blueRays[4], blueRays[5]], 5874, 370);
 
-    this.items[9] = new GravityPlatform(this.scene, 6972, 286);
-    this.items[10] = new GravityPlatform(this.scene, 6480, 296);
-    this.items[11] = new GravityPlatform(this.scene, 6800, 530);
+    this.items[9] = new GravityPlatform(this.scene,this.itemBar, 6972, 286);
+    this.items[10] = new GravityPlatform(this.scene,this.itemBar, 6480, 296);
+    this.items[11] = new GravityPlatform(this.scene,this.itemBar, 6800, 530);
   }
   initializeScene3(teslas, eSurfaces){
     this.items = [];
-    this.items[0] = new FirePlatform(this.scene, 6688, 434);
-    this.items[1] = new TeslaInteractable(this.scene, teslas[0]);
-    this.items[2] = new ElectricSurface(this.scene, eSurfaces[0]);
+    this.items[0] = new FirePlatform(this.scene, this.itemBar, 6688, 434);
+    this.items[1] = new TeslaInteractable(this.scene, this.itemBar, teslas[3]);
+    this.items[2] = new TeslaInteractable(this.scene, this.itemBar, teslas[4]);
+    this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[5]);
+    this.items[4] = new TeslaInteractable(this.scene, this.itemBar, teslas[6]);
+
+    this.items[5] = new ElectricSurface(this.scene, this.itemBar, eSurfaces[0]);
   }
   update(time, delta){
     for(var i=0; i<this.items.length; i++){

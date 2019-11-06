@@ -1,6 +1,7 @@
 export default class MovingPlatform {
     constructor(scene, x1, y, x2, sprt, anim) {
-        this.sprite = scene.matter.add.sprite(x1, y, sprt, 0).setStatic(true);
+        this.sprite = scene.matter.add.sprite(x1, y, sprt, 0);
+        this.sprite.setRectangle(74,16).setStatic(true);
         this.sprite.anims.play(anim, true);
         this.startPosX = x1;
         this.endPosX = x2;

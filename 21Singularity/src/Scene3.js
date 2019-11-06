@@ -15,7 +15,7 @@ var mouse;
 var p1Tracker;
 var p2Tracker;
 
-var movingP;
+const movingP = [];
 
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
@@ -39,7 +39,6 @@ export default class Scene3 extends Phaser.Scene {
   create() {
   const doors = [];
   const extraLifes = [];
-  const firePlatforms = [];
   const teslas = [];
   const eSurfaces = [];
 
@@ -114,26 +113,37 @@ export default class Scene3 extends Phaser.Scene {
     //Elementos animados o interactuables
 
     //Plataforma que se mueve
-    movingP = new MovingPlatform(this, 4992, 338, 5394, 'moving_platform', 'moving_platformS');
+    movingP[0] = new MovingPlatform(this, 4992, 338, 5394, 'moving_platform', 'moving_platformS');
+    movingP[1] = new MovingPlatform(this, 4944, 526, 5152, 'moving_platform', 'moving_platformS');
+    movingP[2] = new MovingPlatform(this, 5454, 526, 5248, 'moving_platform', 'moving_platformS');
 
     //Teslas
-    teslas[0] = new Tesla(this, 500, 100);
+    //Automáticas
+    teslas[0] = new Tesla(this, 1936, 458);
+    teslas[1] = new Tesla(this, 3632, 314);
+    teslas[2] = new Tesla(this, 5392, 526);
 
-    eSurfaces[0] = new ElectricSurface(this, 900, 500, false);
-    eSurfaces[1] = new ElectricSurface(this, 600, 500, false);
+    //Controlables por el jugador humano
+    teslas[3] = new Tesla(this, 4238, 142);
+    teslas[4] = new Tesla(this, 4976, 526);
+    teslas[5] = new Tesla(this, 5200, 526);
+    teslas[6] = new Tesla(this, 6864, 336);
 
-    //const eS = new ElectricSurface(this, 1000, 500);
+    eSurfaces[0] = new ElectricSurface(this, 900, 1500, false);
+    eSurfaces[1] = new ElectricSurface(this, 600, 1500, false);
 
     //Puertas
-    /*doors[0] = this.matter.add.sprite(2800, 432, "orangeDoor", 0);
-    doors[1] = this.matter.add.sprite(4272, 272, "orangeDoor", 0);
+    doors[0] = this.matter.add.sprite(1830, 466, "orangeDoor", 0);
+    doors[1] = this.matter.add.sprite(2258, 466, "orangeDoor", 0);
+    doors[2] = this.matter.add.sprite(2192, 306, "orangeDoor", 0);
+    doors[3] = this.matter.add.sprite(6832, 466, "orangeDoor", 0);
 
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);
       doors[i].setStatic(true);
     }
 
-    //Colisiones entre androides y sierras.
+    /*//Colisiones entre androides y sierras.
     for (var i = 0; i < blades.length; i++) {
       blades[i].setCircle(28)
       blades[i].setStatic(true).setSensor(true);
@@ -156,9 +166,10 @@ export default class Scene3 extends Phaser.Scene {
     this.lifesText.setScrollFactor(0);
 
     //Vidas Extras
-    /*extraLifes[0] = this.matter.add.sprite(2640, 406, "life", 0);
-    extraLifes[1] = this.matter.add.sprite(3664, 272, "life", 0);
-    extraLifes[2] = this.matter.add.sprite(6560, 582, "life", 0);
+    extraLifes[0] = this.matter.add.sprite(1264, 432, "life", 0);
+    extraLifes[1] = this.matter.add.sprite(2128, 208, "life", 0);
+    extraLifes[2] = this.matter.add.sprite(5488, 304, "life", 0);
+    extraLifes[3] = this.matter.add.sprite(6576, 408, "life", 0);
 
     for (var i = 0; i < extraLifes.length; i++) {
       extraLifes[i].setStatic(true).setSensor(true);
@@ -181,7 +192,7 @@ export default class Scene3 extends Phaser.Scene {
       Android.lives++;
       this.lifesText.setText("Lives: " + Android.lives);
       gameObjectB.destroy();
-    }*/
+    }
 
     //Función inflictDamage, que hiere a los androides.
     function inflictDamage({ bodyA, bodyB, pair }) { this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x - bodyB.gameObject.x, bodyA.gameObject.y - bodyB.gameObject.y), 90); }
@@ -198,17 +209,17 @@ export default class Scene3 extends Phaser.Scene {
     //Objetos animados
     /*for (var i = 0; i < blades.length; i++) {
       blades[i].anims.play('rotatingBlade', true);
-    }
+    }*/
 
     for (var i = 0; i < extraLifes.length; i++) {
       extraLifes[i].anims.play('lifeS', true);
-    }*/
+    }
 
     //interactuables
-    humanInteractableItems = new HumanInteractablesArray(this);
+    humanInteractableItems = new HumanInteractablesArray(this, usableItems);
     humanInteractableItems.initializeScene3(teslas, eSurfaces);
     androidInteractableItems = new AndroidInteractablesArray(this);
-    androidInteractableItems.initializeScene3(eSurfaces);
+    androidInteractableItems.initializeScene3(eSurfaces, doors);
 
     //CAMARA:
     cam = this.cameras.main;
@@ -238,7 +249,9 @@ export default class Scene3 extends Phaser.Scene {
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
-    movingP.update(time,delta);
+    for (var i = 0; i < movingP.length; i++) {
+      movingP[i].update(time,delta);
+    }
 
     p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
     p2Tracker.x = this.android2.sprite.x / 9.1 + 40;
