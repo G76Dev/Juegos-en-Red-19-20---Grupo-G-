@@ -43,8 +43,8 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('ground', 'assets/Test/platform.png');
         this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('explosion', 'assets/Sprites/Explosions/explosion-6.png', { frameWidth: 48, frameHeight: 48 });
-        this.load.spritesheet('laserNonLethal', 'assets/Sprites/laser/laser_non_letal_frames.png', { frameWidth: 1920, frameHeight: 32 }); //62
-        this.load.spritesheet('laserLethal', 'assets/Sprites/laser/laser_letal_frames.png', { frameWidth: 1920, frameHeight: 32 }); //42*/
+        this.load.spritesheet('laserNonLethal', 'assets/Sprites/laser/laser_nonletal.png', { frameWidth: 960, frameHeight: 32 }); //62
+        this.load.spritesheet('laserLethal', 'assets/Sprites/laser/laser_nonletal.png', { frameWidth: 960, frameHeight: 32 }); //42*/
         //this.load.spritesheet('laserSprite', 'assets/Sprites/laser/2_primerso_frames_laser.png', { frameWidth: 1920, frameHeight: 32 }); //42*/
 
         this.load.spritesheet('androidRun1', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
@@ -140,7 +140,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('teslaHumanOFF', 'assets/Sprites/Teslas/Tesla_humancontrol_coil.png');
         this.load.spritesheet('teslaAutoON', 'assets/Sprites/Teslas/Tesla_coil_on.png', { frameWidth: 96, frameHeight: 96 });
         this.load.spritesheet('teslaHumanON', 'assets/Sprites/Teslas/Tesla_coil_humancontrol_on.png', { frameWidth: 96, frameHeight: 96 });
-        
+
         this.load.image('textbox', 'assets/Sprites/textbox.png');
         this.load.image('finishLine', 'assets/Sprites/finish_line.png');
 
@@ -332,14 +332,14 @@ export default class SceneLoading extends Phaser.Scene {
             repeat: 0
         });
         this.anims.create({
-            key: 'laserNonLethal',
-            frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 30 }),
+            key: 'laserNonLethalS',
+            frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 20}),
             frameRate: 20,
             repeat: -1
         });
         this.anims.create({
-            key: 'laserLethal',
-            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 41 }),
+            key: 'laserLethalS',
+            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 20 }),
             frameRate: 20,
             repeat: -1
         });

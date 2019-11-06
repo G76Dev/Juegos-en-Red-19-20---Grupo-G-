@@ -29,9 +29,9 @@ class draggableObject extends Phaser.GameObjects.Sprite{
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
   dropItemInGame(addColliderString) {
-      var item = this.scene.matter.add.sprite(this.x + this.scene.cameras.main.scrollX, this.y + this.scene.cameras.main.scrollY, this.sprite);
+      const item = this.scene.matter.add.sprite(this.x + this.scene.cameras.main.scrollX, this.y + this.scene.cameras.main.scrollY, this.sprite);
       item.setScale(this.scaleImage).setDepth(5);
-      var addCollider = window[addColliderString];
+      const addCollider = window[addColliderString];
       eval(addColliderString);
       item.body.collisionFilter.group = -1;
       item.setBounce(this.bounce);
@@ -62,15 +62,15 @@ class draggableBomb extends draggableObject{
         });
     }
     function exprosion(scene, posX, posY){
-      var bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
+      const bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
       bombExprosion.setDepth(5).setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
-      scene.matterCollision.addOnCollideStart({
+      const unsubscribe1 = scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
         context: scene.android1
       });
-      scene.matterCollision.addOnCollideStart({
+      const unsubscribe2 = scene.matterCollision.addOnCollideStart({
         objectA: scene.android2.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
@@ -81,6 +81,10 @@ class draggableBomb extends draggableObject{
         bombExprosion.destroy();
       });
       bombExprosion.anims.play('exprosion', true);
+      scene.time.addEvent({
+        delay: 150,
+        callback: () => (unsubscribe1(), unsubscribe2())
+      });
       bombInstance.destroy();
     }
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
@@ -109,12 +113,12 @@ class draggableSpike extends draggableObject{
     }
 
     function createSpike(scene, posX, posY){
-      var spike = scene.matter.add.image(0, 0, "item3",0);
+      const spike = scene.matter.add.image(0, 0, "item3",0);
       spike.setBody({
         type: 'trapezoid',
-        width: 36,
+        width: 28,
         height: 16,
-        slope: 0.6
+        slope: 0.45
       });
       spike.setSensor(true).setOrigin(0.5,0.80).setPosition(posX,posY + 4).setStatic(true);
       scene.matterCollision.addOnCollideStart({
@@ -142,7 +146,7 @@ class draggableSpike extends draggableObject{
 //objeto laser
 class draggableLaser extends draggableObject{
   constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 10, expireTime = 4000) {
-    super(scene, itemsBar, x, y, 'item1', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime); 
+    super(scene, itemsBar, x, y, 'item1', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
   dropItemInGame() {
@@ -150,14 +154,14 @@ class draggableLaser extends draggableObject{
     if(this.itemsBar.energy > this.cost){
         laserGadget = super.dropItemInGame();
         laserGadget.setStatic(true);
-        laserGadget.anims.play('laserNonLethal', true);
+        laserGadget.anims.play('laserNonLethalS', true);
         this.scene.time.addEvent({
           delay: this.expireTime,
           callback: () => (laserActivate(this.scene, laserGadget.x, laserGadget.y))
         });
     }
     function laserActivate(scene, posX, posY){
-      var laser = scene.matter.add.sprite(posX, posY, "laserLethal"); 
+      const laser = scene.matter.add.sprite(posX, posY, "laserLethal");
       laser.setDepth(5).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.android1.mainBody,
@@ -175,7 +179,7 @@ class draggableLaser extends draggableObject{
         delay: 1000,
         callback: () => (laser.destroy())
       });
-      laser.anims.play('laserLethal', true);
+      laser.anims.play('laserLethalS', true);
       laserGadget.destroy();
     }
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}

@@ -344,7 +344,6 @@ export default class AndroidInteractablesArray {
   initializeScene3(eSurfaces, doors) {
     this.items = [];
     this.items[0] = new Elevator(this.scene, 1776, 324, "elevator2", 1714, 308, "orangeLever", 518);
-    console.log(this.items[0]);
     this.items[1] = new Elevator(this.scene, 2896, 518, "elevator2", 2832, 368, "orangeLever", 260);
     this.items[2] = new Elevator(this.scene, 3024, 134, "elevator2", 2960, 112, "orangeLever", 518);
     this.items[3] = new Elevator(this.scene, 5586, 518, "elevator2", 5520, 498, "orangeLever", 390);

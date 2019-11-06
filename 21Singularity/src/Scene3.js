@@ -68,8 +68,6 @@ export default class Scene3 extends Phaser.Scene {
     baselayer.depth = -5;
     const lethallayer = map2.createStaticLayer("lethal_layer_0depth", tileset2, 0, 0);
     lethallayer.depth = -5;
-    const debuglayer = map2.createStaticLayer("debug_layer_0depth", tileset2, 0, 0);
-    debuglayer.depth = -5;
     /*const offsetlethallayer = map2.createStaticLayer("offset_lethal_layer", tileset2, 0, 0);
     offsetlethallayer.depth = -5;*/
 
@@ -82,16 +80,13 @@ export default class Scene3 extends Phaser.Scene {
     lethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(lethallayer);
 
-    debuglayer.setCollisionByProperty({ Collides: true });
-    this.matter.world.convertTilemapLayer(debuglayer);
-
     /*offsetlethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
     this.android1 = new Android(this, '1', 500, 142, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.I, 'left': Phaser.Input.Keyboard.KeyCodes.J, 'right': Phaser.Input.Keyboard.KeyCodes.L, 'coop': Phaser.Input.Keyboard.KeyCodes.K });
-    this.android2 = new Android(this, '2', 600, 142, cursors);
+    this.android2 = new Android(this, '2', 6000, 55, cursors);
     this.android1.coLink(this.android2);
     this.android2.coLink(this.android1);
 
@@ -141,10 +136,12 @@ export default class Scene3 extends Phaser.Scene {
     //Teslas
     //Automáticas
     teslas[0] = new Tesla(this, 1936, 480, 'teslaAutoOFF', 'teslaAutoS');
+    teslas[0].startCycle(true, 2100, 2100);
     teslas[1] = new Tesla(this, 3632, 320, 'teslaAutoOFF', 'teslaAutoS');
-    teslas[2] = new Tesla(this, 5392, 512, 'teslaAutoOFF', 'teslaAutoS');
+    teslas[1].startCycle(true, 1500, 1500);
 
     //Activables por el humano
+    teslas[2] = new Tesla(this, 5392, 512, 'teslaHumanOFF', 'teslaHumanS');
     teslas[3] = new Tesla(this, 4240, 128, 'teslaHumanOFF', 'teslaHumanS');
     teslas[4] = new Tesla(this, 4976, 512, 'teslaHumanOFF', 'teslaHumanS');
     teslas[5] = new Tesla(this, 5200, 512, 'teslaHumanOFF', 'teslaHumanS');
