@@ -93,12 +93,12 @@ export default class Scene1 extends Phaser.Scene {
 			});
 		},)
 	];
-	  
+
   	// Hacemos a todas las luces invisibles al inicio de la escena.
   	for (var i = 0; i < buttonArray.length; i++) {
   		buttonArray[i].alpha = 0;
 	  }
-	  
+
   	// Añadimos los textos de los botones.
   	this.add.image(960/2, 214, 'text_online');
   	this.add.image(960/2, 284, 'text_local');
@@ -115,7 +115,7 @@ export default class Scene1 extends Phaser.Scene {
 			}
 		}
 	});
-	  
+
   }
 
   // Funcion update, que se ejecuta en cada frame.
@@ -125,11 +125,11 @@ export default class Scene1 extends Phaser.Scene {
 	// Solo si no se esta cambiando de escena, se comprobara sobre que boton se encuentra el raton en cada momento.
 	if (!isChangingScene)
 		CheckOption(this);
-	
+
 	// Se ejecuta el update de cada boton.
   	for (var i = 0; i < buttonArray.length; i++) {
   	  buttonArray[i].Update(time, delta);
 	  }
-	  
+
   }
 }

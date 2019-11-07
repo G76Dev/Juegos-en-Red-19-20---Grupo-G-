@@ -26,7 +26,7 @@ function CheckOption(scene) {
   }
   else
   retryButton.isActive = false;
-    
+
 }
 // Clase correspondiente a la escena de la pantalla de derrota.
 export default class SceneDefeat extends Phaser.Scene {
@@ -35,7 +35,7 @@ export default class SceneDefeat extends Phaser.Scene {
   constructor(){
     super("defeat");
   }
-  
+
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
@@ -47,7 +47,7 @@ export default class SceneDefeat extends Phaser.Scene {
 	this.game.currentMusic.stop();
 	this.game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: this.game.musicVolume });
     this.game.currentMusic.play();
-    
+
     // Añadimos los sonidos a la escena.
     hoverSound = this.sound.add('menuHover');
     selectedSound = this.sound.add('menuSelected');
@@ -63,9 +63,9 @@ export default class SceneDefeat extends Phaser.Scene {
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     function FinalSolution(scene, start) {
-        scene.game.scene.add('', new Scene2('level1' + (scene.game.scene1Counter + 1)), start);
-        scene.scene.remove('level1', scene.game.scene1Counter);
         scene.game.scene1Counter++;
+        scene.scene.remove('level1'+ (scene.game.scene1Counter-1));
+        scene.game.scene.add('', new Scene2('level1' + scene.game.scene1Counter), start);
     }
   	backButton = new Button(this, 960/2, 500, 'light', function() {
         selectedSound.play({ volume: this.scene.game.soundVolume });
@@ -93,7 +93,7 @@ export default class SceneDefeat extends Phaser.Scene {
     // Añadimos los textos.
     this.add.image(960/2, 400, 'text_tryAgain');
     this.add.image(960/2, 500, 'text_goToMenu');
-      
+
   	// Añadimos la funcion que se ejecutara al presionar el boton izquierdo del raton.
     // Si se esta sobre el boton 'back', se volvera al menu principal.
     // Si esta sobre el boton 'try again', se volvera al nivel 1.
@@ -105,7 +105,7 @@ export default class SceneDefeat extends Phaser.Scene {
                 retryButton.Behaviour();
         }
       });
-      
+
   }
   // Funcion update, que se ejecuta en cada frame.
   update (time, delta)
@@ -114,10 +114,10 @@ export default class SceneDefeat extends Phaser.Scene {
     // Solo si no se esta cambiando de escena, se comprobara si se esta sobre los botones en cada momento.
     if (!isChangingScene)
       CheckOption(this);
-    
+
     // Se ejecuta el update de cada boton.
     backButton.Update(time, delta);
     retryButton.Update(time, delta);
-    
+
   }
 }

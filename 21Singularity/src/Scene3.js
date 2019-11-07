@@ -28,11 +28,12 @@ import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 import MovingPlatform from "./MovingPlatform.js";
 import Tesla from "./Tesla.js";
 import ElectricSurface from "./ElectricSurface.js";
+import Scene2 from "./Scene2.js";
 
 //Clase Scene3, que extiende de Phaser.Scene.
 export default class Scene3 extends Phaser.Scene {
-  constructor() {
-    super("level2");
+  constructor(key = "level20") {
+    super(key);
   }
   //Función create, que crea los elementos del propio juego.
   create() {
@@ -79,7 +80,7 @@ export default class Scene3 extends Phaser.Scene {
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 300, 300, cursors);
+    this.game.android1 = new Android(this, '1', 7000, 400, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
     this.game.android2 = new Android(this, '2', 400, 300, cursors);
     this.game.android1.coLink(this.game.android2);
@@ -273,8 +274,14 @@ export default class Scene3 extends Phaser.Scene {
       cam.fadeOut(2000);
       this.time.addEvent({
         delay: 2000,
-        callback: () => (this.scene.start('victory'))
+        callback: () => (advanceToVictory(this))
       });
+    }
+    function advanceToVictory(scene){
+      scene.game.scene1Counter++;
+      scene.scene.remove('level1'+ (scene.game.scene1Counter-1));
+      scene.game.scene.add('', new Scene2('level1' + scene.game.scene1Counter), false);
+      scene.scene.start('victory')
     }
 
     //Trackers de la barra de progreso.

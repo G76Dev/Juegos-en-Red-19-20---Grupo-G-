@@ -54,3 +54,4 @@ game.currentMusic;
 game.android1;
 game.android2;
 game.scene1Counter = 0;
+game.scene2Counter = 0;
