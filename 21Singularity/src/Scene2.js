@@ -85,9 +85,9 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 300, 400, cursors);
+    this.game.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.game.android2 = new Android(this, '2', 400, 400, cursors);
+    this.game.android2 = new Android(this, '2', 400, 300, cursors);
     this.game.android1.coLink(this.game.android2);
     this.game.android2.coLink(this.game.android1);
     Android.lives = 10;
@@ -355,7 +355,7 @@ export default class Scene2 extends Phaser.Scene {
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
     cam.setBounds(0, 0, 8290, 10000);
-    firstFollow = this.add.container(0, 0);
+    firstFollow = this.add.container(400, 300);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
 

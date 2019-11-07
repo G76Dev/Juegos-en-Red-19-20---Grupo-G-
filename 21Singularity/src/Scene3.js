@@ -259,7 +259,7 @@ export default class Scene3 extends Phaser.Scene {
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
     cam.setBounds(0, 0, 7292, 10000);
-    firstFollow = this.add.container(0, 0);
+    firstFollow = this.add.container(400, 300);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
 
