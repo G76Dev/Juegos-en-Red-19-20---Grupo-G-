@@ -27,7 +27,8 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('text_nextPage', 'assets/Interfaz/Text_NextPage.png')
         this.load.image('light', 'assets/Interfaz/Light.png');
         this.load.image('X', 'assets/Interfaz/X.png');
-
+        this.load.image('logo', 'assets/Interfaz/LogoNanaTeam_pixelart.png');
+        
         this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
         this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
         this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
@@ -461,9 +462,16 @@ export default class SceneLoading extends Phaser.Scene {
         this.sound.pauseOnBlur = false;
         this.input.on('pointerdown', function () {
             if (!isLoading) {
-                this.scene.game.currentMusic = this.scene.sound.add('menuMusic', { loop: true, volume: this.scene.game.musicVolume });
-                this.scene.game.currentMusic.play();
-                this.scene.scene.start('menu');
+                this.scene.cameras.main.fadeOut(1000);
+                
+                function LoadSS(scene){
+                    scene.scene.start('splashScreen');
+                }
+                this.scene.time.addEvent({
+                    delay: 1000,
+                    callback: () => LoadSS(this.scene)
+                });
+                //this.scene.scene.start('menu');
             }
         });
     }

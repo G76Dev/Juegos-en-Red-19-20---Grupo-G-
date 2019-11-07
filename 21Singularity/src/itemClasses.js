@@ -164,7 +164,7 @@ class draggableSpike extends draggableObject{
 
 //objeto laser, hereda de draggableObject, por lo que al ser inicializada, tambien inicializa super(), es decir draggableObject
 class draggableLaser extends draggableObject{
-  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 0, expireTime = 2000) {
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 90, expireTime = 2000) {
     super(scene, itemsBar, x, y, 'laser_icon', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre)
