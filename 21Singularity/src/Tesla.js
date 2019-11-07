@@ -1,14 +1,21 @@
+//Clase Tesla, para instanciar Bobinas teslas.
 export default class Tesla {
-  constructor(scene, posX, posY, sprt, anim){
-    this.sprite = scene.add.sprite(posX, posY, sprt,0);
+  constructor(scene, posX, posY, sprt, anim) {
+    //Generamos el sprite.
+    this.sprite = scene.add.sprite(posX, posY, sprt, 0);
     this.sprite.setDepth(-4);
     this.scene = scene;
     this.isReady = true;
 
-    this.electricSprite = scene.matter.add.sprite(posX, -999,  anim, 0);
-    this.electricSprite.setCircle(46).setSensor(true).setStatic(true).setScale(1).setDepth(1).setVisible(false);
-    this.electrisSpY = posY-16;
+    //Generamos el sprite de la tesla activada, cambiamos su collider, la activamos como sensor,
+    //la hacemos estática y la iniciamos invisible. Además cambiamos su posición.
+    this.electricSprite = scene.matter.add.sprite(posX, -999, anim, 0);
+    this.electricSprite.setCircle(46).setSensor(true).setStatic(true).setDepth(1).setVisible(false);
+    this.electrisSpY = posY - 16;
+    //Reproducimos su animación.
     this.electricSprite.anims.play(anim, true);
+
+    //Establecemos colisiones con los jugadores androide.
     scene.matterCollision.addOnCollideActive({
       objectA: scene.game.android1.mainBody,
       objectB: this.electricSprite,
@@ -21,35 +28,41 @@ export default class Tesla {
       callback: inflictDamage,
       context: scene.game.android2
     });
-    function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}
+
+    //Función inflictDamaga, que daña a los androides.
+    function inflictDamage({ bodyA, bodyB, pair }) { this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x - bodyB.gameObject.x, bodyA.gameObject.y - bodyB.gameObject.y), 135); }
 
   }
-  startCycle(loop, timer, del=0){
-    if(this.isReady){
+
+  //Función startCycle, que inicia el ciclo de activado/desactivado para las bobinas automáticas.
+  startCycle(loop, timer, del = 0) {
+    if (this.isReady) {
       this.isReady = false;
       this.scene.time.addEvent({
         delay: del,
         callback: () => (delayedOn(this.scene, this))
       });
-      function delayedOn(scene, obj){
+      //Función delayedOn, que activa la tesla.
+      function delayedOn(scene, obj) {
         obj.electricSprite.y = obj.electrisSpY;
         obj.electricSprite.setVisible(true);
-        if(timer != -1){
-        scene.time.addEvent({
-          delay: timer,
-          callback: () => (off(scene, obj))
-        });
-          function off(scene, obj){
-            //obj.sprite.setTint(0x000000);
+        if (timer != -1) {
+          scene.time.addEvent({
+            delay: timer,
+            callback: () => (off(scene, obj))
+          });
+          //Función off, que apaga la tesla.
+          function off(scene, obj) {
             obj.electricSprite.y = -999;
             obj.electricSprite.setVisible(false);
             scene.time.addEvent({
               delay: timer,
               callback: () => (startAgain(scene, obj))
             });
-            function startAgain(scene, obj){
-                obj.isReady = true;
-              if(loop){
+            //Función startAgain, que vuelve a llamar a startCycle.
+            function startAgain(scene, obj) {
+              obj.isReady = true;
+              if (loop) {
                 obj.startCycle(loop, timer, del)
               }
             }

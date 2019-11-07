@@ -1,29 +1,27 @@
-//Zona de declaración de variables
-//Variable gameOver para finalizar la partida
-var gameOver = false;
-//Variables CAMARA
+//Zona de declaración de variables.
+//Variables de la camara.
 var cam;
 var firstFollow;
 
+//Items y elementos interactuables.
 var usableItems;
 var humanInteractableItems;
 var androidInteractableItems;
 
-//mouse
-var mouse;
+//Mouse.
+//var mouse;
 
+//Trackers para la barra de progreso.
 var p1Tracker;
 var p2Tracker;
 
+//Variable fadeOut, que controla el fin del nivel.
 var fadeOut;
 
-var blueRays = [];
-var doors = [];
-var blades = [];
-var presses = [];
-var extraLifes = [];
-var monitors = [];
+//Variable presses, para las presas hidráulicas.
+const presses = [];
 
+//Imports en la escena.
 import Android from "./Android.js";
 import ItemBar from "./ItemClasses.js";
 import Conveyer from "./Conveyer.js";
@@ -32,42 +30,42 @@ import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 import Monitor from "./Monitor.js";
 
+//Clase Scene2, que extiende de Phaser.Scene.
 export default class Scene2 extends Phaser.Scene {
   constructor(key = "level10") {
     super(key);
   }
-  //Función create, que crea los elementos del propio juego
+  //Función create, que crea los elementos del propio juego.
   create() {
     this.shouldBeActive = true;
     fadeOut = false;
-    // Música
+    //Música.
     this.game.currentMusic.stop();
     this.game.currentMusic = this.sound.add('theme', { loop: true, volume: this.game.musicVolume });
     this.game.currentMusic.play();
 
+    //Variables para los elementos interactuables.
+    const blueRays = [];
     const orangeRays = [];
     const conveyers = [];
-    //backgrounds
+    const doors = [];
+    const blades = [];
+    const extraLifes = [];
+    const monitors = [];
+    
+    //Backgrounds.
     this.add.image(0, 0, 'bg_i').setScale(30).setScrollFactor(0).setDepth(-503);
     this.add.image(1300, 550, 'bg1_i').setScale(0.9).setScrollFactor(0.25).setDepth(-502);
     this.add.image(1100, 450, 'bg2_i').setScale(1).setScrollFactor(0.5).setDepth(-501);
     this.add.image(1200, 650, 'bg3_i').setScale(1.2).setScrollFactor(0.75).setDepth(-500);
 
-    //inicializacion y creacion de mapa de tiles
+    //Inicializacion y creacion de mapa de tiles.
     const map1 = this.make.tilemap({ key: "map1" });
     const tileset1 = map1.addTilesetImage("Tileset Industrial x32", "tiles1");
 
+    //Capas de tiles.
     const layerminus2 = map1.createStaticLayer("background_layer_-2depth", tileset1, 0, 0);
     layerminus2.depth = -20;
-
-    //Sierras giratorias
-    blades[0] = this.matter.add.sprite(2080, 416, "rBlade", 0);
-    blades[1] = this.matter.add.sprite(3296, 288, "rBlade", 0);
-    blades[2] = this.matter.add.sprite(3902, 576, "rBlade", 0);
-    blades[3] = this.matter.add.sprite(6336, 608, "rBlade", 0);
-    blades[4] = this.matter.add.sprite(6736, 592, "rBlade", 0);
-    blades[5] = this.matter.add.sprite(6864, 592, "rBlade", 0);
-
     const layerminus1 = map1.createStaticLayer("deco_layer_-1depth", tileset1, 0, 0);
     layerminus1.depth = -10;
     const baselayer = map1.createStaticLayer("base_layer_0depth", tileset1, 0, 0);
@@ -75,23 +73,27 @@ export default class Scene2 extends Phaser.Scene {
     const lethallayer = map1.createStaticLayer("lethal_layer_0depth", tileset1, 0, 0);
     lethallayer.depth = -5;
 
+    //Colisiones de las capas.
     layerminus1.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(layerminus1);
-
     baselayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(baselayer);
-
     lethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(lethallayer);
 
+    //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
     this.game.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
     this.game.android2 = new Android(this, '2', 400, 300, cursors);
     this.game.android1.coLink(this.game.android2);
     this.game.android2.coLink(this.game.android1);
+    //Iniciamos las vidas a 10.
     Android.lives = 10;
 
+    //Elementos interactuables
+    //Presas hidráulicas
+    //Automáticas
     presses[0] = new Press(this, 4464, 148, "pressNI");
     presses[0].startCycle(-1, 0);
     presses[1] = new Press(this, 4534, 146, "pressNI");
@@ -109,6 +111,7 @@ export default class Scene2 extends Phaser.Scene {
     presses[7] = new Press(this, 5074, 403, "pressNI");
     presses[7].startCycle(-1, 1800);
 
+    //Interactuables
     presses[8] = new Press(this, 4464, 403, "pressI");
     presses[8].startCycle(1, 0);
     presses[9] = new Press(this, 4564, 403, "pressI");
@@ -123,6 +126,7 @@ export default class Scene2 extends Phaser.Scene {
     presses[13] = new Press(this, 5064, 146, "pressI");
     presses[13].startCycle(1, 0);
 
+    //Colisiones con los jugadores androides.
     this.matterCollision.addOnCollideStart({
       objectA: this.game.android1.mainBody,
       callback: lethalCollide,
@@ -134,6 +138,7 @@ export default class Scene2 extends Phaser.Scene {
       context: this.game.android2
     });
 
+    //Función lethalCollide, que comprueba si la colisión con los pinchos ha sido letal.
     function lethalCollide({ gameObjectB }) {
       if (!gameObjectB || !(gameObjectB instanceof Phaser.Tilemaps.Tile)) return;
       const tile = gameObjectB;
@@ -142,7 +147,6 @@ export default class Scene2 extends Phaser.Scene {
       }
     }
 
-    //Elementos animados o interactuables
     //Monitores
     monitors[0] = new Monitor(this, 720, 552, "Press w/up arrow to\njump!");
     monitors[1] = new Monitor(this, 1232, 232, "Watch out for spikes\nand menacing objects!");
@@ -209,8 +213,9 @@ export default class Scene2 extends Phaser.Scene {
     blueRays[6] = this.matter.add.sprite(3054, 144, "blueRay", 0);
     blueRays[7] = this.matter.add.sprite(3086, 144, "blueRay", 0);
 
-    //Colisiones entre androides y rayos.
+    //Colisiones con los jugadores androides.
     for (var i = 0; i < orangeRays.length; i++) {
+      //Cambiamos el collider.
       orangeRays[i].setRectangle(16, 32);
       if (i >= 11)
         orangeRays[i].setAngle(90);
@@ -229,7 +234,9 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
+    //Colisiones con los jugadores androides.
     for (var i = 0; i < blueRays.length; i++) {
+      //Cambiamos el collider.
       blueRays[i].setRectangle(16, 32);
       if (i >= 6)
         blueRays[i].setAngle(90);
@@ -256,13 +263,23 @@ export default class Scene2 extends Phaser.Scene {
     doors[4] = this.matter.add.sprite(7216, 560, "orangeDoor1", 0);
     doors[5] = this.matter.add.sprite(8200, 400, "orangeDoor1", 0);
 
+    //Cambiamos el collider de las puertas y las ponemos estáticas.
     for (var i = 0; i < doors.length; i++) {
       doors[i].setRectangle(8, 96);
       doors[i].setStatic(true);
     }
 
-    //Colisiones entre androides y sierras.
+    //Sierras giratorias
+    blades[0] = this.matter.add.sprite(2080, 416, "rBlade", 0);
+    blades[1] = this.matter.add.sprite(3296, 288, "rBlade", 0);
+    blades[2] = this.matter.add.sprite(3902, 576, "rBlade", 0);
+    blades[3] = this.matter.add.sprite(6336, 608, "rBlade", 0);
+    blades[4] = this.matter.add.sprite(6736, 592, "rBlade", 0);
+    blades[5] = this.matter.add.sprite(6864, 592, "rBlade", 0);
+
+    //Colisiones con los jugadores androides.
     for (var i = 0; i < blades.length; i++) {
+      //Cambiamos el collider y las ponemos estáticas y sensores.
       blades[i].setCircle(28)
       blades[i].setStatic(true).setSensor(true);
       blades[i].setDepth(-15);
@@ -281,17 +298,19 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
-    this.lifesUI = this.add.image(66, 56,'lifesUI');
-    this.lifesUI.setScrollFactor(0).setDepth(100);
-    this.lifesText = this.add.text(72, 38, "" + Android.lives, { fontSize: '32px', fill: '#FFFFFF', fontFamily: 'Consolas' });
-    this.lifesText.setScrollFactor(0).setDepth(100).setStroke('#FF9E37', 4);
+    //Cintas mecánicas
+    conveyers[0] = new Conveyer(this, 4767, 310, "conveyer_1",'conveyer1S', 928, 2);
+    conveyers[1] = new Conveyer(this, 4767, 566, "conveyer_1",'conveyer1S', 928, -2);
+    conveyers[2] = new Conveyer(this, 6800, 600, "conveyer_3",'conveyer3S', 400, 2);
 
     //Vidas Extras
     extraLifes[0] = this.matter.add.sprite(2640, 412, "life", 0);
     extraLifes[1] = this.matter.add.sprite(3664, 272, "life", 0);
     extraLifes[2] = this.matter.add.sprite(6560, 582, "life", 0);
 
+    //Colisiones con los jugadores androide.
     for (var i = 0; i < extraLifes.length; i++) {
+      //Las ponemos estáticas y sensores.
       extraLifes[i].setStatic(true).setSensor(true);
 
       this.matterCollision.addOnCollideStart({
@@ -308,6 +327,7 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
+    //Función addLife, que añade una vida a los jugadores androide.
     function addLife({ gameObjectB }) {
       Android.lives++;
       this.lifesText.setText("" + Android.lives);
@@ -316,18 +336,6 @@ export default class Scene2 extends Phaser.Scene {
 
     //Función inflictDamage, que hiere a los androides.
     function inflictDamage({ bodyA, bodyB, pair }) { this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x - bodyB.gameObject.x, bodyA.gameObject.y - bodyB.gameObject.y), 90); }
-
-    //INTERFAZ
-    mouse = this.input.activePointer;
-    //instancia de barra de objetos
-    usableItems = new ItemBar(this, 916, 61, 210);
-
-    //players = new AndroidPlayers(this);
-    //players.setGround(floor);
-
-    conveyers[0] = new Conveyer(this, 4767, 310, "conveyer_1",'conveyer1S', 928, 2);
-    conveyers[1] = new Conveyer(this, 4767, 566, "conveyer_1",'conveyer1S', 928, -2);
-    conveyers[2] = new Conveyer(this, 6800, 600, "conveyer_3",'conveyer3S', 400, 2);
 
     //Objetos animados
     for (var i = 0; i < orangeRays.length; i++) {
@@ -345,31 +353,44 @@ export default class Scene2 extends Phaser.Scene {
       extraLifes[i].anims.play('lifeS', true);
     }
 
-    //interactuables
+    //Interfaz.
+    //Mostramos las vidas por pantalla.
+    this.lifesUI = this.add.image(66, 56,'lifesUI');
+    this.lifesUI.setScrollFactor(0).setDepth(100);
+    this.lifesText = this.add.text(72, 38, "" + Android.lives, { fontSize: '32px', fill: '#FFFFFF', fontFamily: 'Consolas' });
+    this.lifesText.setScrollFactor(0).setDepth(100).setStroke('#FF9E37', 4);
+
+    //Instancia de barra de objetos.
+    usableItems = new ItemBar(this, 916, 61, 210);
+
+    //Interactuables.
     humanInteractableItems = new HumanInteractablesArray(this, usableItems);
     humanInteractableItems.initializeScene2( blueRays, blades, presses, doors);
     androidInteractableItems = new AndroidInteractablesArray(this);
     androidInteractableItems.initializeScene2( orangeRays, doors);
 
-    //CAMARA:
+    //Camara.
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
     cam.setBounds(0, 0, 8290, 10000);
-    firstFollow = this.add.container(400, 300);
+    firstFollow = this.add.container(0, 0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
-    //cam.setZoom(1);
 
+    //Barra de progreso.
     const progressBar = this.add.image(480, 12, 'progression_bar'); //8160
     progressBar.setScrollFactor(0);
     p1Tracker = this.add.image(0, 25, 'deathHead1');
     p1Tracker.setScrollFactor(0).setScale(0.65);
     p2Tracker = this.add.image(0, 25, 'deathHead2');
     p2Tracker.setScrollFactor(0).setScale(0.65);
-    //3º JUGADOR:
-    //Se añaden funciones al arrastrar y dejar de arrastrar objetos arrastrables
   }
 
+  //Pointer del ratón.
+  //mouse = this.input.activePointer;
+
+  //Función update, que actualiza el estado de la escena.
   update(time, delta) {
+    //Si las vidas son igual o menores que 0, se acaba la partida.
     if(Android.lives <= 0 && this.shouldBeActive){
       this.shouldBeActive = false;
       this.cameras.main.fadeOut(1000);
@@ -377,18 +398,23 @@ export default class Scene2 extends Phaser.Scene {
         delay: 1000,
         callback: () => (LoadScene(this, 'defeat'))
       });
+      //Función LoadScene, que carga una escena.
       function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     }
-    //Si gameOver es true, acaba la partida.
     firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
     firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+
+    //Interactuables.
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
+
+    //Update de las presas hidráulicas.
     for (var i = 0; i < presses.length; i++) {
       presses[i].update();
     }
 
+    //Si ambos llegan al final del nivel, hacemos transición al siguiente.
     if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
@@ -398,6 +424,7 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
+    //Trackers de la barra de progreso.
     p1Tracker.x = this.game.android1.sprite.x / 17;
     p2Tracker.x = this.game.android2.sprite.x / 17;
 

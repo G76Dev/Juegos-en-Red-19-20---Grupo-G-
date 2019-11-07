@@ -1,3 +1,4 @@
+//Clase AndroidInteractableClass, para los elementos con los que pueden interactuar los androides.
 class AndroidInteractableClass {
   constructor(scene, existingObj, mainObject, xObb, yObj, sprObj, sclObj, includeActivator = false, xAct = 0, yAct = 0, sprAct = "generic", sclAct = 0, follow = false, followXoffset = 0, followYoffset = 0) {
     this.scene = scene;
@@ -99,6 +100,7 @@ class AndroidInteractableClass {
   }
 }
 
+//Clase Door, para instanciar puertas.
 class Door extends AndroidInteractableClass {
   constructor(scene, door, xAct, yAct, sprtAct, distance) {
     super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, sprtAct, 1);
@@ -127,6 +129,7 @@ class Door extends AndroidInteractableClass {
   }
 }
 
+//Clase DoorTimer, para instanciar puertas que se cierran al cabo de un tiempo.
 class DoorTimer extends AndroidInteractableClass {
   constructor(scene, door, xAct, yAct, distance) {
     super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
@@ -158,6 +161,7 @@ class DoorTimer extends AndroidInteractableClass {
   }
 }
 
+//Clase Elevator, para instanciar ascensores.
 class Elevator extends AndroidInteractableClass {
   constructor(scene, xObb, yObj, sprt, xAct, yAct, sprtAct, newPosY) {
     super(scene, false, null, xObb, yObj, sprt, 1, true, xAct, yAct, sprtAct, 1);
@@ -186,6 +190,7 @@ class Elevator extends AndroidInteractableClass {
   }
 }
 
+//Clase OrangeRay, para instanciar rayos naranjas.
 class OrangeRay extends AndroidInteractableClass {
   constructor(scene, mainObj, xAct, yAct) {
     super(scene, true, mainObj, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
@@ -199,6 +204,7 @@ class OrangeRay extends AndroidInteractableClass {
   }
 }
 
+//Clase OrangeRayRestore, para instanciar rayos naranjas que vuelven a aparecer.
 class OrangeRayRestore extends AndroidInteractableClass {
   constructor(scene, mainObj, xAct, yAct) {
     super(scene, true, mainObj, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1, false);
@@ -232,6 +238,7 @@ class OrangeRayRestore extends AndroidInteractableClass {
   }
 }
 
+//Clase FirePlatform, para instanciar plataformas que se caen al tocarlas.
 class FirePlatform {
   constructor(scene, xObb, yObj) {
     this.mainObject = scene.matter.add.sprite(xObb, yObj, "fire_fp");
@@ -266,6 +273,7 @@ class FirePlatform {
   }
 }
 
+//Clase ElectricSurface, para instanciar superficies eléctricas que pueden desactivarse.
 class ElectricSurface extends AndroidInteractableClass {
   constructor(scene, elSurf, xAct, yAct) {
     super(scene, true, elSurf, 0, 0, "", 1, true, xAct, yAct, "orangeLever", 1, false);
@@ -281,6 +289,7 @@ class ElectricSurface extends AndroidInteractableClass {
   }
 }
 
+//Clase FinishLine, para instanciar una meta para terminar un nivel.
 class FinishLine {
   constructor(scene, xObb, yObj) {
     this.mainObject = scene.matter.add.sprite(xObb, yObj, 'finishLine', 0);
@@ -318,12 +327,14 @@ class FinishLine {
   }
 }
 
+//Exportamos el array de interactuables.
 export default class AndroidInteractablesArray {
   constructor(scene) {
     this.items = [];
     this.scene = scene;
   }
 
+  //Inicializamos la escena 2 (nivel 1).
   initializeScene2(orangeRays, doors) {
     this.items = [];
     this.items[0] = new Elevator(this.scene, 2258, 424, "elevator1", 2128, 144, "orangeButton", 200);
@@ -341,6 +352,7 @@ export default class AndroidInteractablesArray {
     this.items[12] = new Door(this.scene, doors[0], 2830, 464, "orangeButton", -100);
     this.items[13] = new FinishLine(this.scene, 8084, 400);
   }
+  //Inicializamos la escena 3 (nivel 2).
   initializeScene3(eSurfaces, doors) {
     this.items = [];
     this.items[0] = new Elevator(this.scene, 1776, 324, "elevator2", 1714, 308, "orangeLever", 518);
@@ -364,27 +376,10 @@ export default class AndroidInteractablesArray {
 
     this.items[15] = new FinishLine(this.scene, 7084, 464);
   }
+  //Función update, que actualiza los elementos de los niveles.
   update(time, delta) {
     for (var i = 0; i < this.items.length; i++) {
       this.items[i].update(time, delta);
     }
   }
 }
-
-
-/*424 - 202 = 222
-class GravityPlatform2 extends InteractableClass{
-  constructor(scene, xObb, yObj, xAct, yAct){
-    super(scene, xObb, yObj, "bar", 0.5, xAct, yAct, "item2", 0.2);
-    this.mainObject.setStatic(true).setAngle(90).setTint(0xE17012);
-    this.mainObject.body.name = "interactableBody";
-  }
-  objectActivate(){
-    super.objectActivate();
-    if(this.isActive){
-      this.mainObject.setStatic(false).setTint(0x00E3F2);
-    }else{
-      this.mainObject.setStatic(true).setTint(0xE17012);
-    }
-  }
-}*/
