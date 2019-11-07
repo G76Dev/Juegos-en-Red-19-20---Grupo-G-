@@ -37,6 +37,7 @@ export default class Scene1 extends Phaser.Scene{
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 405, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({

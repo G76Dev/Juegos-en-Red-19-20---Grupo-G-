@@ -33,12 +33,19 @@ export default class Scene3 extends Phaser.Scene {
   }
   //Función create, que crea los elementos del propio juego
   create() {
-  const doors = [];
-  const extraLifes = [];
-  const teslas = [];
-  const eSurfaces = [];
+    this.shouldBeActive = true;
 
-  const eSurfAnim = [];
+    // Música
+    this.game.currentMusic.stop();
+    this.game.currentMusic = this.sound.add('theme2', { loop: true, volume: this.game.musicVolume });
+    this.game.currentMusic.play();
+
+    const doors = [];
+    const extraLifes = [];
+    const teslas = [];
+    const eSurfaces = [];
+
+    const eSurfAnim = [];
 
     //backgrounds
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
@@ -78,11 +85,11 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    game.android1 = new Android(this, '1', 300, 300, cursors);
+    this.game.android1 = new Android(this, '1', 6000, 200, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    game.android2 = new Android(this, '2', 400, 300, cursors);
-    game.android1.coLink(this.game.android2);
-    game.android2.coLink(this.game.android1);
+    this.game.android2 = new Android(this, '2', 6000, 200, cursors);
+    this.game.android1.coLink(this.game.android2);
+    this.game.android2.coLink(this.game.android1);
 
     this.matterCollision.addOnCollideStart({
       objectA: this.game.android1.mainBody,
@@ -248,8 +255,8 @@ export default class Scene3 extends Phaser.Scene {
 
     //CAMARA:
     cam = this.cameras.main;
-    this.matter.world.setBounds(-500, -500, 10000, 10000);
-    cam.setBounds(-500, 0, 10000, 10000);
+    this.matter.world.setBounds(0, -500, 10000, 10000);
+    cam.setBounds(0, 0, 10000, 10000);
     firstFollow = this.add.container(0, 0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
@@ -265,9 +272,14 @@ export default class Scene3 extends Phaser.Scene {
   }
 
   update(time, delta) {
-    //Si gameOver es true, acaba la partida.
-    if (gameOver) {
-      return;
+    if(Android.lives <= 0 && this.shouldBeActive){
+      this.shouldBeActive = false;
+      this.cameras.main.fadeOut(1000);
+      this.time.addEvent({
+        delay: 1000,
+        callback: () => (LoadScene(this, 'defeat'))
+      });
+      function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     }
     firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
     firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
@@ -283,7 +295,7 @@ export default class Scene3 extends Phaser.Scene {
       cam.fadeOut(2000);
       this.time.addEvent({
         delay: 2000,
-        callback: () => (this.scene.start('level1'))
+        callback: () => (this.scene.start('victory'))
       });
     }
 

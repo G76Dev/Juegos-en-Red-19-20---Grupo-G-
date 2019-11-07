@@ -7,7 +7,6 @@ var isChangingScene;
 import Button from "./button.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
-
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 179 + 70 * i && scene.input.mousePointer.y < 249 + 70 * i){
       if (!buttonArray[i].isActive)
@@ -41,6 +40,7 @@ export default class Scene1 extends Phaser.Scene{
 	function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	buttonArray = [
   		new Button(this, 960/2, 214, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -49,14 +49,16 @@ export default class Scene1 extends Phaser.Scene{
 			});
   		}),
   		new Button(this, 960/2, 284, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
 				delay: 1000,
-				callback: () => LoadScene(this.scene, 'level1')
+				callback: () => LoadScene(this.scene, 'level1' + this.scene.game.scene1Counter)
 			});
   		}),
   		new Button(this, 960/2, 354, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -65,14 +67,16 @@ export default class Scene1 extends Phaser.Scene{
 			});
   		}),
   		new Button(this, 960/2, 420, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
 				delay: 1000,
-				callback: () => LoadScene(this.scene, 'victory')
+				callback: () => LoadScene(this.scene, 'level2')
 			});
 		  },),
 		new Button(this, 960/2, 486, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({

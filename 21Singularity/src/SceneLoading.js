@@ -34,8 +34,14 @@ export default class SceneLoading extends Phaser.Scene {
         //Cargamos los sonidos y la música
         this.load.audio('menuHover', 'assets/Audio/Sounds/Menu/MenuHover.wav');
         this.load.audio('menuSelected', 'assets/Audio/Sounds/Menu/MenuSelected.wav');
+        this.load.audio('land', 'assets/Audio/Sounds/Land.wav');
+        this.load.audio('jump', 'assets/Audio/Sounds/Jump.wav');
+        this.load.audio('coopJump', 'assets/Audio/Sounds/CoopJump.wav');
+        this.load.audio('laser', 'assets/Audio/Sounds/Laser.wav');
+        this.load.audio('bomb', 'assets/Audio/Sounds/Bomb.wav');
         this.load.audio('menuMusic', 'assets/Audio/Music/MenuMusic.wav');
         this.load.audio('theme', 'assets/Audio/Music/Theme.wav');
+        this.load.audio('theme2', 'assets/Audio/Music/Theme2.wav');
 
         //imagenes fondo TILED
         this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");

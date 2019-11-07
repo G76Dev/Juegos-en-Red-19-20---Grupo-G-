@@ -53,6 +53,8 @@ export default class Android {
       if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
         this.aditionalJumpVelocity = -0.25;
         this.sprite.setVelocityY(-Android.jumpVelocity);
+        var jumpSound = this.scene.sound.add('jump', {volume: this.scene.game.soundVolume});
+        jumpSound.play();
         this.canJump = false;
         this.cursors.up.on('up', function (event) {
           this.canJump = true
@@ -88,6 +90,17 @@ export default class Android {
 
     //icono indicador
     this.indicator = this.scene.add.image(-999, -999, "farHead" + this.androidNumber);
+
+    scene.matterCollision.addOnCollideStart({
+      objectA: this.sensors.bottom,
+      callback: this.soundFall,
+      context: this
+    });
+  }
+  soundFall(bodyB){
+    if (bodyB.isSensor) return;
+    var landSound = this.scene.sound.add('land', {volume: this.scene.game.soundVolume});
+    landSound.play();
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
     if (bodyB.isSensor) return;
@@ -215,6 +228,8 @@ export default class Android {
       ((this.otherAndroid.sprite.y < this.sprite.y + 48) && (this.otherAndroid.sprite.y > (this.sprite.y - 48)))) {
       if (this.canCoopImpulse && this.otherAndroid.canCoopImpulse) {
         this.otherAndroid.sprite.setVelocityY(-Android.jumpVelocity * 1.1);
+        var coopJumpSound = this.scene.sound.add('coopJump', {volume: this.scene.game.soundVolume});
+        coopJumpSound.play();
         this.canCoopImpulse = false;
       }
     }

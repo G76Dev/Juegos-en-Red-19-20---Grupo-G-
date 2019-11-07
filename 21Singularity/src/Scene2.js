@@ -33,11 +33,13 @@ import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 import Monitor from "./Monitor.js";
 
 export default class Scene2 extends Phaser.Scene {
-  constructor() {
-    super("level1");
+  constructor(key = "level10") {
+    super(key);
   }
   //Función create, que crea los elementos del propio juego
   create() {
+    this.shouldBeActive = true;
+
     // Música
     this.game.currentMusic.stop();
     this.game.currentMusic = this.sound.add('theme', { loop: true, volume: this.game.musicVolume });
@@ -349,8 +351,8 @@ export default class Scene2 extends Phaser.Scene {
 
     //CAMARA:
     cam = this.cameras.main;
-    this.matter.world.setBounds(-500, -500, 10000, 10000);
-    cam.setBounds(-500, 0, 10000, 10000);
+    this.matter.world.setBounds(0, -500, 10000, 10000);
+    cam.setBounds(0, 0, 10000, 10000);
     firstFollow = this.add.container(0, 0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
@@ -366,7 +368,8 @@ export default class Scene2 extends Phaser.Scene {
   }
 
   update(time, delta) {
-    if(Android.lives <= 0){
+    if(Android.lives <= 0 && this.shouldBeActive){
+      this.shouldBeActive = false;
       this.cameras.main.fadeOut(1000);
       this.time.addEvent({
         delay: 1000,

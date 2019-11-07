@@ -47,3 +47,4 @@ game.soundVolume = 0.2;
 game.currentMusic;
 game.android1;
 game.android2;
+game.scene1Counter = 0;

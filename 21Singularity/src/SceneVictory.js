@@ -5,6 +5,7 @@ var selectedSound;
 var cam;
 var isChangingScene;
 import Button from "./button.js";
+import Scene2 from "./Scene2.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
@@ -40,12 +41,18 @@ export default class SceneVictory extends Phaser.Scene{
     cam = this.cameras.main;
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
+    function FinalSolution(scene, start) {
+      scene.game.scene.add('', new Scene2('level1' + (scene.game.scene1Counter + 1)), start);
+      scene.scene.remove('level1', scene.game.scene1Counter);
+      scene.game.scene1Counter++;
+  }
   	backButton = new Button(this, 960/2, 500, 'light', function() {
+			selectedSound.play({ volume: this.scene.game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
 				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menu')
+				callback: () => (FinalSolution(this.scene, false), LoadScene(this.scene, 'menu'))
 			});
     });
   	//Hacemos la luz invisible

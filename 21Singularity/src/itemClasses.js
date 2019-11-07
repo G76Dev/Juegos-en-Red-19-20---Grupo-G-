@@ -85,6 +85,8 @@ class draggableBomb extends draggableObject{
         delay: 150,
         callback: () => (unsubscribe1(), unsubscribe2())
       });
+      var bombSound = scene.sound.add('bomb', {volume: scene.game.soundVolume});
+      bombSound.play();
       bombInstance.destroy();
     }
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
@@ -179,6 +181,8 @@ class draggableLaser extends draggableObject{
         callback: () => (laser.destroy())
       });
       laser.anims.play('laserLethalS', true);
+      var laserSound = scene.sound.add('laser', {volume: scene.game.soundVolume});
+      laserSound.play();
       laserGadget.destroy();
     }
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}
