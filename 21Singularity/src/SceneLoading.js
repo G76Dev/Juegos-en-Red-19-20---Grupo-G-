@@ -50,14 +50,11 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica.png");
         this.load.tilemapTiledJSON("map2", "../assets/Mapas/Electrical_medium.json");
 
-        this.load.image('generic', 'assets/Test/virtual.png');
-
-        this.load.image('ground', 'assets/Test/platform.png');
         this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('explosion', 'assets/Sprites/Explosions/explosion-6.png', { frameWidth: 48, frameHeight: 48 });
         this.load.spritesheet('laserNonLethal', 'assets/Sprites/laser/laser_nonletal.png', { frameWidth: 960, frameHeight: 32 }); //62
-        this.load.spritesheet('laserLethal', 'assets/Sprites/laser/laser_nonletal.png', { frameWidth: 960, frameHeight: 32 }); //42*/
-        //this.load.spritesheet('laserSprite', 'assets/Sprites/laser/2_primerso_frames_laser.png', { frameWidth: 1920, frameHeight: 32 }); //42*/
+        this.load.spritesheet('laserLethal', 'assets/Sprites/laser/laser_letal.png', { frameWidth: 960, frameHeight: 32 }); //42*/
+        this.load.image('laser_icon', 'assets/Sprites/laser/laser_icon.png');
 
         this.load.spritesheet('androidRun1', 'assets/Sprites/Androids/male_android_running.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('androidIdle1', 'assets/Sprites/Androids/male_android_idle.png', { frameWidth: 32, frameHeight: 64 });
@@ -96,15 +93,11 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('farHead2', "assets/Sprites/Androids/angry_android2.png");
 
         //cambiar por imagenes de la barra de objetos
-        this.load.image('item_bar', 'assets/Interfaz/InGame/item_bar.png');
+        this.load.image('bar', 'assets/Interfaz/InGame/energy_bar.png');
+        this.load.image('item_bar', 'assets/Interfaz/InGame/item_energy_bar.png');
         this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
-        this.load.image('item2', 'assets/Test/selector.png');
         this.load.image('item3', 'assets/Sprites/pinchos/spike.png');
         this.load.image('spikeBox', 'assets/Sprites/pinchos/SPIKE_in_a_box.png');
-        this.load.image('item4', 'assets/Test/bomb.png');
-        this.load.image('item5', 'assets/Test/bomb.png');
-
-        this.load.image('bar', 'assets/Test/Barra.png');
 
         this.load.image('bg_i', 'assets/Backgrounds/Industrial/Industrialbg.png');
         this.load.image('bg1_i', 'assets/Backgrounds/Industrial/IndustrialFar.png');
@@ -123,7 +116,7 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('orangeDoor2', 'assets/Sprites/Doors/Door2_orange.png');
 
         this.load.spritesheet('rBlade', 'assets/Sprites/rotating_blade.png', { frameWidth: 64, frameHeight: 64 });
-        this.load.spritesheet('rBigBlade', 'assets/Sprites/BIG_rotating_blade.png', { frameWidth: 76, frameHeight: 76 });
+        this.load.spritesheet('rBigBlade', 'assets/Sprites/BIG_rotating_blade.png', { frameWidth: 128, frameHeight: 128 });
 
         this.load.spritesheet('orangeButton', 'assets/Sprites/Buttons/orange_button.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
@@ -137,8 +130,11 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('elevator1', 'assets/Sprites/elevator.png');
         this.load.image('elevator2', 'assets/Sprites/electric_elevator.png');
         this.load.image('blue_fp', 'assets/Sprites/Falling_platforms/blue_fp.png');
+        
         this.load.spritesheet('fire_fp', 'assets/Sprites/Falling_platforms/fire_fp.png', { frameWidth: 64, frameHeight: 32 });
+        this.load.spritesheet('fire_fp_human', 'assets/Sprites/Falling_platforms/fire_fp_human.png', { frameWidth: 64, frameHeight: 32 });
         this.load.spritesheet('moving_platform', 'assets/Sprites/Falling_platforms/moving_platform.png', { frameWidth: 96, frameHeight: 16 });
+        
         this.load.image('pressI', 'assets/Sprites/human_press.png');
         this.load.image('pressNI', 'assets/Sprites/ni_press.png');
 
@@ -158,6 +154,9 @@ export default class SceneLoading extends Phaser.Scene {
 
         this.load.image('textbox', 'assets/Sprites/textbox.png');
         this.load.image('finishLine', 'assets/Sprites/finish_line.png');
+        this.load.image('lifesUI', 'assets/Interfaz/InGame/lifes.png');
+
+        this.load.image('progression_bar', 'assets/Interfaz/InGame/progression_bar.png');
 
         let background = this.add.graphics({
             fillStyle: {
@@ -348,15 +347,15 @@ export default class SceneLoading extends Phaser.Scene {
         });
         this.anims.create({
             key: 'laserNonLethalS',
-            frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 20}),
-            frameRate: 20,
-            repeat: -1
+            frames: this.anims.generateFrameNumbers('laserNonLethal', { start: 0, end: 16}),
+            frameRate: 8,
+            repeat: 1
         });
         this.anims.create({
             key: 'laserLethalS',
-            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 20 }),
-            frameRate: 20,
-            repeat: -1
+            frames: this.anims.generateFrameNumbers('laserLethal', { start: 0, end: 16 }),
+            frameRate: 15,
+            repeat: 1
         });
         this.anims.create({
             key: 'blueRayS',
@@ -384,7 +383,7 @@ export default class SceneLoading extends Phaser.Scene {
         });
         this.anims.create({
             key: 'lifeS',
-            frames: this.anims.generateFrameNumbers('life', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('life', { start: 0, end: 1 }),
             frameRate: 4,
             repeat: -1
         });
@@ -403,6 +402,12 @@ export default class SceneLoading extends Phaser.Scene {
         this.anims.create({
             key: 'fire_fpS',
             frames: this.anims.generateFrameNumbers('fire_fp', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'fire_fp_humanS',
+            frames: this.anims.generateFrameNumbers('fire_fp_human', { start: 0, end: 3 }),
             frameRate: 20,
             repeat: -1
         });

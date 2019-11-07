@@ -15,7 +15,7 @@ var mouse;
 var p1Tracker;
 var p2Tracker;
 
-var fadeOut = false;
+var fadeOut;
 
 var blueRays = [];
 var doors = [];
@@ -39,7 +39,7 @@ export default class Scene2 extends Phaser.Scene {
   //Función create, que crea los elementos del propio juego
   create() {
     this.shouldBeActive = true;
-
+    fadeOut = false;
     // Música
     this.game.currentMusic.stop();
     this.game.currentMusic = this.sound.add('theme', { loop: true, volume: this.game.musicVolume });
@@ -85,9 +85,9 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 300, 300, cursors);
+    this.game.android1 = new Android(this, '1', 300, 400, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.game.android2 = new Android(this, '2', 400, 300, cursors);
+    this.game.android2 = new Android(this, '2', 400, 400, cursors);
     this.game.android1.coLink(this.game.android2);
     this.game.android2.coLink(this.game.android1);
     Android.lives = 10;
@@ -281,8 +281,10 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
-    this.lifesText = this.add.text(0, 24, 'Lifes: ' + Android.lives, { fontSize: '32px', fill: '#000' });
-    this.lifesText.setScrollFactor(0);
+    this.lifesUI = this.add.image(66, 56,'lifesUI');
+    this.lifesUI.setScrollFactor(0).setDepth(100);
+    this.lifesText = this.add.text(72, 38, "" + Android.lives, { fontSize: '32px', fill: '#FFFFFF', fontFamily: 'Consolas' });
+    this.lifesText.setScrollFactor(0).setDepth(100).setStroke('#FF9E37', 4);
 
     //Vidas Extras
     extraLifes[0] = this.matter.add.sprite(2640, 412, "life", 0);
@@ -308,7 +310,7 @@ export default class Scene2 extends Phaser.Scene {
 
     function addLife({ gameObjectB }) {
       Android.lives++;
-      this.lifesText.setText("Lives: " + Android.lives);
+      this.lifesText.setText("" + Android.lives);
       gameObjectB.destroy();
     }
 
@@ -318,7 +320,7 @@ export default class Scene2 extends Phaser.Scene {
     //INTERFAZ
     mouse = this.input.activePointer;
     //instancia de barra de objetos
-    usableItems = new ItemBar(this, 900, 70, 200);
+    usableItems = new ItemBar(this, 916, 61, 210);
 
     //players = new AndroidPlayers(this);
     //players.setGround(floor);
@@ -352,13 +354,13 @@ export default class Scene2 extends Phaser.Scene {
     //CAMARA:
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
-    cam.setBounds(0, 0, 10000, 10000);
+    cam.setBounds(0, 0, 8290, 10000);
     firstFollow = this.add.container(0, 0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
     //cam.setZoom(1);
 
-    const progressBar = this.add.image(480, 12, 'generic');
-    progressBar.setScrollFactor(0).setScale(5, 0.10).setTint(0x645FC5);
+    const progressBar = this.add.image(480, 12, 'progression_bar'); //8160
+    progressBar.setScrollFactor(0);
     p1Tracker = this.add.image(0, 25, 'deathHead1');
     p1Tracker.setScrollFactor(0).setScale(0.65);
     p2Tracker = this.add.image(0, 25, 'deathHead2');
@@ -396,9 +398,9 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
-    p1Tracker.x = this.game.android1.sprite.x / 9.1 + 40;
-    p2Tracker.x = this.game.android2.sprite.x / 9.1 + 40;
+    p1Tracker.x = this.game.android1.sprite.x / 17;
+    p2Tracker.x = this.game.android2.sprite.x / 17;
 
-    document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
+    //document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }
 }

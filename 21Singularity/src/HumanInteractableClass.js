@@ -157,10 +157,10 @@ class Press extends HumanInteractableClass{
 
 class FirePlatform extends HumanInteractableClass{
   constructor(scene, itemBar, xObb, yObj){
-    super(scene, itemBar, false, null, xObb, yObj, "fire_fp", 1, false);
+    super(scene, itemBar, false, null, xObb, yObj, "fire_fp_human", 1, false);
     this.mainObject.setRectangle(64, 21).setStatic(true);
     this.mainObject.setOrigin(0.5, 0.3);
-    this.mainObject.anims.play('fire_fpS',true);
+    this.mainObject.anims.play('fire_fp_humanS',true);
     this.initialX = xObb;
   }
   update(){

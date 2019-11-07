@@ -244,7 +244,7 @@ export default class Android {
         if (Android.lives > 0 && this.alive) {
           this.alive = false;
           Android.lives--;
-          this.scene.lifesText.setText("Lives: " + Android.lives);
+          this.scene.lifesText.setText("" + Android.lives);
           this.scene.time.addEvent({
             delay: Android.respawnTime,
             callback: () => (this.respawn())

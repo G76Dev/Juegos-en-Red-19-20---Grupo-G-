@@ -146,14 +146,15 @@ class draggableSpike extends draggableObject{
 
 //objeto laser
 class draggableLaser extends draggableObject{
-  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 90, expireTime = 4000) {
-    super(scene, itemsBar, x, y, 'item1', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+  constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 0, expireTime = 2000) {
+    super(scene, itemsBar, x, y, 'laser_icon', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
   dropItemInGame() {
     var laserGadget;
     if(this.itemsBar.energy > this.cost){
         laserGadget = super.dropItemInGame();
+        laserGadget.x = 480+this.scene.cameras.main.scrollX;
         laserGadget.setStatic(true);
         laserGadget.anims.play('laserNonLethalS', true);
         this.scene.time.addEvent({
@@ -162,7 +163,7 @@ class draggableLaser extends draggableObject{
         });
     }
     function laserActivate(scene, posX, posY){
-      const laser = scene.matter.add.sprite(posX, posY, "laserLethal");
+      const laser = scene.matter.add.sprite(480+scene.cameras.main.scrollX, posY, "laserLethal");
       laser.setDepth(5).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
         objectA: scene.game.android1.mainBody,
@@ -197,17 +198,17 @@ export default class ItemBar{
     this.energy = 100;
     this.items = [3];
     //cada objeto nuevo se añade al array de objetos
-    this.items[0] = new draggableBomb(scene,this, positionX, initialSepY + separationY*(counter++),0,);
-    this.items[1] = new draggableSpike(scene,this, positionX, initialSepY + separationY*(counter++),0);
-    this.items[2] = new draggableLaser(scene,this, positionX, initialSepY + separationY*(counter++),0);
+    this.items[0] = new draggableBomb(scene,this, positionX-14, initialSepY + separationY*(counter++),0,);
+    this.items[1] = new draggableSpike(scene,this, positionX-14, initialSepY + separationY*(counter++),0);
+    this.items[2] = new draggableLaser(scene,this, positionX-14, initialSepY + separationY*(counter++),0);
 
     this.item_bar = scene.add.image(positionX,540/2,'item_bar');
     this.item_bar.originY = 1;
     this.item_bar.setDepth(90).setScrollFactor(0);
     //sprite barra de energia
-    this.bar = scene.add.image(positionX + 45,540/2,'bar');
+    this.bar = scene.add.image(positionX + 27,278,'bar');
     this.bar.originY = 1;
-    this.bar.setDepth(99).setTint(0xFF5923).setScrollFactor(0);
+    this.bar.setDepth(99).setScrollFactor(0);
 
     scene.input.on('drag', onDrag);
     scene.input.on('dragend', onDragEnd);
