@@ -28,16 +28,16 @@ export default class Press {
         });
         function initiateDescend(scene, obj){
           const unsubscribe1 = scene.matterCollision.addOnCollideActive({
-            objectA: scene.android1.mainBody,
+            objectA: scene.game.android1.mainBody,
             objectB: obj.sprite,
             callback: inflictDamage,
-            context: scene.android1
+            context: scene.game.android1
           });
           const unsubscribe2 = scene.matterCollision.addOnCollideStart({
-            objectA: scene.android2.mainBody,
+            objectA: scene.game.android2.mainBody,
             objectB: obj.sprite,
             callback: inflictDamage,
-            context: scene.android2
+            context: scene.game.android2
           });
           function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}
 

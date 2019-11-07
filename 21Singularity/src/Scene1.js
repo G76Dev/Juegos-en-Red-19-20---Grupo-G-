@@ -1,17 +1,17 @@
 //Variables del menú
 var buttonArray;
-var fade;
 var hoverSound;
 var selectedSound;
+var cam;
+var isChangingScene;
 import Button from "./button.js";
-import Fade from "./fade.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
 
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 179 + 70 * i && scene.input.mousePointer.y < 249 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play();
+        hoverSound.play({ volume: scene.game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -27,6 +27,7 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
+	isChangingScene = false;
 	//Añadimos los sonidos a la escena
 	hoverSound = this.sound.add('menuHover');
 	selectedSound = this.sound.add('menuSelected');
@@ -34,34 +35,50 @@ export default class Scene1 extends Phaser.Scene{
     //Añadimos el background y el título
     this.add.image(960/2, 540/2, 'interfazBg');
 	this.add.image(960/2, 540/2, 'interfazTitle');
-  	//Añadimos la pantalla negra que servirá de transición entre escenas
-  	fade = new Fade(this, 960/2, 540/2, 'interfazBs');
-  	//Añadimos las luces que indicarán que botón del menú está activo
+	//Añadimos las luces que indicarán que botón del menú está activo
+	cam = this.cameras.main;
+	cam.fadeIn(1000);
+	function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	buttonArray = [
   		new Button(this, 960/2, 214, 'light', function() {
-  			fade.isChangingScene = true;
-        	fade.nextScene = "onlineMode";
-			selectedSound.play();
+			isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'onlineMode')
+			});
   		}),
   		new Button(this, 960/2, 284, 'light', function() {
-  			fade.isChangingScene = true;
-        	fade.nextScene = "level1";
-			selectedSound.play();
+			isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'level1')
+			});
   		}),
   		new Button(this, 960/2, 354, 'light', function() {
-  			fade.isChangingScene = true;
-        	fade.nextScene = "options";
-			selectedSound.play();
+			isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'options')
+			});
   		}),
   		new Button(this, 960/2, 420, 'light', function() {
-			//fade.isChangingScene = true;
-        	//fade.nextScene = "menuTutorial";
-			//selectedSound.play();
+			isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'victory')
+			});
 		  },),
 		new Button(this, 960/2, 486, 'light', function() {
-			fade.isChangingScene = true;
-        	fade.nextScene = "menuTutorial";
-			selectedSound.play();
+			isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'menuTutorial')
+			});
 		},)
   	];
   	//Hacemos a todas las luces invisibles en un primer momento.
@@ -78,7 +95,7 @@ export default class Scene1 extends Phaser.Scene{
   	//Indica qué función hay que ejecutar según la opción seleccionada en el menú
   	this.input.on('pointerdown', function () {
   	for (var i = 0; i < buttonArray.length; i++) {
-  		if (!fade.isChangingScene && buttonArray[i].isActive) {
+  		if (!isChangingScene && buttonArray[i].isActive) {
   			buttonArray[i].Behaviour();
   		}
   	}
@@ -87,11 +104,10 @@ export default class Scene1 extends Phaser.Scene{
   //Función update, que se ejecuta en cada frame
   update (time, delta)
   {
-	if (!fade.isChangingScene)
+	if (!isChangingScene)
     	CheckOption(this);
   	for (var i = 0; i < buttonArray.length; i++) {
   	  buttonArray[i].Update(time, delta);
   	}
-  	fade.Update(time, delta);
   }
 }

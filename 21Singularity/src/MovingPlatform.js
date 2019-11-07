@@ -10,29 +10,29 @@ export default class MovingPlatform {
         this.delta = 1;
 
         scene.matterCollision.addOnCollideActive({
-            objectA: scene.android1.mainBody,
+            objectA: scene.game.android1.mainBody,
             objectB: this.sprite,
-            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.android1)),
+            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.game.android1)),
         });
         scene.matterCollision.addOnCollideActive({
-            objectA: scene.android2.mainBody,
+            objectA: scene.game.android2.mainBody,
             objectB: this.sprite,
-            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.android2)),
+            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.game.android2)),
         });
         function accelerate(oX, spr, incX, delt, andr) {
             (spr.x < oX) ? (andr.velInfluence = incX*delt) : (andr.velInfluence = -(incX*delt));
         }
         scene.matterCollision.addOnCollideEnd({
-            objectA: scene.android1.mainBody,
+            objectA: scene.game.android1.mainBody,
             objectB: this.sprite,
             callback: decelerate,
-            context: scene.android1
+            context: scene.game.android1
         });
         scene.matterCollision.addOnCollideEnd({
-            objectA: scene.android2.mainBody,
+            objectA: scene.game.android2.mainBody,
             objectB: this.sprite,
             callback: decelerate,
-            context: scene.android2
+            context: scene.game.android2
         });
         function decelerate() { this.velInfluence = 0; }
     }

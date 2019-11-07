@@ -13,6 +13,9 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('menuTutorial', 'assets/Interfaz/TutorialScreen.png');
         this.load.image('text_onlineMode', 'assets/Interfaz/Text_OnlineMode.png');
         this.load.image('options', 'assets/Interfaz/Options.png');
+        this.load.image('sliderObject', 'assets/Interfaz/SliderObject.png');
+        this.load.image('textVictory', 'assets/Interfaz/Text_Victory.png');
+        this.load.image('textDefeat', 'assets/Interfaz/Text_Defeat.png')
 
         //Cargamos los textos del menú
         this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
@@ -21,6 +24,9 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('text_credits', 'assets/Interfaz/Text_Credits.png');
         this.load.image('text_tutorial', 'assets/Interfaz/Text_Tutorial.png');
         this.load.image('text_back', 'assets/Interfaz/Text_Back.png');
+        this.load.image('text_tryAgain', 'assets/Interfaz/Text_TryAgain.png');
+        this.load.image('text_goToMenu', 'assets/Interfaz/Text_GoToMenu.png');
+        this.load.image('X', 'assets/Interfaz/X.png');
 
         //Cargamos el sprite de la luz
         this.load.image('light', 'assets/Interfaz/Light.png');
@@ -433,11 +439,11 @@ export default class SceneLoading extends Phaser.Scene {
             repeat: -1
         });
 
-
         this.sound.pauseOnBlur = false;
         this.input.on('pointerdown', function () {
             if (!isLoading) {
-                this.scene.sound.play('menuMusic', { loop: true });
+                this.scene.game.currentMusic = this.scene.sound.add('menuMusic', { loop: true, volume: this.scene.game.musicVolume });
+                this.scene.game.currentMusic.play();
                 this.scene.scene.start('menu');
             }
         });

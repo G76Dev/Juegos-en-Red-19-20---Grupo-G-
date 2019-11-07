@@ -6,6 +6,9 @@ import Scene3 from "./Scene3.js";
 import SceneMenuTutorial from './SceneMenuTutorial.js';
 import SceneOnlineMode from "./SceneOnlineMode.js";
 import SceneOptions from "./SceneOptions.js";
+import SceneVictory from "./SceneVictory.js";
+import SceneDefeat from "./SceneDefeat.js";
+import Android from "./Android.js";
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
@@ -20,11 +23,11 @@ var config = {
         default: 'matter',
         matter: {
             gravity: { y: 0.98 },
-            debug: true
+            debug: false
         }
     },
     //Escena principal
-    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions, SceneMenuTutorial],
+    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions, SceneMenuTutorial, SceneVictory, SceneDefeat],
     plugins: {
     scene: [
       {
@@ -38,3 +41,9 @@ var config = {
 
 //Declaramos nuestro juego
 var game = new Phaser.Game(config);
+//Declaramos variables globales relativas al sonido y la música.
+game.musicVolume = 0.3;
+game.soundVolume = 0.2;
+game.currentMusic;
+game.android1;
+game.android2;

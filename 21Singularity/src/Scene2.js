@@ -31,20 +31,18 @@ import Press from "./Press.js";
 import HumanInteractablesArray from "./HumanInteractableClass.js";
 import AndroidInteractablesArray from "./AndroidInteractableClass.js";
 import Monitor from "./Monitor.js";
-import Fade from "./Fade.js";
 
 export default class Scene2 extends Phaser.Scene {
   constructor() {
     super("level1");
   }
-  //Función preload, que carga elementos antes de iniciar el juego
-  preload() {
-    const music = this.sound.add('menuMusic');
-    music.play();
-    music.stop();
-  }
   //Función create, que crea los elementos del propio juego
   create() {
+    // Música
+    this.game.currentMusic.stop();
+    this.game.currentMusic = this.sound.add('theme', { loop: true, volume: this.game.musicVolume });
+    this.game.currentMusic.play();
+
     const orangeRays = [];
     const conveyers = [];
     //backgrounds
@@ -85,11 +83,12 @@ export default class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 300, 300, cursors);
+    this.game.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.android2 = new Android(this, '2', 400, 300, cursors);
-    this.android1.coLink(this.android2);
-    this.android2.coLink(this.android1);
+    this.game.android2 = new Android(this, '2', 400, 300, cursors);
+    this.game.android1.coLink(this.game.android2);
+    this.game.android2.coLink(this.game.android1);
+    Android.lives = 10;
 
     presses[0] = new Press(this, 4464, 148, "pressNI");
     presses[0].startCycle(-1, 0);
@@ -123,14 +122,14 @@ export default class Scene2 extends Phaser.Scene {
     presses[13].startCycle(1, 0);
 
     this.matterCollision.addOnCollideStart({
-      objectA: this.android1.mainBody,
+      objectA: this.game.android1.mainBody,
       callback: lethalCollide,
-      context: this.android1
+      context: this.game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.android2.mainBody,
+      objectA: this.game.android2.mainBody,
       callback: lethalCollide,
-      context: this.android2
+      context: this.game.android2
     });
 
     function lethalCollide({ gameObjectB }) {
@@ -215,16 +214,16 @@ export default class Scene2 extends Phaser.Scene {
         orangeRays[i].setAngle(90);
       orangeRays[i].setStatic(true).setSensor(true);
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: orangeRays[i],
         callback: inflictDamage,
-        context: this.android1
+        context: this.game.android1
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: orangeRays[i],
         callback: inflictDamage,
-        context: this.android2
+        context: this.game.android2
       });
     }
 
@@ -234,16 +233,16 @@ export default class Scene2 extends Phaser.Scene {
         blueRays[i].setAngle(90);
       blueRays[i].setStatic(true).setSensor(true);
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: blueRays[i],
         callback: inflictDamage,
-        context: this.android1
+        context: this.game.android1
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: blueRays[i],
         callback: inflictDamage,
-        context: this.android2
+        context: this.game.android2
       });
     }
 
@@ -267,16 +266,16 @@ export default class Scene2 extends Phaser.Scene {
       blades[i].setDepth(-15);
 
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: blades[i],
         callback: inflictDamage,
-        context: this.android1
+        context: this.game.android1
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: blades[i],
         callback: inflictDamage,
-        context: this.android2
+        context: this.game.android2
       });
     }
 
@@ -292,13 +291,13 @@ export default class Scene2 extends Phaser.Scene {
       extraLifes[i].setStatic(true).setSensor(true);
 
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
@@ -367,12 +366,17 @@ export default class Scene2 extends Phaser.Scene {
   }
 
   update(time, delta) {
-    //Si gameOver es true, acaba la partida.
-    if (gameOver) {
-      return;
+    if(Android.lives <= 0){
+      this.cameras.main.fadeOut(1000);
+      this.time.addEvent({
+        delay: 1000,
+        callback: () => (LoadScene(this, 'defeat'))
+      });
+      function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     }
-    firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
-    firstFollow.y = Math.max(Math.min((this.android1.sprite.y + this.android2.sprite.y) / 2, 360), -500);
+    //Si gameOver es true, acaba la partida.
+    firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
+    firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
@@ -380,7 +384,7 @@ export default class Scene2 extends Phaser.Scene {
       presses[i].update();
     }
 
-    if(this.android1.arrived && this.android2.arrived && !fadeOut) {
+    if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
       this.time.addEvent({
@@ -389,8 +393,8 @@ export default class Scene2 extends Phaser.Scene {
       });
     }
 
-    p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
-    p2Tracker.x = this.android2.sprite.x / 9.1 + 40;
+    p1Tracker.x = this.game.android1.sprite.x / 9.1 + 40;
+    p2Tracker.x = this.game.android2.sprite.x / 9.1 + 40;
 
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }

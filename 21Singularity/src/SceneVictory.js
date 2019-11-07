@@ -16,22 +16,26 @@ function CheckOption(scene) {
     backButton.isActive = false;
 }
 //clase escena online mode
-export default class SceneMenuTutorial extends Phaser.Scene{
+export default class SceneVictory extends Phaser.Scene{
   constructor(){
-    super("menuTutorial");
+    super("victory");
   }
   
   //Función create, que crea los elementos del propio juego
   create ()
   {
     isChangingScene = false;
+	// Música
+	this.game.currentMusic.stop();
+	this.game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: this.game.musicVolume });
+	this.game.currentMusic.play();
     //Añadimos los sonidos a la escena
     hoverSound = this.sound.add('menuHover');
     selectedSound = this.sound.add('menuSelected');
     //Añadimos el background
     this.add.image(960/2, 540/2, 'interfazBg');
-    //Añadimos la imagen del tutorial.
-    this.add.image(960/2, 540/2, 'menuTutorial');
+    //Añadimos el texto de victoria.
+    this.add.image(960/2, 540/2, 'textVictory');
     //Añadimos el botón de 'back'
     cam = this.cameras.main;
     cam.fadeIn(1000);
@@ -47,7 +51,7 @@ export default class SceneMenuTutorial extends Phaser.Scene{
   	//Hacemos la luz invisible
   	backButton.alpha = 0;
   	//Añadimos el texto de 'back'.
-  	this.add.image(960/2, 500, 'text_back');
+  	this.add.image(960/2, 500, 'text_goToMenu');
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
   	//Si se está sobre el botón 'back', se volverá al menú principal.
   	this.input.on('pointerdown', function () {
@@ -60,7 +64,7 @@ export default class SceneMenuTutorial extends Phaser.Scene{
   update (time, delta)
   {
     if (!isChangingScene)
-        CheckOption(this);
+      CheckOption(this);
   	backButton.Update(time, delta);
   }
 }

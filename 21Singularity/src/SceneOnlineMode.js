@@ -1,15 +1,15 @@
 //Variables del menú
 var backButton;
-var fade;
 var hoverSound;
 var selectedSound;
+var cam;
+var isChangingScene;
 import Button from "./button.js";
-import Fade from "./fade.js";
 //Función que detecta donde está el ratón y activa la luz correspondiente según su posición
 function CheckOption(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
-        hoverSound.play();
+        hoverSound.play({ volume: scene.game.soundVolume });
     backButton.isActive = true;
   }
   else
@@ -24,6 +24,7 @@ export default class Scene1 extends Phaser.Scene{
   //Función create, que crea los elementos del propio juego
   create ()
   {
+    isChangingScene = false;
     //Añadimos los sonidos a la escena
     hoverSound = this.sound.add('menuHover');
     selectedSound = this.sound.add('menuSelected');
@@ -31,14 +32,18 @@ export default class Scene1 extends Phaser.Scene{
     this.add.image(960/2, 540/2, 'interfazBg');
     //Añadimos el texto de la pantalla del modo online provisional (hasta fase 3-4).
     this.add.image(960/2, 540/2, 'text_onlineMode');
-  	//Añadimos la pantalla negra que servirá de transición entre escenas
-  	fade = new Fade(this, 960/2, 540/2, 'interfazBs');
-  	//Añadimos el botón de 'back'
+    //Añadimos el botón de 'back'
+    cam = this.cameras.main;
+    cam.fadeIn(1000);
+    function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 405, 'light', function() {
-  			fade.isChangingScene = true;
-        fade.nextScene = "menu";
-        selectedSound.play();
-  		});
+      isChangingScene = true;
+			cam.fadeOut(1000);
+			this.scene.time.addEvent({
+				delay: 1000,
+				callback: () => LoadScene(this.scene, 'menu')
+			});
+    });
   	//Hacemos la luz invisible
   	backButton.alpha = 0;
   	//Añadimos el texto de 'back'.
@@ -46,7 +51,7 @@ export default class Scene1 extends Phaser.Scene{
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
   	//Si se está sobre el botón 'back', se volverá al menú principal.
   	this.input.on('pointerdown', function () {
-        if (!fade.isChangingScene && backButton.isActive) {
+        if (!isChangingScene && backButton.isActive) {
             backButton.Behaviour();
         }
   	});
@@ -54,9 +59,8 @@ export default class Scene1 extends Phaser.Scene{
   //Función update, que se ejecuta en cada frame
   update (time, delta)
   {
-    if (!fade.isChangingScene)
+    if (!isChangingScene)
       CheckOption(this);
   	backButton.Update(time, delta);
-  	fade.Update(time, delta);
   }
 }

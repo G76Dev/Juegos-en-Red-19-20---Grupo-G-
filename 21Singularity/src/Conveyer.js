@@ -5,29 +5,29 @@ export default class Conveyer {
     (accelerator > 0) ? this.sprite.setFlipX(false) : this.sprite.setFlipX(true);
     this.sprite.anims.play(anim,true);
     scene.matterCollision.addOnCollideStart({
-      objectA: scene.android1.mainBody,
+      objectA: scene.game.android1.mainBody,
       objectB: this.sprite,
       callback: accelerate,
-      context: scene.android1
+      context: scene.game.android1
     });
     scene.matterCollision.addOnCollideStart({
-      objectA: scene.android2.mainBody,
+      objectA: scene.game.android2.mainBody,
       objectB: this.sprite,
       callback: accelerate,
-      context: scene.android2
+      context: scene.game.android2
     });
     function accelerate(){this.velInfluence = accelerator;}
     scene.matterCollision.addOnCollideEnd({
-      objectA: scene.android1.mainBody,
+      objectA: scene.game.android1.mainBody,
       objectB: this.sprite,
       callback: decelerate,
-      context: scene.android1
+      context: scene.game.android1
     });
     scene.matterCollision.addOnCollideEnd({
-      objectA: scene.android2.mainBody,
+      objectA: scene.game.android2.mainBody,
       objectB: this.sprite,
       callback: decelerate,
-      context: scene.android2
+      context: scene.game.android2
     });
     function decelerate(){this.velInfluence = 0;}
     //this.sprite.anims.play('exprosion', true);

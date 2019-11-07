@@ -9,25 +9,25 @@ export default class Monitor {
       this.message.setStroke('#000000', 2);
       this.message.setVisible(false).setDepth(1);;
       scene.matterCollision.addOnCollideActive({
-        objectA: scene.android1.mainBody,
+        objectA: scene.game.android1.mainBody,
         objectB: this.sprite,
         callback: this.showContainer,
         context: this
       });
       scene.matterCollision.addOnCollideEnd({
-        objectA: scene.android1.mainBody,
+        objectA: scene.game.android1.mainBody,
         objectB: this.sprite,
         callback: this.hideContainer,
         context: this
       });
       scene.matterCollision.addOnCollideActive({
-        objectA: scene.android2.mainBody,
+        objectA: scene.game.android2.mainBody,
         objectB: this.sprite,
         callback: this.showContainer,
         context: this
       });
       scene.matterCollision.addOnCollideEnd({
-        objectA: scene.android2.mainBody,
+        objectA: scene.game.android2.mainBody,
         objectB: this.sprite,
         callback: this.hideContainer,
         context: this

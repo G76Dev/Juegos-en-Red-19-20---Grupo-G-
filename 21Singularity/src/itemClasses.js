@@ -65,16 +65,16 @@ class draggableBomb extends draggableObject{
       const bombExprosion = scene.matter.add.sprite(posX, posY, "exprosion");
       bombExprosion.setDepth(5).setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
       const unsubscribe1 = scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.mainBody,
+        objectA: scene.game.android1.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
-        context: scene.android1
+        context: scene.game.android1
       });
       const unsubscribe2 = scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.mainBody,
+        objectA: scene.game.android2.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
-        context: scene.android2
+        context: scene.game.android2
       });
 
       bombExprosion.on('animationcomplete', function(){
@@ -121,16 +121,16 @@ class draggableSpike extends draggableObject{
       });
       spike.setSensor(true).setOrigin(0.5,0.80).setPosition(posX,posY + 4).setStatic(true);
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.mainBody,
+        objectA: scene.game.android1.mainBody,
         objectB: spike,
         callback: inflictDamage,
-        context: scene.android1
+        context: scene.game.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.mainBody,
+        objectA: scene.game.android2.mainBody,
         objectB: spike,
         callback: inflictDamage,
-        context: scene.android2
+        context: scene.game.android2
       });
       scene.time.addEvent({
         delay: 4500,
@@ -163,16 +163,16 @@ class draggableLaser extends draggableObject{
       const laser = scene.matter.add.sprite(posX, posY, "laserLethal");
       laser.setDepth(5).setSensor(true).setStatic(true);
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android1.mainBody,
+        objectA: scene.game.android1.mainBody,
         objectB: laser,
         callback: inflictDamage,
-        context: scene.android1
+        context: scene.game.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.android2.mainBody,
+        objectA: scene.game.android2.mainBody,
         objectB: laser,
         callback: inflictDamage,
-        context: scene.android2
+        context: scene.game.android2
       });
       scene.time.addEvent({
         delay: 1000,

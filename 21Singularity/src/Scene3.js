@@ -31,12 +31,6 @@ export default class Scene3 extends Phaser.Scene {
   constructor() {
     super("level2");
   }
-  //Función preload, que carga elementos antes de iniciar el juego
-  preload() {
-    const music = this.sound.add('menuMusic');
-    music.play();
-    music.stop();
-  }
   //Función create, que crea los elementos del propio juego
   create() {
   const doors = [];
@@ -84,21 +78,21 @@ export default class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(offsetlethallayer);*/
 
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.android1 = new Android(this, '1', 300, 300, cursors);
+    game.android1 = new Android(this, '1', 300, 300, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.android2 = new Android(this, '2', 400, 300, cursors);
-    this.android1.coLink(this.android2);
-    this.android2.coLink(this.android1);
+    game.android2 = new Android(this, '2', 400, 300, cursors);
+    game.android1.coLink(this.game.android2);
+    game.android2.coLink(this.game.android1);
 
     this.matterCollision.addOnCollideStart({
-      objectA: this.android1.mainBody,
+      objectA: this.game.android1.mainBody,
       callback: lethalCollide,
-      context: this.android1
+      context: this.game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.android2.mainBody,
+      objectA: this.game.android2.mainBody,
       callback: lethalCollide,
-      context: this.android2
+      context: this.game.android2
     });
 
     function lethalCollide({ gameObjectB }) {
@@ -115,16 +109,16 @@ export default class Scene3 extends Phaser.Scene {
     bladesBig.setStatic(true).setSensor(true);
     bladesBig.anims.play('rotatingBigBlade', true);
     this.matterCollision.addOnCollideStart({
-      objectA: this.android1.mainBody,
+      objectA: this.game.android1.mainBody,
       objectB: bladesBig,
       callback: inflictDamage,
-      context: this.android1
+      context: this.game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.android2.mainBody,
+      objectA: this.game.android2.mainBody,
       objectB: bladesBig,
       callback: inflictDamage,
-      context: this.android2
+      context: this.game.android2
     });
 
     //Elementos animados o interactuables
@@ -179,16 +173,16 @@ export default class Scene3 extends Phaser.Scene {
       blades[i].setStatic(true).setSensor(true);
 
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: blades[i],
         callback: inflictDamage,
-        context: this.android1
+        context: this.game.android1
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: blades[i],
         callback: inflictDamage,
-        context: this.android2
+        context: this.game.android2
       });
     }*/
 
@@ -206,13 +200,13 @@ export default class Scene3 extends Phaser.Scene {
       extraLifes[i].setStatic(true).setSensor(true);
 
       this.matterCollision.addOnCollideStart({
-        objectA: this.android1.mainBody,
+        objectA: this.game.android1.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.android2.mainBody,
+        objectA: this.game.android2.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
@@ -275,8 +269,8 @@ export default class Scene3 extends Phaser.Scene {
     if (gameOver) {
       return;
     }
-    firstFollow.x = Math.max(this.android1.sprite.x, this.android2.sprite.x);
-    firstFollow.y = Math.max(Math.min((this.android1.sprite.y + this.android2.sprite.y) / 2, 360), -500);
+    firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
+    firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
@@ -284,7 +278,7 @@ export default class Scene3 extends Phaser.Scene {
       movingP[i].update(time,delta);
     }
 
-    if(this.android1.arrived && this.android2.arrived && !fadeOut) {
+    if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
       this.time.addEvent({
@@ -293,8 +287,8 @@ export default class Scene3 extends Phaser.Scene {
       });
     }
 
-    p1Tracker.x = this.android1.sprite.x / 9.1 + 40;
-    p2Tracker.x = this.android2.sprite.x / 9.1 + 40;
+    p1Tracker.x = this.game.android1.sprite.x / 9.1 + 40;
+    p2Tracker.x = this.game.android2.sprite.x / 9.1 + 40;
 
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }

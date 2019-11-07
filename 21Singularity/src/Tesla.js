@@ -10,16 +10,16 @@ export default class Tesla {
     this.electrisSpY = posY-16;
     this.electricSprite.anims.play(anim, true);
     scene.matterCollision.addOnCollideActive({
-      objectA: scene.android1.mainBody,
+      objectA: scene.game.android1.mainBody,
       objectB: this.electricSprite,
       callback: inflictDamage,
-      context: scene.android1
+      context: scene.game.android1
     });
     scene.matterCollision.addOnCollideActive({
-      objectA: scene.android2.mainBody,
+      objectA: scene.game.android2.mainBody,
       objectB: this.electricSprite,
       callback: inflictDamage,
-      context: scene.android2
+      context: scene.game.android2
     });
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 135);}
 

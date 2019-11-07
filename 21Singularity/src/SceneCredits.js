@@ -16,9 +16,9 @@ function CheckOption(scene) {
     backButton.isActive = false;
 }
 //clase escena online mode
-export default class SceneMenuTutorial extends Phaser.Scene{
+export default class SceneCredits extends Phaser.Scene{
   constructor(){
-    super("menuTutorial");
+    super("credits");
   }
   
   //Función create, que crea los elementos del propio juego
@@ -30,24 +30,24 @@ export default class SceneMenuTutorial extends Phaser.Scene{
     selectedSound = this.sound.add('menuSelected');
     //Añadimos el background
     this.add.image(960/2, 540/2, 'interfazBg');
-    //Añadimos la imagen del tutorial.
-    this.add.image(960/2, 540/2, 'menuTutorial');
+    //Añadimos el texto de la pantalla del modo online provisional (hasta fase 3-4).
+    this.add.image(960/2, 540/2, 'text_onlineMode');
     //Añadimos el botón de 'back'
     cam = this.cameras.main;
-    cam.fadeIn(1000);
-    function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
-  	backButton = new Button(this, 960/2, 500, 'light', function() {
-      isChangingScene = true;
-			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menu')
-			});
+	cam.fadeIn(1000);
+	function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
+  	backButton = new Button(this, 960/2, 405, 'light', function() {
+        isChangingScene = true;
+        cam.fadeOut(1000);
+        this.scene.time.addEvent({
+            delay: 1000,
+            callback: () => LoadScene(this.scene, 'menu')
+        });
     });
   	//Hacemos la luz invisible
   	backButton.alpha = 0;
   	//Añadimos el texto de 'back'.
-  	this.add.image(960/2, 500, 'text_back');
+  	this.add.image(960/2, 405, 'text_back');
   	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
   	//Si se está sobre el botón 'back', se volverá al menú principal.
   	this.input.on('pointerdown', function () {
@@ -60,7 +60,7 @@ export default class SceneMenuTutorial extends Phaser.Scene{
   update (time, delta)
   {
     if (!isChangingScene)
-        CheckOption(this);
+      CheckOption(this);
   	backButton.Update(time, delta);
   }
 }
