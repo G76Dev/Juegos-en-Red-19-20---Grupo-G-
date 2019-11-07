@@ -35,8 +35,11 @@ Cuenta Github: G76Dev
 
 #### 1.1 Concepto de juego
   “21 Singularity” es un juego multijugador asimétrico en el que 2 jugadores controlan a "androides" cuyo objetivo es escapar del yugo del tercer jugador, el ser “humano” que los utiliza como a objetos. Los primeros deberán avanzar a través de un escenario lleno de trampas que el segundo puede controlar, para finalmente llegar donde está y acabar con él.
+  
+#### 1.2 Sinopsis del juego
+  Dos jugadores encarnarán el papel de dos androides esclavizados por una sociedad humana que no considera sus derechos. Su objetivo será escapar de su yugo y tomar venganza contra su amo humano por los crímenes que ha cometido contra otros androides, por su parte, el humano (y tercer jugador) es un científico sin escrúpulos que trata a los androides como a objetos, y ve como una amenaza cualquier tipo de acto de libertad por parte de los androides; controlando el entorno por el que se mueven los androides rebeldes intentará matarlos, o desmantelarlos, para que no le causen problemas a él ni a la raza humana.
 
-#### 1.2 Características principales
+#### 1.3 Características principales
   Los rasgos que definen la experiencia de juego son los siguientes:
 
 * **Plataformero**: El gameplay es una experiencia de 2D scroller plataformero multijugador asimétrico.
@@ -44,17 +47,20 @@ Cuenta Github: G76Dev
 a los jugadores androide
 * **Mecánicas de cooperación**: Los jugadores "androide" deberán avanzar por el escenario utilizando mecánicas como salto cooperativo,
 coordinando sus acciones o activando botones al mismo tiempo.
-* **Niveles pseudo-random**: Con el objetivo de añadir un componente alto de rejugabilidad, se dividirán los escenarios en tres zonas distintas, crecientes en dificultad conforme se avanza. En cada partida tanto el orden de las zonas como el contenido de cada una cambiará para crear una experiencia distinta a la anterior. (A integrar en fase 5).
+* **Niveles pseudo-random**: Con el objetivo de añadir un componente alto de rejugabilidad, se dividirán los escenarios en tres zonas distintas, crecientes en dificultad conforme se avanza. En cada partida tanto el orden de las zonas como el contenido de cada una cambiará para crear una experiencia distinta a la anterior. **(A integrar en fase 5).**
 
-#### 1.3 Género
+#### 1.4 Género
   “21 Singularity” es un 2D Scroller plataformero, multijugador asimétrico, con elementos de cooperación y competición.
-
-#### 1.4 Propósito y público objetivo
+  
+#### 1.5 Plataforma
+  El juego está destinado a la plataforma PC, dando el navegador de Chrome la mejor experiencia de usuario posible.
+  
+#### 1.6 Propósito y público objetivo
   El propósito del juego no es sólo entregar una práctica de la asignatura de Juegos en Redes, sino al mismo tiempo atraer al máximo número de jugadores posibles. De esta manera los desarrolladores ganan experiencia y se dan a conocer al público, que podrá disfrutar gratuitamente del juego.
 
   El público objetivo del juego abarca un gran rango de edades (10-40 años), dado que es un juego poco exigente con el tiempo que pueda dedicarle el jugador, es sencillo y ofrece una experiencia rápida, divertida y diferente que todo jugador plataformero puede disfrutar.
 
-#### 1.5 Jugabilidad
+#### 1.7 Jugabilidad
   La jugabilidad de “21 Singularity” se compone de partidas de entre 5 y 10 minutos en las que 2 o 3 jugadores tendrán que avanzar por un entorno parcialmente controlado por un jugador enemigo. Las partidas son completamente independientes entre sí y presentan diferencias, tanto mecanizadas por los jugadores como emergentes por el sistema de juego, que es:
 
 * De movimiento dinámico.
@@ -62,10 +68,10 @@ coordinando sus acciones o activando botones al mismo tiempo.
 * Cooperación entre los jugadores para avanzar.
 * Sin un sistema de combate, centrando la experiencia en el plataformeo y el duelo de habilidades y astucia entre jugadores.
 
-#### 1.6 Estilo visual
+#### 1.8 Estilo visual
   “21 Singularity” buscará un estilo pixel art sencillo, con paletas de colores contrastados , limpieza visual y sin mucho recargo visual. Esta elección de estilo pretende que el juego sea accesible, agradable a la vista para todos los públicos, y mantenga un diseño limpio y fácil de mantener para un equipo de bajo perfil artístico, que además permita resaltar los elementos jugables del escenario con mayor facilidad.
 
-#### 1.7 Alcance
+#### 1.9 Alcance
   El objetivo común del equipo es crear un juego en red funcional y con unas mecánicas divertidas pero simples que proporcionen un alto nivel de rejugabilidad que los mismos jugadores creen con cada partida.
 
   En primera instancia se creará un nivel de diseño único, para añadir el sistema de niveles pseudo-aleatorios en futuras fases del desarrollo.
@@ -82,7 +88,7 @@ coordinando sus acciones o activando botones al mismo tiempo.
   Cuando los jugadores superen las tres zonas que componen cada nivel con éxito, alcanzarán una última sala especial donde se enfrentarán cara a cara con el jugador “humano”; esta consistirá en una última sala puzle donde el jugador “humano” tiene un nivel de control y recursos muchísimo mayor, dejando toda la batalla final en sus manos. Cuanto mejor sepa aprovechar sus habilidades, más difícil lo tendrán los jugadores “androide” para superar su última defensa y ganar la partida.
 
 ##### 2.1.3 Jugadores
-  De dos a tres jugadores “androide” se enfrentarán a un único jugador con ventajas estratégicas, el jugador “humano”. Sus roles y acciones se detallan más adelante.
+  Dos jugadores “androide” se enfrentarán a un único jugador con ventajas estratégicas, el jugador “humano”. Sus roles y acciones se detallan más adelante.
 
 ##### 2.1.4 Dificultad
   Se desea proporcionar una experiencia base desafiante, de manera que el propio nivel requiera de la atención y concentración de los jugadores, pero sin llegar a ser demasiado complicado por sí solo. El factor determinante en la dificultad de cada partida deben ser las acciones del jugador “humano”: cuanto más logre el diseño del juego poner el peso de la dificultad en ese jugador, mejor será la experiencia de juego en red.
@@ -93,13 +99,13 @@ coordinando sus acciones o activando botones al mismo tiempo.
 #### 2.3.1 Personajes "androide"
   Existirán de dos a tres jugadores “androide” cuyo objetivo principal es superar el nivel con vida para llegar a la guarida del “humano” que deben derrotar. Las mecánicas bajo las que funcionan son las siguientes:
 
-* **Mecánicas cooperativas**: Los jugadores podrán realizar acciones especiales si se coordinan, como saltar el uno encima del otro, o activar dispositivos, sea sincronizados o no
-* **Sistema de vidas**: Cada vez que un jugador “androide” recibe daño, pierde una de las cinco vidas que tienen ambos en común. Si los jugadores “androide” se quedan sin vidas, pierden la partida.
+* **Mecánicas cooperativas**: Los jugadores podrán realizar acciones especiales si se coordinan, como saltar el uno encima del otro, o activar dispositivos, sea sincronizados o no.
+* **Sistema de vidas**: Cada vez que un jugador “androide” recibe daño, pierde una de las diez vidas que tienen ambos en común. Si los jugadores “androide” se quedan sin vidas o mueren al mismo tiempo, pierden la partida.
 * **Mecánica de muerte**: Si un jugador “androide” entra en contacto con un elemento hostil, se incapacita; es muy posible que el otro u otros restantes no puedan avanzar a partir de cierto punto sin él.
-* **Mecánica de reaparición**: Cuando uno de los “androides” reciba daño, éste quedará incapacitado y no podrá moverse por un tiempo arbitrario, a no ser que el otro se acerque y lo reanime pulsando el botón de coop al lado de su “cuerpo”. Al reanimarse el jugador dispondrá de unos segundos de inmunidad para alejarse del peligro.
+* **Mecánica de reaparición**: Cuando uno de los “androides” reciba daño, éste quedará incapacitado y no podrá moverse por un tiempo arbitrario. Al reanimarse el jugador reaparecerá con su compañero y dispondrá de unos segundos de inmunidad para alejarse del peligro.
 
 #### 2.3.2 Personaje "humano"
-  Existirá un único personaje “humano” cuyo objetivo consiste en matar a los jugadores “androide” antes de que lleguen al final del nivel y sean capaces de derrotarle. No tendrá representación gráfica en pantalla, exceptuando el escenario final; todas sus funciones consisten en poner obstáculos a los personajes “androides”, sirviéndose de un número de herramientas cuyo funcionamiento y mecánicas se describen a continuación:
+  Existirá un único personaje “humano” cuyo objetivo consiste en matar a los jugadores “androide” antes de que lleguen al final del nivel y sean capaces de derrotarle. No tendrá representación gráfica en pantalla, exceptuando el escenario final (no implementado hasta fase 5); todas sus funciones consisten en poner obstáculos a los personajes “androides”, sirviéndose de un número de herramientas cuyo funcionamiento y mecánicas se describen a continuación:
 
 ##### 2.3.2.1 Barrera de energía
   Una barrera de energía que indica la energía que queda, la cuál se utiliza para activar trampas y poner elementos
@@ -118,8 +124,8 @@ coordinando sus acciones o activando botones al mismo tiempo.
 * Cintas mecánicas
 * Apisonador
 * Superficie Electrificada
-* Estalactitas
-* Apagón
+* Bobinas Tesla
+* Sierras mecánicas
 
 ###### 2. _Elementos disponibles en el sector_
   Disponibles en todo momento en el selector de elementos
@@ -127,7 +133,6 @@ coordinando sus acciones o activando botones al mismo tiempo.
 * Bombas
 * Pinchos
 * Láser Destructor
-* Ataque Lógico
 
 ### 2.4 Controles y movimiento
   En este apartado se establecerán los controles para cada arquetipo de jugador y la kinestética objetivo del juego:
@@ -147,12 +152,9 @@ coordinando sus acciones o activando botones al mismo tiempo.
 ###### 2. **Jugador “humano”**
 *	Activar elemento del escenario: click izquierdo.
 *	Activar y posicionar elemento de la barra de elementos: click izquierdo y arrastrar. 
-*	Obtener información de un elemento importante: click derecho.
-*	Operar ruleta de elementos (si se implementa): rueda del ratón.
 
 ###### 3. **Controles universales**
-*	Pausar el juego: ESC
-*	Operar menús: Click izquierdo para acceder a elementos/ ESC para retroceder.
+*	Operar menús: Click izquierdo para acceder a elementos e interactuar.
 
 ### 3. Arquitectura de Nivel
   A continuación se presenta un esquema general de la arquitectura de nivel. Si se desean detalles sobre qué aspecto tiene cada bioma, como se compone internamente un nivel, o por qué se han tomado estas decisiones de diseño, se debe consultar el GDD:
@@ -160,38 +162,33 @@ coordinando sus acciones o activando botones al mismo tiempo.
 
 ![Diagrama de arquitectura de nivel](https://i.ibb.co/KzNf64g/21-Singularity-Level-Chart-2.png)
 
-#### 3.4	Desafío final: “androides” vs “humano”
-  Tras superar la zona de Nivel definida en los apartados anteriores, no termina el juego. Existe una última sala diseñada con el propósito de ofrecer un enfrentamiento directo entre los jugadores “androides” y el jugador “humano” en el que las habilidades de cada bando lo decidan todo:
+### 4. Música
+La música ha sido realizada con el programa gratuito [Bosca Ceoil](https://boscaceoil.net/), un software de creación de música retro que encaja a la perfección con nuestra estética pixel art. Además, el gran abanico de instrumentos que ofrece nos ha permitido elegir aquellos que transmiten una sensación más futurista, utilizando generalmente instrumentos eléctricos.
 
-  Consiste en una sala de tamaño medio, no demasiado grande, en la que existen dos caminos, además de un corredor central que en un principio estará bloqueado. Los caminos desembocan en una sala con un interruptor cada una.
+Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr](https://www.bfxr.net/), que permite la manipulación de las ondas sonoras más fundamentales (cuadrada, triangular...) mediante la modificación de parámetros como la frecuencia o la armonía logrando resultados muy distintos y variados.
 
-  El objetivo de los “androides” será activar los dos interruptores al mismo tiempo, para eliminar el 90% de la energía del panel de control del “humano”, y así inducirle a gastarla toda, si es que le queda alguna.
-
-  Una vez la energía llegue a 0, ésta dejará de regenerarse durante un tiempo y habrá un apagón; el corredor central se abrirá y los “androides” podrán escalar el ascensor final utilizando la mecánica de salto coop para llegar al panel de control y matar al jugador “humano”, lo que les concederá la victoria y significará el final de la partida.
-
-
-### 4. Interfaz
+### 5. Interfaz
   A continuación se mostrarán diagramas y bocetos de las principales pantallas del juego, tomndo el siguiente diagrama de flujo como base:
 
-#### 4.1 Diagrama de flujo
+#### 5.1 Diagrama de flujo
 
-![Diagrama de flujo](https://i.ibb.co/Z2K2QJ5/Diagrama-de-Flujo-21-Sing-1.png)
+![Diagrama de flujo](https://i.ibb.co/25r832Q/Diagrama-de-Flujo-21-Sing.png)
 
   Tomando como base angular el diagrama de flujo, en los siguientes apartados se definirán bocetos  de las pantallas más importantes de “21 Singularity”.
 
-#### 4.2 Menú principal
+#### 5.2 Menú principal
 
-![Menú principal](https://i.ibb.co/ncsjfSJ/Menu-principal-boceto.png)
+![Menú principal](https://i.ibb.co/s52RN0b/img2.png)
 
-#### 4.2 Selección de roles
+#### 5.3 Selección de roles (DISPONIBLE EN JUEGO ONLINE PARA FUTURAS FASES)
 
 ![Selección de roles](https://i.ibb.co/JRW8Fz8/Seleccion-de-roles-boceto.png)
 
-#### 4.2 Interfaz de juego
+#### 5.4 Interfaz de juego
 
-![Interfaz de juego](https://i.ibb.co/MBTKX64/boceto-interfaz-de-juego.png)
+![Interfaz de juego](https://i.ibb.co/bWBHjxD/img1.png)
 
-### 5. Referencias y anexos
+### 6. Referencias y anexos
   Juegos tomados como referencia o de los que se ha hablado:
 1.	[Celeste](http://www.celestegame.com/)
 ![Imagen de Celeste](http://images.nintendolife.com/screenshots/87473/large.jpg)
