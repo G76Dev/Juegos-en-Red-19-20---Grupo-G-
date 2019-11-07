@@ -1,13 +1,15 @@
-//Variables del menú
+// Variables del menú.
 var backButton;
 var retryButton;
 var hoverSound;
 var selectedSound;
 var cam;
 var isChangingScene;
+
 import Button from "./button.js";
 import Scene2 from "./Scene2.js";
-//Función que detecta donde está el ratón y activa la luz correspondiente según su posición
+
+// Funcion que detecta si el raton se encuentra sobre el boton 'back' o el 'try again' y activa su luz en caso afirmativo.
 function CheckOption(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
@@ -26,28 +28,37 @@ function CheckOption(scene) {
   retryButton.isActive = false;
     
 }
-//clase escena online mode
-export default class SceneDefeat extends Phaser.Scene{
+// Clase correspondiente a la escena de la pantalla de derrota.
+export default class SceneDefeat extends Phaser.Scene {
+
+  // Constructor de la escena.
   constructor(){
     super("defeat");
   }
   
-  //Función create, que crea los elementos del propio juego
+  // Funcion create, que crea los elementos del propio juego.
   create ()
   {
+
+    // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
-	// Música
+
+	// Reproducimos la musica correspondiente.
 	this.game.currentMusic.stop();
 	this.game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: this.game.musicVolume });
-	this.game.currentMusic.play();
-    //Añadimos los sonidos a la escena
+    this.game.currentMusic.play();
+    
+    // Añadimos los sonidos a la escena.
     hoverSound = this.sound.add('menuHover');
     selectedSound = this.sound.add('menuSelected');
-    //Añadimos el background
+
+    // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
-    //Añadimos el texto de victoria.
+
+    // Añadimos el texto de victoria.
     this.add.image(960/2, 540/2, 'textDefeat');
-    //Añadimos los botones.
+
+    // Añadimos los botones. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
@@ -74,14 +85,18 @@ export default class SceneDefeat extends Phaser.Scene{
             callback: () => FinalSolution(this.scene, true)
         });
     });
-  	//Hacemos la luz invisible
+
+  	// Hacemos las luces invisibles.
     backButton.alpha = 0;
     retryButton.alpha = 0;
-    //Añadimos los textos.
+
+    // Añadimos los textos.
     this.add.image(960/2, 400, 'text_tryAgain');
-  	this.add.image(960/2, 500, 'text_goToMenu');
-  	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
-  	//Si se está sobre el botón 'back', se volverá al menú principal.
+    this.add.image(960/2, 500, 'text_goToMenu');
+      
+  	// Añadimos la funcion que se ejecutara al presionar el boton izquierdo del raton.
+    // Si se esta sobre el boton 'back', se volvera al menu principal.
+    // Si esta sobre el boton 'try again', se volvera al nivel 1.
   	this.input.on('pointerdown', function () {
         if (!isChangingScene) {
             if (backButton.isActive)
@@ -89,14 +104,20 @@ export default class SceneDefeat extends Phaser.Scene{
             else if (retryButton.isActive)
                 retryButton.Behaviour();
         }
-  	});
+      });
+      
   }
-  //Función update, que se ejecuta en cada frame
+  // Funcion update, que se ejecuta en cada frame.
   update (time, delta)
   {
+
+    // Solo si no se esta cambiando de escena, se comprobara si se esta sobre los botones en cada momento.
     if (!isChangingScene)
       CheckOption(this);
+    
+    // Se ejecuta el update de cada boton.
     backButton.Update(time, delta);
     retryButton.Update(time, delta);
+    
   }
 }

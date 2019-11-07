@@ -1,4 +1,4 @@
-//Variables del menú
+// Variables del menu.
 var backButton;
 var hoverSound;
 var selectedSound;
@@ -20,7 +20,8 @@ var currentSlider = null;
 var long = 10;
 
 import Button from "./button.js";
-//Función que detecta donde está el ratón y activa la luz correspondiente según su posición
+
+// Funcion que detecta si el raton se encuentra sobre el boton 'back' y activa su luz en caso afirmativo.
 function CheckOption(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
@@ -30,34 +31,46 @@ function CheckOption(scene) {
   else
     backButton.isActive = false;
 }
+
+// Funcion que detecta si el raton esta sobre cierto slider.
 function IsOnSlider(slider, scene) {
   return (slider.x > scene.input.mousePointer.x - long && slider.x < scene.input.mousePointer.x + long &&
     slider.y > scene.input.mousePointer.y - long && slider.y < scene.input.mousePointer.y + long);
 }
-//clase escena options
-export default class Scene1 extends Phaser.Scene{
+
+// Clase correspondiente a la escena de la pantalla de opciones.
+export default class SceneOptions extends Phaser.Scene {
+  // Constructor de la escena.
   constructor(){
     super("options");
   }
   
-  //Función create, que crea los elementos del propio juego
+  // Funcion create, que crea los elementos del propio juego.
   create ()
   {
+
+    // Variable que indica si se esta cambiando de escena.
     isChangingScene = false;
-    //Añadimos los sonidos a la escena
+
+    // Añadimos los sonidos a la escena.
     hoverSound = this.sound.add('menuHover');
     selectedSound = this.sound.add('menuSelected');
-    //Añadimos el background
+
+    // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
-    //Añadimos las opciones.
+
+    // Añadimos las opciones.
     this.add.image(960/2, 540/2, 'options');
+
     // Añadimos los botones deslizantes de cada barra.
     soundSlider = this.add.image(sliderMinPosX + this.game.soundVolume * (sliderMaxPosX - sliderMinPosX), 186, 'sliderObject');
     musicSlider = this.add.image(sliderMinPosX + this.game.musicVolume * (sliderMaxPosX - sliderMinPosX), 264, 'sliderObject');
-    // Añadimos las cruces que indicarán que la música o los sonidos están silenciados del todo.
+
+    // Añadimos las cruces que indicarán que la musica o los sonidos estan silenciados del todo.
     soundOff = this.add.image(384, 186, 'X');
     musicOff = this.add.image(384, 264, 'X');
-    //Añadimos el botón de 'back'
+
+    // Añadimos el boton de 'back'. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
@@ -70,12 +83,16 @@ export default class Scene1 extends Phaser.Scene{
 				callback: () => LoadScene(this.scene, 'menu')
 			});
     });
-  	//Hacemos la luz invisible
-  	backButton.alpha = 0;
-  	//Añadimos el texto de 'back'.
-  	this.add.image(960/2, 405, 'text_back');
-  	//Añadimos la función que se ejecutará al presionar el botón izquierdo del ratón.
-  	//Si se está sobre el botón 'back', se volverá al menú principal.
+
+  	// Hacemos la luz invisible.
+    backButton.alpha = 0;
+    
+  	// Añadimos el texto de 'back'.
+    this.add.image(960/2, 405, 'text_back');
+    
+  	// Añadimos la funcion que se ejecutara al presionar el boton izquierdo del raton.
+    // Si se esta sobre el boton 'back', se volverá al menu principal.
+    // Si se esta sobre algun slider, este quedara marcado y podra ajustarse con el raton.
   	this.input.on('pointerdown', function () {
         if (!isChangingScene && backButton.isActive) {
             backButton.Behaviour();
@@ -87,24 +104,34 @@ export default class Scene1 extends Phaser.Scene{
         else
           currentSlider = null;
     });
+
+    // Al levantar dejar de presionar el boton izquierdo del raton, se dejara de marcar el slider seleccionado previamente.
     this.input.on('pointerup', function() { currentSlider = null; });
-    console.log(this.game.musicVolume);
   }
-  //Función update, que se ejecuta en cada frame
+
+  // Funcion update, que se ejecuta en cada frame.
   update (time, delta)
   {
+
+    // Solo si no se esta cambiando de escena, se comprobara si se esta sobre el boton 'back' en cada momento.
     if (!isChangingScene)
       CheckOption(this);
 
+    // Se clampeara la posicion del selector del slider para que no sobrepase ciertos limites.
     if (currentSlider != null)
       currentSlider.x = Math.min(Math.max(this.input.mousePointer.x, sliderMinPosX), sliderMaxPosX);
 
+    // Se ajustan los volumenes del sonido y de la musica en funcion de los valores de posicion de los sliders.
     this.game.soundVolume = (soundSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
     soundOff.visible = (this.game.soundVolume == 0);
     this.game.musicVolume = (musicSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
     musicOff.visible = (this.game.musicVolume == 0);
+
+    // Se ejecuta el update del boton 'back'.
   	backButton.Update(time, delta);
 
+    // Se actualiza el volumen de la musica general del juego (el volumen de los sonidos se indica al reproducir los propios sonidos).
     this.game.currentMusic.volume = this.game.musicVolume;
+
   }
 }

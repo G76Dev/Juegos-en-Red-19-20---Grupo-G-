@@ -4,10 +4,12 @@ import Scene1 from "./Scene1.js";
 import Scene2 from "./Scene2.js";
 import Scene3 from "./Scene3.js";
 import SceneMenuTutorial from './SceneMenuTutorial.js';
+import SceneMenuTutorial2 from './SceneMenuTutorial2.js';
 import SceneOnlineMode from "./SceneOnlineMode.js";
 import SceneOptions from "./SceneOptions.js";
 import SceneVictory from "./SceneVictory.js";
 import SceneDefeat from "./SceneDefeat.js";
+import SceneCredits from "./SceneCredits.js";
 import Android from "./Android.js";
 //Configuración de Phaser 3
 var config = {
@@ -27,7 +29,7 @@ var config = {
         }
     },
     //Escena principal
-    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions, SceneMenuTutorial, SceneVictory, SceneDefeat],
+    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions, SceneMenuTutorial, SceneVictory, SceneDefeat, SceneCredits, SceneMenuTutorial2],
     plugins: {
     scene: [
       {

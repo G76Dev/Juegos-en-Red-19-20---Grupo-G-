@@ -1,5 +1,5 @@
-// Variables del menú,
-var backButton;
+// Variables del menu.
+var goToMenuButton;
 var hoverSound;
 var selectedSound;
 var cam;
@@ -7,29 +7,26 @@ var isChangingScene;
 
 import Button from "./button.js";
 
-// Funcion que detecta si el raton se encuentra sobre el boton 'back' y activa su luz en caso afirmativo.
+// Funcion que detecta si el raton se encuentra sobre el boton 'goToMenu' y activa su luz en caso afirmativo.
 function CheckOption(scene) {
-  if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
-    if (!backButton.isActive)
+  if (scene.input.mousePointer.y > goToMenuButton.y - 35 && scene.input.mousePointer.y < goToMenuButton.y + 35) {
+    if (!goToMenuButton.isActive)
         hoverSound.play({ volume: scene.game.soundVolume });
-    backButton.isActive = true;
+    goToMenuButton.isActive = true;
   }
   else
-    backButton.isActive = false;
+    goToMenuButton.isActive = false;
 }
-
-// Clase correspondiente a la escena del modo online.
-export default class SceneOnlineMode extends Phaser.Scene {
-
+// Clase correspondiente a la escena del tutorial del menu.
+export default class SceneMenuTutorial2 extends Phaser.Scene{
   // Constructor de la escena.
   constructor(){
-    super("onlineMode");
+    super("menuTutorial2");
   }
   
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
 
@@ -40,14 +37,14 @@ export default class SceneOnlineMode extends Phaser.Scene {
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
 
-    // Añadimos el texto de la pantalla del modo online provisional (hasta fase 3-4).
-    this.add.image(960/2, 540/2, 'text_onlineMode');
+    // Añadimos la imagen del tutorial.
+    this.add.image(960/2, 540/2, 'menuTutorial2');
 
-    // Añadimos el botón de 'back'. Hacemos tambien un fade con la camara.
+    // Añadimos el boton de 'goToMenu'. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
-  	backButton = new Button(this, 960/2, 405, 'light', function() {
+  	goToMenuButton = new Button(this, 960/2, 500, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
@@ -58,16 +55,16 @@ export default class SceneOnlineMode extends Phaser.Scene {
     });
 
   	// Hacemos la luz invisible.
-    backButton.alpha = 0;
+    goToMenuButton.alpha = 0;
     
-  	// Añadimos el texto de 'back'.
-    this.add.image(960/2, 405, 'text_back');
+  	// Añadimos el texto de 'goToMenu'.
+    this.add.image(960/2, 500, 'text_goToMenu');
     
   	// Añadimos la funcion que se ejecutara al presionar el boton izquierdo del raton.
-  	// Si se esta sobre el boton 'back', se volverá al menu principal.
+  	// Si se esta sobre el boton 'goToMenu', se volverá al menu principal.
   	this.input.on('pointerdown', function () {
-        if (!isChangingScene && backButton.isActive) {
-            backButton.Behaviour();
+        if (!isChangingScene && goToMenuButton.isActive) {
+            goToMenuButton.Behaviour();
         }
     });
     
@@ -77,11 +74,12 @@ export default class SceneOnlineMode extends Phaser.Scene {
   update (time, delta)
   {
 
-    // Solo si no se esta cambiando de escena, se comprobara si se esta sobre el boton 'back' en cada momento.
+    // Solo si no se esta cambiando de escena, se comprobara si se esta sobre el boton 'goToMenu' en cada momento.
     if (!isChangingScene)
-      CheckOption(this);
-
-    // Se ejecuta el update del boton 'back'.
-  	backButton.Update(time, delta);
+        CheckOption(this);
+    
+    // Se ejecuta el update del boton 'goToMenu'.
+    goToMenuButton.Update(time, delta);
+    
   }
 }

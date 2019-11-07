@@ -1,23 +1,33 @@
-var isLoading = true;
+var isLoading = true; // Variable que detecta si se estan cargando assets aun o no.
+
+// Clase correspondiente a la escena de carga.
 export default class SceneLoading extends Phaser.Scene {
+    // Constructor de la escena.
     constructor() {
         super("sceneLoading");
     }
+
+    // Funcion preload que carga los assets.
     preload() {
-        //Cargamos elementos de la interfaz
+
+        // Cargamos elementos de la interfaz.
         this.load.image('interfazBg', 'assets/Interfaz/BG.png');
         this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
         this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
         this.load.image('text_click', 'assets/Interfaz/ClickToStart.png');
 
         this.load.image('menuTutorial', 'assets/Interfaz/TutorialScreen.png');
+        this.load.image('menuTutorial2', 'assets/Interfaz/TutorialScreen2.png');
         this.load.image('text_onlineMode', 'assets/Interfaz/Text_OnlineMode.png');
+        this.load.image('text_creditsScreen', 'assets/Interfaz/Text_CreditsScreen.png');
         this.load.image('options', 'assets/Interfaz/Options.png');
         this.load.image('sliderObject', 'assets/Interfaz/SliderObject.png');
         this.load.image('textVictory', 'assets/Interfaz/Text_Victory.png');
-        this.load.image('textDefeat', 'assets/Interfaz/Text_Defeat.png')
+        this.load.image('textDefeat', 'assets/Interfaz/Text_Defeat.png');
+        this.load.image('text_nextPage', 'assets/Interfaz/Text_NextPage.png')
+        this.load.image('light', 'assets/Interfaz/Light.png');
+        this.load.image('X', 'assets/Interfaz/X.png');
 
-        //Cargamos los textos del menú
         this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
         this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
         this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
@@ -26,12 +36,8 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('text_back', 'assets/Interfaz/Text_Back.png');
         this.load.image('text_tryAgain', 'assets/Interfaz/Text_TryAgain.png');
         this.load.image('text_goToMenu', 'assets/Interfaz/Text_GoToMenu.png');
-        this.load.image('X', 'assets/Interfaz/X.png');
 
-        //Cargamos el sprite de la luz
-        this.load.image('light', 'assets/Interfaz/Light.png');
-
-        //Cargamos los sonidos y la música
+        // Cargamos los sonidos y la musica.
         this.load.audio('menuHover', 'assets/Audio/Sounds/Menu/MenuHover.wav');
         this.load.audio('menuSelected', 'assets/Audio/Sounds/Menu/MenuSelected.wav');
         this.load.audio('land', 'assets/Audio/Sounds/Land.wav');
@@ -39,17 +45,19 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.audio('coopJump', 'assets/Audio/Sounds/CoopJump.wav');
         this.load.audio('laser', 'assets/Audio/Sounds/Laser.wav');
         this.load.audio('bomb', 'assets/Audio/Sounds/Bomb.wav');
+        this.load.audio('die', 'assets/Audio/Sounds/Die.wav');
         this.load.audio('menuMusic', 'assets/Audio/Music/MenuMusic.wav');
         this.load.audio('theme', 'assets/Audio/Music/Theme.wav');
         this.load.audio('theme2', 'assets/Audio/Music/Theme2.wav');
 
-        //imagenes fondo TILED
+        // Cargamos los elementos correspondientes a Tiled.
         this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
         this.load.tilemapTiledJSON("map1", "../assets/Mapas/Industrial_Easy.json");
 
         this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica.png");
         this.load.tilemapTiledJSON("map2", "../assets/Mapas/Electrical_medium.json");
 
+        // Cargamos sprites de los distintos elementos del juego.
         this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('explosion', 'assets/Sprites/Explosions/explosion-6.png', { frameWidth: 48, frameHeight: 48 });
         this.load.spritesheet('laserNonLethal', 'assets/Sprites/laser/laser_nonletal.png', { frameWidth: 960, frameHeight: 32 }); //62
@@ -92,7 +100,6 @@ export default class SceneLoading extends Phaser.Scene {
         this.load.image('farHead1', "assets/Sprites/Androids/angry_android1.png");
         this.load.image('farHead2', "assets/Sprites/Androids/angry_android2.png");
 
-        //cambiar por imagenes de la barra de objetos
         this.load.image('bar', 'assets/Interfaz/InGame/energy_bar.png');
         this.load.image('item_bar', 'assets/Interfaz/InGame/item_energy_bar.png');
         this.load.image('item1', 'assets/Sprites/Bomb/Bomb1.png');
@@ -158,6 +165,7 @@ export default class SceneLoading extends Phaser.Scene {
 
         this.load.image('progression_bar', 'assets/Interfaz/InGame/progression_bar.png');
 
+        // Codigo relativo a la barra de carga.
         let background = this.add.graphics({
             fillStyle: {
                 color: 0x404040
@@ -233,7 +241,7 @@ export default class SceneLoading extends Phaser.Scene {
 
     }
     create() {
-        //Creamos las animaciones de los personajes: idle, wRight
+        // Creamos las animaciones.
         this.anims.create({
             key: 'wRight1',
             frames: this.anims.generateFrameNumbers('androidRun1', { start: 0, end: 3 }),

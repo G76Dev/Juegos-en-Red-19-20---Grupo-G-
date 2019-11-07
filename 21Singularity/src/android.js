@@ -236,6 +236,8 @@ export default class Android {
   }
   damaged(deathVector, deathSpread) {
     if (!this.invulnerable) {
+      var dieSound = this.scene.sound.add('die', {volume: this.scene.game.soundVolume});
+      dieSound.play();
       this.sprite.visible = false;
       this.sprite.setVelocityX(0);
       this.deathSpawn(deathVector, deathSpread);
