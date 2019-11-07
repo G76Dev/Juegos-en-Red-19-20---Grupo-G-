@@ -22,7 +22,7 @@ Cuenta Github: G76Dev
 
 **[TRELLO](https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g)**
 
-## [PRESENTACIÓN DE LA FASE 1](https://docs.google.com/presentation/d/1ZqUE68IoLQ_pf5W-j1uR6gVkDyydANtrcHTNf_FHkGs/edit?usp=sharing)
+## [PRESENTACIÓN DE LA FASE 2](https://docs.google.com/presentation/d/1tUPtWccMo5cF-j6YsREsFwDvTzhRvayGQp3bmvGXgRA/edit?usp=sharing)
 
 # DOCUMENTO DE DISEÑO DE JUEGO
 
