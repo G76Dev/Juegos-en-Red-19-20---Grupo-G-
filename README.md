@@ -174,7 +174,7 @@ Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr
 
 #### 5.1 Diagrama de flujo
 
-![Diagrama de flujo](https://i.ibb.co/25r832Q/Diagrama-de-Flujo-21-Sing.png)
+![Diagrama de flujo](https://i.ibb.co/Src355Z/Diagrama-de-Flujo-21-Sing-1.png)
 
   Tomando como base angular el diagrama de flujo, en los siguientes apartados se definirán bocetos  de las pantallas más importantes de “21 Singularity”.
 
