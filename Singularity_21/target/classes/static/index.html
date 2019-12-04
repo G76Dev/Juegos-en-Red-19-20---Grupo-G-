@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>21 Singularity</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.20.0/dist/phaser.js"></script>
+    <script src="src/phaser-matter-collision-plugin.min.js"></script>
+    <script src="src/Scene1.js"  type="module"></script>
+    <script src="src/Scene2.js"  type="module"></script>
+    <script src="src/mainCode.js"  type="module"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        #chatArea{
+  			resize: none;
+  			position: absolute;
+  			left: 960px;
+  			width: 230px;
+  			height: 509px;
+  			background-color: white;
+  			color: black;
+		}
+
+		#chatInput{
+  			position: absolute;
+  			left:960px;
+  			top: 519px;
+  			width: 232px;
+		}
+    </style>
+    
+</head>
+<body>
+<textarea id="chatArea" rows="4" cols="50" disabled>Game Chat
+</textarea>
+  <input type="text" id="chatInput" placeholder="Type here...">
+</body>
+</html>
