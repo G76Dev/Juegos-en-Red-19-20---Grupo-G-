@@ -22,9 +22,8 @@ Cuenta Github: G76Dev
 
 **[TRELLO](https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g)**
 
-## [PRESENTACIÓN DE LA FASE 2](https://docs.google.com/presentation/d/1tUPtWccMo5cF-j6YsREsFwDvTzhRvayGQp3bmvGXgRA/edit?usp=sharing)
-https://docs.google.com/presentation/d/1yOixMCUe82gbSzB-ghi13QaqJClxwJ42t5uDUtHEV0M/edit?usp=sharing
-https://docs.google.com/presentation/d/1Qb3NIK0U6FLzm1BMrZI9yuCh5kZ-Rzz3UDuuBULuxBk/edit?usp=sharing
+## [PRESENTACIÓN DE LA FASE 3](https://docs.google.com/presentation/d/10IHJLEaTmQrYAI5Pt5TF0fIt51RqY1EvN7Z2MV-TMaI/edit?usp=sharing)
+
 
 # DOCUMENTO DE DISEÑO DE JUEGO
 
@@ -164,6 +163,8 @@ coordinando sus acciones o activando botones al mismo tiempo.
 
 ![Diagrama de arquitectura de nivel](https://i.ibb.co/KzNf64g/21-Singularity-Level-Chart-2.png)
 
+**Nótese que en el estado actual de desarrollo del juego, solo existen dos biomas distintos, sin variaciones de dificultad**
+
 ### 4. Música
 La música ha sido realizada con el programa gratuito [Bosca Ceoil](https://boscaceoil.net/), un software de creación de música retro que encaja a la perfección con nuestra estética pixel art. Además, el gran abanico de instrumentos que ofrece nos ha permitido elegir aquellos que transmiten una sensación más futurista, utilizando generalmente instrumentos eléctricos.
 
@@ -174,23 +175,48 @@ Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr
 
 #### 5.1 Diagrama de flujo
 
-![Diagrama de flujo](https://i.ibb.co/Src355Z/Diagrama-de-Flujo-21-Sing-1.png)
+![Diagrama de flujo](https://i.ibb.co/7NHzq7S/Diagrama-de-Flujo-21-Sing-2.png)
 
-  Tomando como base angular el diagrama de flujo, en los siguientes apartados se definirán bocetos  de las pantallas más importantes de “21 Singularity”.
+Este es el diagrama de flujo general de todas las pantallas del juego. Por motivos de comodidad visual y para distribuir mejor la información, en éste último no se incluyen todos los casos de uso del modo Online. En el siguiente diagrama se especifica de manera más detallada y visual la **navegación** por el sistema Online:
+
+![Diagrama de flujo Online](https://i.ibb.co/Cw0Ykzh/Casos-de-Uso-API-REST-21-Sing-1.png)
+
+
+  Tomando como base angular el diagrama de flujo, en los siguientes apartados se mostrarán imágenes de las pantallas más importantes de “21 Singularity”.
 
 #### 5.2 Menú principal
 
 ![Menú principal](https://i.ibb.co/s52RN0b/img2.png)
 
-#### 5.3 Selección de roles (DISPONIBLE EN JUEGO ONLINE PARA FUTURAS FASES)
+#### 5.2 Pantalla de Login
 
-![Selección de roles](https://i.ibb.co/JRW8Fz8/Seleccion-de-roles-boceto.png)
+![Pantalla Login](https://i.ibb.co/GcS4r8p/Name-Screen.png)
+
+#### 5.3 Selección de roles 
+
+![Selección de roles](https://i.ibb.co/RzNg7tt/Captura.png)
 
 #### 5.4 Interfaz de juego
 
 ![Interfaz de juego](https://i.ibb.co/bWBHjxD/img1.png)
 
-### 6. Referencias y anexos
+#### 5.5 Diagramas de Clase
+  Finalmente, se adjuntan diagramas de clase tanto de la parte cliente del juego, que incluiría todo el funcionamiento mecánico desarrollado en Phaser 3, como de la parte servidor, implementada actualmente utilizando API REST:
+  
+  ##### 5.5.1 Parte Cliente
+  
+  ![Diagrama de clases Cliente](https://i.ibb.co/RHk8tHC/Diagrame-clases-21-Singularity-2.png)
+  
+  ##### 5.5.2 Parte Servidor
+  
+  ![Diagrama de clases Servidor](https://i.ibb.co/ngf6sxg/Diagrama-Clases-21-Sing-API-REST.png)
+
+### 6. Instrucciones de uso
+  A continuación se proporcionan instrucciones para la correcta instalación y ejeución del juego:
+  
+  Después de descargar el archivo .jar, ver la ip del pc en el que estará el servidor (ipconfig). Cambiar el contenido del archivo de texto serverIP.txt por la ip vista en la consola (al realizar el comando ipconfig). Ejecutar el archivo .jar e ir a la dirección especificada por el mismo ip visto antes. Se recomienda el uso de Chrome.
+
+### 7. Referencias y anexos
   Juegos tomados como referencia o de los que se ha hablado:
 1.	[Celeste](http://www.celestegame.com/)
 ![Imagen de Celeste](http://images.nintendolife.com/screenshots/87473/large.jpg)
@@ -199,11 +225,17 @@ Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr
 ![Imagen de BattleBlock Theater](https://cdn2us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/battleblocktheater-screen-3.jpg?itok=SF_Sorqt)
 
 
-### 6. Diagramas a tamaño completo:
+### 8. Diagramas a tamaño completo:
 1.	Diagrama de flujo: 
 https://drive.google.com/file/d/11Fu5-Ic1raYio6-ywqC6LKb2Ri5sHLm7/view?usp=sharing
 2.	Arquitectura de nivel:
 https://drive.google.com/file/d/1u0TcPivZa_LicTv7MLLAmAoKTKvZjxli/view?usp=sharing
+3. Diagrama de navegación Online
+https://drive.google.com/file/d/1Mpt9O-y2vpmv8dtY0FbNVJU-GDE0RJiN/view?usp=sharing
+4. Diagrama de clases CLIENTE
+https://drive.google.com/file/d/12fU2vUL1abV9NPClWCAOk-h_aJKOQRIk/view?usp=sharing
+5. Diagrama de clases SERVIDOR
+https://drive.google.com/file/d/1BVJHBqc5kf8FIAzMkJn-NvMBynImFnJo/view?usp=sharing
 
 
 
