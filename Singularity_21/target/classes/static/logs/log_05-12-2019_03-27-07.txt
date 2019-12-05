@@ -1,8 +1,0 @@
-03:27:11 - Server opened
-03:27:38 - Player conected: THUND3R, id: 0, IP: 90.173.205.194
-03:28:33 - Player conected: MRPOTATO, id: 1, IP: 90.173.205.194
-03:28:51 - Player disconected: MRPOTATO, id: 1, IP: 90.173.205.194
-03:30:02 - Player conected: MRPOTATO, id: 1, IP: 90.173.205.194
-03:30:10 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
-03:30:57 - Player conected: THUND3R, id: 1, IP: 90.173.205.194
-03:31:40 - Player disconected: MRPOTATO, id: 0, IP: 90.173.205.194

@@ -1,7 +1,0 @@
-09:04:24 - Server opened
-09:04:42 - Player conected: HUHUHU, id: 0, IP: 90.173.205.194
-09:04:52 - Player conected: SDFWEFWE, id: 1, IP: 90.173.205.194
-09:04:53 - Player conected: ZELDA, id: 2, IP: 90.173.205.194
-09:06:56 - Player disconected: ZELDA, id: 2, IP: 90.173.205.194
-09:06:58 - Player disconected: SDFWEFWE, id: 1, IP: 90.173.205.194
-09:06:58 - Player disconected: HUHUHU, id: 0, IP: 90.173.205.194

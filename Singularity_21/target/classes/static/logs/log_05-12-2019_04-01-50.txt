@@ -1,7 +1,0 @@
-04:01:55 - Server opened
-04:02:09 - Player conected: default1, id: 0, IP: 90.173.205.194
-04:02:19 - Player conected: ZANDER, id: 1, IP: 90.173.205.194
-04:02:22 - Player conected: KURISUTINA, id: 2, IP: 90.173.205.194
-04:02:24 - Player disconected: ZANDER, id: 1, IP: 90.173.205.194
-04:02:24 - Player disconected: default1, id: 0, IP: 90.173.205.194
-04:02:25 - Player disconected: KURISUTINA, id: 0, IP: 90.173.205.194

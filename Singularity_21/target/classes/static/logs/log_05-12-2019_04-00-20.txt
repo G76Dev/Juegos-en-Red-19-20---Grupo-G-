@@ -1,7 +1,0 @@
-04:00:27 - Server opened
-04:00:43 - Player conected: default, id: 0, IP: 90.173.205.194
-04:00:55 - Player conected: MAMAMAAAAA, id: 1, IP: 90.173.205.194
-04:01:07 - Player conected: PADORUPADORU, id: 2, IP: 90.173.205.194
-04:01:09 - Player disconected: MAMAMAAAAA, id: 1, IP: 90.173.205.194
-04:01:09 - Player disconected: default, id: 0, IP: 90.173.205.194
-04:01:11 - Player disconected: PADORUPADORU, id: 0, IP: 90.173.205.194

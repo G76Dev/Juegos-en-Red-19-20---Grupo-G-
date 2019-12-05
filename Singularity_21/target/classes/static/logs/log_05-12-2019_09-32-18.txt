@@ -1,9 +1,0 @@
-09:32:25 - Server opened
-09:32:41 - Player conected: SDFGWDGEWAR, id: 0, IP: 90.173.205.194
-09:32:44 - Player conected: RATATA, id: 1, IP: 90.173.205.194
-09:32:52 - Player conected: AWSERDTY, id: 2, IP: 90.173.205.194
-09:33:41 - Player disconected: SDFGWDGEWAR, id: 0, IP: 90.173.205.194
-09:33:42 - Player disconected: RATATA, id: 0, IP: 90.173.205.194
-09:33:43 - Player disconected: AWSERDTY, id: 0, IP: 90.173.205.194
-09:34:04 - Player conected: AWSERDTYUUUU, id: 0, IP: 90.173.205.194
-09:37:22 - Player disconected: AWSERDTYUUUU, id: 0, IP: 90.173.205.194

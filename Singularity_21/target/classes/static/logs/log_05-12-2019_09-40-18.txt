@@ -1,9 +1,0 @@
-09:40:24 - Server opened
-09:41:01 - Player conected: SDFWERGFWA, id: 0, IP: 90.173.205.194
-09:41:05 - Player conected: ERT8, id: 1, IP: 90.173.205.194
-09:41:12 - Player conected: POALSA, id: 2, IP: 90.173.205.194
-09:41:30 - Player disconected: SDFWERGFWA, id: 0, IP: 90.173.205.194
-09:41:31 - Player disconected: ERT8, id: 0, IP: 90.173.205.194
-09:41:33 - Player disconected: POALSA, id: 0, IP: 90.173.205.194
-09:42:49 - Player conected: SDFWERGFWARRFF, id: 0, IP: 90.173.205.194
-09:43:57 - Player disconected: SDFWERGFWARRFF, id: 0, IP: 90.173.205.194

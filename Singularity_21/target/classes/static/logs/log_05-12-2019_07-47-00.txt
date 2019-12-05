@@ -1,3 +1,0 @@
-07:47:05 - Server opened
-07:47:25 - Player conected: RRRR, id: 0, IP: 90.173.205.194
-07:47:57 - Player conected: THUND3R, id: 1, IP: 90.173.205.194

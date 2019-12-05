@@ -1,7 +1,0 @@
-08:21:46 - Server opened
-08:22:07 - Player conected: AWSERTY, id: 0, IP: 90.173.205.194
-08:22:26 - Player conected: LALATINA, id: 1, IP: 90.173.205.194
-08:22:37 - Player conected: SDFCSARQ, id: 2, IP: 90.173.205.194
-08:22:39 - Player disconected: AWSERTY, id: 0, IP: 90.173.205.194
-08:22:40 - Player disconected: SDFCSARQ, id: 1, IP: 90.173.205.194
-08:22:40 - Player disconected: LALATINA, id: 0, IP: 90.173.205.194

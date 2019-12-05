@@ -1,9 +1,0 @@
-10:54:16 - Server opened
-10:54:31 - Player conected: 24354567, id: 0, IP: 90.173.205.194
-10:54:32 - Player conected: SADADA, id: 1, IP: 90.173.205.194
-10:54:38 - Player conected: YU6ERWGT5GEF4W, id: 2, IP: 90.173.205.194
-10:54:41 - 24354567 selected character 1
-10:54:42 - SADADA selected character 2
-10:54:47 - SADADA selected character -1
-10:55:01 - SADADA selected character 2
-10:55:04 - SADADA selected character -1

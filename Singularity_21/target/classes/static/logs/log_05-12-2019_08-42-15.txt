@@ -1,7 +1,0 @@
-08:42:22 - Server opened
-08:42:42 - Player conected: SDDS, id: 0, IP: 90.173.205.194
-08:42:44 - Player conected: SDFGWAFG, id: 1, IP: 90.173.205.194
-08:42:47 - Player conected: PAPADOPOULOS, id: 2, IP: 90.173.205.194
-08:44:25 - Player disconected: SDFGWAFG, id: 1, IP: 90.173.205.194
-08:44:26 - Player disconected: PAPADOPOULOS, id: 1, IP: 90.173.205.194
-08:44:27 - Player disconected: SDDS, id: 0, IP: 90.173.205.194

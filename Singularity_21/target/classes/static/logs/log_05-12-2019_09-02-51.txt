@@ -1,7 +1,0 @@
-09:02:55 - Server opened
-09:03:12 - Player conected: QEWRETRYUI, id: 0, IP: 90.173.205.194
-09:03:20 - Player conected: SDGFREGS, id: 1, IP: 90.173.205.194
-09:03:35 - Player conected: LINK, id: 2, IP: 90.173.205.194
-09:03:37 - Player disconected: QEWRETRYUI, id: 0, IP: 90.173.205.194
-09:03:38 - Player disconected: LINK, id: 1, IP: 90.173.205.194
-09:03:39 - Player disconected: SDGFREGS, id: 0, IP: 90.173.205.194

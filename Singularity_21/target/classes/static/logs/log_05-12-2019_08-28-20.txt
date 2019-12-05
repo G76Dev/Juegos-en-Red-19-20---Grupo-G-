@@ -1,7 +1,0 @@
-08:28:26 - Server opened
-08:28:43 - Player conected: WERTY, id: 0, IP: 90.173.205.194
-08:28:45 - Player conected: 5757587, id: 1, IP: 90.173.205.194
-08:28:51 - Player conected: 5464654, id: 2, IP: 90.173.205.194
-08:28:53 - Player disconected: WERTY, id: 0, IP: 90.173.205.194
-08:28:54 - Player disconected: 5464654, id: 1, IP: 90.173.205.194
-08:28:54 - Player disconected: 5757587, id: 0, IP: 90.173.205.194

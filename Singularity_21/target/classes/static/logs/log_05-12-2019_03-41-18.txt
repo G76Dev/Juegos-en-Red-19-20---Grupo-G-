@@ -1,8 +1,0 @@
-03:41:24 - Server opened
-03:41:53 - Player conected: RAYITO, id: 0, IP: 90.173.205.194
-03:41:54 - Player disconected: RAYITO, id: 0, IP: 90.173.205.194
-03:42:08 - Player conected: RAYITO, id: 0, IP: 90.173.205.194
-03:42:36 - Player conected: FRUSTRUM, id: 1, IP: 90.173.205.194
-03:42:45 - Player conected: FFFFFFF, id: 2, IP: 90.173.205.194
-03:42:50 - Player disconected: RAYITO, id: 0, IP: 90.173.205.194
-03:43:01 - Player conected: RAYITO, id: 2, IP: 90.173.205.194

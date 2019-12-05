@@ -1,5 +1,0 @@
-02:02:37 - Server opened
-02:03:01 - Player conected: player0, id: 0, IP: 90.173.205.194
-02:03:08 - Player conected: player1, id: 1, IP: 90.173.205.194
-02:03:13 - Player disconected: player0, id: 0, IP: 90.173.205.194
-02:03:14 - Player disconected: player1, id: 1, IP: 90.173.205.194

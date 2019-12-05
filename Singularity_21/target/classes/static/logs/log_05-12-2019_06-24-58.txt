@@ -1,3 +1,0 @@
-06:25:02 - Server opened
-06:25:36 - Player conected: GRGR, id: 0, IP: 90.173.205.194
-06:25:40 - Player disconected: GRGR, id: 0, IP: 90.173.205.194

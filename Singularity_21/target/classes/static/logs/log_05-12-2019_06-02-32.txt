@@ -1,3 +1,0 @@
-06:02:36 - Server opened
-06:03:51 - Player conected: ABCD, id: 0, IP: 90.173.205.194
-06:04:13 - Player disconected: ABCD, id: 0, IP: 90.173.205.194

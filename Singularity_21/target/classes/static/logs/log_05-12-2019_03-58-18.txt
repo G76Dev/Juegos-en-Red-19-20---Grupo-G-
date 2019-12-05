@@ -1,7 +1,0 @@
-03:58:24 - Server opened
-03:58:41 - Player conected: default, id: 0, IP: 90.173.205.194
-03:59:36 - Player conected: NACHO, id: 1, IP: 90.173.205.194
-03:59:43 - Player conected: ITWASMEDIO, id: 2, IP: 90.173.205.194
-03:59:45 - Player disconected: NACHO, id: 1, IP: 90.173.205.194
-03:59:45 - Player disconected: default, id: 0, IP: 90.173.205.194
-03:59:46 - Player disconected: ITWASMEDIO, id: 0, IP: 90.173.205.194

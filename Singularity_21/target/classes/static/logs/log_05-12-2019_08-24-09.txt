@@ -1,7 +1,0 @@
-08:24:15 - Server opened
-08:24:33 - Player conected: QWERTYUIOP, id: 0, IP: 90.173.205.194
-08:24:48 - Player conected: 2131413, id: 1, IP: 90.173.205.194
-08:24:51 - Player conected: DFGRSGRQE, id: 2, IP: 90.173.205.194
-08:24:53 - Player disconected: QWERTYUIOP, id: 0, IP: 90.173.205.194
-08:24:54 - Player disconected: DFGRSGRQE, id: 1, IP: 90.173.205.194
-08:24:54 - Player disconected: 2131413, id: 0, IP: 90.173.205.194

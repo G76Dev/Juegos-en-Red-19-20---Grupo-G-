@@ -1,7 +1,0 @@
-09:11:30 - Server opened
-09:11:52 - Player conected: ASDASDADASAD, id: 0, IP: 90.173.205.194
-09:12:01 - Player conected: SGREGERG, id: 1, IP: 90.173.205.194
-09:13:14 - Player conected: EBICHUELA, id: 2, IP: 90.173.205.194
-09:15:12 - Player disconected: ASDASDADASAD, id: 0, IP: 90.173.205.194
-09:15:14 - Player disconected: EBICHUELA, id: 1, IP: 90.173.205.194
-09:15:14 - Player disconected: SGREGERG, id: 0, IP: 90.173.205.194

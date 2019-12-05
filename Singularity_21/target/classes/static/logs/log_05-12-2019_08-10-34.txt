@@ -1,7 +1,0 @@
-08:10:40 - Server opened
-08:13:36 - Player conected: ASDG, id: 0, IP: 90.173.205.194
-08:13:42 - Player conected: TYRHRTH, id: 1, IP: 90.173.205.194
-08:13:56 - Player conected: QWQWQW, id: 2, IP: 90.173.205.194
-08:13:57 - Player disconected: TYRHRTH, id: 1, IP: 90.173.205.194
-08:13:57 - Player disconected: ASDG, id: 0, IP: 90.173.205.194
-08:13:58 - Player disconected: QWQWQW, id: 0, IP: 90.173.205.194

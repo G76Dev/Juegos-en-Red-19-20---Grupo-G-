@@ -1,7 +1,0 @@
-06:59:03 - Server opened
-06:59:49 - Player conected: ASGA, id: 0, IP: 90.173.205.194
-07:00:48 - Player conected: THUND3R, id: 1, IP: 90.173.205.194
-07:01:21 - Player conected: WIDOWMAKER, id: 2, IP: 90.173.205.194
-07:01:22 - Player disconected: THUND3R, id: 1, IP: 90.173.205.194
-07:01:23 - Player disconected: ASGA, id: 0, IP: 90.173.205.194
-07:01:25 - Player disconected: WIDOWMAKER, id: 0, IP: 90.173.205.194

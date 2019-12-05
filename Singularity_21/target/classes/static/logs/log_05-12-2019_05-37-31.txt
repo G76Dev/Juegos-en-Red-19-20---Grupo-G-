@@ -1,3 +1,0 @@
-05:37:39 - Server opened
-05:37:59 - Player conected: FERNAN, id: 0, IP: 90.173.205.194
-05:39:33 - Player conected: FERNAN2, id: 1, IP: 90.173.205.194

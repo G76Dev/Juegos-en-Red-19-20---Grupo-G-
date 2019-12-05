@@ -1,4 +1,0 @@
-08:44:42 - Server opened
-08:45:01 - Player conected: 345678, id: 0, IP: 90.173.205.194
-08:45:25 - Player conected: KAKAROTO, id: 1, IP: 90.173.205.194
-08:45:29 - Player conected: DSXVGDFSG, id: 2, IP: 90.173.205.194
