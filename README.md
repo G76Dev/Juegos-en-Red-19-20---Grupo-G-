@@ -194,7 +194,7 @@ Este es el diagrama de flujo general de todas las pantallas del juego. Por motiv
 
 #### 5.3 Selección de roles 
 
-![Selección de roles](https://i.ibb.co/RzNg7tt/Captura.png)
+![Selección de roles](https://i.ibb.co/Y8WdF0n/Captura-1.png)
 
 #### 5.4 Interfaz de juego
 
