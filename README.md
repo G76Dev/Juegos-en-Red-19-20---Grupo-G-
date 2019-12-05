@@ -214,7 +214,7 @@ Este es el diagrama de flujo general de todas las pantallas del juego. Por motiv
 ### 6. Instrucciones de uso
   A continuación se proporcionan instrucciones para la correcta instalación y ejeución del juego:
   
-  Después de descargar el archivo .jar, ver la ip del pc en el que estará el servidor (ipconfig). Cambiar el contenido del archivo de texto serverIP.txt por la ip vista en la consola (al realizar el comando ipconfig). Ejecutar el archivo .jar e ir a la dirección especificada por el mismo ip visto antes. Se recomienda el uso de Chrome.
+  Después de descargar el archivo .jar, ver la ip del pc en el que estará el servidor (ipconfig). Cambiar el contenido del archivo de texto serverIP.js, situado en Singularity_21\target\classes\static\src, por la ip vista en la consola (al realizar el comando ipconfig). Ejecutar el archivo .jar e ir a la dirección especificada por el mismo ip visto antes. Se recomienda el uso de Chrome.
 
 ### 7. Referencias y anexos
   Juegos tomados como referencia o de los que se ha hablado:
