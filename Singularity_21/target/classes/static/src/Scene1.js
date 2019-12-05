@@ -32,6 +32,7 @@ export default class Scene1 extends Phaser.Scene {
   create ()
   {
 	this.game.online = false;
+	var actualScene = this;
 	// Variable que indica si se está cambiando de escena.
 	isChangingScene = false;
 
@@ -47,56 +48,44 @@ export default class Scene1 extends Phaser.Scene {
 	cam = this.cameras.main;
 	cam.fadeIn(1000);
 	
-	//Create player in server
-	function createPlayer(serverIP, player, callback) {
-	    $.ajax({
-	        method: "POST",
-	        url: 'http://' + serverIP + ':8080/players',
-	        //url: 'http://10.10.109.158:8080/players',
-	        data: JSON.stringify(player),
-	        processData: false,
-	        headers: {
-	            "Content-Type": "application/json"
-	        }
-	    }).done(function (player) {
-	        console.log("Player connected: " + JSON.stringify(player));
-	        callback(player);
+	function LoadScene(scene, nombreEscena)
+	{
+		scene.scene.start(nombreEscena);
+	}
+	
+	function getServerInfo(scene, serverIP) {
+		$.ajax({
+	        url: 'http://' + serverIP + ':8080/players/data/playercount'
+	    }).done(function (playercount) {
+	        if(playercount >= 3){
+	        	isChangingScene = true;
+                cam.fadeOut(1000);
+                scene.time.addEvent({
+                  delay: 1000,
+                  callback: () => LoadScene(scene, 'serverFull')
+                });
+	        } else {
+        		isChangingScene = true;
+                cam.fadeOut(1000);
+                scene.time.addEvent({
+                  delay: 1000,
+                  callback: () => LoadScene(scene, 'nameScreen')
+                });
+        	}
+	    }).fail(function() {
+	    	isChangingScene = true;
+            cam.fadeOut(1000);
+            scene.time.addEvent({
+              delay: 1000,
+              callback: () => LoadScene(scene, 'connectionFailed')
+            });
 	    })
 	}
 	
-	function LoadScene(scene, nombreEscena)
-	{
-		if(nombreEscena == "onlineMode") {
-			$.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
-				scene.game.playerIP = data.geoplugin_request;
-				}).done(function () {
-					var player = {
-				            player_ip: scene.game.playerIP,
-				            player_name: "player",
-				        	character_selection: -1,
-				        	player_ready: false
-				        }
-
-				    createPlayer(scene.game.serverIP, player, function (playerWithId) {
-				        //When item with id is returned from server
-				        //showItem(itemWithId);
-				    	scene.game.playerID = playerWithId.id;
-				    	scene.game.online = true;
-				    });
-				});
-		}
-
-		scene.scene.start(nombreEscena);
-	}
   	buttonArray = [                           // Este parametro recibe una funcion que se ejecuta al presionar el boton.
   		new Button(this, 960/2, 214, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
-			isChangingScene = true;
-			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'onlineMode')
-			});
+  			selectedSound.play({ volume: this.scene.game.soundVolume });
+  			getServerInfo(actualScene, actualScene.game.serverIP);
   		}),
   		new Button(this, 960/2, 284, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
@@ -157,6 +146,7 @@ export default class Scene1 extends Phaser.Scene {
 			}
 		}
 	});
+  	
 
   }
 

@@ -1,0 +1,8 @@
+10:58:32 - Server opened
+10:58:46 - Player conected: WDADWA, id: 0, IP: 90.173.205.194
+10:58:47 - Player conected: FDGEG, id: 1, IP: 90.173.205.194
+10:58:48 - Player conected: 234567, id: 2, IP: 90.173.205.194
+10:58:54 - Player disconected: 234567, id: 2, IP: 90.173.205.194
+10:58:54 - WDADWA selected character 1
+10:58:56 - Player disconected: WDADWA, id: 0, IP: 90.173.205.194
+10:58:57 - Player disconected: FDGEG, id: 0, IP: 90.173.205.194

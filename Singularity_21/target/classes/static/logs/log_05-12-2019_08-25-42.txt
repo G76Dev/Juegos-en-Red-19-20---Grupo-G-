@@ -1,0 +1,7 @@
+08:25:48 - Server opened
+08:26:17 - Player conected: ZXCVBNM, id: 0, IP: 90.173.205.194
+08:26:26 - Player conected: JHGGIYO, id: 1, IP: 90.173.205.194
+08:26:32 - Player conected: 446464, id: 2, IP: 90.173.205.194
+08:26:34 - Player disconected: JHGGIYO, id: 1, IP: 90.173.205.194
+08:26:34 - Player disconected: ZXCVBNM, id: 0, IP: 90.173.205.194
+08:26:35 - Player disconected: 446464, id: 0, IP: 90.173.205.194

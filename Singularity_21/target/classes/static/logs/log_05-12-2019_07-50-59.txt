@@ -1,0 +1,7 @@
+07:51:06 - Server opened
+07:51:25 - Player conected: QWEQ, id: 0, IP: 90.173.205.194
+07:51:38 - Player conected: MARISA, id: 1, IP: 90.173.205.194
+07:51:45 - Player conected: THUND3R, id: 2, IP: 90.173.205.194
+07:51:47 - Player disconected: MARISA, id: 1, IP: 90.173.205.194
+07:51:47 - Player disconected: QWEQ, id: 0, IP: 90.173.205.194
+07:51:48 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194

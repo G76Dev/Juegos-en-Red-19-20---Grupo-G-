@@ -1,0 +1,2 @@
+04:43:52 - Server opened
+04:44:10 - Player conected: ASDASD, id: 0, IP: 90.173.205.194

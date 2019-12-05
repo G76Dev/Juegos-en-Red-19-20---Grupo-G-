@@ -1,0 +1,18 @@
+10:39:38 - Server opened
+10:40:00 - Player conected: SADASDA, id: 0, IP: 90.173.205.194
+10:40:04 - Player conected: THUND3R, id: 1, IP: 90.173.205.194
+10:40:12 - Player conected: DFGRES, id: 2, IP: 90.173.205.194
+10:40:18 - THUND3R selected character 1
+10:40:32 - THUND3R selected character -1
+10:40:35 - THUND3R selected character 1
+10:40:37 - SADASDA selected character 2
+10:40:39 - SADASDA selected character -1
+10:40:40 - THUND3R selected character -1
+10:40:41 - DFGRES selected character 0
+10:40:43 - DFGRES selected character -1
+10:40:45 - DFGRES selected character 1
+10:40:46 - DFGRES selected character -1
+10:40:52 - Player disconected: DFGRES, id: 2, IP: 90.173.205.194
+10:40:53 - SADASDA selected character 1
+10:40:53 - Player disconected: THUND3R, id: 1, IP: 90.173.205.194
+10:40:54 - Player disconected: SADASDA, id: 0, IP: 90.173.205.194

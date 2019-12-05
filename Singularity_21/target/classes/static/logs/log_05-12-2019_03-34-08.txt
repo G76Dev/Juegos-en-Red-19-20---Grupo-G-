@@ -1,0 +1,16 @@
+03:34:14 - Server opened
+03:34:43 - Player conected: THUND3R, id: 0, IP: 90.173.205.194
+03:35:07 - Player conected: FERNANDO, id: 1, IP: 90.173.205.194
+03:35:23 - Player conected: ASUKA, id: 2, IP: 90.173.205.194
+03:35:35 - Player disconected: ASUKA, id: 2, IP: 90.173.205.194
+03:36:04 - Player conected: ASUKA, id: 2, IP: 90.173.205.194
+03:36:41 - Player disconected: FERNANDO, id: 1, IP: 90.173.205.194
+03:37:01 - Player conected: FERNANDO, id: 2, IP: 90.173.205.194
+03:37:10 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+03:37:21 - Player conected: THUND3R, id: 2, IP: 90.173.205.194
+03:37:22 - Player disconected: THUND3R, id: 2, IP: 90.173.205.194
+03:37:55 - Player conected: THUND3R, id: 2, IP: 90.173.205.194
+03:38:11 - Player disconected: THUND3R, id: 2, IP: 90.173.205.194
+03:38:15 - Player disconected: ASUKA, id: 0, IP: 90.173.205.194
+03:38:24 - Player conected: THUND3R, id: 1, IP: 90.173.205.194
+03:38:28 - Player conected: ASUKA, id: 2, IP: 90.173.205.194

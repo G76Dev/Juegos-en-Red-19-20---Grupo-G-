@@ -1,0 +1,7 @@
+08:30:41 - Server opened
+08:31:07 - Player conected: QWERTY, id: 0, IP: 90.173.205.194
+08:31:10 - Player conected: WQRQEWREQ, id: 1, IP: 90.173.205.194
+08:31:14 - Player conected: FDTST, id: 2, IP: 90.173.205.194
+08:31:16 - Player disconected: WQRQEWREQ, id: 1, IP: 90.173.205.194
+08:31:16 - Player disconected: QWERTY, id: 0, IP: 90.173.205.194
+08:31:17 - Player disconected: FDTST, id: 0, IP: 90.173.205.194

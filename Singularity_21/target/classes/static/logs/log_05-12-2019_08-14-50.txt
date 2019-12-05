@@ -1,0 +1,7 @@
+08:14:56 - Server opened
+08:15:11 - Player conected: QWEQWE, id: 0, IP: 90.173.205.194
+08:15:19 - Player conected: QWQWQWWQE, id: 1, IP: 90.173.205.194
+08:15:25 - Player conected: GBHYTRHEYSYH, id: 2, IP: 90.173.205.194
+08:15:27 - Player disconected: QWQWQWWQE, id: 1, IP: 90.173.205.194
+08:15:27 - Player disconected: QWEQWE, id: 0, IP: 90.173.205.194
+08:15:29 - Player disconected: GBHYTRHEYSYH, id: 0, IP: 90.173.205.194

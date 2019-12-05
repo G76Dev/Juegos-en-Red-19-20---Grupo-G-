@@ -1,11 +1,20 @@
 package es.JeR_Group_G.Singularity_21;
 
 public class PlayerData {
+	private long id;
 	private String player_name;
 	private int character_selection;
 	private boolean player_ready;
 
 	public PlayerData() {
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long i) {
+		id = i;
 	}
 
 	public String getPlayer_name() {

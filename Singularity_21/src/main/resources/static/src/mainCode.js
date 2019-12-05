@@ -13,7 +13,15 @@ import SceneVictory from "./SceneVictory.js";
 import SceneDefeat from "./SceneDefeat.js";
 import SceneCredits from "./SceneCredits.js";
 import SplashScreen from "./SplashScreen.js";
+import SceneName from "./NameScreen.js";
+import SceneWaiting from "./WaitingScreen.js";
+import SceneCharacterSelection from "./CharacterSelectorScreen.js";
+import SceneServerFull from "./ServerFull.js";
+import SceneConnectionFailed from "./ConnectionFailed.js";
 import Android from "./Android.js";
+
+import ipConfigClass from "./serverIP.js"
+
 //Configuración de Phaser 3
 var config = {
     type: Phaser.AUTO,
@@ -32,8 +40,26 @@ var config = {
         }
     },
     //escenas principales
-    scene: [SceneLoading, Scene1, Scene2, Scene3, SceneOnlineMode, SceneOptions, SceneMenuTutorial, SceneVictory, SceneDefeat, SceneCredits, SceneMenuTutorial2, SplashScreen],
-    plugins: {
+    scene: [
+      SceneLoading,
+      Scene1,
+      Scene2,
+      Scene3,
+      SceneOnlineMode,
+      SceneOptions,
+      SceneMenuTutorial,
+      SceneVictory,
+      SceneDefeat,
+      SceneCredits,
+      SceneMenuTutorial2,
+      SplashScreen,
+      SceneName,
+      SceneWaiting,
+      SceneCharacterSelection,
+      SceneServerFull,
+      SceneConnectionFailed
+    ],
+	plugins: {
     //plugin de collisiones de matter  https://github.com/mikewesthad/phaser-matter-collision-plugin
     scene: [
       {
@@ -66,13 +92,16 @@ game.scene1Counter = 0;
 game.scene2Counter = 0;
 
 //Variables del jugador si se conecta al servidor.
-game.serverIP = "192.168.1.119";
+
+var ipConfig = new ipConfigClass();
+game.serverIP = ipConfig.serverIP;
 game.playerIP;
 game.playerID = -1;
 game.online = false;
 game.ready = false;
 game.characterSel = -1;
-game.playerName = "default";
+game.playerName = "";
+game.playerPassword = "";
 
 //Variables del chat
 game.chatColor = "#FF0000";
@@ -81,18 +110,46 @@ game.chatColor = "#FF0000";
 const chatArea = document.getElementById("chatArea");
 const chatInput = document.getElementById("chatInput");
 
-function submitText(text){
-	chatArea.innerHTML += game.playerName + ": ";
-	chatArea.innerHTML += text + "\n";
-	chatInput.value = "";
+game.textToChat = function(chatTxt){
+	chatArea.innerHTML = chatTxt;
 }
+function submitText(chatTxt){
+  var addToChat = "";
+
+  if(game.online){
+	var fontFormat = 'color:' + game.chatColor + '; font-weight: bold';
+	addToChat += "<span style ='" + fontFormat + "'>" + game.playerName + ": ";
+    fontFormat = 'color:' + 'black' + '; font-weight: normal';
+    addToChat += "<span style ='" + fontFormat +"'>" + chatTxt + "<br />";
+    
+    $.ajax({
+        method: "POST",
+        url: 'http://' + game.serverIP + ':8080/players/chat',
+        data: JSON.stringify(addToChat),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (player) {
+        console.log("chat enviado");
+    })
+    
+  }else{
+	chatArea.innerHTML += "<span style = 'font-weight: bold'>" + "Chat is disabled in offline mode" + "<br />";
+  }
+
+  chatInput.value = "";
+  chatArea.scrollTo(0, 99999);
+}
+
+
 function keyPressed(event){
   if(event.key == "Enter"){
     submitText(chatInput.value);
   }
 }
 
-chatInput.onkeydown = keyPressed;
+chatInput.onkeypress = keyPressed;
 
 function chatConnect(){
   submitText("Player arrived!");

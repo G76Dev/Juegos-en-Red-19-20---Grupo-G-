@@ -5,6 +5,7 @@ public class Player {
 	private long id;
 	private String player_ip;
 	private String player_name;
+	private String player_password;
 	private int character_selection;
 	private boolean player_ready;
 
@@ -33,6 +34,14 @@ public class Player {
 
 	public void setPlayer_name(String player_name) {
 		this.player_name = player_name;
+	}
+	
+	public String getPlayer_password() {
+		return player_password;
+	}
+
+	public void setPlayer_password(String player_p) {
+		this.player_password = player_p;
 	}
 	
 	public int getCharacter_selection() {

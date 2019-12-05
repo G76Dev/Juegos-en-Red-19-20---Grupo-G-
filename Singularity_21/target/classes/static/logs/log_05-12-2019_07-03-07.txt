@@ -1,0 +1,7 @@
+07:03:11 - Server opened
+07:03:36 - Player conected: ASDASD, id: 0, IP: 90.173.205.194
+07:03:48 - Player conected: RAQUEL HIJON, id: 1, IP: 90.173.205.194
+07:04:15 - Player conected: THUND3R, id: 2, IP: 90.173.205.194
+07:04:16 - Player disconected: RAQUEL HIJON, id: 1, IP: 90.173.205.194
+07:04:16 - Player disconected: ASDASD, id: 0, IP: 90.173.205.194
+07:04:18 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194

@@ -1,0 +1,9 @@
+09:24:26 - Server opened
+09:24:47 - Player conected: 132345678, id: 0, IP: 90.173.205.194
+09:25:00 - Player conected: SDGERGS, id: 1, IP: 90.173.205.194
+09:25:01 - Player conected: KAPAASD, id: 2, IP: 90.173.205.194
+09:25:51 - Player disconected: SDGERGS, id: 1, IP: 90.173.205.194
+09:25:52 - Player disconected: 132345678, id: 0, IP: 90.173.205.194
+09:25:53 - Player disconected: KAPAASD, id: 0, IP: 90.173.205.194
+09:29:21 - Player conected: DHETSHBESZ, id: 0, IP: 90.173.205.194
+09:31:13 - Player disconected: DHETSHBESZ, id: 0, IP: 90.173.205.194

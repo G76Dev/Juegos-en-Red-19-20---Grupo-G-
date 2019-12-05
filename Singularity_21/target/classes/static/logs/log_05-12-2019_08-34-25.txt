@@ -1,0 +1,7 @@
+08:34:32 - Server opened
+08:34:54 - Player conected: 34567, id: 0, IP: 90.173.205.194
+08:35:07 - Player conected: DSFGDSA, id: 1, IP: 90.173.205.194
+08:35:11 - Player conected: LEYENDA, id: 2, IP: 90.173.205.194
+08:35:13 - Player disconected: DSFGDSA, id: 1, IP: 90.173.205.194
+08:35:13 - Player disconected: 34567, id: 0, IP: 90.173.205.194
+08:35:14 - Player disconected: LEYENDA, id: 0, IP: 90.173.205.194

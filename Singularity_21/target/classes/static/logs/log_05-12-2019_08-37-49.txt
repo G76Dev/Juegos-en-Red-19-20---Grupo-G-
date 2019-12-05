@@ -1,0 +1,7 @@
+08:37:56 - Server opened
+08:38:15 - Player conected: EWERTYU, id: 0, IP: 90.173.205.194
+08:38:26 - Player conected: DFXGSDGTS, id: 1, IP: 90.173.205.194
+08:38:32 - Player conected: THUND3R, id: 2, IP: 90.173.205.194
+08:39:52 - Player disconected: THUND3R, id: 2, IP: 90.173.205.194
+08:39:53 - Player disconected: DFXGSDGTS, id: 1, IP: 90.173.205.194
+08:39:53 - Player disconected: EWERTYU, id: 0, IP: 90.173.205.194

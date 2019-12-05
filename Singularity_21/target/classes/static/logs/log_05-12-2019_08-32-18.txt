@@ -1,0 +1,7 @@
+08:32:24 - Server opened
+08:32:47 - Player conected: EWRUYU, id: 0, IP: 90.173.205.194
+08:33:30 - Player conected: DSFESC4T, id: 1, IP: 90.173.205.194
+08:33:38 - Player conected: GVUYFTU, id: 2, IP: 90.173.205.194
+08:33:40 - Player disconected: DSFESC4T, id: 1, IP: 90.173.205.194
+08:33:40 - Player disconected: EWRUYU, id: 0, IP: 90.173.205.194
+08:33:42 - Player disconected: GVUYFTU, id: 0, IP: 90.173.205.194

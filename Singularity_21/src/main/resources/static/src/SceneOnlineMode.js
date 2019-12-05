@@ -29,10 +29,6 @@ export default class SceneOnlineMode extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-	this.game.online = true;
-	var disconnectCounter = 0;
-	var actualScene = this;
-
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
 
@@ -50,31 +46,18 @@ export default class SceneOnlineMode extends Phaser.Scene {
     cam = this.cameras.main;
     cam.fadeIn(1000);
     
-    //Delete item from server
-	function deletePlayer(playerId, serverIP) {
-	    $.ajax({
-	        method: 'DELETE',
-	        url: 'http://' + serverIP + ':8080/players/' + playerId
-	    }).done(function (player) {
-	        console.log("Player disconnected: " + playerId)
-	    })
-	}
-	
     function LoadScene(scene, nombreEscena){
-    	if (disconnectCounter <3) {
-    		deletePlayer(scene.game.playerID, scene.game.serverIP);
-    	}
-    	scene.game.online = false;
-    	scene.scene.start(nombreEscena);}
+    	scene.scene.start(nombreEscena);
+    }
     
   	backButton = new Button(this, 960/2, 405, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
-      isChangingScene = true;
-			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menu')
-			});
+  		selectedSound.play({ volume: this.scene.game.soundVolume });
+  		isChangingScene = true;
+		cam.fadeOut(1000);
+		this.scene.time.addEvent({
+			delay: 1000,
+			callback: () => LoadScene(this.scene, 'menu')
+		});
     });
 
   	// Hacemos la luz invisible.
@@ -90,39 +73,6 @@ export default class SceneOnlineMode extends Phaser.Scene {
             backButton.Behaviour();
         }
     });
-  	
-  	function getServerInfo(scene, serverIP) {
-  		if (scene.game.online) {
-  			$.ajax({
-  		        url: 'http://' + serverIP + ':8080/players/data/' + scene.game.playerID
-  		    }).done(function (playerData) {
-  		        console.log("Players: " + JSON.stringify(playerData));
-  		    }).fail(function () {
-  				disconnectCounter++;
-  			});
-  			
-  			if (disconnectCounter >= 2) {
-  				scene.game.online = false;
-  			}
-  		    
-  	  		scene.time.addEvent({
-  	  			delay: 500,
-  	  			callback: () => getServerInfo(scene, serverIP)
-  	  		});
-  	  	} else {
-  	  		console.log("Disconected from server");
-  	  		LoadScene(scene, 'menu');
-  	  	}
-  	}
-  	
-  	this.time.addEvent({
-			delay: 500,
-			callback: () => getServerInfo(this, this.game.serverIP)
-		});
-  	
-  	/*window.addEventListener('beforeunload', function (e) {
-	    deletePlayer(actualScene.game.playerID);
-	});*/
     
   }
 

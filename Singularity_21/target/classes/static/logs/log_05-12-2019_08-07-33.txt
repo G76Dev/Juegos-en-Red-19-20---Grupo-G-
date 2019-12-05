@@ -1,0 +1,2 @@
+08:07:38 - Server opened
+08:08:24 - Player conected: 1234567, id: 0, IP: 90.173.205.194
