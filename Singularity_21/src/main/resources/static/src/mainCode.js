@@ -1,26 +1,6 @@
 "use strict";
 
-//todas las clases necesarias (incluyendo todas las escenas-modulos)
-import SceneLoading from "./SceneLoading.js";
-import Scene1 from "./Scene1.js";
-import Scene2 from "./Scene2.js";
-import Scene3 from "./Scene3.js";
-import SceneMenuTutorial from './SceneMenuTutorial.js';
-import SceneMenuTutorial2 from './SceneMenuTutorial2.js';
-import SceneOnlineMode from "./SceneOnlineMode.js";
-import SceneOptions from "./SceneOptions.js";
-import SceneVictory from "./SceneVictory.js";
-import SceneDefeat from "./SceneDefeat.js";
-import SceneCredits from "./SceneCredits.js";
-import SplashScreen from "./SplashScreen.js";
-import SceneName from "./NameScreen.js";
-import SceneWaiting from "./WaitingScreen.js";
-import SceneCharacterSelection from "./CharacterSelectorScreen.js";
-import SceneServerFull from "./ServerFull.js";
-import SceneConnectionFailed from "./ConnectionFailed.js";
-import Android from "./Android.js";
-
-import ipConfigClass from "./serverIP.js"
+//import Scene1 from './Scenes/Scene1.js';
 
 //Configuración de Phaser 3
 var config = {
@@ -88,13 +68,37 @@ game.jumpVelocity = 5.05;
 game.moveVelocity = 0.215;
 game.airVelocityFraction = 0.3;
 
-game.scene1Counter = 0;
-game.scene2Counter = 0;
+function customTransitionStart(scene, nextSceneKey){
+	  var sceneClassName = "";
+	  var sceneArray = scene.scene.manager.scenes;
+
+	  for(var i=0; i<sceneArray.length; i++){
+	    if(sceneArray[i].scene.key.localeCompare(nextSceneKey) == 0){ //scene.scene.manager.scenes[i].scene.key.localeCompare(nextSceneKey)
+	      sceneClassName = sceneArray[i].constructor.name;            //sceneClassName = scene.scene.manager.scenes[i].constructor.name
+	      break;
+	    }
+	  }
+	  scene.scene.remove(nextSceneKey);
+	  return sceneClassName;
+	}
+
+	function customTransitionEnd(scene, nextSceneKey, sceneClassName){
+	  //console.log("scene.game.scene.add('', new "+ sceneClassName +"(\'"+ nextSceneKey +"\'), true)");
+	  const aux = "(\'"+ nextSceneKey +"\')"; //try with some generic constructor...
+	  eval("scene.game.scene.add(\'\', new "+ sceneClassName + aux +", true)");
+	  scene.scene.stop(scene.scene.key);
+	}
+
+	game.customTransition = function(scene, nextSceneKey, fadeDuration){
+	  var nextSceneClassName = customTransitionStart(scene, nextSceneKey);
+	  scene.time.addEvent({
+	    delay: fadeDuration,
+	    callback: () => (customTransitionEnd(scene, nextSceneKey, nextSceneClassName))
+	  });
+	}
 
 //Variables del jugador si se conecta al servidor.
-
-var ipConfig = new ipConfigClass();
-game.serverIP = ipConfig.serverIP;
+game.serverIP = "192.168.1.119";
 game.playerIP;
 game.playerID = -1;
 game.online = false;
@@ -113,6 +117,7 @@ const chatInput = document.getElementById("chatInput");
 game.textToChat = function(chatTxt){
 	chatArea.innerHTML = chatTxt;
 }
+
 function submitText(chatTxt){
   var addToChat = "";
 
@@ -121,10 +126,10 @@ function submitText(chatTxt){
 	addToChat += "<span style ='" + fontFormat + "'>" + game.playerName + ": ";
     fontFormat = 'color:' + 'black' + '; font-weight: normal';
     addToChat += "<span style ='" + fontFormat +"'>" + chatTxt + "<br />";
-    
+
     $.ajax({
         method: "POST",
-        url: 'http://' + game.serverIP + ':8080/players/chat',
+        url: 'http://' + game.serverIP + ':8080/players/chat/',
         data: JSON.stringify(addToChat),
         processData: false,
         headers: {
@@ -133,7 +138,7 @@ function submitText(chatTxt){
     }).done(function (player) {
         console.log("chat enviado");
     })
-    
+
   }else{
 	chatArea.innerHTML += "<span style = 'font-weight: bold'>" + "Chat is disabled in offline mode" + "<br />";
   }
