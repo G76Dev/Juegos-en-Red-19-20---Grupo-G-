@@ -23,8 +23,8 @@ const presses = [];
 
 //Clase Scene2, que extiende de Phaser.Scene.
 class Scene2 extends Phaser.Scene {
-  constructor(key = "level1") {
-    super(key);
+  constructor() {
+    super("level1");
   }
   //Función create, que crea los elementos del propio juego.
   create() {

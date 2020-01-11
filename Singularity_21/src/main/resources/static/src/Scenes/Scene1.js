@@ -45,31 +45,11 @@ class Scene1 extends Phaser.Scene {
 	// Añadimos las luces que indicaran que boton del menu esta activo. Hacemos tambien un fade con la camara.
 	cam = this.cameras.main;
 	cam.fadeIn(1000);
-	
-	function getServerInfo(scene, serverIP) {
-		$.ajax({
-	        url: 'http://' + serverIP + ':8080/players/data/playercount'
-	    }).done(function (playercount) {
-	        if(playercount >= 3){
-	        	isChangingScene = true;
-                cam.fadeOut(1000);
-                scene.game.customTransition(scene, 'serverFull', 1000);
-	        } else {
-        		isChangingScene = true;
-                cam.fadeOut(1000);
-                scene.game.customTransition(scene, 'nameScreen', 1000);
-        	}
-	    }).fail(function() {
-	    	isChangingScene = true;
-            cam.fadeOut(1000);
-            scene.game.customTransition(scene, 'connectionFailed', 1000);
-	    })
-	}	
 
   	buttonArray = [                           // Este parametro recibe una funcion que se ejecuta al presionar el boton.
   		new Button(this, 960/2, 214, 'light', function() {
   			selectedSound.play({ volume: this.scene.game.soundVolume });
-  			getServerInfo(actualScene, actualScene.game.serverIP);
+  			web.getServerInfoMenu(actualScene);
   			/*isChangingScene = true;
   			this.scene.game.customTransition(this.scene, 'nameScreen', 1000);
   			cam.fadeOut(1000);*/
@@ -136,5 +116,8 @@ class Scene1 extends Phaser.Scene {
   	for (var i = 0; i < buttonArray.length; i++) {
   	  buttonArray[i].Update(time, delta);
 	  }
+
+  web.loopServerInfoStop();
+  web.loopChatStop();
   }
 }

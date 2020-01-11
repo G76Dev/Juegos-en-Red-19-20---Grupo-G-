@@ -540,17 +540,17 @@ class SceneLoading extends Phaser.Scene {
         this.sound.pauseOnBlur = false;
         this.input.on('pointerdown', function () {
             if (!isLoading && !isFading) {
-                isFading = true;
-                this.scene.cameras.main.fadeOut(1000);
 
-                function LoadSS(scene){
-                	scene.game.customTransition(scene, 'splashScreen', 1000);
-                }
-                this.scene.time.addEvent({
-                    delay: 1000,
-                    callback: () => LoadSS(this.scene)
-                });
-                //this.scene.game.customTransition(this.scene, 'menu', 1000);
+              //creamos la escena web en paralelo con el resto del juego
+              this.scene.scene.launch("web");
+
+              isFading = true;
+              this.scene.cameras.main.fadeOut(1000);
+              this.scene.time.addEvent({
+                  delay: 1000,
+                  callback: () => this.scene.game.customTransition(this.scene, 'splashScreen', 1000)
+              });
+              //this.scene.game.customTransition(this.scene, 'menu', 1000);
             }
         });
     }

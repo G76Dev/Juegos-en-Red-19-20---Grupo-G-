@@ -93,75 +93,14 @@ class SceneName extends Phaser.Scene {
     	finalSolution = false;
     }
 
-
-  //Create player in server
-	function createPlayer(serverIP, player, callback) {
-	    $.ajax({
-	        method: "POST",
-	        url: 'http://' + serverIP + ':8080/players',
-	        data: JSON.stringify(player),
-	        processData: false,
-	        headers: {
-	            "Content-Type": "application/json"
-	        }
-	    }).done(function (player) {
-	        console.log("Player connected: " + JSON.stringify(player));
-	        callback(player);
-	    })
-	}
-
     // Añadimos las luces que indicaran que boton del menu esta activo. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
-    function LoadScene(scene, nombreEscena){
-    	if(nombreEscena == "waitingScreen") {
-
-			$.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(data) {
-				scene.game.playerIP = data.geoplugin_request;
-				}).done(function () {
-					var player = {
-				            player_ip: scene.game.playerIP,
-				            player_name: scene.game.playerName,
-				            player_password: scene.game.playerPassword,
-				        	character_selection: -1,
-				        	player_ready: false
-				        }
-
-				    createPlayer(scene.game.serverIP, player, function (playerWithId) {
-				    	console.log(scene);
-				    	scene.game.playerID = playerWithId.id;
-				    	scene.game.online = true;
-				    	cam.fadeOut(1000);
-				    	//scene.game.customTransition(scene, nombreEscena, 1000);
-				    	scene.scene.start("waitingScreen");
-				    });
-				});
-		} else {
-			cam.fadeOut(1000);
-			this.scene.game.customTransition(this.scene, nombreEscena, 1000);
-		}
-  }
-    function getServerInfo(scene, serverIP) {
-			$.ajax({
-		        url: 'http://' + serverIP + ':8080/players/login/' + nameText.text + '/' + actualScene.game.playerPassword
-		    }).done(function (login) {
-		        if(login == 0){
-		        	errorText.setText("That user is already playing.");
-		        } else if (login == 1) {
-		        	errorText.setText("Password is incorrect.");
-		        } else{
-	        		isChangingScene = true;
-	                canWriteName = false;
-	                canWritePass = false;
-	                LoadScene(scene, 'waitingScreen');
-	        	}
-		    })
-	}
 
       buttonArray = [
         new Button(this, 960/2, 430, 'light', function() {
         selectedSound.play({ volume: this.scene.game.soundVolume });
-        
+
         if (actualScene.game.playerPassword.length < 4 && this.scene.game.playerName.length < 4)
           errorText.setText("Password and name are too short.");
         else if (nameText.text.length < 4)
@@ -170,7 +109,7 @@ class SceneName extends Phaser.Scene {
           errorText.setText("Password is too short.");
         else {
         	//Preguntar al servidor para comparar usuario y contraseña.
-        	getServerInfo(actualScene, actualScene.game.serverIP);
+        	web.getServerInfoNameScreen(actualScene);
         }
         },),
       new Button(this, 960/2, 500, 'light', function() {

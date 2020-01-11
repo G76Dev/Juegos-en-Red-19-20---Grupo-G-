@@ -35,6 +35,7 @@ var isStartingGame = false;
 var selection = -1;
 
 var numPlayers = 3;
+var disconnectCounter = 0;
 
 // Funcion que detecta donde esta el raton y activa la luz correspondiente segun su posicion.
 function CheckOption1(scene) {
@@ -148,8 +149,6 @@ class SceneCharacterSelection extends Phaser.Scene {
   // Variable que indica si se está cambiando de escena.
   isChangingScene = false;
 
-  var disconnectCounter = 0;
-
   var actualScene = this;
 
   // Añadimos los sonidos a la escena.
@@ -194,15 +193,15 @@ class SceneCharacterSelection extends Phaser.Scene {
   android1Button.on('pointerdown', () => {
       if (!android1IsReady) {
         if (selection >= 0 && selection <= 2) {
-        	activateDeactivate(-1);
+        	web.activateDeactivate(actualScene,-1);
         }
         selection = 0;
-        activateDeactivate(selection)
+        web.activateDeactivate(actualScene,selection)
         document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Male Android. <br />"
         android1Leave.setVisible(true);
       }
       else if(selection == 0) {
-    	activateDeactivate(-1);
+    	web.activateDeactivate(actualScene,-1);
         selection = -1;
         android1Idle.setFrame(1);
       }
@@ -239,15 +238,15 @@ class SceneCharacterSelection extends Phaser.Scene {
     android2Button.on('pointerdown', () => {
         if (!android2IsReady) {
           if (selection >= 0 && selection <= 2) {
-        	  activateDeactivate(-1);
+        	  web.activateDeactivate(actualScene,-1);
           }
           selection = 1;
-          activateDeactivate(selection)
+          web.activateDeactivate(actualScene,selection)
           document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Female Android. <br />"
           android2Leave.setVisible(true);
         }
         else if(selection == 1) {
-          activateDeactivate(-1);
+          web.activateDeactivate(actualScene,-1);
           selection = -1;
           android2Idle.setFrame(1);
         }
@@ -284,33 +283,20 @@ class SceneCharacterSelection extends Phaser.Scene {
     humanButton.on('pointerdown', () => {
         if (!humanIsReady) {
         if (selection >= 0 && selection <= 2) {
-        	activateDeactivate(-1)
+        	web.activateDeactivate(actualScene,-1)
         }
         selection = 2;
-        activateDeactivate(selection)
+        web.activateDeactivate(actualScene,selection)
         document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Human. <br />"
         humanLeave.setVisible(true);
         }
         else if(selection == 2)  {
-    	activateDeactivate(-1);
+    	  web.activateDeactivate(actualScene,-1);
         selection = -1;
         humanIdle.setFrame(1);
         }
     });
-    function activateDeactivate(sel){
-    	$.ajax({
-            method: 'PUT',
-            url: 'http://' + actualScene.game.serverIP + ':8080/players/data/' + actualScene.game.playerID,
-            data: JSON.stringify(sel),
-            processData: false,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).done(function (selection) {
-        	console.log("role selected");
-        });
-    }
-    
+
     //ActiveRole(1); // Provisional para testear.
     //ActiveRole(2); // Provisional para testear.
 
@@ -357,87 +343,6 @@ class SceneCharacterSelection extends Phaser.Scene {
       }
     }
   });
-    
-    function getServerInfo(scene, serverIP) {
-  		if (scene.game.online && (disconnectCounter < 3)) {
-  			$.ajax({
-  		        url: 'http://' + serverIP + ':8080/players/data/' + scene.game.playerID
-  		    }).done(function (playerData) {
-  		        console.log("Players: " + JSON.stringify(playerData));
-
-  		        numPlayers = playerData.length;
-
-  		        if (numPlayers < 3) {
-  		        	scene.game.customTransition(scene, 'menu', 1000);
-  		        	document.getElementById("chatArea").innerHTML += "Someone left the server. <br />";
-  		        } else {
-  		        	for (var i = 0; i < 3; i++) {
-  		        		DeactivateRole(i);
-  		        	}
-  		        	for (var i = 0; i < numPlayers; i++) {
-      		        	if(playerData[i].player_name == scene.game.playerName) {
-      		        		scene.game.playerID = playerData[i].id;
-      		        		scene.game.characterSel = playerData[i].character_selection;
-      		        	}
-      		        	for (var j = 0; j < 3; j++) {
-      		        		if(playerData[i].character_selection == j){
-          		        		ActiveRole(j);
-          		        	}
-      		        	}
-      		        }
-
-      		        scene.time.addEvent({
-        	  			delay: 500,
-        	  			callback: () => getServerInfo(scene, serverIP)
-        	  		});
-  		        }
-  		    }).fail(function () {
-  				disconnectCounter++;
-  				if (disconnectCounter >= 3) {
-  					scene.game.online = false;
-  				}
-
-  				scene.time.addEvent({
-	  	  	  			delay: 500,
-	  	  	  			callback: () => getServerInfo(scene, serverIP)
-	  	  	  		});
-  			});
-
-  	  	} else {
-  	  		console.log("Disconected from server");
-  	  		document.getElementById("chatArea").innerHTML += "Disconected from server <br />"
-  	  		scene.game.customTransition(scene, 'connectionFailed', 0);
-  	  	}
-  	}
-    
-    function getNewChats(scene, serverIP) {
-  		if (scene.game.online) {
-  			$.ajax({
-  		        url: 'http://' + serverIP + ':8080/players/chat/'
-  		    }).done(function (chatData) {
-    			scene.game.textToChat(chatData);
-    			scene.time.addEvent({
-      	  			delay: 500,
-      	  			callback: () => getNewChats(scene, serverIP)
-      	  		});
-  		    }).fail(function () {
-  		    	scene.time.addEvent({
-  	  	  			delay: 500,
-  	  	  			callback: () => getNewChats(scene, serverIP)
-  	  	  		});
-  			});
-  		}
-  	}
-    
-    this.time.addEvent({
-		delay: 500,
-		callback: () => getServerInfo(this, this.game.serverIP)
-	});
-
-	this.time.addEvent({
-	delay: 250,
-	callback: () => getNewChats(this, this.game.serverIP)
-});
   }
 
   // Funcion update, que se ejecuta en cada frame.

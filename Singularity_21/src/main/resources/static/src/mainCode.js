@@ -22,6 +22,7 @@ var config = {
     //escenas principales
     scene: [
       SceneLoading,
+      WebBackgroundScene,
       Scene1,
       Scene2,
       Scene3,
@@ -53,6 +54,8 @@ var config = {
 
 //Declaramos nuestro juego
 var game = new Phaser.Game(config);
+
+var web;
 
 //Declaramos variables globales del juego.
 game.musicVolume = 0.3;
@@ -98,7 +101,7 @@ function customTransitionStart(scene, nextSceneKey){
 	}
 
 //Variables del jugador si se conecta al servidor.
-game.serverIP = "192.168.1.119";
+var serverIP = "192.168.1.119";
 game.playerIP;
 game.playerID = -1;
 game.online = false;
