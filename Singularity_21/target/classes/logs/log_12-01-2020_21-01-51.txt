@@ -1,0 +1,6 @@
+21:01:54 - Server opened
+21:02:20 - Player connected: NIKI1234, id: 0, IP: 90.173.205.194
+21:02:23 - Player connected: VJSDVJSDV, id: 1, IP: 90.173.205.194
+21:02:26 - Player connected: AEFSEF, id: 2, IP: 90.173.205.194
+21:02:52 - Player message - AEFSEF: acfascasc
+21:02:57 - Player message - NIKI1234: bdfbdfbdbdf

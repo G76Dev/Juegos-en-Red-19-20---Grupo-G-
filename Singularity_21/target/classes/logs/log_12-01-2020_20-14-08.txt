@@ -1,0 +1,9 @@
+20:14:11 - Server opened
+20:14:34 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+20:14:39 - Player connected: SEDGDG, id: 1, IP: 90.173.205.194
+20:14:43 - Player message - NIKI: ji
+20:14:51 - Player message - SEDGDG: dasd
+20:15:16 - Player connected: SEGSG, id: 2, IP: 90.173.205.194
+20:15:22 - Player message - SEGSG: g
+20:15:27 - Player message - SEDGDG: klñ
+20:15:33 - Player message - SEGSG: ´lp´lp´

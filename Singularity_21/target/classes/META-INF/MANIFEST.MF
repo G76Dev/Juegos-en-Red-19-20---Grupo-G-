@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: Singularity_21
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: niki1
+Built-By: Samue
 Implementation-Vendor-Id: es.JeR_Group_G
 Build-Jdk: 1.8.0_231
 Implementation-URL: http://maven.apache.org

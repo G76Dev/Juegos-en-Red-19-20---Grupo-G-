@@ -1,0 +1,4 @@
+00:08:42 - Server opened
+00:09:16 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+00:09:24 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+00:09:28 - Player connected: NIKI, id: 0, IP: 90.173.205.194

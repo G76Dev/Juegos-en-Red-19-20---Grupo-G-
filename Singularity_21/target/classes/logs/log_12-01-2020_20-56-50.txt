@@ -1,0 +1,16 @@
+20:56:54 - Server opened
+20:57:14 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+20:57:17 - Player connected: WTWETW, id: 1, IP: 90.173.205.194
+20:57:20 - Player connected: SDVSDV, id: 2, IP: 90.173.205.194
+20:57:28 - NIKI selected character 1
+20:57:30 - NIKI selected character -1
+20:57:33 - NIKI selected character 1
+20:57:35 - NIKI selected character -1
+20:57:37 - NIKI selected character 1
+20:57:38 - NIKI selected character -1
+20:57:41 - WTWETW selected character 1
+20:57:42 - WTWETW selected character -1
+20:57:45 - Player message - WTWETW: ascasc
+20:58:52 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+20:58:55 - Player disconected: WTWETW, id: 0, IP: 90.173.205.194
+20:58:58 - Player disconected: SDVSDV, id: 0, IP: 90.173.205.194

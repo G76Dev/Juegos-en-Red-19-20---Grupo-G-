@@ -231,6 +231,9 @@ class WebBackgroundScene extends Phaser.Scene {
             });
           }*/
         } else {
+          web.loopServerInfoStop();
+          web.loopChatStop();
+          web.game.online = false;
           console.log("Disconected from server");
           document.getElementById("chatArea").innerHTML += "Disconected from server <br />"
           web.game.customTransition(activeScene, 'connectionFailed', 1000);
