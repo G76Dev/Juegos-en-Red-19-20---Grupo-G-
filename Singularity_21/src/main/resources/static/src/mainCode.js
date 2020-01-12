@@ -1,26 +1,6 @@
 "use strict";
 
-//todas las clases necesarias (incluyendo todas las escenas-modulos)
-import SceneLoading from "./SceneLoading.js";
-import Scene1 from "./Scene1.js";
-import Scene2 from "./Scene2.js";
-import Scene3 from "./Scene3.js";
-import SceneMenuTutorial from './SceneMenuTutorial.js';
-import SceneMenuTutorial2 from './SceneMenuTutorial2.js';
-import SceneOnlineMode from "./SceneOnlineMode.js";
-import SceneOptions from "./SceneOptions.js";
-import SceneVictory from "./SceneVictory.js";
-import SceneDefeat from "./SceneDefeat.js";
-import SceneCredits from "./SceneCredits.js";
-import SplashScreen from "./SplashScreen.js";
-import SceneName from "./NameScreen.js";
-import SceneWaiting from "./WaitingScreen.js";
-import SceneCharacterSelection from "./CharacterSelectorScreen.js";
-import SceneServerFull from "./ServerFull.js";
-import SceneConnectionFailed from "./ConnectionFailed.js";
-import Android from "./Android.js";
-
-import ipConfigClass from "./serverIP.js"
+//import Scene1 from './Scenes/Scene1.js';
 
 //Configuración de Phaser 3
 var config = {
@@ -45,6 +25,7 @@ var config = {
       Scene1,
       Scene2,
       Scene3,
+      Scene4,
       SceneOnlineMode,
       SceneOptions,
       SceneMenuTutorial,
@@ -88,11 +69,9 @@ game.jumpVelocity = 5.05;
 game.moveVelocity = 0.215;
 game.airVelocityFraction = 0.3;
 
-game.scene1Counter = 0;
-game.scene2Counter = 0;
 
 //Variables del jugador si se conecta al servidor.
-
+/*APIREST
 var ipConfig = new ipConfigClass();
 game.serverIP = ipConfig.serverIP;
 game.playerIP;
@@ -105,8 +84,9 @@ game.playerPassword = "";
 
 //Variables del chat
 game.chatColor = "#FF0000";
-
+*/
 //Chat
+/*APIREST cosas de chat
 const chatArea = document.getElementById("chatArea");
 const chatInput = document.getElementById("chatInput");
 
@@ -121,7 +101,7 @@ function submitText(chatTxt){
 	addToChat += "<span style ='" + fontFormat + "'>" + game.playerName + ": ";
     fontFormat = 'color:' + 'black' + '; font-weight: normal';
     addToChat += "<span style ='" + fontFormat +"'>" + chatTxt + "<br />";
-    
+
     $.ajax({
         method: "POST",
         url: 'http://' + game.serverIP + ':8080/players/chat',
@@ -133,7 +113,7 @@ function submitText(chatTxt){
     }).done(function (player) {
         console.log("chat enviado");
     })
-    
+
   }else{
 	chatArea.innerHTML += "<span style = 'font-weight: bold'>" + "Chat is disabled in offline mode" + "<br />";
   }
@@ -180,4 +160,4 @@ function toggleChat(toggle){
     chatArea.style.display = "none";
     chatInput.style.display = "block";
   }
-}
+}*/
