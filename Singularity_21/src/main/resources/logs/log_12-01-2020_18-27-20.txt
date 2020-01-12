@@ -1,0 +1,6 @@
+18:27:23 - Server opened
+18:27:38 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+18:27:42 - Player connected: AWDAWD, id: 1, IP: 90.173.205.194
+18:27:46 - Player connected: BFGBFGB, id: 2, IP: 90.173.205.194
+18:28:35 - Player disconected: AWDAWD, id: 1, IP: 90.173.205.194
+18:30:19 - Player disconected: BFGBFGB, id: 1, IP: 90.173.205.194

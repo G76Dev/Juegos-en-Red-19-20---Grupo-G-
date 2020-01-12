@@ -1,0 +1,18 @@
+19:45:51 - Server opened
+19:47:41 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+19:47:50 - Player connected: ASDASDADAAD, id: 1, IP: 90.173.205.194
+19:47:54 - Player connected: ASDASDASD, id: 2, IP: 90.173.205.194
+19:48:09 - NIKI selected character 2
+19:48:28 - NIKI selected character -1
+19:48:28 - NIKI selected character 2
+19:48:29 - NIKI selected character -1
+19:48:29 - NIKI selected character 2
+19:48:34 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+19:49:10 - Player disconected: ASDASDADAAD, id: 0, IP: 90.173.205.194
+19:49:12 - Player disconected: ASDASDASD, id: 0, IP: 90.173.205.194
+19:49:30 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+19:49:34 - Player connected: 142312341234, id: 1, IP: 90.173.205.194
+19:49:40 - Player disconected: 142312341234, id: 1, IP: 90.173.205.194
+19:50:01 - Player connected: 142312341234W, id: 1, IP: 90.173.205.194
+19:50:09 - Player disconected: 142312341234W, id: 1, IP: 90.173.205.194
+19:52:57 - Player disconected: NIKI, id: 0, IP: 90.173.205.194

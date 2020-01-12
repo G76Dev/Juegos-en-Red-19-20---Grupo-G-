@@ -193,15 +193,15 @@ class SceneCharacterSelection extends Phaser.Scene {
   android1Button.on('pointerdown', () => {
       if (!android1IsReady) {
         if (selection >= 0 && selection <= 2) {
-        	web.activateDeactivate(actualScene,-1);
+        	web.activateDeactivate(-1);
         }
         selection = 0;
-        web.activateDeactivate(actualScene,selection)
+        web.activateDeactivate(selection)
         document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Male Android. <br />"
         android1Leave.setVisible(true);
       }
       else if(selection == 0) {
-    	web.activateDeactivate(actualScene,-1);
+    	web.activateDeactivate(-1);
         selection = -1;
         android1Idle.setFrame(1);
       }
@@ -238,15 +238,15 @@ class SceneCharacterSelection extends Phaser.Scene {
     android2Button.on('pointerdown', () => {
         if (!android2IsReady) {
           if (selection >= 0 && selection <= 2) {
-        	  web.activateDeactivate(actualScene,-1);
+        	  web.activateDeactivate(-1);
           }
           selection = 1;
-          web.activateDeactivate(actualScene,selection)
+          web.activateDeactivate(selection)
           document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Female Android. <br />"
           android2Leave.setVisible(true);
         }
         else if(selection == 1) {
-          web.activateDeactivate(actualScene,-1);
+          web.activateDeactivate(-1);
           selection = -1;
           android2Idle.setFrame(1);
         }
@@ -283,15 +283,15 @@ class SceneCharacterSelection extends Phaser.Scene {
     humanButton.on('pointerdown', () => {
         if (!humanIsReady) {
         if (selection >= 0 && selection <= 2) {
-        	web.activateDeactivate(actualScene,-1)
+        	web.activateDeactivate(-1)
         }
         selection = 2;
-        web.activateDeactivate(actualScene,selection)
+        web.activateDeactivate(selection)
         document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Human. <br />"
         humanLeave.setVisible(true);
         }
         else if(selection == 2)  {
-    	  web.activateDeactivate(actualScene,-1);
+    	  web.activateDeactivate(-1);
         selection = -1;
         humanIdle.setFrame(1);
         }
@@ -370,7 +370,6 @@ class SceneCharacterSelection extends Phaser.Scene {
     else if (!isStartingGame) {
         StartGame(this);
     }
-
   }
 
 }

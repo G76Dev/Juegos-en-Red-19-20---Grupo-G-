@@ -332,7 +332,9 @@ public class PlayersController {
 	public void compruebaJugador(long id) {
 		long actualTime = Calendar.getInstance().getTime().getTime();
 			//If the last get was more than one second ago, delete/disconnect the player from the server.
-			if (playerLastGet[(int) id] < (actualTime - 1000)) {
+			if (playerLastGet[(int) id] < (actualTime - 2000)) {
+				System.out.print("Timer desconecta al jugador " + id + ". PLG: " +
+						playerLastGet[(int) id] + " | AT: " + actualTime + "\n");
 				borraPlayer(id);
 			}
 	}

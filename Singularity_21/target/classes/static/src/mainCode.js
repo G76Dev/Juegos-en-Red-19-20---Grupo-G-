@@ -1,6 +1,7 @@
 "use strict";
 
 //import Scene1 from './Scenes/Scene1.js';
+var web;
 
 //Configuración de Phaser 3
 var config = {
@@ -22,6 +23,7 @@ var config = {
     //escenas principales
     scene: [
       SceneLoading,
+      WebBackgroundScene,
       Scene1,
       Scene2,
       Scene3,
@@ -84,8 +86,11 @@ function customTransitionStart(scene, nextSceneKey){
 
 	function customTransitionEnd(scene, nextSceneKey, sceneClassName){
 	  //console.log("scene.game.scene.add('', new "+ sceneClassName +"(\'"+ nextSceneKey +"\'), true)");
-	  const aux = "(\'"+ nextSceneKey +"\')"; //try with some generic constructor...
-	  eval("scene.game.scene.add(\'\', new "+ sceneClassName + aux +", true)");
+	  eval("scene.game.scene.add('', new "+ sceneClassName +"(\'"+ nextSceneKey +"\'), true)");
+	  web.time.addEvent({
+		  delay: 100, 
+		  callback: () => web.updateScene(web.scene.manager.getScene(nextSceneKey))
+	  })
 	  scene.scene.stop(scene.scene.key);
 	}
 
@@ -98,7 +103,7 @@ function customTransitionStart(scene, nextSceneKey){
 	}
 
 //Variables del jugador si se conecta al servidor.
-game.serverIP = "192.168.1.119";
+var serverIP = "192.168.1.44";
 game.playerIP;
 game.playerID = -1;
 game.online = false;
@@ -129,7 +134,7 @@ function submitText(chatTxt){
 
     $.ajax({
         method: "POST",
-        url: 'http://' + game.serverIP + ':8080/players/chat/',
+        url: 'http://' + serverIP + ':8080/players/chat/',
         data: JSON.stringify(addToChat),
         processData: false,
         headers: {

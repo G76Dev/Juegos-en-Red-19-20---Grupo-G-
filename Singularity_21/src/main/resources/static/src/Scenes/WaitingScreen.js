@@ -62,6 +62,8 @@ class SceneWaiting extends Phaser.Scene {
                 isChangingScene = true;
 
                 cam.fadeOut(1000);
+                web.loopServerInfoStop();
+                web.loopChatStop();
                 this.scene.game.customTransition(this.scene, 'menu', 1000);
             },)
         ];
@@ -99,7 +101,6 @@ class SceneWaiting extends Phaser.Scene {
     for (var i = 0; i < buttonArray.length; i++) {
       buttonArray[i].Update(time, delta);
     }
-
   }
 
 }

@@ -7,6 +7,7 @@ var isChangingScene;
 var waitingPlayersText;
 
 var numPlayers = 1;
+var disconnectCounter = 0;
 
 // Funcion que detecta donde esta el raton y activa la luz correspondiente segun su posicion.
 function CheckOption12(scene) {
@@ -34,7 +35,6 @@ class SceneWaiting extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-	  	var disconnectCounter = 0;
 	  	var actualScene = this;
 
         // Variable que indica si se está cambiando de escena.
@@ -52,16 +52,6 @@ class SceneWaiting extends Phaser.Scene {
         waitingPlayersText = this.add.text(960/2, 240, "", { fontFamily: 'Impact', fontSize: '32px', fill: '#fff', align: 'center', }).setDepth(1);
         waitingPlayersText.setStroke('rgba(0,0,0,1)', 4);
 
-      //Delete player from server
-    	function deletePlayer(playerId, serverIP) {
-    	    $.ajax({
-    	        method: 'DELETE',
-    	        url: 'http://' + serverIP + ':8080/players/' + playerId
-    	    }).done(function (player) {
-    	        console.log("Player disconnected: " + playerId)
-    	    })
-    	}
-
         // Añadimos las luces que indicaran que boton del menu esta activo. Hacemos tambien un fade con la camara.
         cam = this.cameras.main;
         cam.fadeIn(1000);
@@ -70,8 +60,11 @@ class SceneWaiting extends Phaser.Scene {
             new Button(this, 960/2, 500, 'light', function() {
                 selectedSound.play({ volume: this.scene.game.soundVolume });
                 isChangingScene = true;
-                this.scene.game.customTransition(this.scene, 'menu', 1000);
+
                 cam.fadeOut(1000);
+                web.loopServerInfoStop();
+                web.loopChatStop();
+                this.scene.game.customTransition(this.scene, 'menu', 1000);
             },)
         ];
 
@@ -92,79 +85,9 @@ class SceneWaiting extends Phaser.Scene {
             	}
             }
         });
-        function getServerInfo(scene, serverIP) {
-      		if (scene.game.online && (disconnectCounter < 3)) {
-      			$.ajax({
-      		        url: 'http://' + serverIP + ':8080/players/data/' + scene.game.playerID
-      		    }).done(function (playerData) {
-      		        console.log("Players: " + JSON.stringify(playerData));
 
-      		        numPlayers = playerData.length;
-		        	waitingPlayersText.setText("Waiting for players (" + numPlayers + "/3)...");
-		            waitingPlayersText.setOrigin(0.5, 0.5);
-
-      		        if (numPlayers == 3) {
-      		        	scene.game.customTransition(scene, 'selectionScreen', 500);
-      		        } else {
-      		        	for (var i = 0; i < numPlayers; i++) {
-          		        	if(playerData[i].player_name == scene.game.playerName) {
-          		        		scene.game.playerID = playerData[i].id;
-          		        	}
-          		        }
-
-          		        scene.time.addEvent({
-            	  			delay: 500,
-            	  			callback: () => getServerInfo(scene, serverIP)
-            	  		});
-      		        }
-      		    }).fail(function () {
-      				disconnectCounter++;
-      				if (disconnectCounter >= 3) {
-      					scene.game.online = false;
-      				}
-
-      				scene.time.addEvent({
-    	  	  	  			delay: 500,
-    	  	  	  			callback: () => getServerInfo(scene, serverIP)
-    	  	  	  		});
-      			});
-
-      	  	} else {
-      	  		console.log("Disconected from server");
-      	  		document.getElementById("chatArea").innerHTML += "Disconected from server <br />"
-      	  		scene.game.customTransition(scene, 'connectionFailed', 100);
-      	  	}
-      	}
-        
-      	function getNewChats(scene, serverIP) {
-      		if (scene.game.online) {
-      			$.ajax({
-      		        url: 'http://' + serverIP + ':8080/players/chat/'
-      		    }).done(function (chatData) {
-        			scene.game.textToChat(chatData);
-        			scene.time.addEvent({
-          	  			delay: 500,
-          	  			callback: () => getNewChats(scene, serverIP)
-          	  		});
-      		    }).fail(function () {
-      		    	scene.time.addEvent({
-      	  	  			delay: 500,
-      	  	  			callback: () => getNewChats(scene, serverIP)
-      	  	  		});
-      			});
-      		}
-      	}
-
-      	this.time.addEvent({
-    			delay: 500,
-    			callback: () => getServerInfo(this, this.game.serverIP)
-    		});
-
-      	this.time.addEvent({
-    		delay: 250,
-    		callback: () => getNewChats(this, this.game.serverIP)
-    	});
-
+        web.loopChatStart();
+        web.loopServerInfoStart();
   }
 
   // Funcion update, que se ejecuta en cada frame.
@@ -178,7 +101,6 @@ class SceneWaiting extends Phaser.Scene {
     for (var i = 0; i < buttonArray.length; i++) {
       buttonArray[i].Update(time, delta);
     }
-
   }
 
 }

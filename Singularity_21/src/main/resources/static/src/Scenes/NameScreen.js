@@ -109,7 +109,7 @@ class SceneName extends Phaser.Scene {
           errorText.setText("Password is too short.");
         else {
         	//Preguntar al servidor para comparar usuario y contraseña.
-        	web.getServerInfoNameScreen(actualScene);
+        	web.getServerInfoNameScreen();
         }
         },),
       new Button(this, 960/2, 500, 'light', function() {

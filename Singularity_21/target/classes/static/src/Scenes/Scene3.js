@@ -22,8 +22,8 @@ const movingP = [];
 
 //Clase Scene3, que extiende de Phaser.Scene.
 class Scene3 extends Phaser.Scene {
-  constructor(key = "level2") {
-    super(key);
+  constructor() {
+    super("level2");
   }
   //Función create, que crea los elementos del propio juego.
   create() {

@@ -46,7 +46,8 @@ class SceneOptions extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-
+	console.log("ddasss");
+	console.log(this);
     // Variable que indica si se esta cambiando de escena.
     isChangingScene = false;
 
@@ -126,6 +127,5 @@ class SceneOptions extends Phaser.Scene {
 
     // Se actualiza el volumen de la musica general del juego (el volumen de los sonidos se indica al reproducir los propios sonidos).
     this.game.currentMusic.volume = this.game.musicVolume;
-
   }
 }
