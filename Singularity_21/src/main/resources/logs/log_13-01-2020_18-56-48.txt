@@ -1,0 +1,3 @@
+18:56:55 - Server opened
+19:00:10 - WS - Player0 connected.
+19:00:13 - WS - Message received from session 0: {"name":"","message":"hola esto es un mensaje"}

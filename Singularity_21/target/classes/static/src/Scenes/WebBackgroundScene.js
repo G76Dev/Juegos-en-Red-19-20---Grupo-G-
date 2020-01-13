@@ -43,7 +43,7 @@ class WebBackgroundScene extends Phaser.Scene {
       }).fail(function() {
         isChangingScene = true;
             cam.fadeOut(1000);
-            web.game.customTransition(activeScene, 'connectionFailed', 1000);
+            web.game.customTransition(activeScene, 'connectionFailed', 500);
       })
     }
 
@@ -215,7 +215,6 @@ class WebBackgroundScene extends Phaser.Scene {
             	characterServerInfoSection();
             }
             else {
-            	console.log("b");
             	defaultServerInfoSection();
             }
           }).fail(function () {
@@ -231,12 +230,11 @@ class WebBackgroundScene extends Phaser.Scene {
             });
           }*/
         } else {
-          web.loopServerInfoStop();
-          web.loopChatStop();
-          web.game.online = false;
+           web.loopServerInfoStop();
+           web.loopChatStop();
           console.log("Disconected from server");
           document.getElementById("chatArea").innerHTML += "Disconected from server <br />"
-          web.game.customTransition(activeScene, 'connectionFailed', 1000);
+          web.game.customTransition(activeScene, 'connectionFailed', 500);
         }
       }
 
@@ -253,20 +251,14 @@ class WebBackgroundScene extends Phaser.Scene {
                   delay: 500,
                   callback: () => web.getNewChats(activeScene)
                 });*/
-            }).fail(function () {
-              /*if(web.chatLoop)
-            	  activeScene.time.addEvent({
-                  delay: 500,
-                  callback: () => web.getNewChats(activeScene)
-                });*/
-            });
+            })
         }
       }
 
       this.loopServerInfoStart = function(){
         //this.serverInfoLoop = true;
         this.serverEvent = this.time.addEvent({
-    			delay: 500,
+    			delay: 750,
     			callback: () => web.getServerInfo(),
     			loop: true
     		});
@@ -280,7 +272,7 @@ class WebBackgroundScene extends Phaser.Scene {
         //this.chatLoop = true;
     	
     	this.chatEvent = this.time.addEvent({
-    			delay: 400,
+    			delay: 750,
     			callback: () => web.getNewChats(),
     			loop: true
     		});

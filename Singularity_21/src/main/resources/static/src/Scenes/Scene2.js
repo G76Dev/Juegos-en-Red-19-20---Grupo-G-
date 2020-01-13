@@ -374,7 +374,32 @@ class Scene2 extends Phaser.Scene {
     p1Tracker.setScrollFactor(0).setScale(0.65);
     p2Tracker = this.add.image(0, 25, 'deathHead2');
     p2Tracker.setScrollFactor(0).setScale(0.65);
-  }
+    
+    //WebSockets
+    var connection = new WebSocket('ws://' + serverIP + ':8080/game');
+	connection.onerror = function(e) {
+		console.log("WS error: " + e);
+	}
+	connection.onmessage = function(msg) {
+		console.log("WS message: " + msg.data);
+		//var message = JSON.parse(msg.data)
+	}
+	connection.onclose = function() {
+		console.log("Closing socket");
+	}
+	
+	var msge = {
+			name : game.playerName,
+			message : "hola esto es un mensaje"
+		}
+	
+	this.time.addEvent({
+        delay: 2000,
+        callback: () => connection.send(JSON.stringify(msge))
+      });
+	
+	
+  } //Fin create.
 
   //Pointer del ratón.
   //mouse = this.input.activePointer;

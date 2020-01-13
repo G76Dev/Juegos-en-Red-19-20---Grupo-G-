@@ -11,8 +11,14 @@ import java.util.Calendar;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
 @SpringBootApplication
-public class App {
+@EnableWebSocket
+public class App implements WebSocketConfigurer  {
 	//Create a temporary file
 	public static BufferedWriter writer = null;
     public static String timeLog = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
@@ -46,5 +52,18 @@ public class App {
             e.printStackTrace();
         }
     }
+    
+    //Add the game handler.
+  	@Override
+  	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+  		registry.addHandler(createGameHandler(), "/game")
+  			.setAllowedOrigins("*");
+  	}
+  	
+  	//Returns a new GameHandler.
+  	@Bean
+  	public GameHandler createGameHandler() {
+  		return new GameHandler();
+  	}
 
 } //End of App class.
