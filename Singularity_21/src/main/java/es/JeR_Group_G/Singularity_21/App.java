@@ -65,5 +65,4 @@ public class App implements WebSocketConfigurer  {
   	public GameHandler createGameHandler() {
   		return new GameHandler();
   	}
-
 } //End of App class.

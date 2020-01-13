@@ -167,8 +167,9 @@ class WebBackgroundScene extends Phaser.Scene {
         numPlayers = playerData.length;
         if (numPlayers < 3) {
           document.getElementById("chatArea").innerHTML += "Someone left the server. <br />";
-          cam.fadeOut(500);
-          web.game.customTransition(activeScene, 'menu', 500);
+          /*cam.fadeOut(500);
+          web.game.customTransition(activeScene, 'menu', 500);*/
+          game.online = false;
         } else {
           for (var i = 0; i < 3; i++) {
             DeactivateRole(i);

@@ -1,0 +1,12 @@
+19:23:43 - Server opened
+19:24:03 - Player connected: THUND3R, id: 0, IP: 90.173.205.194
+19:24:05 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+19:25:08 - Player connected: THUND3R, id: 0, IP: 90.173.205.194
+19:26:26 - Player connected: FERNAN, id: 1, IP: 90.173.205.194
+19:26:59 - Player connected: NIKI, id: 2, IP: 90.173.205.194
+19:27:04 - NIKI selected character 2
+19:27:12 - FERNAN selected character 1
+19:27:16 - THUND3R selected character 0
+19:27:22 - Player disconected: FERNAN, id: 1, IP: 90.173.205.194
+19:27:23 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+19:27:25 - Player disconected: NIKI, id: 0, IP: 90.173.205.194

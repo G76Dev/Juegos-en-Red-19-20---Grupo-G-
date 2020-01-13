@@ -125,7 +125,7 @@ function StartGame(scene) {
                                 return;
                             isChangingScene = true;
                             // ...
-                            this.scene.game.customTransition(this.scene, 'level10', 1000);
+                            scene.game.customTransition(scene, 'level1', 1000);
                             cam.fadeOut(1000);
                         }
                     });

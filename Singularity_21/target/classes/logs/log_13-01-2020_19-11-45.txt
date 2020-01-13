@@ -1,0 +1,5 @@
+19:12:12 - Server opened
+19:13:40 - Player connected: THUND3R, id: 0, IP: 90.173.205.194
+19:14:02 - Player connected: FERNAN, id: 1, IP: 90.173.205.194
+19:14:03 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+19:15:13 - Player disconected: FERNAN, id: 0, IP: 90.173.205.194
