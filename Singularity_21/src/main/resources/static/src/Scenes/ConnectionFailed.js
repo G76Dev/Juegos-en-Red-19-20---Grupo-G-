@@ -27,7 +27,6 @@ class SceneConnectionFailed extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
 
