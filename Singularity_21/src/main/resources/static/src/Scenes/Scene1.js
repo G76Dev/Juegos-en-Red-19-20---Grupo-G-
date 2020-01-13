@@ -80,7 +80,9 @@ class Scene1 extends Phaser.Scene {
 	    })
 	}*/
 
+    //Array de botones que componen las opciones a elegir en el menú principal
   	buttonArray = [                           // Este parametro recibe una funcion que se ejecuta al presionar el boton.
+      //Boton "Online"
   		new Button(this, 960/2, 214, 'light', function() {
   			selectedSound.play({ volume: this.scene.game.soundVolume });
   			//AIREST getServerInfo(actualScene, actualScene.game.serverIP);
@@ -91,15 +93,17 @@ class Scene1 extends Phaser.Scene {
   				callback: () => LoadScene(this.scene, 'nameScreen')
   			});
   		}),
+      //Boton "Local"
   		new Button(this, 960/2, 284, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
 				delay: 1000,
-				callback: () => LoadScene(this.scene, 'level3')
+				callback: () => LoadScene(this.scene, 'level3') //Nivel al que lleva el boton de "Local"
 			});
   		}),
+      //Boton "Options"
   		new Button(this, 960/2, 354, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
@@ -109,6 +113,7 @@ class Scene1 extends Phaser.Scene {
 				callback: () => LoadScene(this.scene, 'options')
 			});
   		}),
+      //Boton "Credits"
   		new Button(this, 960/2, 420, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;
@@ -118,6 +123,7 @@ class Scene1 extends Phaser.Scene {
 				callback: () => LoadScene(this.scene, 'credits')
 			});
 		  },),
+      //Boton Tutorial
 		new Button(this, 960/2, 486, 'light', function() {
 			selectedSound.play({ volume: this.scene.game.soundVolume });
 			isChangingScene = true;

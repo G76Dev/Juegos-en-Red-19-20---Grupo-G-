@@ -130,21 +130,153 @@ class Door extends AndroidInteractableClass {
 }
 
 //Como la puerta normal, pero con dos palancas
-class DoubleDoor extends AndroidInteractableClass {
-  constructor(scene, door, xAct, yAct, sprtAct, distance) {
-    super(scene, true, door, 0, 0, "", 1, true, xAct, yAct, sprtAct, 1);
+class DoubleDoor {
+  constructor(scene, door, xAct1, yAct1, sprtAct1, xAct2, yAct2, sprtAct2, distance) {
+    this.scene = scene;
+    this.mainObject = door;
+
     this.mainObject.setDepth(-9);
     this.startPosY = this.mainObject.y;
     this.endPosY = this.startPosY + distance;
     this.objectiveY = this.startPosY;
     this.increaseY = 0.075;
 
-    this.activated1 = false;
-    this.activades2 = false;
+    this.isActive = false;
 
+    this.activator1 = scene.matter.add.sprite(xAct1, yAct1, sprtAct1, 0, { isSensor: true, isStatic: true });
+    this.activator2 = scene.matter.add.sprite(xAct2, yAct2, sprtAct2, 0, { isSensor: true, isStatic: true });
+
+    this.activated1 = false;
+    this.activated2 = false;
+
+    this.collidingAndroid1Act1 = false;
+    this.collidingAndroid2Act1 = false;
+    this.collidingAndroid1Act2 = false;
+    this.collidingAndroid2Act2 = false;
+
+    //Collisiones
+    //Androide 1
+    //Activador 1
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding1Act1,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding1Act1,
+      context: this
+    });
+    //Activador 2
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding1Act2,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding1Act2,
+      context: this
+    });
+    //Androide 2
+    //Activador 1
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding2Act1,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding2Act1,
+      context: this
+    });
+    //Activador 2
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding2Act2,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding2Act2,
+      context: this
+    });
+
+    function changeIsColliding1Act1() { this.collidingAndroid1Act1 = !this.collidingAndroid1Act1; }
+    function changeIsColliding1Act2() { this.collidingAndroid1Act2 = !this.collidingAndroid1Act2; }
+    function changeIsColliding2Act1() { this.collidingAndroid2Act1 = !this.collidingAndroid2Act1; }
+    function changeIsColliding2Act2() { this.collidingAndroid2Act2 = !this.collidingAndroid2Act2; }
+
+    function activeActivator1(dd) {
+      dd.activator1.setFrame(1);
+      dd.activated1 = true;
+      if (dd.activated2)
+      dd.isActive = true;
+      dd.objectActivate();
+    }
+    function activeActivator2(dd) {
+      dd.activator2.setFrame(1);
+      dd.activated2 = true;
+      if (dd.activated1)
+      dd.isActive = true;
+      dd.objectActivate();
+    }
+    function cancelActivator1(dd) {
+      dd.activator1.setFrame(0);
+      dd.activated1 = false;
+      dd.isActive = false;
+    }
+    function cancelActivator2(dd) {
+      dd.activator2.setFrame(0);
+      dd.activated2 = false;
+      dd.isActive = false;
+    }
+
+    scene.game.android1.cursors.coop.on('down', function (event) {
+      if (this.collidingAndroid1Act1) {
+        activeActivator1(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator1(this)),
+        });
+        (this.activated1) ? console.log("activated object") : console.log("desactivated object");
+      } else if (this.collidingAndroid1Act2) {
+        activeActivator2(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator2(this)),
+        });
+        (this.activated2) ? console.log("activated object") : console.log("desactivated object");
+      }
+    }, this);
+    scene.game.android2.cursors.coop.on('down', function (event) {
+      if (this.collidingAndroid2Act1) {
+        activeActivator1(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator1(this)),
+        });
+        (this.activated1) ? console.log("activated object") : console.log("desactivated object");
+      } else if (this.collidingAndroid2Act2) {
+        activeActivator2(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator2(this)),
+        });
+        (this.activated2) ? console.log("activated object") : console.log("desactivated object");
+      }
+    }, this);
   }
+
   objectActivate() {
-    super.objectActivate();
     if (!this.isActive) {
       this.objectiveY = this.startPosY;
     } else {
@@ -152,7 +284,6 @@ class DoubleDoor extends AndroidInteractableClass {
     }
   }
   update(time, delta) {
-    super.update();
     if (Math.abs(this.mainObject.y - this.objectiveY) > 1) {
       if (this.mainObject.y < this.objectiveY)
         this.mainObject.y += this.increaseY * delta;
@@ -190,6 +321,169 @@ class DoorTimer extends AndroidInteractableClass {
         this.mainObject.y += this.increaseY * delta;
       else if (this.mainObject.y > this.objectiveY)
         this.mainObject.y -= this.increaseY * delta;
+    }
+  }
+}
+
+class DoubleDoorHorizontal {
+  constructor(scene, door, xAct1, yAct1, sprtAct1, xAct2, yAct2, sprtAct2, distance) {
+    this.scene = scene;
+    this.mainObject = door;
+
+    this.mainObject.setDepth(-9);
+    this.startPosX = this.mainObject.x;
+    this.endPosX = this.startPosX + distance;
+    this.objectiveX = this.startPosX;
+    this.increaseY = 0.075;
+
+    this.isActive = false;
+
+    this.activator1 = scene.matter.add.sprite(xAct1, yAct1, sprtAct1, 0, { isSensor: true, isStatic: true });
+    this.activator2 = scene.matter.add.sprite(xAct2, yAct2, sprtAct2, 0, { isSensor: true, isStatic: true });
+
+    this.activated1 = false;
+    this.activated2 = false;
+
+    this.collidingAndroid1Act1 = false;
+    this.collidingAndroid2Act1 = false;
+    this.collidingAndroid1Act2 = false;
+    this.collidingAndroid2Act2 = false;
+
+    //Collisiones
+    //Androide 1
+    //Activador 1
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding1Act1,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding1Act1,
+      context: this
+    });
+    //Activador 2
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding1Act2,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android1.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding1Act2,
+      context: this
+    });
+    //Androide 2
+    //Activador 1
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding2Act1,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator1,
+      callback: changeIsColliding2Act1,
+      context: this
+    });
+    //Activador 2
+    scene.matterCollision.addOnCollideStart({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding2Act2,
+      context: this
+    });
+    scene.matterCollision.addOnCollideEnd({
+      objectA: scene.game.android2.mainBody,
+      objectB: this.activator2,
+      callback: changeIsColliding2Act2,
+      context: this
+    });
+
+    function changeIsColliding1Act1() { this.collidingAndroid1Act1 = !this.collidingAndroid1Act1; }
+    function changeIsColliding1Act2() { this.collidingAndroid1Act2 = !this.collidingAndroid1Act2; }
+    function changeIsColliding2Act1() { this.collidingAndroid2Act1 = !this.collidingAndroid2Act1; }
+    function changeIsColliding2Act2() { this.collidingAndroid2Act2 = !this.collidingAndroid2Act2; }
+
+    function activeActivator1(dd) {
+      dd.activator1.setFrame(1);
+      dd.activated1 = true;
+      if (dd.activated2)
+      dd.isActive = true;
+      dd.objectActivate();
+    }
+    function activeActivator2(dd) {
+      dd.activator2.setFrame(1);
+      dd.activated2 = true;
+      if (dd.activated1)
+      dd.isActive = true;
+      dd.objectActivate();
+    }
+    function cancelActivator1(dd) {
+      dd.activator1.setFrame(0);
+      dd.activated1 = false;
+      dd.isActive = false;
+    }
+    function cancelActivator2(dd) {
+      dd.activator2.setFrame(0);
+      dd.activated2 = false;
+      dd.isActive = false;
+    }
+
+    scene.game.android1.cursors.coop.on('down', function (event) {
+      if (this.collidingAndroid1Act1) {
+        activeActivator1(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator1(this)),
+        });
+        (this.activated1) ? console.log("activated object") : console.log("desactivated object");
+      } else if (this.collidingAndroid1Act2) {
+        activeActivator2(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator2(this)),
+        });
+        (this.activated2) ? console.log("activated object") : console.log("desactivated object");
+      }
+    }, this);
+    scene.game.android2.cursors.coop.on('down', function (event) {
+      if (this.collidingAndroid2Act1) {
+        activeActivator1(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator1(this)),
+        });
+        (this.activated1) ? console.log("activated object") : console.log("desactivated object");
+      } else if (this.collidingAndroid2Act2) {
+        activeActivator2(this);
+        this.scene.time.addEvent({
+          delay: 500,
+          callback: () => (cancelActivator2(this)),
+        });
+        (this.activated2) ? console.log("activated object") : console.log("desactivated object");
+      }
+    }, this);
+  }
+
+  objectActivate() {
+    if (!this.isActive) {
+      this.objectiveX = this.startPosX;
+    } else {
+      this.objectiveX = this.endPosX;
+    }
+  }
+  update(time, delta) {
+    if (Math.abs(this.mainObject.x - this.objectiveX) > 1) {
+      if (this.mainObject.x < this.objectiveX)
+        this.mainObject.x += this.increaseX * delta;
+      else if (this.mainObject.x > this.objectiveX)
+        this.mainObject.x -= this.increaseX * delta;
     }
   }
 }
@@ -322,6 +616,36 @@ class ElectricSurfInteractable extends AndroidInteractableClass {
   }
 }
 
+//Clase InteractiveBlade4, para instanciar sierras mecánicas que resetean su posición al chocar.
+class InteractiveBlade4 extends AndroidInteractableClass {
+  constructor(scene, blade, xObb, yObj, xAct, yAct, distance) {
+    super(scene, true, blade, 0, 0, "", 1, true, xAct, yAct, "orangeButton", 1);
+
+    this.scene = scene;
+    this.startPosX = xObb;
+    this.endPosX = xObb + distance;
+    this.increaseX = 0;
+
+  }
+  objectActivate() {
+    super.objectActivate();
+    this.increaseX = 0.1;
+  }
+  reset(obj) {
+    this.increaseX = 0;
+    obj.mainObject.x = obj.startPosX;
+  }
+  update(time, delta) {
+      if (this.collidingAndroid1 || this.collidingAndroid2)
+        this.objectActivate();
+
+      if (this.mainObject.x >= this.endPosX)
+        this.reset(this);
+
+      this.mainObject.x += this.increaseX * delta;
+  }
+}
+
 //Clase FinishLine, para instanciar una meta para terminar un nivel.
 class FinishLine {
   constructor(scene, xObb, yObj) {
@@ -409,6 +733,13 @@ class AndroidInteractablesArray {
 
     this.items[15] = new FinishLine(this.scene, 7084, 464);
   }
+
+  //Inicializamos la escena 4 (nivel 3).
+    initializeScene4(doors) {
+      this.items = [];
+      this.items[0] = new DoubleDoor(this.scene, doors[0], 1500, 112, "finalActivator", 1738, 182, "finalActivator", -100);
+      this.items[1] = new DoubleDoorHorizontal(this.scene, doors[1], 2705, 545, "finalActivator2", 1966, 80, "finalActivator2", -100);
+    }
   //Función update, que actualiza los elementos de los niveles.
   update(time, delta) {
     for (var i = 0; i < this.items.length; i++) {

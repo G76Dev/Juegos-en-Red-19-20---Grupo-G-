@@ -149,6 +149,56 @@ class BlueRayDouble extends HumanInteractableClass {
   }
 }
 
+//Clase BlueRayTimer, para instanciar rayos azules que desaparecen al cabo de un tiempo.
+class BlueRayTimer extends HumanInteractableClass {
+  constructor(scene, itemBar, mainObj, xAct, yAct) {
+    super(scene, itemBar, true, mainObj, 0, 0, "", 1, true, xAct, yAct, "blueButton", 1, false);
+    this.ActiveYPos = [];
+    for (var i = 0; i < this.mainObject.length; i++) {
+      this.ActiveYPos[i] = this.mainObject[i].y;
+      this.mainObject[i].y = -999;
+    }
+  }
+  update() { }
+  objectActivate() {
+    super.objectActivate(true);
+
+    this.scene.time.addEvent({
+      delay: 750,
+      callback: () => (change(this))
+    });
+    this.scene.time.addEvent({
+      delay: 2750,
+      callback: () => (change2(this))
+    });
+    function change(obj) {
+      if (obj.isActive) {
+        for (var i = 0; i < obj.mainObject.length; i++) {
+          obj.mainObject[i].y = obj.ActiveYPos[i];
+          obj.isActive = false;
+        }
+      } else {
+        for (var i = 0; i < obj.mainObject.length; i++) {
+          obj.mainObject[i].y = -999;
+        }
+      }
+    }
+    function change2(obj) {
+      if (obj.isActive) {
+        for (var i = 0; i < obj.mainObject.length; i++) {
+          obj.mainObject[i].y = obj.ActiveYPos[i];
+        }
+      } else {
+        for (var i = 0; i < obj.mainObject.length; i++) {
+          obj.mainObject[i].y = -999;
+        }
+      }
+      obj.canActivate = true;
+      obj.activator.setFrame(0);
+    }
+  }
+}
+
 //Clase Press, para instanciar presas activables.
 class PressInteractable extends HumanInteractableClass {
   constructor(scene, itemBar, press) {
@@ -247,7 +297,6 @@ class InteractiveBlade2 extends HumanInteractableClass {
 }
 
 //Igual que InteractiveBlade2 pero moviendonos en el eje Y
-
 class InteractiveBlade3 extends HumanInteractableClass {
   constructor(scene, itemBar, blade, xObb, yObj, xAct, yAct, distance) {
     super(scene, itemBar, true, blade, 0, 0, "", 1, true, xAct, yAct, "blueLever", 1, false);
@@ -255,14 +304,28 @@ class InteractiveBlade3 extends HumanInteractableClass {
     this.startPosY = yAct;
     this.endPosY = yObj + distance;
     this.objectiveY = this.startPosY;
-    this.increaseY = 0;
+    this.increaseY = 0.1;
   }
   objectActivate() {
     super.objectActivate();
-    this.increaseY = 0.1;
+    if (this.objectiveY = this.startPosY) {
+      this.objectiveY = this.endPosY;
+        this.scene.time.addEvent({
+          delay: 2500,
+          callback: () => (reset(this)),
+        });
+        function reset(obj) { obj.objectiveY = obj.startPosY; }
+    }
   }
   update(time, delta) {
-    this.mainObject.y -= this.increaseY * delta;
+    super.update();
+    if (Math.abs(this.mainObject.y - this.objectiveY) > 1) {
+      if (this.mainObject.y < this.objectiveY)
+        this.mainObject.y += this.increaseY * 2 * delta;
+      else if (this.mainObject.y > this.objectiveY)
+        this.mainObject.y -= this.increaseY * delta;
+    }
+    //this.mainObject.y -= this.increaseY * delta;
   }
 }
 
@@ -276,6 +339,24 @@ class ESurfHumanInterac extends HumanInteractableClass {
     this.scene.time.addEvent({
       delay: 500,
       callback: () => (this.mainObject.turnOn())
+    });
+  }
+}
+
+//Clase ESurfHumanInteracTimer, para instanciar superficies eléctricas activables.
+class ESurfHumanInteracTimer extends HumanInteractableClass {
+  constructor(scene, itemBar, elSurf) {
+    super(scene, itemBar, true, elSurf, 0, 0, "", 1, false);
+  }
+  update() { }
+  objectActivate() {
+    this.scene.time.addEvent({
+      delay: 1000,
+      callback: () => (this.mainObject.turnOn())
+    });
+    this.scene.time.addEvent({
+      delay: 3500,
+      callback: () => (this.mainObject.turnOff())
     });
   }
 }
@@ -324,7 +405,7 @@ class HumanInteractablesArray {
   initializeScene3(teslas, eSurfaces, bladesBig) {
     this.items = [];
     this.items[0] = new FirePlatInteractable(this.scene, this.itemBar, 2286, 155);
-    this.items[1] = new ESurfHumanInterac(this.scene, this.itemBar, eSurfaces[1]);
+    this.items[1] = new ESurfHumanInterac(this.scene, this.itemBar, eSurfaces[0]);
     this.items[2] = new InteractiveBlade2(this.scene, this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
     this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[2]);
     this.items[4] = new TeslaInteractable(this.scene, this.itemBar, teslas[3]);
@@ -334,13 +415,14 @@ class HumanInteractablesArray {
     this.items[8] = new FirePlatInteractable(this.scene, this.itemBar, 6688, 460);
   }
   //Inicializamos la escena 4 (nivel 3).
-  initializeScene4(teslas, eSurfaces, bladesBig) {
+  initializeScene4(teslas, esurfTimer, bladesBig, presses, blueRaysTimer) {
     this.items = [];
-    this.items[0] = new FirePlatInteractable(this.scene, this.itemBar, 2286, 155);
-    this.items[1] = new ESurfHumanInterac(this.scene, this.itemBar, eSurfaces[0]);
-    this.items[2] = new InteractiveBlade3(this.scene, this.itemBar, bladesBig, 2128, 92, 2128, 335, 2000);
-    this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[0]);
-    this.items[4] = new FirePlatInteractable(this.scene, this.itemBar, 6688, 460);
+    this.items[0] = new ESurfHumanInteracTimer(this.scene, this.itemBar, esurfTimer[0]);
+    this.items[1] = new InteractiveBlade3(this.scene, this.itemBar, bladesBig, 2128, 336, 2094, 336, -3000);
+    this.items[2] = new TeslaInteractable(this.scene, this.itemBar, teslas[0]);
+    this.items[3] = new PressInteractable(this.scene, this.itemBar, presses[0]);
+    this.items[4] = new PressInteractable(this.scene, this.itemBar, presses[1]);
+    this.items[5] = new BlueRayTimer(this.scene, this.itemBar, [blueRaysTimer[0], blueRaysTimer[1],blueRaysTimer[2]], 2513, 370); //posicion por actualizar
   }
   //Función update, que actualiza los elementos de los niveles.
   update(time, delta) {

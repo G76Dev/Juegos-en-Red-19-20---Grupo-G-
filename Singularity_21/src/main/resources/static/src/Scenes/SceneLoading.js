@@ -82,7 +82,7 @@ class SceneLoading extends Phaser.Scene {
         this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica.png");
         this.load.tilemapTiledJSON("map2", "../assets/Mapas/Electrical_medium.json");
 
-        this.load.image("tiles3", "../assets/Tilesets/final_room_tileset.png");
+        this.load.image("tiles3", "../assets/Tilesets/final_room_tileset_Padded.png");
         this.load.tilemapTiledJSON("map3", "../assets/Mapas/Final_room.json");
 
         // Cargamos sprites de los distintos elementos del juego.
@@ -163,10 +163,13 @@ class SceneLoading extends Phaser.Scene {
         this.load.spritesheet('blueButton', 'assets/Sprites/Buttons/blue_button.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('orangeLever', 'assets/Sprites/Buttons/orange_lever.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('blueLever', 'assets/Sprites/Buttons/blue_lever.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('finalActivator', 'assets/Sprites/Buttons/final_door_activator.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('finalActivator2', 'assets/Sprites/Buttons/final_door_activator_2.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('life', 'assets/Sprites/life.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('conveyer1', 'assets/Sprites/Conveyers/conveyer_1.png', { frameWidth: 952, frameHeight: 20 });
         this.load.spritesheet('conveyer3', 'assets/Sprites/Conveyers/conveyer_3.png', { frameWidth: 408, frameHeight: 20 });
+        this.load.spritesheet('conveyer4', 'assets/Sprites/Conveyers/conveyer_4.png', { frameWidth: 352, frameHeight: 32 });
 
         this.load.image('elevator1', 'assets/Sprites/elevator.png');
         this.load.image('elevator2', 'assets/Sprites/electric_elevator.png');
@@ -494,6 +497,12 @@ class SceneLoading extends Phaser.Scene {
         this.anims.create({
             key: 'conveyer3S',
             frames: this.anims.generateFrameNumbers('conveyer3', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'conveyer4S',
+            frames: this.anims.generateFrameNumbers('conveyer4', { start: 0, end: 3 }),
             frameRate: 20,
             repeat: -1
         });

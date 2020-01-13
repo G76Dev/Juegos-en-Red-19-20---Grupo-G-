@@ -18,6 +18,8 @@ var p2Tracker;
 //Variable fadeOut, que controla el fin del nivel.
 var fadeOut;
 
+var presses2 = [];
+
 const movingP2 = [];
 
 //Clase Scene4, que extiende de Phaser.Scene.
@@ -38,7 +40,12 @@ class Scene4 extends Phaser.Scene {
     const doors = [];
     const extraLifes = [];
     const teslas = [];
-    const eSurfaces = [];
+    const esurfTimer = [];
+    const conveyers = [];
+    const orangeRays = [];
+    const blueRaysTimer = [];
+
+
 
     //Backgrounds.
     this.add.image(480, 170, 'bg_f').setScrollFactor(0).setDepth(-504);
@@ -49,7 +56,7 @@ class Scene4 extends Phaser.Scene {
 
     //Inicializacion y creacion de mapa de tiles.
     const map3 = this.make.tilemap({ key: "map3" });
-    const tileset3 = map3.addTilesetImage("final_boss_tileset", "tiles3");
+    const tileset3 = map3.addTilesetImage("final_boss_tileset", "tiles3",32,32);
 
     //Capas de tiles.
     const layerminus1 = map3.createStaticLayer("back_layer", tileset3, 0, 0);
@@ -104,7 +111,7 @@ class Scene4 extends Phaser.Scene {
     //Sierra mecánica.
     const bladesBig = this.matter.add.sprite(2128, 335, "rBigBlade", 0);
     //Cambiamos su collider y la hacemos estática y sensor.
-    bladesBig.setCircle(60).setScale(0.8);
+    bladesBig.setCircle(60).setScale(0.6);
     bladesBig.setStatic(true).setSensor(true);
     //Reproducimos su animación.
     bladesBig.anims.play('rotatingBigBlade', true);
@@ -123,17 +130,59 @@ class Scene4 extends Phaser.Scene {
       context: this.game.android2
     });
     //Plataforma que se mueve
-    movingP2[0] = new MovingPlatform(this, 4992, 338, 5394, 'moving_platform', 'moving_platformS');
+    movingP2[0] = new MovingPlatform(this, 2224, 322, 2383, 'moving_platform', 'moving_platformS');
 
     //Teslas
     teslas[0] = new Tesla(this, 2017, 96, 'teslaHumanOFF', 'teslaHumanS');
 
     //Superificie electrica
-    eSurfaces[0] = new ElectricSurface(this, 2302, 417,"eSurf4", false, 'eSurf4_anim', 'eSurf4S');
+    esurfTimer[0] = new ElectricSurface(this, 2302, 417,"eSurf4", false, 'eSurf4_anim', 'eSurf4S') //posicion por actualizar
+    //eSurfaces[1] = new ElectricSurface(this, 2302, 417,"eSurf4", false, 'eSurf4_anim', 'eSurf4S') //posicion por actualizar
+
 
     //Puertas
-    doors[0] = this.matter.add.sprite(1830, 0, "orangeDoor1", 0);
+     doors[0] = this.matter.add.sprite(1902, 590, "orangeDoor1", 0); //x 1902 y 462
+     doors[1] = this.matter.add.sprite(2478, 150, "orangeDoor1", 0); //x 1902 y 462
+     doors[1].setDepth(-1);
 
+    //Cinta mecanica
+    conveyers[0] = new Conveyer(this, 2544, 602, "conveyer_4",'conveyer4S', 352, -2);
+    conveyers[0].sprite.setRectangle(332, 10);
+
+    //presas hidraulicas
+    presses2[0] = new Press(this, 2540, 440, "pressI");
+    presses2[0].startCycle(1, 0);
+    presses2[1] = new Press(this, 2650, 440, "pressI");
+    presses2[1].startCycle(1, 0);
+
+    //Puerta de rayos azul
+    blueRaysTimer[0] = this.matter.add.sprite(2414, 463, "blueRay", 0);
+    blueRaysTimer[1] = this.matter.add.sprite(2446, 463, "blueRay", 0);
+    blueRaysTimer[2] = this.matter.add.sprite(2478, 463, "blueRay", 0);
+
+    //Colisiones con los jugadores androides.
+    for (var i = 0; i < blueRaysTimer.length; i++) {
+      //Cambiamos el collider.
+      blueRaysTimer[i].setRectangle(16, 32);
+      blueRaysTimer[i].setAngle(90);
+      blueRaysTimer[i].setStatic(true).setSensor(true);
+      this.matterCollision.addOnCollideStart({
+        objectA: this.game.android1.mainBody,
+        objectB: blueRaysTimer[i],
+        callback: inflictDamage,
+        context: this.game.android1
+      });
+      this.matterCollision.addOnCollideStart({
+        objectA: this.game.android2.mainBody,
+        objectB: blueRaysTimer[i],
+        callback: inflictDamage,
+        context: this.game.android2
+      });
+    }
+
+    for (var i = 0; i < blueRaysTimer.length; i++) {
+      blueRaysTimer[i].anims.play('blueRayS', true);
+    }
 
     for (var i = 0; i < doors.length; i++) {
       //Cambiamos su collider y las hacemos estáticas.
@@ -142,7 +191,7 @@ class Scene4 extends Phaser.Scene {
     }
 
     //Vidas Extras
-    extraLifes[0] = this.matter.add.sprite(1264, 432, "life", 0);
+    extraLifes[0] = this.matter.add.sprite(1400, 237, "life", 0);
 
 
 
@@ -192,9 +241,9 @@ class Scene4 extends Phaser.Scene {
 
     //Interactuables.
     humanInteractableItems = new HumanInteractablesArray(this, usableItems);
-    humanInteractableItems.initializeScene4(teslas, eSurfaces,bladesBig);
+    humanInteractableItems.initializeScene4(teslas, esurfTimer, bladesBig, presses2, blueRaysTimer);
     androidInteractableItems = new AndroidInteractablesArray(this);
-    androidInteractableItems.initializeScene3(eSurfaces, doors);
+    androidInteractableItems.initializeScene4(doors);
 
     //Camara.
     cam = this.cameras.main;
@@ -235,6 +284,12 @@ class Scene4 extends Phaser.Scene {
     usableItems.update(time, delta);
     androidInteractableItems.update(time, delta);
     humanInteractableItems.update(time, delta);
+
+    //update presas hidraulicas
+    for (var i = 0; i < presses2.length; i++) {
+      presses2[i].update();
+    }
+
 
     //Update de las plataformas móviles.
     for (var i = 0; i < movingP2.length; i++) {
