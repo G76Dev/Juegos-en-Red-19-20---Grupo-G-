@@ -64,17 +64,20 @@ class Scene4 extends Phaser.Scene {
     const baselayer = map3.createStaticLayer("base_layer", tileset3, 0, 0);
     baselayer.depth = -5;
     const auxlayer = map3.createStaticLayer("aux_layer", tileset3, 0, 0);
-    auxlayer.depth = -4;
+    auxlayer.depth = -3;
     const lethallayer = map3.createStaticLayer("lethal_layer", tileset3, 0, 0);
     lethallayer.depth = -5;
 
     //Colisiones de las capas.
     layerminus1.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(layerminus1);
+
     baselayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(baselayer);
+
     lethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(lethallayer);
+    
     auxlayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(auxlayer);
 
@@ -167,7 +170,7 @@ class Scene4 extends Phaser.Scene {
     //Puertas
      doors[0] = this.matter.add.sprite(1902, 590, "orangeDoor1", 0); //x 1902 y 462
      doors[1] = this.matter.add.sprite(2480, 162, "orangeDoor1", 0);
-     doors[2] = this.matter.add.sprite(2738, 80, "orangeDoor1", 0); 
+     doors[2] = this.matter.add.sprite(2738, 80, "orangeDoor1", 0);
 
     //Cinta mecanica
     conveyers[0] = new Conveyer(this, 2544, 602, "conveyer_4",'conveyer4S', 352, -2);
