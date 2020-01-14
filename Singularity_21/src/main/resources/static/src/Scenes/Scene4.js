@@ -108,7 +108,7 @@ class Scene4 extends Phaser.Scene {
     }
 
     //Elementos interactuables.
-    //Sierra mecánica.
+    //Sierra mecánica Grande.
     const bladesBig = this.matter.add.sprite(2128, 335, "rBigBlade", 0);
     //Cambiamos su collider y la hacemos estática y sensor.
     bladesBig.setCircle(60).setScale(0.6);
@@ -129,6 +129,30 @@ class Scene4 extends Phaser.Scene {
       callback: inflictDamage,
       context: this.game.android2
     });
+
+    //Sierra mecánica pequeña.
+    bladeDoorCheck = false;
+    const blade = this.matter.add.sprite(2452, 102, "rBlade", 0);
+    //Cambiamos su collider y la hacemos estática y sensor.
+    blade.setCircle(30).setScale(1);
+    blade.setStatic(true).setSensor(true);
+    //Reproducimos su animación.
+    blade.anims.play('rotatingBlade', true);
+
+    //Colisiones con los jugadores androides.
+    this.matterCollision.addOnCollideStart({
+      objectA: this.game.android1.mainBody,
+      objectB: blade,
+      callback: inflictDamage,
+      context: this.game.android1
+    });
+    this.matterCollision.addOnCollideStart({
+      objectA: this.game.android2.mainBody,
+      objectB: blade,
+      callback: inflictDamage,
+      context: this.game.android2
+    });
+
     //Plataforma que se mueve
     movingP2[0] = new MovingPlatform(this, 2224, 322, 2383, 'moving_platform', 'moving_platformS');
 
@@ -142,8 +166,8 @@ class Scene4 extends Phaser.Scene {
 
     //Puertas
      doors[0] = this.matter.add.sprite(1902, 590, "orangeDoor1", 0); //x 1902 y 462
-     doors[1] = this.matter.add.sprite(2478, 150, "orangeDoor1", 0); //x 1902 y 462
-     doors[1].setDepth(-1);
+     doors[1] = this.matter.add.sprite(2480, 162, "orangeDoor1", 0);
+     doors[2] = this.matter.add.sprite(2738, 80, "orangeDoor1", 0); 
 
     //Cinta mecanica
     conveyers[0] = new Conveyer(this, 2544, 602, "conveyer_4",'conveyer4S', 352, -2);
@@ -189,11 +213,10 @@ class Scene4 extends Phaser.Scene {
       doors[i].setRectangle(8, 96);
       doors[i].setStatic(true);
     }
+    doors[1].setAngle(90);
 
     //Vidas Extras
     extraLifes[0] = this.matter.add.sprite(1400, 237, "life", 0);
-
-
 
     //Colisiones con los jugadores androides.
     for (var i = 0; i < extraLifes.length; i++) {
@@ -243,7 +266,7 @@ class Scene4 extends Phaser.Scene {
     humanInteractableItems = new HumanInteractablesArray(this, usableItems);
     humanInteractableItems.initializeScene4(teslas, esurfTimer, bladesBig, presses2, blueRaysTimer);
     androidInteractableItems = new AndroidInteractablesArray(this);
-    androidInteractableItems.initializeScene4(doors);
+    androidInteractableItems.initializeScene4(doors, blade);
 
     //Camara.
     cam = this.cameras.main;

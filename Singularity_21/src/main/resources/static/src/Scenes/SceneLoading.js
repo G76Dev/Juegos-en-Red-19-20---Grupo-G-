@@ -165,6 +165,7 @@ class SceneLoading extends Phaser.Scene {
         this.load.spritesheet('blueLever', 'assets/Sprites/Buttons/blue_lever.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('finalActivator', 'assets/Sprites/Buttons/final_door_activator.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('finalActivator2', 'assets/Sprites/Buttons/final_door_activator_2.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('pressurePlate', 'assets/Sprites/Buttons/pressure_plate.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('life', 'assets/Sprites/life.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('conveyer1', 'assets/Sprites/Conveyers/conveyer_1.png', { frameWidth: 952, frameHeight: 20 });

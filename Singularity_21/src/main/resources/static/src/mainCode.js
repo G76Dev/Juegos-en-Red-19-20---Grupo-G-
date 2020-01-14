@@ -69,6 +69,8 @@ game.jumpVelocity = 5.05;
 game.moveVelocity = 0.215;
 game.airVelocityFraction = 0.3;
 
+var bladeDoorCheck = false;
+
 
 //Variables del jugador si se conecta al servidor.
 /*APIREST
