@@ -22,6 +22,9 @@ var presses2 = [];
 
 const movingP2 = [];
 
+var trigger1 = false;
+var trigger2 = false;
+
 //Clase Scene4, que extiende de Phaser.Scene.
 class Scene4 extends Phaser.Scene {
   constructor(key = "level3") {
@@ -77,7 +80,7 @@ class Scene4 extends Phaser.Scene {
 
     lethallayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(lethallayer);
-    
+
     auxlayer.setCollisionByProperty({ Collides: true });
     this.matter.world.convertTilemapLayer(auxlayer);
 
@@ -303,8 +306,23 @@ class Scene4 extends Phaser.Scene {
       //Función LoadScene, que carga una escena.
       function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     }
-    firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
-    firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+
+    if (this.game.android1.sprite.x > 2020) {
+      trigger1 = true;
+    }
+    if (this.game.android2.sprite.x > 2020) {
+      trigger2 = true;
+    }
+    if (trigger1 && trigger2) {
+      firstFollow.x = 2440;
+      firstFollow.y = 320;
+      cam.setZoom(0.9);
+
+    } else {
+      firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
+      firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+    }
+
 
     //Interactuables.
     usableItems.update(time, delta);

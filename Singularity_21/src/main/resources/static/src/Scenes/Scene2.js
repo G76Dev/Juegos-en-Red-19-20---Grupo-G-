@@ -215,6 +215,8 @@ class Scene2 extends Phaser.Scene {
         objectA: this.game.android1.mainBody,
         objectB: orangeRays[i],
         callback: inflictDamage,
+
+
         context: this.game.android1
       });
       this.matterCollision.addOnCollideStart({
