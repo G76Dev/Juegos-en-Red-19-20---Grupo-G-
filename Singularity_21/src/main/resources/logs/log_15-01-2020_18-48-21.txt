@@ -1,0 +1,10 @@
+18:48:25 - Server opened
+18:48:47 - WS - Player0 connected.
+18:48:47 - Player connected: UKYFYUK, id: 0, IP: 90.173.205.194
+18:48:49 - WS - Player1 connected.
+18:48:49 - Player connected: FYUKFYUK, id: 1, IP: 90.173.205.194
+18:48:50 - WS - Player2 connected.
+18:48:50 - Player connected: FYUKFYUKDS, id: 2, IP: 90.173.205.194
+18:48:52 - UKYFYUK selected character 0
+18:48:52 - FYUKFYUK selected character 1
+18:48:53 - FYUKFYUKDS selected character 2

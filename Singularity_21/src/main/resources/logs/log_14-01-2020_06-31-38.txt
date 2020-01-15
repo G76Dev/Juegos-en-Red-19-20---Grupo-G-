@@ -1,0 +1,26 @@
+06:31:43 - Server opened
+06:32:04 - WS - Player0 connected.
+06:32:04 - Player connected: SVSDV, id: 0, IP: 90.173.205.194
+06:32:04 - WS - Player1 connected.
+06:32:05 - Player connected: SDVSDV, id: 1, IP: 90.173.205.194
+06:32:05 - WS - Player2 connected.
+06:32:07 - WS - Player3 connected.
+06:32:08 - Player connected: SDVSDVGHMGHM, id: 2, IP: 90.173.205.194
+06:32:11 - Player disconected: SDVSDVGHMGHM, id: 2, IP: 90.173.205.194
+06:32:11 - Player disconected: SVSDV, id: 0, IP: 90.173.205.194
+06:32:12 - SDVSDV selected character 0
+06:32:15 - Player disconected: SDVSDV, id: 0, IP: 90.173.205.194
+06:32:30 - WS - Player4 connected.
+06:32:31 - Player connected: SVSDVR, id: 0, IP: 90.173.205.194
+06:32:31 - WS - Player5 connected.
+06:32:31 - Player connected: SDVSDVGR, id: 1, IP: 90.173.205.194
+06:32:34 - WS - Player6 connected.
+06:32:34 - Player connected: SDVSDVGHMGHMHF, id: 2, IP: 90.173.205.194
+06:32:38 - SVSDVR selected character -1
+06:32:38 - SVSDVR selected character 0
+06:32:39 - SDVSDVGR selected character -1
+06:32:39 - SDVSDVGR selected character 1
+06:32:40 - SDVSDVGHMGHMHF selected character 2
+06:32:48 - Player disconected: SVSDVR, id: 0, IP: 90.173.205.194
+06:32:53 - Player disconected: SDVSDVGR, id: 0, IP: 90.173.205.194
+06:32:56 - Player disconected: SDVSDVGHMGHMHF, id: 0, IP: 90.173.205.194

@@ -23,6 +23,8 @@ public class GameHandler extends TextWebSocketHandler {
 	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 	//ObjectMapper to read ws messages.
 	private ObjectMapper mapper = new ObjectMapper();
+	JsonNode infoNode1;
+	JsonNode infoNode2;
 	
 	//Method called after a player enters the game.
 	@Override
@@ -63,11 +65,11 @@ public class GameHandler extends TextWebSocketHandler {
 	//Method that receives a message and send it to the other players.
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println("Message received from session " + session.getId() + ": " + message.getPayload());
+		//System.out.println("Message received from session " + session.getId() + ": " + message.getPayload());
 		JsonNode node = mapper.readTree(message.getPayload());
 		
 		//Write the message in the log file.
-				try {
+				/*try {
 					App.writer = new BufferedWriter(new FileWriter(App.logFile, true));
 					String connectTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 					App.writer.write(connectTime + " - WS - Message received from session " + session.getId() + ": " + message.getPayload() + "\n");
@@ -75,25 +77,58 @@ public class GameHandler extends TextWebSocketHandler {
 				            
 				} catch (Exception e) {
 				    e.printStackTrace();
-				}
-		
-		sendOtherParticipants(session, node);
+				}*/
+		if(node.get("id").asText().equals("m")) //male android
+			updateAndroid1Info(session, node);
+		else if(node.get("id").asText().equals("f")) //female android
+			updateAndroid2Info(session, node);
+		else if(node.get("id").asText().equals("h")) //female android
+			updateHumanInfo(session, node);
+		else
+			sendOtherParticipants(session, node);
+			
+			
 	}
 
 	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
 		System.out.println("Message sent: " + node.toString());
-		
-		ObjectNode newNode = mapper.createObjectNode();
-		//Aquí iría la info que pasamos y recibimos como mensajes.
-		newNode.put("name", node.get("name").asText());
-		newNode.put("message", node.get("message").asText());
-		
 		//Send the message to each player of the game.
 		for(WebSocketSession participant : sessions.values()) {
 			if(!participant.getId().equals(session.getId())) {
-				participant.sendMessage(new TextMessage(newNode.toString()));
+				participant.sendMessage(new TextMessage(node.toString()));
 			}
 		}
+	}
+	
+	private void updateAndroid1Info(WebSocketSession session, JsonNode node) throws IOException {
+		infoNode1 = node.get("ms");
+		
+		ObjectNode newNode = mapper.createObjectNode();
+		newNode.put("id", "a");
+		newNode.put("ms", infoNode1);
+		newNode.put("ms2", infoNode2);
+		
+		session.sendMessage(new TextMessage(newNode.toString()));
+	}
+	
+	private void updateAndroid2Info(WebSocketSession session, JsonNode node) throws IOException {
+		infoNode2 = node.get("ms");
+		
+		ObjectNode newNode = mapper.createObjectNode();
+		newNode.put("id", "a");
+		newNode.put("ms", infoNode1);
+		newNode.put("ms2", infoNode2);
+		
+		session.sendMessage(new TextMessage(newNode.toString()));
+	}
+	
+	private void updateHumanInfo(WebSocketSession session, JsonNode node) throws IOException{
+		ObjectNode newNode = mapper.createObjectNode();
+		newNode.put("id", "a");
+		newNode.put("ms", infoNode1);
+		newNode.put("ms2", infoNode2);
+		
+		session.sendMessage(new TextMessage(newNode.toString()));
 	}
 
 }

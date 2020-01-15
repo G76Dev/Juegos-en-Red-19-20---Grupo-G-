@@ -1,0 +1,16 @@
+20:05:01 - Server opened
+20:05:20 - WS - Player0 connected.
+20:05:20 - Player connected: DDFB, id: 0, IP: 90.173.205.194
+20:05:21 - WS - Player1 connected.
+20:05:21 - Player connected: DFBDF, id: 1, IP: 90.173.205.194
+20:05:22 - WS - Player2 connected.
+20:05:22 - Player connected: DFBDFSDV, id: 2, IP: 90.173.205.194
+20:05:23 - DDFB selected character 0
+20:05:24 - DFBDF selected character 1
+20:05:25 - DFBDFSDV selected character 2
+20:07:43 - WS - Player2 disconnected.
+20:07:43 - WS - Player1 disconnected.
+20:07:43 - WS - Player0 disconnected.
+20:07:45 - Player disconected: DDFB, id: 0, IP: 90.173.205.194
+20:07:48 - Player disconected: DFBDFSDV, id: 1, IP: 90.173.205.194
+20:07:49 - Player disconected: DFBDF, id: 0, IP: 90.173.205.194

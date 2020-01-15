@@ -69,10 +69,29 @@ class Scene3 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
-    var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 300, 300, cursors);
-    cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.game.android2 = new Android(this, '2', 400, 300, cursors);
+    cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
+    cursors2 = cursors;
+    switch(this.game.characterSel){
+	    case -1:
+	    	android1INPUT = true;
+	    	android2INPUT = true;
+	    	cursors2 = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
+	        break
+    	case 0:
+	    	android1INPUT = true;
+	    	android2INPUT = false;
+	    	break;
+    	case 1:
+	    	android1INPUT = false;
+	    	android2INPUT = true;
+	    	break;
+    	case 2:
+	    	android1INPUT = false;
+	    	android2INPUT = false;
+	    	break;
+    }
+    this.game.android1 = new Android(this, '1', 300, 300, android1INPUT, cursors);
+    this.game.android2 = new Android(this, '2', 400, 300, android2INPUT, cursors2);
     this.game.android1.coLink(this.game.android2);
     this.game.android2.coLink(this.game.android1);
 
@@ -216,8 +235,10 @@ class Scene3 extends Phaser.Scene {
     //Camara.
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
-    cam.setBounds(0, 0, 7292, 10000);
+    cam.setBounds(0, 0, 7292, 640);
     firstFollow = this.add.container(0, 0);
+	firstFollow.x = 400;
+	firstFollow.y = 300;
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
 
     //Barra de progreso.
@@ -240,8 +261,35 @@ class Scene3 extends Phaser.Scene {
       this.cameras.main.fadeOut(1000);
       this.game.customTransition(this, 'defeat', 1000);
     }
-    firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
-    firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+    
+    switch(this.game.characterSel){
+    case -1:
+        firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
+        firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+    	break;
+	case 0:
+		firstFollow.x = this.game.android1.sprite.x;
+		firstFollow.y = this.game.android1.sprite.y;
+    	break;
+	case 1:
+		firstFollow.x = this.game.android2.sprite.x;
+		firstFollow.y = this.game.android2.sprite.y;
+    	break;
+	case 2:
+		if(cursors.up.isDown && firstFollow.y > 270){
+    		firstFollow.y -= 6;
+    	}
+    	if(cursors.coop.isDown && firstFollow.y < 640){
+    		firstFollow.y += 6;
+    	}
+    	if(cursors.right.isDown && firstFollow.x < 8290 - 480){
+    		firstFollow.x += 6;
+    	}
+    	if(cursors.left.isDown && firstFollow.x > 0){
+    		firstFollow.x -= 6;
+    	}
+    	break;
+    }
 
     //Interactuables.
     usableItems.update(time, delta);

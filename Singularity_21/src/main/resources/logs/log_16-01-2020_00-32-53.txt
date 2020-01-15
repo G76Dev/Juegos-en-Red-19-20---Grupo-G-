@@ -1,0 +1,13 @@
+00:32:58 - Server opened
+00:33:17 - WS - Player0 connected.
+00:33:17 - Player connected: SRBADRB, id: 0, IP: 90.173.205.194
+00:33:18 - WS - Player1 connected.
+00:33:18 - Player connected: ADFBADFB, id: 1, IP: 90.173.205.194
+00:33:19 - WS - Player2 connected.
+00:33:19 - Player connected: ADFBADF, id: 2, IP: 90.173.205.194
+00:33:21 - SRBADRB selected character 0
+00:33:22 - ADFBADFB selected character 1
+00:33:22 - ADFBADF selected character 2
+00:35:41 - WS - Player2 disconnected.
+00:35:41 - WS - Player1 disconnected.
+00:35:41 - WS - Player0 disconnected.

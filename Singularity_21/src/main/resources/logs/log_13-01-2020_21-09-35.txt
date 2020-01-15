@@ -1,0 +1,39 @@
+21:09:39 - Server opened
+21:09:45 - WS - Player0 connected.
+21:09:45 - WS - Player1 connected.
+21:09:51 - WS - Message received from session 0: {"name":"","message":"hola esto es un mensaje"}
+21:09:52 - WS - Message received from session 1: {"name":"","message":"hola esto es un mensaje"}
+21:09:55 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:09:55 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:09:56 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:09:56 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:09:56 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:09:59 - WS - Message received from session 0: {"name":"1","message":"1"}
+21:09:59 - WS - Message received from session 0: {"name":"2","message":"1"}
+21:10:00 - WS - Message received from session 0: {"name":"1","message":"1"}
+21:10:00 - WS - Message received from session 0: {"name":"2","message":"1"}
+21:10:00 - WS - Message received from session 0: {"name":"2","message":"1"}
+21:10:01 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:10:02 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:02 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:02 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:03 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:10:04 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:04 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:04 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:04 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:04 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:05 - WS - Message received from session 1: {"name":"1","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"2","message":"1"}
+21:10:06 - WS - Message received from session 1: {"name":"0","message":"1"}
+21:10:07 - WS - Message received from session 1: {"name":"0","message":"1"}

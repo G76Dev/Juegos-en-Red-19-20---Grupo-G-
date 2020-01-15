@@ -1,0 +1,13 @@
+19:20:34 - Server opened
+19:20:58 - WS - Player0 connected.
+19:20:58 - Player connected: WEFW3, id: 0, IP: 90.173.205.194
+19:20:59 - WS - Player1 connected.
+19:20:59 - Player connected: HERHE, id: 1, IP: 90.173.205.194
+19:21:00 - WS - Player2 connected.
+19:21:00 - Player connected: ERHERH, id: 2, IP: 90.173.205.194
+19:21:02 - WEFW3 selected character 0
+19:21:03 - HERHE selected character 1
+19:21:04 - ERHERH selected character 2
+19:21:11 - Player disconected: ERHERH, id: 2, IP: 90.173.205.194
+19:21:15 - Player disconected: HERHE, id: 1, IP: 90.173.205.194
+19:21:15 - Player disconected: WEFW3, id: 0, IP: 90.173.205.194

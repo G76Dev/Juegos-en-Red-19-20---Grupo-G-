@@ -21,6 +21,12 @@ var fadeOut;
 //Variable presses, para las presas hidráulicas.
 const presses = [];
 
+
+var android1INPUT;
+var android2INPUT;
+var cursors;
+var cursors2;
+
 //Clase Scene2, que extiende de Phaser.Scene.
 class Scene2 extends Phaser.Scene {
   constructor() {
@@ -73,10 +79,30 @@ class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
-    var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 8000, 400, cursors);
-    cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.game.android2 = new Android(this, '2', 400, 300, cursors);
+    
+    cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
+    cursors2 = cursors;
+    switch(this.game.characterSel){
+	    case -1:
+	    	android1INPUT = true;
+	    	android2INPUT = true;
+	    	cursors2 = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
+	        break
+    	case 0:
+	    	android1INPUT = true;
+	    	android2INPUT = false;
+	    	break;
+    	case 1:
+	    	android1INPUT = false;
+	    	android2INPUT = true;
+	    	break;
+    	case 2:
+	    	android1INPUT = false;
+	    	android2INPUT = false;
+	    	break;
+    }
+    this.game.android1 = new Android(this, '1', 500, 350, android1INPUT, cursors);
+    this.game.android2 = new Android(this, '2', 400, 350, android2INPUT, cursors2);
     this.game.android1.coLink(this.game.android2);
     this.game.android2.coLink(this.game.android1);
     //Iniciamos las vidas a 10.
@@ -201,8 +227,8 @@ class Scene2 extends Phaser.Scene {
     blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0);
     blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0);
 
-    blueRays[6] = this.matter.add.sprite(3054, 144, "blueRay", 0);
-    blueRays[7] = this.matter.add.sprite(3086, 144, "blueRay", 0);
+    blueRays[6] = this.matter.add.sprite(800, 400, "blueRay", 0); //3054
+    blueRays[7] = this.matter.add.sprite(800, 400, "blueRay", 0); //3086
 
     //Colisiones con los jugadores androides.
     for (var i = 0; i < orangeRays.length; i++) {
@@ -363,8 +389,10 @@ class Scene2 extends Phaser.Scene {
     //Camara.
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
-    cam.setBounds(0, 0, 8290, 10000);
+    cam.setBounds(0, 0, 8290, 640);
     firstFollow = this.add.container(0, 0);
+	firstFollow.x = 500;
+	firstFollow.y = 350;
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
 
     //Barra de progreso.
@@ -374,31 +402,10 @@ class Scene2 extends Phaser.Scene {
     p1Tracker.setScrollFactor(0).setScale(0.65);
     p2Tracker = this.add.image(0, 25, 'deathHead2');
     p2Tracker.setScrollFactor(0).setScale(0.65);
-    
-    //WebSockets
-    var connection = new WebSocket('ws://' + serverIP + ':8080/game');
-	connection.onerror = function(e) {
-		console.log("WS error: " + e);
-	}
-	connection.onmessage = function(msg) {
-		console.log("WS message: " + msg.data);
-		//var message = JSON.parse(msg.data)
-	}
-	connection.onclose = function() {
-		console.log("Closing socket");
-	}
-	
-	var msge = {
-			name : game.playerName,
-			message : "hola esto es un mensaje"
-		}
-	
-	this.time.addEvent({
-        delay: 2000,
-        callback: () => connection.send(JSON.stringify(msge))
-      });
-	
-	
+
+    //WS
+    if(this.game.online)
+    	web.loopWSStart()
   } //Fin create.
 
   //Pointer del ratón.
@@ -412,8 +419,36 @@ class Scene2 extends Phaser.Scene {
       this.cameras.main.fadeOut(1000);
       this.game.customTransition(this, 'defeat', 1000);
     }
-    firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
-    firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+    
+    switch(this.game.characterSel){
+    case -1:
+        firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
+        firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+    	break;
+	case 0:
+		firstFollow.x = this.game.android1.sprite.x;
+		firstFollow.y = this.game.android1.sprite.y;
+    	break;
+	case 1:
+		firstFollow.x = this.game.android2.sprite.x;
+		firstFollow.y = this.game.android2.sprite.y;
+    	break;
+	case 2:
+		if(cursors.up.isDown && firstFollow.y > 270){
+    		firstFollow.y -= 6;
+    	}
+    	if(cursors.coop.isDown && firstFollow.y < 640){
+    		firstFollow.y += 6;
+    	}
+    	if(cursors.right.isDown && firstFollow.x < 8290 - 480){
+    		firstFollow.x += 6;
+    	}
+    	if(cursors.left.isDown && firstFollow.x > 0){
+    		firstFollow.x -= 6;
+    	}
+    	break;
+    }
+    //console.log(firstFollow.x + "   "+ firstFollow.y);
 
     //Interactuables.
     usableItems.update(time, delta);

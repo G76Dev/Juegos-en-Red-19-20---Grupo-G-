@@ -1,5 +1,0 @@
-21:04:51 - Server opened
-21:05:12 - Player connected: NIKI, id: 0, IP: 90.173.205.194
-21:05:19 - Player message - NIKI: ascasc
-21:05:27 - Player connected: WEFWEF, id: 1, IP: 90.173.205.194
-21:05:30 - Player message - WEFWEF: wadawdawd

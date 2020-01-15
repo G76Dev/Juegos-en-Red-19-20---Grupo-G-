@@ -1,0 +1,5 @@
+22:29:25 - Server opened
+22:29:31 - WS - Player0 connected.
+22:29:31 - WS - Player1 connected.
+22:29:36 - WS - Message received from session 0: {"name":"3","message":[0,false,false,false]}
+22:29:37 - WS - Message received from session 1: {"name":"3","message":[0,false,false,false]}

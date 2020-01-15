@@ -1,0 +1,11 @@
+18:56:31 - Server opened
+18:56:51 - WS - Player0 connected.
+18:56:51 - Player connected: SZDVSD, id: 0, IP: 90.173.205.194
+18:56:52 - WS - Player1 connected.
+18:56:52 - Player connected: SDVSDV, id: 1, IP: 90.173.205.194
+18:56:54 - WS - Player2 connected.
+18:56:56 - WS - Player3 connected.
+18:56:56 - Player connected: SDVSDVR, id: 2, IP: 90.173.205.194
+18:57:00 - SZDVSD selected character 0
+18:57:00 - SDVSDV selected character 1
+18:57:01 - SDVSDVR selected character 2

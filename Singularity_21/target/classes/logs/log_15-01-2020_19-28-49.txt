@@ -1,0 +1,13 @@
+19:28:54 - Server opened
+19:29:11 - WS - Player0 connected.
+19:29:11 - Player connected: YERHER, id: 0, IP: 90.173.205.194
+19:29:14 - WS - Player1 connected.
+19:29:14 - Player connected: TTYMTYMTYM, id: 1, IP: 90.173.205.194
+19:29:16 - WS - Player2 connected.
+19:29:16 - Player connected: DRHZEDH, id: 2, IP: 90.173.205.194
+19:29:19 - YERHER selected character 0
+19:29:21 - TTYMTYMTYM selected character 1
+19:29:23 - DRHZEDH selected character 2
+19:30:41 - Player disconected: TTYMTYMTYM, id: 1, IP: 90.173.205.194
+19:30:45 - Player disconected: YERHER, id: 0, IP: 90.173.205.194
+19:30:48 - Player disconected: DRHZEDH, id: 0, IP: 90.173.205.194

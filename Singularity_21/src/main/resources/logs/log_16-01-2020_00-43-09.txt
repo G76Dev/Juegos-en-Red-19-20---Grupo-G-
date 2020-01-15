@@ -1,0 +1,10 @@
+00:43:15 - Server opened
+00:43:34 - WS - Player0 connected.
+00:43:34 - Player connected: DGHMDGHM, id: 0, IP: 90.173.205.194
+00:43:37 - WS - Player1 connected.
+00:43:37 - Player connected: DGMDGHMY, id: 1, IP: 90.173.205.194
+00:43:38 - WS - Player2 connected.
+00:43:38 - Player connected: MTYMTDYM, id: 2, IP: 90.173.205.194
+00:43:40 - DGMDGHMY selected character 0
+00:43:41 - DGHMDGHM selected character 1
+00:43:42 - MTYMTDYM selected character 2

@@ -103,7 +103,7 @@ function customTransitionStart(scene, nextSceneKey){
 	}
 
 //Variables del jugador si se conecta al servidor.
-var serverIP = "192.168.1.119";
+var serverIP = "192.168.1.44";
 game.playerIP;
 game.playerID = -1;
 game.online = false;

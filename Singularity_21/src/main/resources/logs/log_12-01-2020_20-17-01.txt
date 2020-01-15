@@ -1,4 +1,0 @@
-20:17:06 - Server opened
-20:17:29 - Player connected: AWDAWD, id: 0, IP: 90.173.205.194
-20:17:33 - Player connected: DRGDRG, id: 1, IP: 90.173.205.194
-20:17:37 - Player connected: JGYJGYJ, id: 2, IP: 90.173.205.194

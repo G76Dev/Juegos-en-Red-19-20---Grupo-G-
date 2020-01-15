@@ -1,5 +1,0 @@
-19:15:13 - Server opened
-19:15:28 - Player connected: NIKI, id: 0, IP: 90.173.205.194
-19:15:37 - Player connected: ASDASD, id: 1, IP: 90.173.205.194
-19:15:43 - Player message - NIKI: asdasd
-19:15:58 - Player connected: ASDASDDDD, id: 2, IP: 90.173.205.194

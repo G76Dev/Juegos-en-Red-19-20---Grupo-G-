@@ -1,0 +1,13 @@
+02:17:05 - Server opened
+02:17:15 - WS - Player0 connected.
+02:17:15 - WS - Player1 connected.
+02:17:16 - WS - Player2 connected.
+02:17:30 - Player connected: NSCD, id: 0, IP: 90.173.205.194
+02:17:30 - Player connected: E23RG, id: 1, IP: 90.173.205.194
+02:17:31 - Player connected: FF332Q, id: 2, IP: 90.173.205.194
+02:17:34 - NSCD selected character 0
+02:17:35 - E23RG selected character 1
+02:17:35 - FF332Q selected character 2
+02:17:43 - Player disconected: NSCD, id: 0, IP: 90.173.205.194
+02:17:46 - Player disconected: E23RG, id: 0, IP: 90.173.205.194
+02:17:49 - Player disconected: FF332Q, id: 0, IP: 90.173.205.194

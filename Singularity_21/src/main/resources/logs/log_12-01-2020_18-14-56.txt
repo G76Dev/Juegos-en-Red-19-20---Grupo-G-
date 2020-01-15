@@ -1,8 +1,0 @@
-18:15:00 - Server opened
-18:15:32 - Player connected: NIKI3, id: 0, IP: 90.173.205.194
-18:15:34 - Player connected: NIKI, id: 1, IP: 90.173.205.194
-18:16:08 - Player disconected: NIKI, id: 1, IP: 90.173.205.194
-18:16:09 - Player disconected: NIKI3, id: 0, IP: 90.173.205.194
-18:18:32 - Player connected: NIKI, id: 0, IP: 90.173.205.194
-18:18:45 - Player connected: NIKI12342, id: 1, IP: 90.173.205.194
-18:18:48 - Player connected: NIKI3, id: 2, IP: 90.173.205.194

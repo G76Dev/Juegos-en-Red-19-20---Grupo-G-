@@ -1,0 +1,12 @@
+19:12:03 - Server opened
+19:12:31 - WS - Player0 connected.
+19:12:31 - Player connected: SVSV, id: 0, IP: 90.173.205.194
+19:12:32 - WS - Player1 connected.
+19:12:32 - Player connected: SVSDV, id: 1, IP: 90.173.205.194
+19:12:33 - WS - Player2 connected.
+19:12:33 - Player connected: SDVSDV, id: 2, IP: 90.173.205.194
+19:12:35 - SVSV selected character 0
+19:12:36 - SVSDV selected character 1
+19:12:36 - SDVSDV selected character 2
+19:12:41 - WS - Player1 disconnected.
+19:12:41 - WS - Player2 disconnected.

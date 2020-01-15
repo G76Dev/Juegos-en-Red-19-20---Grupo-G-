@@ -1,0 +1,16 @@
+20:20:42 - Server opened
+20:21:09 - WS - Player0 connected.
+20:21:09 - Player connected: AERTHAERH, id: 0, IP: 90.173.205.194
+20:21:10 - WS - Player1 connected.
+20:21:10 - Player connected: ERHAERH, id: 1, IP: 90.173.205.194
+20:21:10 - WS - Player2 connected.
+20:21:11 - Player connected: DGMDTYM, id: 2, IP: 90.173.205.194
+20:21:13 - AERTHAERH selected character 0
+20:21:13 - ERHAERH selected character 1
+20:21:14 - DGMDTYM selected character 2
+20:23:33 - WS - Player2 disconnected.
+20:23:33 - WS - Player1 disconnected.
+20:23:33 - WS - Player0 disconnected.
+20:23:36 - Player disconected: ERHAERH, id: 1, IP: 90.173.205.194
+20:23:36 - Player disconected: AERTHAERH, id: 0, IP: 90.173.205.194
+20:23:39 - Player disconected: DGMDTYM, id: 0, IP: 90.173.205.194

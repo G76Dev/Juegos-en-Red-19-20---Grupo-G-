@@ -1,7 +1,0 @@
-21:06:05 - Server opened
-21:06:37 - Player connected: NIKI, id: 0, IP: 90.173.205.194
-21:06:44 - Player connected: ASDASDADAD, id: 1, IP: 90.173.205.194
-21:06:48 - Player message - NIKI: hola
-21:06:52 - Player message - ASDASDADAD: qtal
-21:06:58 - Player connected: BDTBFTB, id: 2, IP: 90.173.205.194
-21:07:03 - Player message - BDTBFTB: haha

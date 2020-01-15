@@ -1,0 +1,37 @@
+21:31:51 - Server opened
+21:31:57 - WS - Player0 connected.
+21:31:58 - WS - Player1 connected.
+21:32:06 - WS - Message received from session 1: {"name":"0","message":0}
+21:32:06 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:06 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:08 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:08 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:08 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:08 - WS - Message received from session 1: {"name":"0","message":0}
+21:32:09 - WS - Message received from session 1: {"name":"0","message":0}
+21:32:10 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:10 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:10 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:10 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:10 - WS - Message received from session 1: {"name":"0","message":0}
+21:32:11 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:11 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:11 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:11 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:11 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"0","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:12 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"1","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:17 - WS - Message received from session 1: {"name":"2","message":0}
+21:32:39 - WS - Player0 disconnected.
+21:32:39 - WS - Player1 disconnected.

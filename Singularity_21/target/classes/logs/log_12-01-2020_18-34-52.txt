@@ -1,4 +1,0 @@
-18:34:56 - Server opened
-18:35:15 - Player connected: 34F34G5, id: 0, IP: 90.173.205.194
-18:35:16 - Player connected: NIKI, id: 1, IP: 90.173.205.194
-18:35:19 - Player connected: 1231ED, id: 2, IP: 90.173.205.194

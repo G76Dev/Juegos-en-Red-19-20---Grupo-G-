@@ -1,4 +1,0 @@
-20:37:58 - Server opened
-20:38:19 - Player connected: 342234, id: 0, IP: 90.173.205.194
-20:38:23 - Player connected: 234234, id: 1, IP: 90.173.205.194
-20:38:26 - Player connected: 345345, id: 2, IP: 90.173.205.194

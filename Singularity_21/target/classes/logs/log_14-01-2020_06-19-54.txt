@@ -1,0 +1,18 @@
+06:19:59 - Server opened
+06:20:37 - WS - Player0 connected.
+06:20:37 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+06:20:37 - WS - Player1 connected.
+06:20:37 - Player connected: WEFWEF, id: 1, IP: 90.173.205.194
+06:20:38 - WS - Player2 connected.
+06:20:43 - WS - Player3 connected.
+06:20:43 - Player connected: WEFWEFACSCA, id: 2, IP: 90.173.205.194
+06:20:49 - WEFWEF selected character 1
+06:20:50 - WEFWEFACSCA selected character 2
+06:20:51 - NIKI selected character 0
+06:22:22 - WS - Player1 disconnected.
+06:22:22 - WS - Player2 disconnected.
+06:22:22 - WS - Player3 disconnected.
+06:22:22 - WS - Player0 disconnected.
+06:22:24 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+06:22:28 - Player disconected: WEFWEF, id: 0, IP: 90.173.205.194
+06:22:31 - Player disconected: WEFWEFACSCA, id: 0, IP: 90.173.205.194

@@ -1,0 +1,6 @@
+21:28:21 - Server opened
+21:28:29 - WS - Player0 connected.
+21:28:30 - WS - Player1 connected.
+21:28:39 - WS - Message received from session 0: {"name":"0","message":0}
+21:28:40 - WS - Message received from session 0: {"name":"0","message":0}
+21:28:40 - WS - Message received from session 0: {"name":"0","message":0}

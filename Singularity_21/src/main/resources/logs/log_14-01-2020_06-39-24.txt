@@ -1,0 +1,16 @@
+06:39:30 - Server opened
+06:39:50 - WS - Player0 connected.
+06:39:50 - Player connected: SGBSDR, id: 0, IP: 90.173.205.194
+06:39:51 - WS - Player1 connected.
+06:39:51 - Player connected: ZDRBZDRB, id: 1, IP: 90.173.205.194
+06:39:53 - WS - Player2 connected.
+06:39:53 - Player connected: ZDRBZDRBZDRB, id: 2, IP: 90.173.205.194
+06:39:55 - SGBSDR selected character 0
+06:39:55 - ZDRBZDRB selected character 1
+06:39:56 - ZDRBZDRBZDRB selected character 2
+06:58:49 - Player disconected: SGBSDR, id: 0, IP: 90.173.205.194
+06:58:52 - Player disconected: ZDRBZDRB, id: 0, IP: 90.173.205.194
+06:58:56 - Player disconected: ZDRBZDRBZDRB, id: 0, IP: 90.173.205.194
+07:10:47 - WS - Player0 disconnected.
+07:10:49 - WS - Player2 disconnected.
+07:10:50 - WS - Player1 disconnected.

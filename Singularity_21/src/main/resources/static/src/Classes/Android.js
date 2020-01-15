@@ -1,8 +1,15 @@
 class Android {
-  constructor(scene, androidNumber, x, y, cursors) {
+  constructor(scene, androidNumber, x, y, playerINPUT, cursors) {
     this.scene = scene;
     this.sprite = scene.matter.add.sprite(x, y, 'androidIdle' + androidNumber, 0);
     this.androidNumber = androidNumber;
+    
+    this.playerINPUT = playerINPUT;
+    this.playerMovementArray = [0.0, 0.0, 0.0, 0.0, 0.0, x, y];
+    this.setWSMoovement = function(pMA){
+    	this.playerMovementArray = pMA;
+    }
+    
     this.otherAndroid;
     this.arrived = false;
 
@@ -42,26 +49,43 @@ class Android {
 
     this.isCoopImpulsing = false;
 
-    this.aditionalJumpVelocity = -0.25;
-    this.cursors.up.on('down', function (event) {
-      if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
-        this.aditionalJumpVelocity = -0.25;
-        this.sprite.setVelocityY(-this.scene.game.jumpVelocity);
-        var jumpSound = this.scene.sound.add('jump', {volume: this.scene.game.soundVolume});
-        jumpSound.play();
-        this.canJump = false;
-        this.cursors.up.on('up', function (event) {
-          this.canJump = true
-        }, this);
-      }
-    }, this);
-
-    this.cursors.coop.on('down', function(event){
-      this.isCoopImpulsing = true;
-      this.coopJump();
-    }, this);
-
-    scene.matter.world.on("beforeupdate", this.resetTouching, this);
+  //modificado para WS
+   if(this.playerINPUT){
+	   this.aditionalJumpVelocity = -0.25;
+	   this.cursors.up.on('down', function (event) {
+	     if (this.canJump && this.isTouching.ground) {
+		   //WS
+	       if(game.online)
+		   web.sendAndroidJumpInitAR();
+		   
+	       this.aditionalJumpVelocity = -0.25;
+	       this.sprite.setVelocityY(-this.scene.game.jumpVelocity);
+	       var jumpSound = this.scene.sound.add('jump', {volume: this.scene.game.soundVolume});
+	       jumpSound.play();
+	       this.canJump = false;
+	       this.cursors.up.on('up', function (event) {
+	    	 if (!this.canJump){
+		         //WS
+	    	     if(game.online)
+		         web.sendAndroidCanJumpAR();
+		         
+		         this.canJump = true
+	    	 }
+	       }, this);
+	     }
+	   }, this);
+    
+	   this.cursors.coop.on('down', function(event){
+	     //WS
+	     if(game.online)
+	     web.sendAndroidDownAR();
+	     
+	     this.isCoopImpulsing = true;
+	     this.coopJump();
+	   }, this);
+    }
+    scene.matter.world.on("beforeupdate", this.wsAndTouchingReset, this);
+    
 
     scene.matterCollision.addOnCollideStart({
       objectA: [this.sensors.bottom, this.sensors.left, this.sensors.right],
@@ -91,6 +115,36 @@ class Android {
       context: this
     });
   }
+  
+
+  wsAndTouchingReset() {
+  	//WS
+	  if(this.playerINPUT){
+		this.playerMovementArray[0] = this.cursors.up.isDown? 1.0: 0.0;   //UP
+	  	this.playerMovementArray[1] = this.cursors.right.isDown? 1.0: 0.0;    //RIGHT
+	  	this.playerMovementArray[2] = this.cursors.left.isDown? 1.0: 0.0;    //LEFT
+	  	this.playerMovementArray[3] = this.sprite.body.velocity.x;    //X
+	  	this.playerMovementArray[4] = this.sprite.body.velocity.y;    //Y
+	  	this.playerMovementArray[5] = this.sprite.x;    //X
+	  	this.playerMovementArray[6] = this.sprite.y;    //Y
+	  }else{
+		if(parseInt(this.androidNumber) == 1){
+			this.playerMovementArray[0] = infoArray1[0];   //UP
+		  	this.playerMovementArray[1] = infoArray1[1];    //RIGHT
+		  	this.playerMovementArray[2] = infoArray1[2];    //LEFT
+		}
+		else if(parseInt(this.androidNumber) == 2){
+			this.playerMovementArray[0] = infoArray2[0];   //UP
+		  	this.playerMovementArray[1] = infoArray2[1];    //RIGHT
+		  	this.playerMovementArray[2] = infoArray2[2];    //LEFT
+		}
+	  }
+	  
+  	  this.isTouching.left = false;
+  	  this.isTouching.right = false;
+  	  this.isTouching.ground = false;
+  }
+  
   soundFall(bodyB){
     if (bodyB.isSensor) return;
     var landSound = this.scene.sound.add('land', {volume: this.scene.game.soundVolume});
@@ -115,77 +169,92 @@ class Android {
     }
   }
 
-  resetTouching() {
-    this.isTouching.left = false;
-    this.isTouching.right = false;
-    this.isTouching.ground = false;
-  }
   update(time, delta) {
     const isInAir = !this.isTouching.ground;
 
     if (this.scene.game.lives <= 0) { return; }
 
     if (this.alive) {
-      if (this.cursors.right.isDown) {
-        if (!(isInAir && this.isTouching.right)) {
-          this.sprite.setVelocityX(this.scene.game.moveVelocity * delta * this.rightMultiply);
-        }
-      }
-      else if (this.cursors.left.isDown) {
-        if (!(isInAir && this.isTouching.left)) {
-          this.sprite.setVelocityX(-this.scene.game.moveVelocity * delta * this.leftMultiply);
-        }
-      } else if (this.cursors.right.isUp && this.cursors.left.isUp){
-    	  this.sprite.setVelocityX(0);
-      }
-      //document.getElementById('info').innerHTML = this.sprite;
-      this.sprite.x += this.velInfluence;
-      this.playAnimation();
-
-      if (this.cursors.up.isDown && !this.isTouching.ground && this.sprite.body.velocity.y < 0) {
-        this.sprite.setVelocityY(this.sprite.body.velocity.y + this.aditionalJumpVelocity);
-        if (this.aditionalJumpVelocity < 0) {
-          this.aditionalJumpVelocity += 0.01;
-        } else {
-          this.aditionalJumpVelocity = 0;
-        }
-      }
-
-      if (this.isTouching.ground && !this.canCoopImpulse) {
-        this.coopTimer = this.scene.time.addEvent({
-          delay: 250,
-          callback: () => (this.canCoopImpulse = true)
-        });
-      }
-
-      if (this.sprite.y > 640) {
-        this.damaged(new Phaser.Math.Vector2(0, -1), 40);
-      }
-
-      //BUGFIX
-      if (isInAir && !this.cursors.left.isDown && !this.cursors.right.isDown) {
-        if (this.sprite.body.velocity.y <= -this.scene.game.jumpVelocity * 0.90) {
-          this.sprite.setVelocityX(0);
-        } else {
-          this.sprite.setVelocityX((this.scene.game.moveVelocity * this.scene.game.airVelocityFraction) * delta * Math.sign(this.sprite.body.velocity.x));
-        }
-      }
-      this.leftMultiply = 1;
-      this.rightMultiply = 1;
-
-      const cam = this.scene.cameras.main;
-      if (this.sprite.x < cam.scrollX) { this.indicator.x = 24 + cam.scrollX; this.indicator.y = this.sprite.y; }
-      else if (this.sprite.x > cam.scrollX + 960) { this.indicator.x = 936 + cam.scrollX; this.indicator.y = this.sprite.y; }
-      else { this.indicator.x = -999; this.indicator.y = -999; }
+    	if(this.playerINPUT){
+	      if (this.playerMovementArray[1]) {
+	        if (!(isInAir && this.isTouching.right)) {
+	          if(this.playerINPUT) //WS improved
+	          this.sprite.setVelocityX(this.scene.game.moveVelocity * delta * this.rightMultiply);
+	        }
+	      }
+	      else if (this.playerMovementArray[2]) {
+	        if (!(isInAir && this.isTouching.left)) {
+	          if(this.playerINPUT) //WS improved
+	          this.sprite.setVelocityX(-this.scene.game.moveVelocity * delta * this.leftMultiply);
+	        }
+	      } else if (this.playerMovementArray[1] && !this.playerMovementArray[2]){
+	    	  this.sprite.setVelocityX(0);
+	      }
+	      //document.getElementById('info').innerHTML = this.sprite;
+	      this.sprite.x += this.velInfluence;
+	      this.playAnimation();
+	
+	      if (this.playerMovementArray[0] && !this.isTouching.ground && this.sprite.body.velocity.y < 0) {
+	        this.sprite.setVelocityY(this.sprite.body.velocity.y + this.aditionalJumpVelocity);
+	        if (this.aditionalJumpVelocity < 0) {
+	          this.aditionalJumpVelocity += 0.01;
+	        } else {
+	          this.aditionalJumpVelocity = 0;
+	        }
+	      }
+	
+	      //BUGFIX
+	      if (isInAir && !this.playerMovementArray[2] && !this.playerMovementArray[1]) {
+	        if (this.sprite.body.velocity.y <= -this.scene.game.jumpVelocity * 0.90) {
+	          this.sprite.setVelocityX(0);
+	        } else {
+	          if(this.playerINPUT) //WS improved
+	          this.sprite.setVelocityX((this.scene.game.moveVelocity * this.scene.game.airVelocityFraction) * delta * Math.sign(this.sprite.body.velocity.x));
+	        }
+	      }
+	
+	      const cam = this.scene.cameras.main;
+	      if (this.sprite.x < cam.scrollX) { this.indicator.x = 24 + cam.scrollX; this.indicator.y = this.sprite.y; }
+	      else if (this.sprite.x > cam.scrollX + 960) { this.indicator.x = 936 + cam.scrollX; this.indicator.y = this.sprite.y; }
+	      else { this.indicator.x = -999; this.indicator.y = -999; }
+    	}
+    	else{ //NO Player input WS
+  	        this.sprite.x += this.velInfluence;
+  	        this.playAnimation();
+        	if(parseInt(this.androidNumber) == 1){
+        		this.sprite.setVelocityX(infoArray1[3] + infoArray1[5] - this.sprite.x);
+        		this.sprite.setVelocityY(infoArray1[4] + infoArray1[6] - this.sprite.y);
+        		//this.sprite.x = infoArray1[5];
+        		//this.sprite.y = infoArray1[6];
+        	}else if(parseInt(this.androidNumber) == 2){
+        		this.sprite.setVelocityX(infoArray2[3] + infoArray2[5] - this.sprite.x);
+        		this.sprite.setVelocityY(infoArray2[4] + infoArray2[6] - this.sprite.y);
+        		//this.sprite.x = infoArray2[5];
+        		//this.sprite.y = infoArray2[6];
+        	}
+    	}
+	    this.leftMultiply = 1;
+	    this.rightMultiply = 1;
+		
+	    if (this.sprite.y > 640) {
+	      this.damaged(new Phaser.Math.Vector2(0, -1), 40);
+	    }
+		
+	    if (this.isTouching.ground && !this.canCoopImpulse) {
+	      this.coopTimer = this.scene.time.addEvent({
+	        delay: 250,
+	        callback: () => (this.canCoopImpulse = true)
+	      });
+	    }
     }
   }
   playAnimation(){
     if(this.sprite.anims.currentAnim == null || this.sprite.anims.currentAnim.key.substr(0,4) != "coop" ||
      (this.sprite.anims.currentAnim.key.substr(0,4) == "coop" && this.sprite.anims.currentFrame.index == this.sprite.anims.currentAnim.getLastFrame().index )){
       if(this.isTouching.ground){
-        if(this.cursors.right.isDown){
+        if(this.playerMovementArray[1]){
           this.sprite.anims.play('wRight'+this.androidNumber, true);
-        }else if(this.cursors.left.isDown){
+        }else if(this.playerMovementArray[2]){
           this.sprite.anims.play('wRight'+this.androidNumber, true);
         }else{
           this.sprite.anims.play('idle'+this.androidNumber, true);
@@ -210,9 +279,9 @@ class Android {
       this.isCoopImpulsing = false;
     }
 
-    if(this.cursors.right.isDown){
+    if(this.playerMovementArray[1]){
       this.sprite.setFlipX(false);
-    }else if(this.cursors.left.isDown){
+    }else if(this.playerMovementArray[2]){
       this.sprite.setFlipX(true);
     }
   }

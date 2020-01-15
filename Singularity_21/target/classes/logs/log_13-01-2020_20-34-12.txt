@@ -1,0 +1,10 @@
+20:34:15 - Server opened
+20:34:23 - WS - Player0 connected.
+20:34:24 - WS - Player1 connected.
+20:34:25 - WS - Player2 connected.
+20:34:31 - WS - Message received from session 0: {"name":"","message":"hola esto es un mensaje"}
+20:34:41 - WS - Message received from session 0: {"type":0,"androidNumb":1}
+20:34:41 - WS - Player0 disconnected.
+20:34:49 - WS - Message received from session 1: {"name":"","message":"hola esto es un mensaje"}
+20:34:56 - WS - Message received from session 1: {"type":0,"androidNumb":1}
+20:34:56 - WS - Player1 disconnected.

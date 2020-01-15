@@ -1,0 +1,13 @@
+18:43:42 - Server opened
+18:44:04 - WS - Player0 connected.
+18:44:04 - Player connected: TNBFTN, id: 0, IP: 90.173.205.194
+18:44:04 - WS - Player1 connected.
+18:44:04 - Player connected: FNFTN, id: 1, IP: 90.173.205.194
+18:44:05 - WS - Player2 connected.
+18:44:05 - Player connected: NFTNFTN, id: 2, IP: 90.173.205.194
+18:44:08 - TNBFTN selected character 0
+18:44:08 - FNFTN selected character 1
+18:44:09 - NFTNFTN selected character 2
+18:44:17 - Player disconected: TNBFTN, id: 0, IP: 90.173.205.194
+18:44:20 - Player disconected: FNFTN, id: 0, IP: 90.173.205.194
+18:44:23 - Player disconected: NFTNFTN, id: 0, IP: 90.173.205.194

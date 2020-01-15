@@ -1,0 +1,16 @@
+06:01:27 - Server opened
+06:02:08 - WS - Player0 connected.
+06:02:08 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+06:02:09 - WS - Player1 connected.
+06:02:09 - Player connected: TG2W54GW45H, id: 1, IP: 90.173.205.194
+06:02:10 - WS - Player2 connected.
+06:02:10 - Player connected: 467J467J, id: 2, IP: 90.173.205.194
+06:02:12 - TG2W54GW45H selected character 1
+06:02:13 - 467J467J selected character 2
+06:02:14 - NIKI selected character 0
+06:04:30 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+06:04:34 - Player disconected: 467J467J, id: 1, IP: 90.173.205.194
+06:04:34 - Player disconected: TG2W54GW45H, id: 0, IP: 90.173.205.194
+06:06:18 - WS - Player2 disconnected.
+06:06:18 - WS - Player0 disconnected.
+06:06:18 - WS - Player1 disconnected.

@@ -1,0 +1,11 @@
+18:34:40 - Server opened
+18:35:01 - WS - Player0 connected.
+18:35:01 - Player connected: YHMTGM, id: 0, IP: 90.173.205.194
+18:35:04 - WS - Player1 connected.
+18:35:04 - Player connected: TYJTYJ, id: 1, IP: 90.173.205.194
+18:35:06 - WS - Player2 connected.
+18:35:06 - Player connected: SNRTN, id: 2, IP: 90.173.205.194
+18:35:08 - YHMTGM selected character 0
+18:35:09 - SNRTN selected character 1
+18:35:11 - TYJTYJ selected character 2
+18:35:38 - WS - Player1 disconnected.

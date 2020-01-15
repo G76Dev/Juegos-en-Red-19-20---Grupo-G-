@@ -1,0 +1,13 @@
+06:26:22 - Server opened
+06:26:51 - WS - Player0 connected.
+06:26:51 - Player connected: AFCSE, id: 0, IP: 90.173.205.194
+06:26:52 - WS - Player1 connected.
+06:26:52 - Player connected: DVDV, id: 1, IP: 90.173.205.194
+06:26:53 - WS - Player2 connected.
+06:26:53 - Player connected: WEFWEF, id: 2, IP: 90.173.205.194
+06:26:56 - DVDV selected character 1
+06:26:57 - WEFWEF selected character 2
+06:26:58 - AFCSE selected character 0
+06:28:59 - WS - Player2 disconnected.
+06:28:59 - WS - Player1 disconnected.
+06:28:59 - WS - Player0 disconnected.

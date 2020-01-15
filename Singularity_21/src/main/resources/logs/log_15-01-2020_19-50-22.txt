@@ -1,0 +1,13 @@
+19:50:28 - Server opened
+19:51:20 - WS - Player0 connected.
+19:51:20 - Player connected: ZDRBDZB, id: 0, IP: 90.173.205.194
+19:51:20 - WS - Player1 connected.
+19:51:20 - Player connected: ZDRBZD, id: 1, IP: 90.173.205.194
+19:51:21 - WS - Player2 connected.
+19:51:21 - Player connected: ZDBZDRBA, id: 2, IP: 90.173.205.194
+19:51:23 - ZDRBDZB selected character 0
+19:51:24 - ZDRBZD selected character 1
+19:51:25 - ZDBZDRBA selected character 2
+19:51:32 - Player disconected: ZDBZDRBA, id: 2, IP: 90.173.205.194
+19:51:36 - Player disconected: ZDRBZD, id: 1, IP: 90.173.205.194
+19:51:36 - Player disconected: ZDRBDZB, id: 0, IP: 90.173.205.194

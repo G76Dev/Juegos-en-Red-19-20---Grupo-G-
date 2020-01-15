@@ -1,2 +1,0 @@
-20:01:45 - Server opened
-20:01:58 - Player connected: NIKI, id: 0, IP: 90.173.205.194

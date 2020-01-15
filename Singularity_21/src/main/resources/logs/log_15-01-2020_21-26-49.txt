@@ -1,0 +1,10 @@
+21:26:52 - Server opened
+21:27:26 - WS - Player0 connected.
+21:27:27 - Player connected: ESRDTY, id: 0, IP: 90.173.205.194
+21:27:27 - WS - Player1 connected.
+21:27:27 - Player connected: SDFASC, id: 1, IP: 90.173.205.194
+21:27:28 - WS - Player2 connected.
+21:27:28 - Player connected: DBDRNBZ, id: 2, IP: 90.173.205.194
+21:27:38 - ESRDTY selected character 0
+21:27:38 - SDFASC selected character 1
+21:27:39 - DBDRNBZ selected character 2

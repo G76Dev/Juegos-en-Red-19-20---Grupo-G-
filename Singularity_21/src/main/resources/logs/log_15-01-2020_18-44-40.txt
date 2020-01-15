@@ -1,0 +1,13 @@
+18:44:44 - Server opened
+18:45:06 - WS - Player0 connected.
+18:45:06 - Player connected: GTYMJTGCY, id: 0, IP: 90.173.205.194
+18:45:06 - WS - Player1 connected.
+18:45:06 - Player connected: GYMCGM, id: 1, IP: 90.173.205.194
+18:45:07 - WS - Player2 connected.
+18:45:07 - Player connected: CGYMCGYM, id: 2, IP: 90.173.205.194
+18:45:10 - GTYMJTGCY selected character 0
+18:45:11 - GYMCGM selected character 1
+18:45:12 - CGYMCGYM selected character 2
+18:46:36 - Player disconected: GTYMJTGCY, id: 0, IP: 90.173.205.194
+18:46:40 - Player disconected: GYMCGM, id: 0, IP: 90.173.205.194
+18:46:43 - Player disconected: CGYMCGYM, id: 0, IP: 90.173.205.194

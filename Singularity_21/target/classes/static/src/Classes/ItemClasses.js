@@ -1,9 +1,11 @@
 //clase objeto arrastrable, hereda de la clase imagen de phaser
 class draggableObject extends Phaser.GameObjects.Sprite{
   //objeto muy parecido a "Image" pero con atributos adicionales
-  constructor(scene, itemsBar , x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
+  constructor(scene, id, itemsBar , x, y, interfaceTexture, texture, frame, scaleIntrefaceImage = 0.25, scaleImage = 0.25, bounce = 0.25, coste = 0, expireTime = 3000) {
       super(scene, x, y, interfaceTexture, frame);
       scene.add.existing(this);
+      
+      this.id = id;
       this.itemsBar = itemsBar;
       //profundidad de objeto
       this.setDepth(99)
@@ -28,9 +30,11 @@ class draggableObject extends Phaser.GameObjects.Sprite{
       this.expireTime = expireTime;
   }
   //metodo para crear un objeto al soltar el ratón y dejar de arrastrar
-  dropItemInGame(addColliderString) {
-      //se crea e inicializa el objeto
-      const item = this.scene.matter.add.sprite(this.x + this.scene.cameras.main.scrollX, this.y + this.scene.cameras.main.scrollY, this.sprite);
+  dropItemInGame(addColliderString, posX = 0, posY = 0) {
+	  const item = this.scene.matter.add.sprite(posX, posY, this.sprite);
+
+	  console.log(posX+ "   "+ posY);
+	  
       item.setScale(this.scaleImage).setDepth(5);
       const addCollider = window[addColliderString];
       eval(addColliderString);
@@ -46,16 +50,14 @@ class draggableObject extends Phaser.GameObjects.Sprite{
 //objeto bomba, hereda de draggableObject, por lo que al ser inicializada, tmb inicializa super(), es decir draggableObject
 class draggableBomb extends draggableObject{
   constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 20, expireTime = 2000) {
-      super(scene, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+      super(scene, 0, itemsBar, x, y, 'item1', 'item1', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre y continua con la explosion de la bomba)
-  dropItemInGame() {
+  dropItemInGame(posX = 0, posY = 0, mouseVel) {
     var bombInstance;
-    if(this.itemsBar.energy > this.cost){
-        bombInstance = super.dropItemInGame("item.setCircle(11)");
+    if(this.itemsBar.energy > this.cost){bombInstance = super.dropItemInGame("item.setCircle(11)", posX, posY);
         bombInstance.setOrigin(0.5, 0.61);
         //se aplica el momento del raton
-        var mouseVel = this.scene.input.activePointer.velocity;
         bombInstance.setVelocity(mouseVel.x/12,mouseVel.y/12);
         bombInstance.setAngularVelocity(mouseVel.x/200);
         //animacion de bomba antes de explotar
@@ -106,13 +108,13 @@ class draggableBomb extends draggableObject{
 //objeto pincho, hereda de draggableObject (coloca unos pinchos en el suelo y despues de un delay estos aparecen)
 class draggableSpike extends draggableObject{
   constructor(scene, itemsBar, x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0, coste = 50, expireTime = 1500) { //duracion 9000
-      super(scene, itemsBar, x, y, 'item3', 'spikeBox', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+      super(scene, 1, itemsBar, x, y, 'item3', 'spikeBox', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre)
-  dropItemInGame() {
+  dropItemInGame(posX = 0, posY = 0) {
     if(this.itemsBar.energy > this.cost){
         //se crea un pincho inofensivo que despues de un rato dañara al jugador
-        var harmlessSpike = super.dropItemInGame("item.setRectangle(30,20)");
+        var harmlessSpike = super.dropItemInGame("item.setRectangle(30,20)", posX, posY);
         harmlessSpike.setOrigin(0.5,0.65).setFixedRotation();
         //se inicializan las colisiones del objeto harmlessSpike (pinco sin activar) con el suelo, si lo toca llama a la funcion de crear pinchos
         const unsubscribe = this.scene.matterCollision.addOnCollideStart({
@@ -165,14 +167,14 @@ class draggableSpike extends draggableObject{
 //objeto laser, hereda de draggableObject, por lo que al ser inicializada, tambien inicializa super(), es decir draggableObject
 class draggableLaser extends draggableObject{
   constructor(scene, itemsBar ,x, y, frame, scaleIntrefaceImage = 1, scaleImage = 1, bounce = 0.5, coste = 90, expireTime = 2000) {
-    super(scene, itemsBar, x, y, 'laser_icon', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
+    super(scene, 2, itemsBar, x, y, 'laser_icon', 'laserNonLethal', frame, scaleIntrefaceImage, scaleImage, bounce, coste, expireTime);
   }
   //cambio de metodo generico de draggableobject (si hay suficiente energia, llama al padre)
-  dropItemInGame() {
+  dropItemInGame(posX = 0, posY = 0) {
     //antes de iniciar el laser dañino se crea un laser inofensivo de advertencia
     var laserGadget;
     if(this.itemsBar.energy > this.cost){
-        laserGadget = super.dropItemInGame();
+        laserGadget = super.dropItemInGame("", posX, posY);
         //el laser siempre se inicializará en la parte media de la pantalla (x + camera.x)
         laserGadget.x = 480+this.scene.cameras.main.scrollX;
         laserGadget.setStatic(true);
@@ -220,6 +222,8 @@ class draggableLaser extends draggableObject{
 class ItemBar{
   constructor(scene, positionX, separationY, initialSepY){
     var counter = 0;
+    
+    var actualScene = scene
     //energia del jugador humano
     this.energy = 100;
     this.items = [3];
@@ -239,8 +243,10 @@ class ItemBar{
     this.bar.setDepth(99).setScrollFactor(0);
 
     //event listener de las funciones de arrastre de los items arrastrables
-    scene.input.on('drag', onDrag);
-    scene.input.on('dragend', onDragEnd);
+    if(scene.game.characterSel == -1 || scene.game.characterSel == 2){
+    	scene.input.on('drag', onDrag);
+    	scene.input.on('dragend', onDragEnd);
+    }
 
     //FUNCIONES DE ARRASTRE
     //al sujetar un objeto
@@ -254,7 +260,13 @@ class ItemBar{
     */
     //al soltar un objeto
     function onDragEnd(pointer, gameObject, dropped){
-      gameObject.dropItemInGame(this);
+      const mouseVel = this.scene.input.activePointer.velocity;
+      
+      //WS
+      if(game.online)
+      web.senditemDrop(gameObject.id, pointer.x + actualScene.cameras.main.scrollX, pointer.y  + actualScene.cameras.main.scrollY,  mouseVel, usableItems.energy);
+      
+      gameObject.dropItemInGame(pointer.x + actualScene.cameras.main.scrollX, pointer.y  + actualScene.cameras.main.scrollY ,mouseVel);
       gameObject.x = gameObject.startPosX;
       gameObject.y = gameObject.startPosY;
       gameObject.setScale(gameObject.scaleIntrefaceImage);

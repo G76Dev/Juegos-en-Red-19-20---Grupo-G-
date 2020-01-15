@@ -1,0 +1,16 @@
+03:40:49 - Server opened
+03:41:12 - WS - Player0 connected.
+03:41:12 - Player connected: ACAC, id: 0, IP: 90.173.205.194
+03:41:13 - WS - Player1 connected.
+03:41:13 - Player connected: SDVSDV, id: 1, IP: 90.173.205.194
+03:41:14 - WS - Player2 connected.
+03:41:14 - Player connected: WEFWEF, id: 2, IP: 90.173.205.194
+03:41:16 - SDVSDV selected character 1
+03:41:17 - WEFWEF selected character 2
+03:41:18 - ACAC selected character 0
+03:42:57 - WS - Player2 disconnected.
+03:42:57 - WS - Player1 disconnected.
+03:42:57 - WS - Player0 disconnected.
+03:42:59 - Player disconected: ACAC, id: 0, IP: 90.173.205.194
+03:43:03 - Player disconected: WEFWEF, id: 1, IP: 90.173.205.194
+03:43:03 - Player disconected: SDVSDV, id: 0, IP: 90.173.205.194

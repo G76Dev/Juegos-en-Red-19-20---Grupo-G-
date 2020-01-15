@@ -1,0 +1,15 @@
+23:36:38 - Server opened
+23:36:57 - WS - Player0 connected.
+23:36:57 - Player connected: 12E12E, id: 0, IP: 90.173.205.194
+23:36:58 - WS - Player1 connected.
+23:36:58 - Player connected: F23F23, id: 1, IP: 90.173.205.194
+23:36:58 - WS - Player2 connected.
+23:36:58 - Player connected: 23R23, id: 2, IP: 90.173.205.194
+23:37:02 - 12E12E selected character 0
+23:37:03 - F23F23 selected character 1
+23:37:04 - 23R23 selected character 2
+23:39:39 - WS - Player1 disconnected.
+23:39:39 - WS - Player0 disconnected.
+23:39:39 - WS - Player2 disconnected.
+23:39:41 - Player disconected: F23F23, id: 1, IP: 90.173.205.194
+23:39:41 - Player disconected: 12E12E, id: 0, IP: 90.173.205.194

@@ -1,4 +1,0 @@
-20:32:12 - Server opened
-20:32:35 - Player connected: NIKI123, id: 0, IP: 90.173.205.194
-20:32:36 - Player connected: 123125, id: 1, IP: 90.173.205.194
-20:32:37 - Player connected: 2134234, id: 2, IP: 90.173.205.194

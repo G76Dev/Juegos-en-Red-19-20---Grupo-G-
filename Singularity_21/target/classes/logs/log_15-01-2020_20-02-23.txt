@@ -1,0 +1,10 @@
+20:02:29 - Server opened
+20:02:49 - WS - Player0 connected.
+20:02:49 - Player connected: ZDBASD, id: 0, IP: 90.173.205.194
+20:02:50 - WS - Player1 connected.
+20:02:50 - Player connected: ZDFBZ, id: 1, IP: 90.173.205.194
+20:02:51 - WS - Player2 connected.
+20:02:51 - Player connected: ZDFBZDF, id: 2, IP: 90.173.205.194
+20:02:53 - ZDBASD selected character 0
+20:02:54 - ZDFBZ selected character 1
+20:02:55 - ZDFBZDF selected character 2

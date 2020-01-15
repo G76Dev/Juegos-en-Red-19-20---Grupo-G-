@@ -1,0 +1,10 @@
+20:50:14 - Server opened
+20:50:23 - WS - Player0 connected.
+20:50:23 - WS - Player1 connected.
+20:50:30 - WS - Message received from session 0: {"name":"","message":"hola esto es un mensaje"}
+20:50:31 - WS - Message received from session 1: {"name":"","message":"hola esto es un mensaje"}
+20:50:39 - WS - Message received from session 0: {"name":"0","message":"1"}
+20:50:40 - WS - Message received from session 0: {"name":"0","message":"1"}
+20:50:41 - WS - Message received from session 0: {"name":"0","message":"1"}
+20:50:41 - WS - Message received from session 0: {"name":"0","message":"1"}
+20:50:42 - WS - Message received from session 1: {"name":"0","message":"1"}
