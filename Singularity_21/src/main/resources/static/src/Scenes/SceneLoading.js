@@ -284,6 +284,11 @@ class SceneLoading extends Phaser.Scene {
 
     }
     create() {
+
+        // Añadimos los sonidos al juego.
+        hoverSound = this.sound.add('menuHover');
+        selectedSound = this.sound.add('menuSelected');
+
         // Creamos las animaciones.
         this.anims.create({
             key: 'androidMaleAnim',

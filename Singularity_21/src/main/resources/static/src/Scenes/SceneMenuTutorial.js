@@ -1,9 +1,6 @@
 // Variables del menu.
 var nextPageButton;
-var hoverSound;
-var selectedSound;
 var cam;
-var isChangingScene;
 
 // Funcion que detecta si el raton se encuentra sobre el boton 'nextPage' y activa su luz en caso afirmativo.
 function CheckOption6(scene) {
@@ -28,10 +25,6 @@ class SceneMenuTutorial extends Phaser.Scene{
 
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
-
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
 
     // Añadimos el nextPageground.
     this.add.image(960/2, 540/2, 'interfazBg');

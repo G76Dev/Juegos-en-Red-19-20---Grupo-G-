@@ -63,9 +63,10 @@ class GravityPlatform extends HumanInteractableClass {
   }
   update() { }
   objectActivate() {
+    this.mainObject.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (fall(this.scene, this))
+      callback: () => (fall(this.scene, this), this.mainObject.clearTint())
     });
     function fall(scene, obj) {
       obj.mainObject.setStatic(false);
@@ -91,9 +92,10 @@ class BlueRay extends HumanInteractableClass {
   update() { }
   objectActivate() {
     super.objectActivate(true);
+    this.activator.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 750,
-      callback: () => (change(this))
+      callback: () => (change(this), this.activator.clearTint())
     });
     function change(obj) {
       if (obj.isActive) {
@@ -124,9 +126,12 @@ class BlueRayDouble extends HumanInteractableClass {
   update() { }
   objectActivate() {
     super.objectActivate(true);
+    this.mainObject[0].setTint(colorActivated);
+    this.mainObject[1].setTint(colorActivated);
+    this.mainObject[2].setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 750,
-      callback: () => (change(this))
+      callback: () => (change(this), this.mainObject[0].clearTint(), this.mainObject[1].clearTint(), this.mainObject[2].clearTint())
     });
     function change(obj) {
       if (obj.isActive) {
@@ -162,10 +167,10 @@ class BlueRayTimer extends HumanInteractableClass {
   update() { }
   objectActivate() {
     super.objectActivate(true);
-
+    this.activator.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 750,
-      callback: () => (change(this))
+      callback: () => (change(this), this.activator.clearTint())
     });
     this.scene.time.addEvent({
       delay: 2750,
@@ -206,6 +211,7 @@ class PressInteractable extends HumanInteractableClass {
   }
   update() { }
   objectActivate() {
+    this.mainObject.sprite.setTint(colorActivated);
     if (this.mainObject.isReady)
       this.mainObject.startCycle(1, 0);
     else
@@ -226,9 +232,10 @@ class FirePlatInteractable extends HumanInteractableClass {
     this.mainObject.x = this.initialX;
   }
   objectActivate() {
+    this.mainObject.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 250,
-      callback: () => (fall(this.scene, this))
+      callback: () => (fall(this.scene, this), this.mainObject.clearTint())
     });
     function fall(scene, obj) {
       obj.mainObject.setStatic(false);
@@ -350,6 +357,7 @@ class ESurfHumanInteracTimer extends HumanInteractableClass {
   }
   update() { }
   objectActivate() {
+    this.mainObject.sprite.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 1000,
       callback: () => (this.mainObject.turnOn())
@@ -368,6 +376,7 @@ class TeslaInteractable extends HumanInteractableClass {
   }
   update() { }
   objectActivate() {
+    this.mainObject.sprite.setTint(colorActivated);
     if (this.mainObject.isReady)
       this.mainObject.startCycle(false, 1000, 1000);
     else
@@ -405,7 +414,7 @@ class HumanInteractablesArray {
   initializeScene3(teslas, eSurfaces, bladesBig) {
     this.items = [];
     this.items[0] = new FirePlatInteractable(this.scene, this.itemBar, 2286, 155);
-    this.items[1] = new ESurfHumanInterac(this.scene, this.itemBar, eSurfaces[0]);
+    this.items[1] = new ESurfHumanInteracTimer(this.scene, this.itemBar, eSurfaces[0]);
     this.items[2] = new InteractiveBlade2(this.scene, this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
     this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[2]);
     this.items[4] = new TeslaInteractable(this.scene, this.itemBar, teslas[3]);

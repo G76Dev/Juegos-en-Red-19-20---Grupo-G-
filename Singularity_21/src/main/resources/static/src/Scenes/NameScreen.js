@@ -1,9 +1,6 @@
 // Variables del menú,
 var buttonArray;
-var hoverSound;
-var selectedSound;
 var cam;
-var isChangingScene;
 var nameText;
 var passText;
 var errorText;
@@ -40,10 +37,6 @@ class SceneName extends Phaser.Scene {
 
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
-
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
 
     // Añadimos el background y el fondo.
     this.add.image(960/2, 540/2, 'interfazBg');

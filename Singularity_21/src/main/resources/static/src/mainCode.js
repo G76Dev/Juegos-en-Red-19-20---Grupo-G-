@@ -72,6 +72,12 @@ game.airVelocityFraction = 0.3;
 
 var bladeDoorCheck = false;
 
+var hoverSound;
+var selectedSound;
+var isChangingScene;
+
+var colorActivated = 0xFF7373;
+var colorHover = 0xA9A9A9;
 
 //Variables del jugador si se conecta al servidor.
 /*APIREST

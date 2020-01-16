@@ -24,7 +24,7 @@ class Press {
       //evento añadido a escena que activa su callback despues de delay
       this.scene.time.addEvent({
         delay: del,
-        callback: () => (delayedStart(this.scene, this))
+        callback: () => (delayedStart(this.scene, this), this.sprite.clearTint())
       });
       //despues de un tiempo se activa
     function delayedStart(scene, obj){

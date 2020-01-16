@@ -1,10 +1,7 @@
 // Variables del menu.
 var backButton;
-var hoverSound;
-var selectedSound;
 
 var cam;
-var isChangingScene;
 
 var soundVolume = 0.2;
 var musicVolume = 0.3;
@@ -49,10 +46,6 @@ class SceneOptions extends Phaser.Scene {
 
     // Variable que indica si se esta cambiando de escena.
     isChangingScene = false;
-
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
 
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');

@@ -1,10 +1,7 @@
 // Variables del menú.
 var backButton;
 var retryButton;
-var hoverSound;
-var selectedSound;
 var cam;
-var isChangingScene;
 
 // Funcion que detecta si el raton se encuentra sobre el boton 'back' o el 'try again' y activa su luz en caso afirmativo.
 function CheckOption5(scene) {
@@ -43,10 +40,6 @@ class SceneDefeat extends Phaser.Scene {
 	game.currentMusic.stop();
 	game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
     game.currentMusic.play();
-
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
 
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
