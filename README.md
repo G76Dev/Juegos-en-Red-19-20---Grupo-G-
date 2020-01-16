@@ -22,7 +22,7 @@ Cuenta Github: G76Dev
 
 **[TRELLO](https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g)**
 
-## [PRESENTACIÓN DE LA FASE 3](https://docs.google.com/presentation/d/10IHJLEaTmQrYAI5Pt5TF0fIt51RqY1EvN7Z2MV-TMaI/edit?usp=sharing)
+## [PRESENTACIÓN DE LA FASE 4](https://docs.google.com/presentation/d/1kfuPV-TFpS1HHuczmrqms5mQaiSpuWxFlt0OPb1y6G4/edit?usp=sharing)
 
 
 # DOCUMENTO DE DISEÑO DE JUEGO
@@ -48,7 +48,6 @@ Cuenta Github: G76Dev
 a los jugadores androide
 * **Mecánicas de cooperación**: Los jugadores "androide" deberán avanzar por el escenario utilizando mecánicas como salto cooperativo,
 coordinando sus acciones o activando botones al mismo tiempo.
-* **Niveles pseudo-random**: Con el objetivo de añadir un componente alto de rejugabilidad, se dividirán los escenarios en tres zonas distintas, crecientes en dificultad conforme se avanza. En cada partida tanto el orden de las zonas como el contenido de cada una cambiará para crear una experiencia distinta a la anterior. **(A integrar en fase 5).**
 
 #### 1.4 Género
   “21 Singularity” es un 2D Scroller plataformero, multijugador asimétrico, con elementos de cooperación y competición.
@@ -83,7 +82,7 @@ coordinando sus acciones o activando botones al mismo tiempo.
 #### 2.1 Jugabilidad desglosada
 
 ##### 2.1.1 Escenario
-  Cada partida se desarrolla en un solo nivel que los jugadores “androide” deben superar para poder enfrentarse al jugador “humano” y ganar. Este nivel será único en las primeras fases del proyecto, pero el objetivo final es que esté compuesto por piezas modulares que cambien en cada partida
+  Cada partida se desarrolla a lo largo de tres niveles
 
 ##### 2.1.2 Desafío final
   Cuando los jugadores superen las tres zonas que componen cada nivel con éxito, alcanzarán una última sala especial donde se enfrentarán cara a cara con el jugador “humano”; esta consistirá en una última sala puzle donde el jugador “humano” tiene un nivel de control y recursos muchísimo mayor, dejando toda la batalla final en sus manos. Cuanto mejor sepa aprovechar sus habilidades, más difícil lo tendrán los jugadores “androide” para superar su última defensa y ganar la partida.
