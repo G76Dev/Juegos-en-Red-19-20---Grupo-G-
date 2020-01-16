@@ -26,6 +26,11 @@ Cuenta Github: G76Dev
 
 ## [PRESENTACIÓN DE LA FASE 4](https://docs.google.com/presentation/d/1kfuPV-TFpS1HHuczmrqms5mQaiSpuWxFlt0OPb1y6G4/edit?usp=sharing)
 
+## Portales disponibles para jugar al juego
+ [Kongregate](https://www.kongregate.com/games/nanateam/21-singularity)
+ [RoastmyGame]([Kongregate](https://www.kongregate.com/games/nanateam/21-singularity))
+ 
+
 
 # DOCUMENTO DE DISEÑO DE JUEGO
 
