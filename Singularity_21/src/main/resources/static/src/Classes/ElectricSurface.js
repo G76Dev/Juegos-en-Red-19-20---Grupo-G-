@@ -11,16 +11,16 @@ class ElectricSurface {
 
     //Establecemos colisiones con los jugadores androide.
     this.unsubscribe1 = this.scene.matterCollision.addOnCollideActive({
-      objectA: this.scene.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       objectB: this.sprite,
       callback: inflictDamage,
-      context: this.scene.game.android1
+      context: game.android1
     });
     this.unsubscribe2 = this.scene.matterCollision.addOnCollideActive({
-      objectA: this.scene.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       objectB: this.sprite,
       callback: inflictDamage,
-      context: this.scene.game.android2
+      context: game.android2
     });
 
     //Función inflictDamaga, que daña a los androides.
@@ -33,18 +33,19 @@ class ElectricSurface {
   }
   //Función turnOn, que enciende la superficie eléctrica.
   turnOn(scene, posX, posY, sprtElec, animElec){
+    this.sprite.clearTint();
     this.elecSprite.setVisible(true);
     this.unsubscribe1 = this.scene.matterCollision.addOnCollideActive({
-      objectA: this.scene.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       objectB: this.sprite,
       callback: inflictDamage,
-      context: this.scene.game.android1
+      context: game.android1
     });
     this.unsubscribe2 = this.scene.matterCollision.addOnCollideActive({
-      objectA: this.scene.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       objectB: this.sprite,
       callback: inflictDamage,
-      context: this.scene.game.android2
+      context: game.android2
     });
     //Función inflictDamaga, que daña a los androides.
     function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(0, bodyA.gameObject.y-bodyB.gameObject.y), 90);}

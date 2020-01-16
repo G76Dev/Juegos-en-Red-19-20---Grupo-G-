@@ -1,16 +1,13 @@
 // Variables del menú.
 var backButton;
 var retryButton;
-var hoverSound;
-var selectedSound;
 var cam;
-var isChangingScene;
 
 // Funcion que detecta si el raton se encuentra sobre el boton 'back' o el 'try again' y activa su luz en caso afirmativo.
 function CheckOption5(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
     backButton.isActive = true;
   }
   else
@@ -18,7 +15,7 @@ function CheckOption5(scene) {
 
   if (scene.input.mousePointer.y > retryButton.y - 35 && scene.input.mousePointer.y < retryButton.y + 35) {
     if (!retryButton.isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
         retryButton.isActive = true;
   }
   else
@@ -40,13 +37,9 @@ class SceneDefeat extends Phaser.Scene {
     isChangingScene = false;
 
 	// Reproducimos la musica correspondiente.
-	this.game.currentMusic.stop();
-	this.game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: this.game.musicVolume });
-    this.game.currentMusic.play();
-
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
+	game.currentMusic.stop();
+	game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
+    game.currentMusic.play();
 
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
@@ -65,7 +58,7 @@ class SceneDefeat extends Phaser.Scene {
         scene.game.scene.add('', new Scene2('level1'), start);
     }*/
   	backButton = new Button(this, 960/2, 500, 'light', function() {
-        selectedSound.play({ volume: this.scene.game.soundVolume });
+        selectedSound.play({ volume: game.soundVolume });
 		isChangingScene = true;
         cam.fadeOut(1000);
         this.scene.time.addEvent({
@@ -74,7 +67,7 @@ class SceneDefeat extends Phaser.Scene {
         });
     });
     retryButton = new Button(this, 960/2, 400, 'light', function() {
-        selectedSound.play({ volume: this.scene.game.soundVolume });
+        selectedSound.play({ volume: game.soundVolume });
         isChangingScene = true;
         cam.fadeOut(1000);
         this.scene.time.addEvent({

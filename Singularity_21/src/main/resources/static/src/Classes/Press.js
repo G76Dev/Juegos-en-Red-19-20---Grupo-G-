@@ -24,7 +24,7 @@ class Press {
       //evento añadido a escena que activa su callback despues de delay
       this.scene.time.addEvent({
         delay: del,
-        callback: () => (delayedStart(this.scene, this))
+        callback: () => (delayedStart(this.scene, this), this.sprite.clearTint())
       });
       //despues de un tiempo se activa
     function delayedStart(scene, obj){
@@ -40,16 +40,16 @@ class Press {
         function initiateDescend(scene, obj){
           //se inicializan las colisiones con ambos androides usando el plugin de colisiones
           const unsubscribe1 = scene.matterCollision.addOnCollideActive({
-            objectA: scene.game.android1.mainBody,
+            objectA: game.android1.mainBody,
             objectB: obj.sprite,
             callback: inflictDamage,
-            context: scene.game.android1
+            context: game.android1
           });
           const unsubscribe2 = scene.matterCollision.addOnCollideStart({
-            objectA: scene.game.android2.mainBody,
+            objectA: game.android2.mainBody,
             objectB: obj.sprite,
             callback: inflictDamage,
-            context: scene.game.android2
+            context: game.android2
           });
           //si cualquiera de los androides choca con Press se activa esta funcion que les daña
           function inflictDamage({ bodyA, bodyB, pair }){this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x-bodyB.gameObject.x, bodyA.gameObject.y-bodyB.gameObject.y), 90);}

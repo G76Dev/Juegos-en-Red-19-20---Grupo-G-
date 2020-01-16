@@ -73,16 +73,16 @@ class draggableBomb extends draggableObject{
       bombExprosion.setDepth(5).setScale(2.25).setCircle(32).setSensor(true).setStatic(true);
       //se añaden colliders especificos con la explosion y ambos androides, si chocan so dañados
       const unsubscribe1 = scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
-        context: scene.game.android1
+        context: game.android1
       });
       const unsubscribe2 = scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: bombExprosion,
         callback: inflictDamage,
-        context: scene.game.android2
+        context: game.android2
       });
       //al completar su animacion de explsion, dicha instancia se autodestruye
       bombExprosion.on('animationcomplete', function(){
@@ -95,7 +95,7 @@ class draggableBomb extends draggableObject{
         delay: 150,
         callback: () => (unsubscribe1(), unsubscribe2())
       });
-      var bombSound = scene.sound.add('bomb', {volume: scene.game.soundVolume});
+      var bombSound = scene.sound.add('bomb', {volume: game.soundVolume});
       bombSound.play();
       bombInstance.destroy();
     }
@@ -140,16 +140,16 @@ class draggableSpike extends draggableObject{
       spike.setSensor(true).setOrigin(0.5,0.80).setPosition(posX,posY + 4).setStatic(true);
       //se añaden las colisiones dañinas con android 1 y android 2 (si tocan los pinchos se llama a la funcion inflictDamage())
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: spike,
         callback: inflictDamage,
-        context: scene.game.android1
+        context: game.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: spike,
         callback: inflictDamage,
-        context: scene.game.android2
+        context: game.android2
       });
       scene.time.addEvent({
         delay: 4500,
@@ -191,23 +191,23 @@ class draggableLaser extends draggableObject{
       laser.setDepth(5).setSensor(true).setStatic(true);
       //se añaden las colisiones dañinas con android 1 y android 2 (si tocan el laser se llama a la funcion inflictDamage())
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: laser,
         callback: inflictDamage,
-        context: scene.game.android1
+        context: game.android1
       });
       scene.matterCollision.addOnCollideStart({
-        objectA: scene.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: laser,
         callback: inflictDamage,
-        context: scene.game.android2
+        context: game.android2
       });
       scene.time.addEvent({
         delay: 1000,
         callback: () => (laser.destroy())
       });
       laser.anims.play('laserLethalS', true);
-      var laserSound = scene.sound.add('laser', {volume: scene.game.soundVolume});
+      var laserSound = scene.sound.add('laser', {volume: game.soundVolume});
       laserSound.play();
       laserGadget.destroy();
     }

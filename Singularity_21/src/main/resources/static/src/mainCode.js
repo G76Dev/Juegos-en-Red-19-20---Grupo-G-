@@ -61,6 +61,7 @@ game.soundVolume = 0.2;
 game.currentMusic;
 game.android1;
 game.android2;
+game.human;
 
 //Variables de los androides
 game.lives = 10;
@@ -71,6 +72,12 @@ game.airVelocityFraction = 0.3;
 
 var bladeDoorCheck = false;
 
+var hoverSound;
+var selectedSound;
+var isChangingScene;
+
+var colorActivated = 0xFF7373;
+var colorHover = 0xA9A9A9;
 
 //Variables del jugador si se conecta al servidor.
 /*APIREST

@@ -1,9 +1,6 @@
 // Variables del menú,
 var buttonArray;
-var hoverSound;
-var selectedSound;
 var cam;
-var isChangingScene;
 var waitingPlayersText;
 
 var numPlayers = 1;
@@ -13,7 +10,7 @@ function CheckOption12(scene) {
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 465 + 70 * i && scene.input.mousePointer.y < 535 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -43,10 +40,6 @@ class SceneWaiting extends Phaser.Scene {
         // Variable que indica si se está cambiando de escena.
         isChangingScene = false;
 
-        // Añadimos los sonidos a la escena.
-        hoverSound = this.sound.add('menuHover');
-        selectedSound = this.sound.add('menuSelected');
-
         // Añadimos el background y el titulo.
         this.add.image(960/2, 540/2, 'interfazBg');
         this.add.image(960/2, 540/2, 'interfazTitle');
@@ -73,7 +66,7 @@ class SceneWaiting extends Phaser.Scene {
 
             buttonArray = [
             new Button(this, 960/2, 500, 'light', function() {
-                selectedSound.play({ volume: this.scene.game.soundVolume });
+                selectedSound.play({ volume: game.soundVolume });
                 isChangingScene = true;
                 cam.fadeOut(1000);
                 this.scene.time.addEvent({

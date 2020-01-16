@@ -15,25 +15,25 @@ class Monitor {
 
       //Establecemos colisiones con los jugadores androide.
       scene.matterCollision.addOnCollideActive({
-        objectA: scene.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: this.sprite,
         callback: this.showContainer,
         context: this
       });
       scene.matterCollision.addOnCollideEnd({
-        objectA: scene.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: this.sprite,
         callback: this.hideContainer,
         context: this
       });
       scene.matterCollision.addOnCollideActive({
-        objectA: scene.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: this.sprite,
         callback: this.showContainer,
         context: this
       });
       scene.matterCollision.addOnCollideEnd({
-        objectA: scene.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: this.sprite,
         callback: this.hideContainer,
         context: this

@@ -1,10 +1,7 @@
 // Variables del menu.
 var backButton;
-var hoverSound;
-var selectedSound;
 
 var cam;
-var isChangingScene;
 
 var soundVolume = 0.2;
 var musicVolume = 0.3;
@@ -23,7 +20,7 @@ var long = 10;
 function CheckOption9(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
-      hoverSound.play({ volume: scene.game.soundVolume });
+      hoverSound.play({ volume: game.soundVolume });
     backButton.isActive = true;
   }
   else
@@ -50,10 +47,6 @@ class SceneOptions extends Phaser.Scene {
     // Variable que indica si se esta cambiando de escena.
     isChangingScene = false;
 
-    // Añadimos los sonidos a la escena.
-    hoverSound = this.sound.add('menuHover');
-    selectedSound = this.sound.add('menuSelected');
-
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
 
@@ -61,8 +54,8 @@ class SceneOptions extends Phaser.Scene {
     this.add.image(960/2, 540/2, 'options');
 
     // Añadimos los botones deslizantes de cada barra.
-    soundSlider = this.add.image(sliderMinPosX + this.game.soundVolume * (sliderMaxPosX - sliderMinPosX), 186, 'sliderObject');
-    musicSlider = this.add.image(sliderMinPosX + this.game.musicVolume * (sliderMaxPosX - sliderMinPosX), 264, 'sliderObject');
+    soundSlider = this.add.image(sliderMinPosX + game.soundVolume * (sliderMaxPosX - sliderMinPosX), 186, 'sliderObject');
+    musicSlider = this.add.image(sliderMinPosX + game.musicVolume * (sliderMaxPosX - sliderMinPosX), 264, 'sliderObject');
 
     // Añadimos las cruces que indicarán que la musica o los sonidos estan silenciados del todo.
     soundOff = this.add.image(384, 186, 'X');
@@ -73,7 +66,7 @@ class SceneOptions extends Phaser.Scene {
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 405, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -120,16 +113,16 @@ class SceneOptions extends Phaser.Scene {
       currentSlider.x = Math.min(Math.max(this.input.mousePointer.x, sliderMinPosX), sliderMaxPosX);
 
     // Se ajustan los volumenes del sonido y de la musica en funcion de los valores de posicion de los sliders.
-    this.game.soundVolume = (soundSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
-    soundOff.visible = (this.game.soundVolume == 0);
-    this.game.musicVolume = (musicSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
-    musicOff.visible = (this.game.musicVolume == 0);
+    game.soundVolume = (soundSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
+    soundOff.visible = (game.soundVolume == 0);
+    game.musicVolume = (musicSlider.x - sliderMinPosX) / (sliderMaxPosX - sliderMinPosX);
+    musicOff.visible = (game.musicVolume == 0);
 
     // Se ejecuta el update del boton 'back'.
   	backButton.Update(time, delta);
 
     // Se actualiza el volumen de la musica general del juego (el volumen de los sonidos se indica al reproducir los propios sonidos).
-    this.game.currentMusic.volume = this.game.musicVolume;
+    game.currentMusic.volume = game.musicVolume;
 
   }
 }

@@ -17,16 +17,16 @@ class Tesla {
 
     //Establecemos colisiones con los jugadores androide.
     scene.matterCollision.addOnCollideActive({
-      objectA: scene.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       objectB: this.electricSprite,
       callback: inflictDamage,
-      context: scene.game.android1
+      context: game.android1
     });
     scene.matterCollision.addOnCollideActive({
-      objectA: scene.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       objectB: this.electricSprite,
       callback: inflictDamage,
-      context: scene.game.android2
+      context: game.android2
     });
 
     //Función inflictDamaga, que daña a los androides.
@@ -40,7 +40,7 @@ class Tesla {
       this.isReady = false;
       this.scene.time.addEvent({
         delay: del,
-        callback: () => (delayedOn(this.scene, this))
+        callback: () => (delayedOn(this.scene, this), this.sprite.clearTint())
       });
       //Función delayedOn, que activa la tesla.
       function delayedOn(scene, obj) {
