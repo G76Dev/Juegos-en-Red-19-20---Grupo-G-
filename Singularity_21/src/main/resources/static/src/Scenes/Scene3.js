@@ -70,9 +70,9 @@ class Scene3 extends Phaser.Scene {
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    game.android1 = new Android(this, '1', 300, 300, cursors);
+    game.android1 = new Android(this, '1', 70, 440, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    game.android2 = new Android(this, '2', 400, 300, cursors);
+    game.android2 = new Android(this, '2', 120, 440, cursors);
     game.android1.coLink(game.android2);
     game.android2.coLink(game.android1);
 
@@ -223,10 +223,10 @@ class Scene3 extends Phaser.Scene {
     //Barra de progreso.
     const progressBar = this.add.image(480, 12, 'progression_bar');//7200
     progressBar.setScrollFactor(0);
-    p1Tracker = this.add.image(0, 25, 'deathHead1');
-    p1Tracker.setScrollFactor(0).setScale(0.65);
-    p2Tracker = this.add.image(0, 25, 'deathHead2');
-    p2Tracker.setScrollFactor(0).setScale(0.65);
+    p1Tracker = this.add.image(0, 22, 'deathHead1');
+    p1Tracker.setScrollFactor(0).setScale(0.7);
+    p2Tracker = this.add.image(0, 22, 'deathHead2');
+    p2Tracker.setScrollFactor(0).setScale(0.7);
 
     //Pointer del ratón.
     //mouse = this.input.activePointer;
@@ -272,8 +272,8 @@ class Scene3 extends Phaser.Scene {
     }
 
     //Trackers de la barra de progreso.
-    p1Tracker.x = game.android1.sprite.x / 15 + 480;
-    p2Tracker.x = game.android2.sprite.x / 15 + 480;
+    p1Tracker.x = game.android1.sprite.x / 15.7 + 440;
+    p2Tracker.x = game.android2.sprite.x / 15.7 + 440;
 
     //document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }

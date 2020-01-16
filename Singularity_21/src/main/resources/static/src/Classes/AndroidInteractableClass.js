@@ -142,6 +142,7 @@ class DoubleDoor {
     this.increaseY = 0.075;
 
     this.isActive = false;
+    this.hasEyes = false;
 
     this.activator1 = scene.matter.add.sprite(xAct1, yAct1, sprtAct1, 0, { isSensor: true, isStatic: true });
     this.activator2 = scene.matter.add.sprite(xAct2, yAct2, sprtAct2, 0, { isSensor: true, isStatic: true });
@@ -279,8 +280,15 @@ class DoubleDoor {
   objectActivate() {
     if (!this.isActive) {
       this.objectiveY = this.startPosY;
+      if (this.hasEyes) {
+        this.leftEye.destroy();
+        this.RightEye.destroy();
+      }
     } else {
       this.objectiveY = this.endPosY;
+      this.leftEye = this.scene.add.image(1462, 128, 'statueLeft');
+      this.RightEye = this.scene.add.image(1784, 262, 'statueRight');
+      this.hasEyes = true;
     }
   }
   update(time, delta) {

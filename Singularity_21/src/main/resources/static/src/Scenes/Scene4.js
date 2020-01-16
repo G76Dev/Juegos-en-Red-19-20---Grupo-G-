@@ -11,9 +11,7 @@ var androidInteractableItems;
 //Mouse.
 var mouse;
 
-//Trackers para la barra de progreso.
-var p1Tracker;
-var p2Tracker;
+//Barra de progreso.
 var progressBar;
 
 //Variable fadeOut, que controla el fin del nivel.
@@ -302,12 +300,8 @@ class Scene4 extends Phaser.Scene {
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
 
     //Barra de progreso.
-    progressBar = this.add.image(480, 12, 'progression_bar');//7200
+    progressBar = this.add.image(480, 12, 'progression_bar_fb');//7200
     progressBar.setScrollFactor(0);
-    p1Tracker = this.add.image(0, 25, 'deathHead1');
-    p1Tracker.setScrollFactor(0).setScale(0.65);
-    p2Tracker = this.add.image(0, 25, 'deathHead2');
-    p2Tracker.setScrollFactor(0).setScale(0.65);
 
     //Pointer del ratón.
     mouse = this.input.activePointer;
@@ -381,8 +375,6 @@ class Scene4 extends Phaser.Scene {
       this.lifesUI.destroy();
       this.lifesText.destroy();
       progressBar.destroy();
-      p1Tracker.destroy();
-      p2Tracker.destroy();
       usableItems.item_bar.setVisible(false);
       for(var i = 0; i < usableItems.items.length; i++) {
         usableItems.items[i].setVisible(false);
@@ -403,10 +395,6 @@ class Scene4 extends Phaser.Scene {
       scene.scene.start('victory');
     }
 
-    //Trackers de la barra de progreso.
-    p1Tracker.x = game.android1.sprite.x / 15 + 480;
-    p2Tracker.x = game.android2.sprite.x / 15 + 480;
-
-    document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
+    //document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }
 }
