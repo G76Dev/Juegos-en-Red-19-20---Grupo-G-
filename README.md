@@ -28,8 +28,8 @@ Cuenta Github: G76Dev
 
 ## Portales disponibles para jugar al juego
  [Kongregate](https://www.kongregate.com/games/nanateam/21-singularity)
- [RoastmyGame]([Kongregate](https://www.kongregate.com/games/nanateam/21-singularity))
- 
+ [RoastmyGame](https://roastmygame.com/game/21-singularity)
+ [itch.io](https://nanateam.itch.io/21-singularity)
 
 
 # DOCUMENTO DE DISEÑO DE JUEGO
