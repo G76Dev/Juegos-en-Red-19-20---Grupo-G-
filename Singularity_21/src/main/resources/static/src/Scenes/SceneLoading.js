@@ -73,7 +73,13 @@ class SceneLoading extends Phaser.Scene {
         this.load.audio('die', 'assets/Audio/Sounds/Die.wav');
         this.load.audio('menuMusic', 'assets/Audio/Music/MenuMusic.wav');
         this.load.audio('theme', 'assets/Audio/Music/Theme.wav');
-        this.load.audio('theme2', 'assets/Audio/Music/Theme2.wav');
+        this.load.audio('theme2', 'assets/Audio/Music/level_2_music.wav');
+        this.load.audio('eyes_sfx', 'assets/Audio/Sounds/eyes_lv3.wav');
+        this.load.audio('ambience_lv3', 'assets/Audio/Music/level3_ambience.wav');
+        this.load.audio('final_boss_music', 'assets/Audio/Music/final_boss_theme.wav');
+        this.load.audio('human_death_sfx', 'assets/Audio/Sounds/human_death.wav');
+        this.load.audio('victory_music', 'assets/Audio/Music/victory_music.wav');
+        this.load.audio('defeat', 'assets/Audio/Sounds/Defeat.wav');
 
         // Cargamos los elementos correspondientes a Tiled.
         this.load.image("tiles1", "../assets/Tilesets/tileset_industrial_Padded.png");

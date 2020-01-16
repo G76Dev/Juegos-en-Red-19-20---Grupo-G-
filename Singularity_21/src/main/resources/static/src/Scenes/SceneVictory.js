@@ -30,7 +30,7 @@ class SceneVictory extends Phaser.Scene{
 
     // Reproducimos la musica correspondiente.
     game.currentMusic.stop();
-    game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
+    game.currentMusic = this.sound.add('theme2', { loop: true, volume: game.musicVolume });
     game.currentMusic.play();
 
     // Añadimos el background.

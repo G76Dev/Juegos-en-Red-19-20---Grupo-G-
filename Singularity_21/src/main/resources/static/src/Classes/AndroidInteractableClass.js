@@ -288,6 +288,8 @@ class DoubleDoor {
       this.objectiveY = this.endPosY;
       this.leftEye = this.scene.add.image(1462, 128, 'statueLeft');
       this.RightEye = this.scene.add.image(1784, 262, 'statueRight');
+      var eyesSFX = this.scene.sound.add('eyes_sfx', {volume: game.soundVolume});
+      eyesSFX.play();
       this.hasEyes = true;
     }
   }

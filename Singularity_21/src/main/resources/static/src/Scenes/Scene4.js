@@ -36,7 +36,7 @@ class Scene4 extends Phaser.Scene {
     fadeOut = false;
     //Música.
     game.currentMusic.stop();
-    game.currentMusic = this.sound.add('theme2', { loop: true, volume: game.musicVolume });
+    game.currentMusic = this.sound.add('ambience_lv3', { loop: true, volume: game.musicVolume });
     game.currentMusic.play();
 
     //Variables para los elementos interactuables.
@@ -269,7 +269,14 @@ class Scene4 extends Phaser.Scene {
     function inflictDamage({ bodyA, bodyB, pair }) { this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x - bodyB.gameObject.x, bodyA.gameObject.y - bodyB.gameObject.y), 90); }
 
     //Función humanDeath, que mata al humano.
-    function humanDeath({ bodyA, bodyB, pair }) { this.death(); }
+    function humanDeath({ bodyA, bodyB, pair }) {
+
+      game.currentMusic.stop();
+      var humanDeathSFX = this.scene.sound.add('human_death_sfx', {volume: game.soundVolume});
+      humanDeathSFX.play();
+
+
+      this.death(); }
 
     //Elementos animados.
     for (var i = 0; i < extraLifes.length; i++) {
@@ -323,9 +330,13 @@ class Scene4 extends Phaser.Scene {
       trigger2 = true;
     }
     if (trigger1 && trigger2) {
+
       firstFollow.x = 2440;
       firstFollow.y = 320;
       if(trigerCodeOnce){
+        game.currentMusic.stop();
+        game.currentMusic = this.sound.add('final_boss_music', { loop: true, volume: game.musicVolume });
+        game.currentMusic.play();
         trigerCodeOnce = false;
         cam.setZoom(0.9);
         usableItems.bar.x += 50;

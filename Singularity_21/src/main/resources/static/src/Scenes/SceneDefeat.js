@@ -39,7 +39,7 @@ class SceneDefeat extends Phaser.Scene {
 	// Reproducimos la musica correspondiente.
 	game.currentMusic.stop();
 	game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
-    game.currentMusic.play();
+  game.currentMusic.play();
 
     // Añadimos el background.
     this.add.image(960/2, 540/2, 'interfazBg');
