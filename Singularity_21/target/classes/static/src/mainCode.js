@@ -39,7 +39,8 @@ var config = {
       SceneWaiting,
       SceneCharacterSelection,
       SceneServerFull,
-      SceneConnectionFailed
+      SceneConnectionFailed,
+      SceneConnectionFailed2
     ],
 	plugins: {
     //plugin de collisiones de matter  https://github.com/mikewesthad/phaser-matter-collision-plugin
@@ -70,7 +71,7 @@ game.jumpVelocity = 5.05;
 game.moveVelocity = 0.215;
 game.airVelocityFraction = 0.3;
 
-function customTransitionStart(scene, nextSceneKey){
+	function customTransitionStart(scene, nextSceneKey){
 	  var sceneClassName = "";
 	  var sceneArray = scene.scene.manager.scenes;
 
@@ -111,6 +112,8 @@ game.ready = false;
 game.characterSel = -1;
 game.playerName = "";
 game.playerPassword = "";
+
+game.wsMainLoopBool = true;
 
 //Variables del chat
 game.chatColor = "#FF0000";

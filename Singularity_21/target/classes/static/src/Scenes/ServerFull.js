@@ -27,7 +27,9 @@ class SceneServerFull extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-
+	  web.loopWSStop();
+    infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 500.0, 350.0];
+    infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 350.0];
     // Variable que indica si se está cambiando de escena.
     isChangingScene = false;
 

@@ -40,7 +40,7 @@ class Tesla {
       this.isReady = false;
       this.scene.time.addEvent({
         delay: del,
-        callback: () => (delayedOn(this.scene, this))
+        callback: () => (delayedOn(this.scene, this), this.sprite.clearTint())
       });
       //Función delayedOn, que activa la tesla.
       function delayedOn(scene, obj) {

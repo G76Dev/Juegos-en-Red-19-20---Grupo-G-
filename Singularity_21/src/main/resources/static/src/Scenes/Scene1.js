@@ -29,6 +29,11 @@ class Scene1 extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
+    infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 500.0, 350.0];
+    infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 350.0];
+	if(connection != null && connection != undefined){
+		connection.close();
+	}
 	sceneChangeIncoming = true;
 	//web.updateScene(web.scene.manager.getScene(nextSceneKey));
 	this.game.online = false;

@@ -78,7 +78,7 @@ class AndroidInteractableClass {
         //WS
         if(game.online)
         web.sendAndroidInteractable(this.id);
-          
+
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
@@ -89,7 +89,7 @@ class AndroidInteractableClass {
         //WS
         if(game.online)
         web.sendAndroidInteractable(this.id);
-         
+
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
@@ -300,6 +300,46 @@ class ElectricSurfInteractable extends AndroidInteractableClass {
   }
 }
 
+//Clase InteractiveBlade4, para instanciar sierras mecánicas que resetean su posición al chocar.
+class InteractiveBlade4 extends AndroidInteractableClass {
+  constructor(scene, id, blade, xObb, yObj, xAct, yAct, distance) {
+    super(scene, id, true, blade, 0, 0, "", 1, true, xAct, yAct, "pressurePlate", 1);
+
+    this.scene = scene;
+    this.startPosX = xObb;
+    this.endPosX = xObb + distance;
+    this.increaseX = 0;
+
+  }
+  objectActivate() {
+    super.objectActivate();
+    this.isActive = true;
+    super.objectActivate();
+    this.increaseX = 0.1;
+    this.scene.time.addEvent({
+      delay: 500,
+      callback: () => (this.resetActivator(this)),
+    });
+  }
+  resetActivator(obj) {
+    obj.isActive = false;
+    obj.activator.setFrame(0);
+  }
+  reset(obj) {
+    this.increaseX = 0;
+    obj.mainObject.x = obj.startPosX;
+  }
+  update(time, delta) {
+      if (this.collidingAndroid1 || this.collidingAndroid2 && !this.isActive)
+        this.objectActivate();
+
+      if (this.mainObject.x >= this.endPosX && !bladeDoorCheck)
+        this.reset(this);
+
+      this.mainObject.x += this.increaseX * delta;
+  }
+}
+
 //Clase FinishLine, para instanciar una meta para terminar un nivel.
 class FinishLine {
   constructor(scene, id, xObb, yObj) {
@@ -388,6 +428,18 @@ class AndroidInteractablesArray {
 
     this.items[15] = new FinishLine(this.scene, 15, 7084, 464);
   }
+
+  //Inicializamos la escena 4 (nivel 3).
+    initializeScene4(doors, blade) {
+      this.items = [];
+      this.items[0] = new Door(this.scene, 0, doors[0], 1500, 112, "finalActivator", -100);
+      this.items[4] = new Door(this.scene, 4, doors[3], 1738, 182, "finalActivator", -100);
+      //this.items[1] = new DoubleDoorHorizontal(this.scene, 1, doors[1], 2705, 545, "finalActivator2", 1966, 80, "finalActivator2", -100);
+      this.items[1] = new Door(this.scene, 1, doors[1], 2705, 545, "finalActivator2", -100);
+      this.items[2] = new InteractiveBlade4(this.scene, 2, blade, 2430, 102, 2580, 114, 260, doors[2]);
+      this.items[3] = new DoorTimer(this.scene, 3, doors[2], 2514, 209, -100);
+      //this.items[1].mainObject.setDepth(-9);
+    }
   //Función update, que actualiza los elementos de los niveles.
   update(time, delta) {
     for (var i = 0; i < this.items.length; i++) {

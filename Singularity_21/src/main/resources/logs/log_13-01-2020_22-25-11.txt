@@ -1,3 +1,0 @@
-22:25:15 - Server opened
-22:25:26 - WS - Player0 connected.
-22:25:27 - WS - Player1 connected.

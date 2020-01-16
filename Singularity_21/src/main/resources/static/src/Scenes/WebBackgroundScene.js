@@ -1,8 +1,9 @@
 
 var activeScene;
 var sceneChangeIncoming = true;
-var infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 4000.0, -1000.0];
-var infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 4000.0, -1500.0];
+var infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 500.0, 350.0];
+var infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 350.0];
+var connection;
 class WebBackgroundScene extends Phaser.Scene {
   // Constructor de la escena.
   constructor(){
@@ -198,7 +199,9 @@ class WebBackgroundScene extends Phaser.Scene {
         if (numPlayers < 3) {
           document.getElementById("chatArea").innerHTML += "Someone left the server. <br />";
           cam.fadeOut(500);
-          web.game.customTransition(activeScene, 'menu', 500);
+          web.game.customTransition(activeScene, 'connectionFailed2', 500);
+          web.loopServerInfoStop();
+          web.loopChatStop();
         } else {
         }
       }
@@ -288,7 +291,6 @@ class WebBackgroundScene extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-	var connection;
 	this.webSocketLoop;
 	
 	this.startConnectionWS = function(){
@@ -350,24 +352,29 @@ class WebBackgroundScene extends Phaser.Scene {
 	 }
 	 
 	 this.sendAndroidPosAR = function(){
-		 var msge;
-		 if(web.game.characterSel == 0){
-			 msge = {
-				 id : "m",
-				 ms : [web.game.android1.playerMovementArray[0], web.game.android1.playerMovementArray[1], web.game.android1.playerMovementArray[2], web.game.android1.playerMovementArray[3], web.game.android1.playerMovementArray[4] , web.game.android1.playerMovementArray[5], web.game.android1.playerMovementArray[6]]
+		 if(connection.readyState === connection.OPEN){
+			 var msge;
+			 if(web.game.characterSel == 0){
+				 msge = {
+					 id : "m",
+					 ms : [web.game.android1.playerMovementArray[0], web.game.android1.playerMovementArray[1], web.game.android1.playerMovementArray[2], web.game.android1.playerMovementArray[3], web.game.android1.playerMovementArray[4] , web.game.android1.playerMovementArray[5], web.game.android1.playerMovementArray[6]]
+				 }
+			 }else if(web.game.characterSel == 1){
+				 msge = {
+					 id : "f",
+					 ms : [web.game.android2.playerMovementArray[0], web.game.android2.playerMovementArray[1], web.game.android2.playerMovementArray[2], web.game.android2.playerMovementArray[3], web.game.android2.playerMovementArray[4] , web.game.android2.playerMovementArray[5], web.game.android2.playerMovementArray[6]]
+				 }
+			 }else if(web.game.characterSel == 2){
+				 msge = {
+					 id : "h",
+					 ms : 0
+				 }
 			 }
-		 }else if(web.game.characterSel == 1){
-			 msge = {
-				 id : "f",
-				 ms : [web.game.android2.playerMovementArray[0], web.game.android2.playerMovementArray[1], web.game.android2.playerMovementArray[2], web.game.android2.playerMovementArray[3], web.game.android2.playerMovementArray[4] , web.game.android2.playerMovementArray[5], web.game.android2.playerMovementArray[6]]
-			 }
-		 }else if(web.game.characterSel == 2){
-			 msge = {
-				 id : "h",
-				 ms : 0
-			 }
+			 connection.send(JSON.stringify(msge))
+			 
+		 }else if(connection.readyState === connection.CLOSED){
+			 this.loopWSStop();
 		 }
-		 connection.send(JSON.stringify(msge))
 	 }
 	 
 	 this.recieveAndroidsPosAR = function(recievedArray1, recievedArray2){

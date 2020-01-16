@@ -79,7 +79,7 @@ class Scene2 extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(lethallayer);
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
-    
+
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
     cursors2 = cursors;
     switch(this.game.characterSel){
@@ -101,6 +101,8 @@ class Scene2 extends Phaser.Scene {
 	    	android2INPUT = false;
 	    	break;
     }
+    infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 500.0, 350.0];
+    infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 350.0];
     this.game.android1 = new Android(this, '1', 500, 350, android1INPUT, cursors);
     this.game.android2 = new Android(this, '2', 400, 350, android2INPUT, cursors2);
     this.game.android1.coLink(this.game.android2);
@@ -227,8 +229,8 @@ class Scene2 extends Phaser.Scene {
     blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0);
     blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0);
 
-    blueRays[6] = this.matter.add.sprite(800, 400, "blueRay", 0); //3054
-    blueRays[7] = this.matter.add.sprite(800, 400, "blueRay", 0); //3086
+    blueRays[6] = this.matter.add.sprite(3054, 400, "blueRay", 0); //
+    blueRays[7] = this.matter.add.sprite(3086, 400, "blueRay", 0); //
 
     //Colisiones con los jugadores androides.
     for (var i = 0; i < orangeRays.length; i++) {
@@ -404,8 +406,13 @@ class Scene2 extends Phaser.Scene {
     p2Tracker.setScrollFactor(0).setScale(0.65);
 
     //WS
-    if(this.game.online)
+    if(this.game.online){
     	web.loopWSStart()
+    }
+    this.time.addEvent({
+      delay: 1500,
+      callback: () => (game.lives = 10)
+    });
   } //Fin create.
 
   //Pointer del ratón.
@@ -419,7 +426,7 @@ class Scene2 extends Phaser.Scene {
       this.cameras.main.fadeOut(1000);
       this.game.customTransition(this, 'defeat', 1000);
     }
-    
+
     switch(this.game.characterSel){
     case -1:
         firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
@@ -437,13 +444,13 @@ class Scene2 extends Phaser.Scene {
 		if(cursors.up.isDown && firstFollow.y > 270){
     		firstFollow.y -= 6;
     	}
-    	if(cursors.coop.isDown && firstFollow.y < 640){
+    	if(cursors.coop.isDown && firstFollow.y < 640 - 270){
     		firstFollow.y += 6;
     	}
     	if(cursors.right.isDown && firstFollow.x < 8290 - 480){
     		firstFollow.x += 6;
     	}
-    	if(cursors.left.isDown && firstFollow.x > 0){
+    	if(cursors.left.isDown && firstFollow.x > 480){
     		firstFollow.x -= 6;
     	}
     	break;

@@ -33,6 +33,7 @@ class ElectricSurface {
   }
   //Función turnOn, que enciende la superficie eléctrica.
   turnOn(scene, posX, posY, sprtElec, animElec){
+    this.sprite.clearTint();
     this.elecSprite.setVisible(true);
     this.unsubscribe1 = this.scene.matterCollision.addOnCollideActive({
       objectA: this.scene.game.android1.mainBody,

@@ -90,6 +90,8 @@ class Scene3 extends Phaser.Scene {
 	    	android2INPUT = false;
 	    	break;
     }
+    infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 300.0, 300.0];
+    infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 300.0];
     this.game.android1 = new Android(this, '1', 300, 300, android1INPUT, cursors);
     this.game.android2 = new Android(this, '2', 400, 300, android2INPUT, cursors2);
     this.game.android1.coLink(this.game.android2);
@@ -261,7 +263,7 @@ class Scene3 extends Phaser.Scene {
       this.cameras.main.fadeOut(1000);
       this.game.customTransition(this, 'defeat', 1000);
     }
-    
+
     switch(this.game.characterSel){
     case -1:
         firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
@@ -279,13 +281,13 @@ class Scene3 extends Phaser.Scene {
 		if(cursors.up.isDown && firstFollow.y > 270){
     		firstFollow.y -= 6;
     	}
-    	if(cursors.coop.isDown && firstFollow.y < 640){
+    	if(cursors.coop.isDown && firstFollow.y < 640 - 270){
     		firstFollow.y += 6;
     	}
     	if(cursors.right.isDown && firstFollow.x < 8290 - 480){
     		firstFollow.x += 6;
     	}
-    	if(cursors.left.isDown && firstFollow.x > 0){
+    	if(cursors.left.isDown && firstFollow.x > 480){
     		firstFollow.x -= 6;
     	}
     	break;
@@ -305,7 +307,7 @@ class Scene3 extends Phaser.Scene {
     if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
-  	  this.game.customTransition(this, 'victory', 2000);
+  	  this.game.customTransition(this, 'level3', 2000);
     }
 
     //Trackers de la barra de progreso.

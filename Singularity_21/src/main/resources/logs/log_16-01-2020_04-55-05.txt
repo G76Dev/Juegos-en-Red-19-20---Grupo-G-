@@ -1,0 +1,28 @@
+04:55:09 - Server opened
+04:55:39 - WS - Player0 connected.
+04:55:39 - Player connected: 34G34G, id: 0, IP: 90.173.205.194
+04:55:40 - WS - Player1 connected.
+04:55:40 - Player connected: 56JH56J, id: 1, IP: 90.173.205.194
+04:55:40 - WS - Player2 connected.
+04:55:40 - Player connected: 7J67J67J, id: 2, IP: 90.173.205.194
+04:55:43 - 34G34G selected character 0
+04:55:43 - 56JH56J selected character 1
+04:55:44 - 7J67J67J selected character 2
+04:58:56 - WS - Player1 disconnected.
+04:58:59 - Player disconected: 56JH56J, id: 1, IP: 90.173.205.194
+04:59:02 - Player disconected: 7J67J67J, id: 1, IP: 90.173.205.194
+04:59:02 - Player disconected: 34G34G, id: 0, IP: 90.173.205.194
+04:59:24 - WS - Player3 connected.
+04:59:24 - Player connected: 34G34G2, id: 0, IP: 90.173.205.194
+04:59:26 - WS - Player4 connected.
+04:59:28 - WS - Player5 connected.
+04:59:28 - Player connected: 345345234, id: 1, IP: 90.173.205.194
+04:59:30 - WS - Player6 connected.
+04:59:30 - Player connected: 7J67J67J5, id: 2, IP: 90.173.205.194
+04:59:31 - WS - Player3 disconnected.
+04:59:32 - 34G34G2 selected character -1
+04:59:32 - 34G34G2 selected character 0
+04:59:33 - WS - Player6 disconnected.
+04:59:33 - 345345234 selected character 1
+04:59:34 - 7J67J67J5 selected character -1
+04:59:34 - 7J67J67J5 selected character 2

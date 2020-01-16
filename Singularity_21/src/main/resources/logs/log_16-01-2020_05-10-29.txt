@@ -1,0 +1,13 @@
+05:10:33 - Server opened
+05:10:59 - WS - Player0 connected.
+05:10:59 - Player connected: H45H65H, id: 0, IP: 90.173.205.194
+05:10:59 - WS - Player1 connected.
+05:10:59 - Player connected: GEG34, id: 1, IP: 90.173.205.194
+05:11:00 - WS - Player2 connected.
+05:11:00 - Player connected: 43HG34G, id: 2, IP: 90.173.205.194
+05:11:03 - H45H65H selected character 0
+05:11:03 - GEG34 selected character 1
+05:11:04 - 43HG34G selected character 2
+05:11:11 - Player disconected: 43HG34G, id: 2, IP: 90.173.205.194
+05:11:11 - Player disconected: GEG34, id: 1, IP: 90.173.205.194
+05:11:12 - Player disconected: H45H65H, id: 0, IP: 90.173.205.194
