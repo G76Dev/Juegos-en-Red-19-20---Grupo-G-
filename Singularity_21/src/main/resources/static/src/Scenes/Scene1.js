@@ -100,7 +100,7 @@ class Scene1 extends Phaser.Scene {
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
 				delay: 1000,
-				callback: () => LoadScene(this.scene, 'level3') //Nivel al que lleva el boton de "Local"
+				callback: () => LoadScene(this.scene, 'level2') //Nivel al que lleva el boton de "Local"
 			});
   		}),
       //Boton "Options"

@@ -76,10 +76,10 @@ class SceneLoading extends Phaser.Scene {
         this.load.audio('theme2', 'assets/Audio/Music/Theme2.wav');
 
         // Cargamos los elementos correspondientes a Tiled.
-        this.load.image("tiles1", "../assets/Tilesets/tileset_industrial.png");
+        this.load.image("tiles1", "../assets/Tilesets/tileset_industrial_Padded.png");
         this.load.tilemapTiledJSON("map1", "../assets/Mapas/Industrial_Easy.json");
 
-        this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica.png");
+        this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica_Padded.png");
         this.load.tilemapTiledJSON("map2", "../assets/Mapas/Electrical_medium.json");
 
         this.load.image("tiles3", "../assets/Tilesets/final_room_tileset_Padded.png");

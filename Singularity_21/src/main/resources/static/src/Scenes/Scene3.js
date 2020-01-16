@@ -42,7 +42,7 @@ class Scene3 extends Phaser.Scene {
 
     //Backgrounds.
     this.add.image(480, 270, 'bg_e').setScrollFactor(0).setDepth(-503);
-    this.add.image(1300, 290, 'bg1_e').setScale(2).setScrollFactor(0.25).setDepth(-502);
+    this.add.image(1300, 350, 'bg1_e').setScale(2).setScrollFactor(0.25).setDepth(-502);
     this.add.image(1100, 320, 'bg2_e').setScale(2).setScrollFactor(0.5).setDepth(-501);
     this.add.image(1200, 400, 'bg3_e').setScale(2).setScrollFactor(0.75).setDepth(-500);
 

@@ -607,12 +607,12 @@
         {
          "columns":38,
          "firstgid":1,
-         "image":"..\/Asset Dev\/Tilesets\/Central Electrica\/Tileset_central_electrica.png",
-         "imageheight":512,
-         "imagewidth":1216,
-         "margin":0,
+         "image":"..\/Tilesets\/Tileset_central_electrica_Padded.png",
+         "imageheight":544,
+         "imagewidth":1292,
+         "margin":1,
          "name":"electrical_tileset",
-         "spacing":0,
+         "spacing":2,
          "tilecount":608,
          "tileheight":32,
          "tiles":[
@@ -6884,7 +6884,7 @@
         {
          "columns":21,
          "firstgid":609,
-         "image":"..\/Asset Dev\/Tilesets\/Industrial\/Tileset Industrial.png",
+         "image":"..\/..\/..\/..\/..\/..\/..\/..\/Asset Dev\/Tilesets\/Industrial\/Tileset Industrial.png",
          "imageheight":928,
          "imagewidth":672,
          "margin":0,
