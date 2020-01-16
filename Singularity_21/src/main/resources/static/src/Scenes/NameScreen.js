@@ -15,7 +15,7 @@ function CheckOption3(scene) {
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 395 + 70 * i && scene.input.mousePointer.y < 465 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -53,13 +53,13 @@ class SceneName extends Phaser.Scene {
     this.add.image(960/2, 540/2, 'text_enterYourName');
 
     // Añadimos el texto correspondiente al nombre del jugador dentro de la partida.
-    nameText = this.add.text(960/2, 240, this.game.playerName, { fontFamily: 'Impact', fontSize: '32px', fill: '#fff', align: 'center', }).setDepth(1);
+    nameText = this.add.text(960/2, 240, game.playerName, { fontFamily: 'Impact', fontSize: '32px', fill: '#fff', align: 'center', }).setDepth(1);
     nameText.setStroke('rgba(0,0,0,1)', 4);
     passText = this.add.text(960/2, 340, "", { fontFamily: 'Impact', fontSize: '32px', fill: '#fff', align: 'center', }).setDepth(1);
     passText.setStroke('rgba(0,0,0,1)', 4);
     errorText = this.add.text(960/2, 385, "", { fontFamily: 'Arial', fontSize: '14px', fill: '#f00', align: 'center', }).setDepth(1);
     errorText.setStroke('rgba(0,0,0,1)', 4);
-    actualScene.game.playerPassword = "";
+    game.playerPassword = "";
 
     // Funcion que detecta las teclas pulsadas (hecho con HTML y javascript puro).
     document.addEventListener('keydown', function(event) {
@@ -76,15 +76,15 @@ class SceneName extends Phaser.Scene {
         else if (canWritePass) {
           var character = event.which || event.keyCode;
 
-          if (character == 8 && actualScene.game.playerPassword.length > 0)
-        	  actualScene.game.playerPassword = actualScene.game.playerPassword.substring(0, actualScene.game.playerPassword.length - 1);
+          if (character == 8 && game.playerPassword.length > 0)
+        	  game.playerPassword = game.playerPassword.substring(0, game.playerPassword.length - 1);
           else if (((character >= 65 && character <= 90) || (character >= 97 && character <= 122) || (character >= 48 && character <= 57)) && actualScene.game.playerPassword.length < 14)
-        	  actualScene.game.playerPassword += String.fromCharCode(character);
+        	  game.playerPassword += String.fromCharCode(character);
           else if (character == 32)
-        	  actualScene.game.playerPassword += " ";
+        	  game.playerPassword += " ";
 
           var passHidden = "";
-          for(var i = 0; i < actualScene.game.playerPassword.length; i++)
+          for(var i = 0; i < game.playerPassword.length; i++)
             passHidden += "*";
           passText.setText(passHidden);
         }
@@ -166,12 +166,12 @@ class SceneName extends Phaser.Scene {
         new Button(this, 960/2, 430, 'light', function() {
 
 
-        selectedSound.play({ volume: this.scene.game.soundVolume });
-        if (actualScene.game.playerPassword.length < 4 && this.scene.game.playerName.length < 4)
+        selectedSound.play({ volume: game.soundVolume });
+        if (game.playerPassword.length < 4 && game.playerName.length < 4)
           errorText.setText("Password and name are too short.");
         else if (nameText.text.length < 4)
           errorText.setText("Name is too short.");
-        else if (actualScene.game.playerPassword.length < 4)
+        else if (game.playerPassword.length < 4)
           errorText.setText("Password is too short.");
         // Preguntar al servidor para comparar usuario y contraseña. Si no coinciden, no continuar.
         //if(!Coincide)
@@ -189,7 +189,7 @@ class SceneName extends Phaser.Scene {
         }
         },),
       new Button(this, 960/2, 500, 'light', function() {
-        selectedSound.play({ volume: this.scene.game.soundVolume });
+        selectedSound.play({ volume: game.soundVolume });
         isChangingScene = true;
         canWriteName = false;
         canWritePass = false;
@@ -250,11 +250,11 @@ class SceneName extends Phaser.Scene {
       buttonArray[i].Update(time, delta);
     }
 
-    this.game.playerName = nameText.text;
+    game.playerName = nameText.text;
     nameText.setOrigin(0.5, 0.5);
     passText.setOrigin(0.5, 0.5);
     errorText.setOrigin(0.5, 0.5);
 
-    console.log(this.game.playerPassword.length);
+    console.log(game.playerPassword.length);
   }
 }

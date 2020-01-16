@@ -14,6 +14,7 @@ var mouse;
 //Trackers para la barra de progreso.
 var p1Tracker;
 var p2Tracker;
+var progressBar;
 
 //Variable fadeOut, que controla el fin del nivel.
 var fadeOut;
@@ -24,6 +25,7 @@ const movingP2 = [];
 
 var trigger1 = false;
 var trigger2 = false;
+var trigerCodeOnce = true;
 
 //Clase Scene4, que extiende de Phaser.Scene.
 class Scene4 extends Phaser.Scene {
@@ -35,9 +37,9 @@ class Scene4 extends Phaser.Scene {
     this.shouldBeActive = true;
     fadeOut = false;
     //Música.
-    this.game.currentMusic.stop();
-    this.game.currentMusic = this.sound.add('theme2', { loop: true, volume: this.game.musicVolume });
-    this.game.currentMusic.play();
+    game.currentMusic.stop();
+    game.currentMusic = this.sound.add('theme2', { loop: true, volume: game.musicVolume });
+    game.currentMusic.play();
 
     //Variables para los elementos interactuables.
     const doors = [];
@@ -86,22 +88,25 @@ class Scene4 extends Phaser.Scene {
 
     //Generamos las teclas y las añadimos a cada jugador androide, creándolos.
     var cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.W, 'left': Phaser.Input.Keyboard.KeyCodes.A, 'right': Phaser.Input.Keyboard.KeyCodes.D, 'coop': Phaser.Input.Keyboard.KeyCodes.S });
-    this.game.android1 = new Android(this, '1', 300, 300, cursors);
+    game.android1 = new Android(this, '1', 68, 230, cursors);
     cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP, 'left': Phaser.Input.Keyboard.KeyCodes.LEFT, 'right': Phaser.Input.Keyboard.KeyCodes.RIGHT, 'coop': Phaser.Input.Keyboard.KeyCodes.DOWN });
-    this.game.android2 = new Android(this, '2', 400, 300, cursors);
-    this.game.android1.coLink(this.game.android2);
-    this.game.android2.coLink(this.game.android1);
+    game.android2 = new Android(this, '2', 132, 230, cursors);
+    game.android1.coLink(game.android2);
+    game.android2.coLink(game.android1);
+
+    game.human = new Human(this, 2782, 80);
+    game.human.sprite.anims.play('humanS', true);
 
     //Colisiones con los jugadores androides.
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       callback: lethalCollide,
-      context: this.game.android1
+      context: game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       callback: lethalCollide,
-      context: this.game.android2
+      context: game.android2
     });
 
     //Función lethalCollide, que comprueba si la colisión con los pinchos ha sido letal.
@@ -112,6 +117,10 @@ class Scene4 extends Phaser.Scene {
         this.damaged(new Phaser.Math.Vector2(0, -(this.sprite.y - gameObjectB.y)), 60);
       }
     }
+
+    trigger1 = false;
+    trigger2 = false;
+    trigerCodeOnce = true;
 
     //Elementos interactuables.
     //Sierra mecánica Grande.
@@ -124,39 +133,47 @@ class Scene4 extends Phaser.Scene {
 
     //Colisiones con los jugadores androides.
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       objectB: bladesBig,
       callback: inflictDamage,
-      context: this.game.android1
+      context: game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       objectB: bladesBig,
       callback: inflictDamage,
-      context: this.game.android2
+      context: game.android2
     });
 
     //Sierra mecánica pequeña.
     bladeDoorCheck = false;
-    const blade = this.matter.add.sprite(2452, 102, "rBlade", 0);
+    const blade = this.matter.add.sprite(2430, 102, "rBlade", 0);
     //Cambiamos su collider y la hacemos estática y sensor.
-    blade.setCircle(30).setScale(1);
+    blade.setCircle(30).setScale(1).setDepth(-6);
     blade.setStatic(true).setSensor(true);
     //Reproducimos su animación.
     blade.anims.play('rotatingBlade', true);
 
     //Colisiones con los jugadores androides.
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android1.mainBody,
+      objectA: game.android1.mainBody,
       objectB: blade,
       callback: inflictDamage,
-      context: this.game.android1
+      context: game.android1
     });
     this.matterCollision.addOnCollideStart({
-      objectA: this.game.android2.mainBody,
+      objectA: game.android2.mainBody,
       objectB: blade,
       callback: inflictDamage,
-      context: this.game.android2
+      context: game.android2
+    });
+
+    //Colision con el humano.
+    this.matterCollision.addOnCollideStart({
+      objectA: game.human.sprite,
+      objectB: blade,
+      callback: humanDeath,
+      context: game.human
     });
 
     //Plataforma que se mueve
@@ -171,13 +188,13 @@ class Scene4 extends Phaser.Scene {
 
 
     //Puertas
-     doors[0] = this.matter.add.sprite(1902, 590, "orangeDoor1", 0); //x 1902 y 462
+     doors[0] = this.matter.add.sprite(1904, 464, "orangeDoor1", 0); //x 1902 y 462
      doors[1] = this.matter.add.sprite(2480, 162, "orangeDoor1", 0);
      doors[2] = this.matter.add.sprite(2738, 80, "orangeDoor1", 0);
 
     //Cinta mecanica
     conveyers[0] = new Conveyer(this, 2544, 602, "conveyer_4",'conveyer4S', 352, -2);
-    conveyers[0].sprite.setRectangle(332, 10);
+    conveyers[0].sprite.setRectangle(332, 10).setStatic(true).setFixedRotation(true);
 
     //presas hidraulicas
     presses2[0] = new Press(this, 2540, 440, "pressI");
@@ -197,16 +214,16 @@ class Scene4 extends Phaser.Scene {
       blueRaysTimer[i].setAngle(90);
       blueRaysTimer[i].setStatic(true).setSensor(true);
       this.matterCollision.addOnCollideStart({
-        objectA: this.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: blueRaysTimer[i],
         callback: inflictDamage,
-        context: this.game.android1
+        context: game.android1
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: blueRaysTimer[i],
         callback: inflictDamage,
-        context: this.game.android2
+        context: game.android2
       });
     }
 
@@ -230,13 +247,13 @@ class Scene4 extends Phaser.Scene {
       extraLifes[i].setStatic(true).setSensor(true);
 
       this.matterCollision.addOnCollideStart({
-        objectA: this.game.android1.mainBody,
+        objectA: game.android1.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
       });
       this.matterCollision.addOnCollideStart({
-        objectA: this.game.android2.mainBody,
+        objectA: game.android2.mainBody,
         objectB: extraLifes[i],
         callback: addLife,
         context: this
@@ -245,13 +262,16 @@ class Scene4 extends Phaser.Scene {
 
     //Función addLife, que añade una vida a los jugadores androide.
     function addLife({ gameObjectB }) {
-      this.game.lives++;
-      this.lifesText.setText("" + this.game.lives);
+      game.lives++;
+      this.lifesText.setText("" + game.lives);
       gameObjectB.destroy();
     }
 
     //Función inflictDamage, que hiere a los androides.
     function inflictDamage({ bodyA, bodyB, pair }) { this.damaged(new Phaser.Math.Vector2(bodyA.gameObject.x - bodyB.gameObject.x, bodyA.gameObject.y - bodyB.gameObject.y), 90); }
+
+    //Función humanDeath, que mata al humano.
+    function humanDeath({ bodyA, bodyB, pair }) { this.death(); }
 
     //Elementos animados.
     for (var i = 0; i < extraLifes.length; i++) {
@@ -262,7 +282,7 @@ class Scene4 extends Phaser.Scene {
     //Mostramos las vidas por pantalla.
     this.lifesUI = this.add.image(66, 56,'lifesUI');
     this.lifesUI.setScrollFactor(0).setDepth(100);
-    this.lifesText = this.add.text(72, 38, "" + this.game.lives, { fontSize: '32px', fill: '#FFFFFF', fontFamily: 'Consolas' });
+    this.lifesText = this.add.text(72, 38, "" + game.lives, { fontSize: '32px', fill: '#FFFFFF', fontFamily: 'Consolas' });
     this.lifesText.setScrollFactor(0).setDepth(100).setStroke('#FF9E37', 4);
 
     //Instancia de barra de objetos.
@@ -282,7 +302,7 @@ class Scene4 extends Phaser.Scene {
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
 
     //Barra de progreso.
-    const progressBar = this.add.image(480, 12, 'progression_bar');//7200
+    progressBar = this.add.image(480, 12, 'progression_bar');//7200
     progressBar.setScrollFactor(0);
     p1Tracker = this.add.image(0, 25, 'deathHead1');
     p1Tracker.setScrollFactor(0).setScale(0.65);
@@ -296,7 +316,7 @@ class Scene4 extends Phaser.Scene {
   //Función update, que actualiza el estado de la escena.
   update(time, delta) {
     //Si las vidas son igual o menores que 0, se acaba la partida.
-    if(this.game.lives <= 0 && this.shouldBeActive){
+    if(game.lives <= 0 && this.shouldBeActive){
       this.shouldBeActive = false;
       this.cameras.main.fadeOut(1000);
       this.time.addEvent({
@@ -307,22 +327,37 @@ class Scene4 extends Phaser.Scene {
       function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     }
 
-    if (this.game.android1.sprite.x > 2020) {
+    if (game.android1.sprite.x > 2020) {
       trigger1 = true;
     }
-    if (this.game.android2.sprite.x > 2020) {
+    if (game.android2.sprite.x > 2020) {
       trigger2 = true;
     }
     if (trigger1 && trigger2) {
       firstFollow.x = 2440;
       firstFollow.y = 320;
-      cam.setZoom(0.9);
-
+      if(trigerCodeOnce){
+        trigerCodeOnce = false;
+        cam.setZoom(0.9);
+        usableItems.bar.x += 50;
+        usableItems.item_bar.x += 50;
+        for(var i=0; i<usableItems.items.length; i++){
+          usableItems.items[i].x += 50;
+        }
+        progressBar.y -= 30;
+        this.lifesUI.x += 275;
+        this.lifesText.x += 275;
+      }
     } else {
-      firstFollow.x = Math.max(this.game.android1.sprite.x, this.game.android2.sprite.x);
-      firstFollow.y = Math.max(Math.min((this.game.android1.sprite.y + this.game.android2.sprite.y) / 2, 360), -500);
+      firstFollow.x = Math.max(game.android1.sprite.x, game.android2.sprite.x);
+      firstFollow.y = Math.max(Math.min((game.android1.sprite.y + game.android2.sprite.y) / 2, 360), -500);
     }
 
+    //Si el humano muere, girarlo
+    if (game.human.dead) {
+      game.human.deadSprite.setAngle(game.human.deadSprite.angle + 1);
+      game.human.deadSprite.setVelocityY(game.human.deadSprite.body.velocity.y -0.14);
+    }
 
     //Interactuables.
     usableItems.update(time, delta);
@@ -340,8 +375,23 @@ class Scene4 extends Phaser.Scene {
       movingP2[i].update(time,delta);
     }
 
-    //Si ambos llegan al final del nivel, hacemos transición al siguiente.
-    if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
+    //Si el humano muere, borrar la interfaz
+    if (!game.human.canDie) {
+      game.human.canDie = true;
+      this.lifesUI.destroy();
+      this.lifesText.destroy();
+      progressBar.destroy();
+      p1Tracker.destroy();
+      p2Tracker.destroy();
+      usableItems.item_bar.setVisible(false);
+      for(var i = 0; i < usableItems.items.length; i++) {
+        usableItems.items[i].setVisible(false);
+      }
+      usableItems.bar.setVisible(false);
+    }
+
+    //Si consiguen acabar con el jugador humano, hacemos transición a la pantalla de victoria.
+    if(game.android1.arrived && game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
       this.time.addEvent({
@@ -354,8 +404,8 @@ class Scene4 extends Phaser.Scene {
     }
 
     //Trackers de la barra de progreso.
-    p1Tracker.x = this.game.android1.sprite.x / 15 + 480;
-    p2Tracker.x = this.game.android2.sprite.x / 15 + 480;
+    p1Tracker.x = game.android1.sprite.x / 15 + 480;
+    p2Tracker.x = game.android2.sprite.x / 15 + 480;
 
     document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }

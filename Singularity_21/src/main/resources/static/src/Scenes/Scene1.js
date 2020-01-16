@@ -10,7 +10,7 @@ function CheckOption13(scene) {
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 179 + 70 * i && scene.input.mousePointer.y < 249 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -29,7 +29,7 @@ class Scene1 extends Phaser.Scene {
   // Funcion create, que crea los elementos del propio juego.
   create ()
   {
-	this.game.online = false;
+	game.online = false;
 	var actualScene = this;
 	// Variable que indica si se está cambiando de escena.
 	isChangingScene = false;
@@ -84,7 +84,7 @@ class Scene1 extends Phaser.Scene {
   	buttonArray = [                           // Este parametro recibe una funcion que se ejecuta al presionar el boton.
       //Boton "Online"
   		new Button(this, 960/2, 214, 'light', function() {
-  			selectedSound.play({ volume: this.scene.game.soundVolume });
+  			selectedSound.play({ volume: game.soundVolume });
   			//AIREST getServerInfo(actualScene, actualScene.game.serverIP);
         isChangingScene = true;
   			cam.fadeOut(1000);
@@ -95,7 +95,7 @@ class Scene1 extends Phaser.Scene {
   		}),
       //Boton "Local"
   		new Button(this, 960/2, 284, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -105,7 +105,7 @@ class Scene1 extends Phaser.Scene {
   		}),
       //Boton "Options"
   		new Button(this, 960/2, 354, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -115,7 +115,7 @@ class Scene1 extends Phaser.Scene {
   		}),
       //Boton "Credits"
   		new Button(this, 960/2, 420, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
@@ -125,7 +125,7 @@ class Scene1 extends Phaser.Scene {
 		  },),
       //Boton Tutorial
 		new Button(this, 960/2, 486, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({

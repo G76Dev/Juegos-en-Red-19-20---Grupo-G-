@@ -13,7 +13,7 @@ function CheckOption12(scene) {
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 465 + 70 * i && scene.input.mousePointer.y < 535 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -73,7 +73,7 @@ class SceneWaiting extends Phaser.Scene {
 
             buttonArray = [
             new Button(this, 960/2, 500, 'light', function() {
-                selectedSound.play({ volume: this.scene.game.soundVolume });
+                selectedSound.play({ volume: game.soundVolume });
                 isChangingScene = true;
                 cam.fadeOut(1000);
                 this.scene.time.addEvent({

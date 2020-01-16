@@ -17,8 +17,8 @@ class SplashScreen extends Phaser.Scene {
     cam.fadeIn(1000);
 
     function StartMenu(scene) {
-      scene.game.currentMusic = scene.sound.add('menuMusic', { loop: true, volume: scene.game.musicVolume });
-      scene.game.currentMusic.play();
+      game.currentMusic = scene.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
+      game.currentMusic.play();
       scene.scene.start('menu');
     }
 

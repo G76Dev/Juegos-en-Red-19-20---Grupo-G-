@@ -205,13 +205,16 @@ class SceneLoading extends Phaser.Scene {
 
         this.load.image('progression_bar', 'assets/Interfaz/InGame/progression_bar.png');
 
+        this.load.spritesheet('humanImg', 'assets/Sprites/human.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('humanImgDead', 'assets/Sprites/human_die.png', { frameWidth: 32, frameHeight: 64 });
+
         // Codigo relativo a la barra de carga.
         let background = this.add.graphics({
             fillStyle: {
                 color: 0x404040
             }
         });
-        background.fillRect(0, 0, this.game.renderer.width, this.game.renderer.height);
+        background.fillRect(0, 0, game.renderer.width, game.renderer.height);
 
         let loadingBar = this.add.graphics({
             lineStyle: {
@@ -224,8 +227,8 @@ class SceneLoading extends Phaser.Scene {
         });
 
         let loadingText = this.make.text({
-            x: this.game.renderer.width / 2,
-            y: this.game.renderer.height / 2 - 20,
+            x: game.renderer.width / 2,
+            y: game.renderer.height / 2 - 20,
             text: 'Please wait...',
             style: {
                 font: '18px Monaco',
@@ -235,8 +238,8 @@ class SceneLoading extends Phaser.Scene {
         loadingText.setOrigin(0.5, 0.5);
 
         let percentText = this.make.text({
-            x: this.game.renderer.width / 2,
-            y: this.game.renderer.height / 2 + 10,
+            x: game.renderer.width / 2,
+            y: game.renderer.height / 2 + 10,
             text: '0%',
             style: {
                 font: '14px Impact',
@@ -246,8 +249,8 @@ class SceneLoading extends Phaser.Scene {
         percentText.setOrigin(0.5, 0.5);
 
         let assetText = this.make.text({
-            x: this.game.renderer.width / 2,
-            y: this.game.renderer.height / 2 + 40,
+            x: game.renderer.width / 2,
+            y: game.renderer.height / 2 + 40,
             text: '',
             style: {
                 font: '18px Monaco',
@@ -260,13 +263,13 @@ class SceneLoading extends Phaser.Scene {
             loadingBar.clear();
             percentText.setText(parseInt(percent * 100) + '%');
 
-            loadingBar.fillRect(this.game.renderer.width / 2 - this.game.renderer.width / 8,
-                this.game.renderer.height / 2,
-                this.game.renderer.width * percent / 4,
+            loadingBar.fillRect(game.renderer.width / 2 - game.renderer.width / 8,
+                game.renderer.height / 2,
+                game.renderer.width * percent / 4,
                 20);
-            loadingBar.strokeRect(this.game.renderer.width / 2 - this.game.renderer.width / 8,
-                this.game.renderer.height / 2,
-                this.game.renderer.width / 4,
+            loadingBar.strokeRect(game.renderer.width / 2 - game.renderer.width / 8,
+                game.renderer.height / 2,
+                game.renderer.width / 4,
                 20);
         })
 
@@ -561,6 +564,18 @@ class SceneLoading extends Phaser.Scene {
             key: 'teslaHumanS',
             frames: this.anims.generateFrameNumbers('teslaHumanON', { start: 0, end: 8 }),
             frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'humanS',
+            frames: this.anims.generateFrameNumbers('humanImg', { start: 0, end: 1 }),
+            frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'humanDieS',
+            frames: this.anims.generateFrameNumbers('humanImgDead', { start: 0, end: 1 }),
+            frameRate: 6,
             repeat: -1
         });
 

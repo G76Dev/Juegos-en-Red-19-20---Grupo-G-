@@ -9,7 +9,7 @@ var isChangingScene;
 function CheckOption10(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
     backButton.isActive = true;
   }
   else
@@ -32,9 +32,9 @@ class SceneVictory extends Phaser.Scene{
     isChangingScene = false;
 
     // Reproducimos la musica correspondiente.
-    this.game.currentMusic.stop();
-    this.game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: this.game.musicVolume });
-    this.game.currentMusic.play();
+    game.currentMusic.stop();
+    game.currentMusic = this.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
+    game.currentMusic.play();
 
     // Añadimos los sonidos a la escena.
     hoverSound = this.sound.add('menuHover');
@@ -51,7 +51,7 @@ class SceneVictory extends Phaser.Scene{
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 500, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({

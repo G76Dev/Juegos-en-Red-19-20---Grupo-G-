@@ -61,6 +61,7 @@ game.soundVolume = 0.2;
 game.currentMusic;
 game.android1;
 game.android2;
+game.human;
 
 //Variables de los androides
 game.lives = 10;

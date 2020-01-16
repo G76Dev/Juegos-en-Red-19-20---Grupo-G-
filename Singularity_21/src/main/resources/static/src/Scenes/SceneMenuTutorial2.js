@@ -9,7 +9,7 @@ var isChangingScene;
 function CheckOption7(scene) {
   if (scene.input.mousePointer.y > goToMenuButton.y - 35 && scene.input.mousePointer.y < goToMenuButton.y + 35) {
     if (!goToMenuButton.isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
     goToMenuButton.isActive = true;
   }
   else
@@ -43,7 +43,7 @@ class SceneMenuTutorial2 extends Phaser.Scene{
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	goToMenuButton = new Button(this, 960/2, 500, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({

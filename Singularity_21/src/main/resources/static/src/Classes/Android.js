@@ -46,8 +46,8 @@ class Android {
     this.cursors.up.on('down', function (event) {
       if (this.cursors.up.isDown && this.canJump && this.isTouching.ground) {
         this.aditionalJumpVelocity = -0.25;
-        this.sprite.setVelocityY(-this.scene.game.jumpVelocity);
-        var jumpSound = this.scene.sound.add('jump', {volume: this.scene.game.soundVolume});
+        this.sprite.setVelocityY(-game.jumpVelocity);
+        var jumpSound = this.scene.sound.add('jump', {volume: game.soundVolume});
         jumpSound.play();
         this.canJump = false;
         this.cursors.up.on('up', function (event) {
@@ -93,7 +93,7 @@ class Android {
   }
   soundFall(bodyB){
     if (bodyB.isSensor) return;
-    var landSound = this.scene.sound.add('land', {volume: this.scene.game.soundVolume});
+    var landSound = this.scene.sound.add('land', {volume: game.soundVolume});
     landSound.play();
   }
   onSensorCollide({ bodyA, bodyB, pair }) {
@@ -123,17 +123,17 @@ class Android {
   update(time, delta) {
     const isInAir = !this.isTouching.ground;
 
-    if (this.scene.game.lives <= 0) { return; }
+    if (game.lives <= 0) { return; }
 
     if (this.alive) {
       if (this.cursors.right.isDown) {
         if (!(isInAir && this.isTouching.right)) {
-          this.sprite.setVelocityX(this.scene.game.moveVelocity * delta * this.rightMultiply);
+          this.sprite.setVelocityX(game.moveVelocity * delta * this.rightMultiply);
         }
       }
       else if (this.cursors.left.isDown) {
         if (!(isInAir && this.isTouching.left)) {
-          this.sprite.setVelocityX(-this.scene.game.moveVelocity * delta * this.leftMultiply);
+          this.sprite.setVelocityX(-game.moveVelocity * delta * this.leftMultiply);
         }
       } else if (this.cursors.right.isUp && this.cursors.left.isUp){
     	  this.sprite.setVelocityX(0);
@@ -164,10 +164,10 @@ class Android {
 
       //BUGFIX
       if (isInAir && !this.cursors.left.isDown && !this.cursors.right.isDown) {
-        if (this.sprite.body.velocity.y <= -this.scene.game.jumpVelocity * 0.90) {
+        if (this.sprite.body.velocity.y <= -game.jumpVelocity * 0.90) {
           this.sprite.setVelocityX(0);
         } else {
-          this.sprite.setVelocityX((this.scene.game.moveVelocity * this.scene.game.airVelocityFraction) * delta * Math.sign(this.sprite.body.velocity.x));
+          this.sprite.setVelocityX((game.moveVelocity * game.airVelocityFraction) * delta * Math.sign(this.sprite.body.velocity.x));
         }
       }
       this.leftMultiply = 1;
@@ -223,8 +223,8 @@ class Android {
     if (((this.otherAndroid.sprite.x > (this.sprite.x - 32)) && (this.otherAndroid.sprite.x < (this.sprite.x + 32))) &&
       ((this.otherAndroid.sprite.y < this.sprite.y + 48) && (this.otherAndroid.sprite.y > (this.sprite.y - 48)))) {
       if (this.canCoopImpulse && this.otherAndroid.canCoopImpulse) {
-        this.otherAndroid.sprite.setVelocityY(-this.scene.game.jumpVelocity * 1.1);
-        var coopJumpSound = this.scene.sound.add('coopJump', {volume: this.scene.game.soundVolume});
+        this.otherAndroid.sprite.setVelocityY(-game.jumpVelocity * 1.1);
+        var coopJumpSound = this.scene.sound.add('coopJump', {volume: game.soundVolume});
         coopJumpSound.play();
         this.canCoopImpulse = false;
       }
@@ -232,27 +232,27 @@ class Android {
   }
   damaged(deathVector, deathSpread) {
     if (!this.invulnerable) {
-      var dieSound = this.scene.sound.add('die', {volume: this.scene.game.soundVolume});
+      var dieSound = this.scene.sound.add('die', {volume: game.soundVolume});
       dieSound.play();
       this.sprite.visible = false;
       this.sprite.setVelocityX(0);
       this.deathSpawn(deathVector, deathSpread);
       this.sprite.y = 900;
       if (this.otherAndroid.alive) {
-        if (this.scene.game.lives > 0 && this.alive) {
+        if (game.lives > 0 && this.alive) {
           this.alive = false;
-          this.scene.game.lives--;
-          this.scene.lifesText.setText("" + this.scene.game.lives);
+          game.lives--;
+          this.scene.lifesText.setText("" + game.lives);
           this.scene.time.addEvent({
-            delay: this.scene.game.respawnTime,
+            delay: game.respawnTime,
             callback: () => (this.respawn())
           });
-        } else if (this.scene.game.lives <= 0) {
+        } else if (game.lives <= 0) {
           this.alive = false;
           console.log("Game Over");
         }
       } else {
-        this.scene.game.lives = 0;
+        game.lives = 0;
         this.alive = false;
         console.log("Game Over");
       }
@@ -305,7 +305,7 @@ class Android {
         });
       }
       this.scene.time.addEvent({
-        delay: this.scene.game.respawnTime - 50,
+        delay: game.respawnTime - 50,
         callback: () => (this.canDeathSpawn = true)
       });
     }

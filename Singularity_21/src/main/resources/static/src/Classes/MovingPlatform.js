@@ -15,26 +15,26 @@ class MovingPlatform {
 
         //Establecemos colisiones con los jugadores androide.
         scene.matterCollision.addOnCollideActive({
-            objectA: scene.game.android1.mainBody,
+            objectA: game.android1.mainBody,
             objectB: this.sprite,
-            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.game.android1)),
+            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, game.android1)),
         });
         scene.matterCollision.addOnCollideActive({
-            objectA: scene.game.android2.mainBody,
+            objectA: game.android2.mainBody,
             objectB: this.sprite,
-            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, scene.game.android2)),
+            callback: () => (accelerate(this.objectiveX, this.sprite, this.increaseX, this.delta, game.android2)),
         });
         scene.matterCollision.addOnCollideEnd({
-            objectA: scene.game.android1.mainBody,
+            objectA: game.android1.mainBody,
             objectB: this.sprite,
             callback: decelerate,
-            context: scene.game.android1
+            context: game.android1
         });
         scene.matterCollision.addOnCollideEnd({
-            objectA: scene.game.android2.mainBody,
+            objectA: game.android2.mainBody,
             objectB: this.sprite,
             callback: decelerate,
-            context: scene.game.android2
+            context: game.android2
         });
 
         //Funciones accelerate y decelerate, para otorgar velocidad a los androides.

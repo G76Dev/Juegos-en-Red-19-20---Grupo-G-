@@ -41,7 +41,7 @@ function CheckOption1(scene) {
   for(var i = 0; i < buttonArray.length; i++) {
     if (scene.input.mousePointer.y > 465 + 70 * i && scene.input.mousePointer.y < 535 + 70 * i){
       if (!buttonArray[i].isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
       buttonArray[i].isActive = true;
     }
     else {
@@ -203,7 +203,7 @@ class SceneCharacterSelection extends Phaser.Scene {
         }
         selection = 0;
         activateDeactivate(selection)
-        document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Male Android. <br />"
+        document.getElementById("chatArea").innerHTML += game.playerName + " selected the Male Android. <br />"
         android1Leave.setVisible(true);
       }
       else if(selection == 0) {
@@ -248,7 +248,7 @@ class SceneCharacterSelection extends Phaser.Scene {
           }
           selection = 1;
           activateDeactivate(selection)
-          document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Female Android. <br />"
+          document.getElementById("chatArea").innerHTML += game.playerName + " selected the Female Android. <br />"
           android2Leave.setVisible(true);
         }
         else if(selection == 1) {
@@ -293,7 +293,7 @@ class SceneCharacterSelection extends Phaser.Scene {
         }
         selection = 2;
         activateDeactivate(selection)
-        document.getElementById("chatArea").innerHTML += actualScene.game.playerName + " selected the Human. <br />"
+        document.getElementById("chatArea").innerHTML += game.playerName + " selected the Human. <br />"
         humanLeave.setVisible(true);
         }
         else if(selection == 2)  {
@@ -337,7 +337,7 @@ class SceneCharacterSelection extends Phaser.Scene {
 
     buttonArray = [
         new Button(this, 960/2, 500, 'light', function() {
-        selectedSound.play({ volume: this.scene.game.soundVolume });
+        selectedSound.play({ volume: game.soundVolume });
         isChangingScene = true;
         // ...
         cam.fadeOut(1000);

@@ -9,7 +9,7 @@ var isChangingScene;
 function CheckOption11(scene) {
   if (scene.input.mousePointer.y > backButton.y - 35 && scene.input.mousePointer.y < backButton.y + 35) {
     if (!backButton.isActive)
-        hoverSound.play({ volume: scene.game.soundVolume });
+        hoverSound.play({ volume: game.soundVolume });
     backButton.isActive = true;
   }
   else
@@ -46,7 +46,7 @@ class SceneServerFull extends Phaser.Scene {
     cam.fadeIn(1000);
     function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 405, 'light', function() {
-			selectedSound.play({ volume: this.scene.game.soundVolume });
+			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
 			cam.fadeOut(1000);
 			this.scene.time.addEvent({
