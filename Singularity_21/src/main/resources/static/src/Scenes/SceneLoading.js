@@ -57,14 +57,14 @@ class SceneLoading extends Phaser.Scene {
         this.load.audio('defeat', 'assets/Audio/Sounds/Defeat.wav');
 
         // Cargamos los elementos correspondientes a Tiled.
-        this.load.image("tiles1", "../assets/Tilesets/tileset_industrial_Padded.png");
-        this.load.tilemapTiledJSON("map1", "../assets/Mapas/Industrial_Easy.json");
+        this.load.image("tiles1", "assets/Tilesets/tileset_industrial_Padded.png");
+        this.load.tilemapTiledJSON("map1", "assets/Mapas/Industrial_Easy.json");
 
-        this.load.image("tiles2", "../assets/Tilesets/Tileset_central_electrica_Padded.png");
-        this.load.tilemapTiledJSON("map2", "../assets/Mapas/Electrical_medium.json");
+        this.load.image("tiles2", "assets/Tilesets/Tileset_central_electrica_Padded.png");
+        this.load.tilemapTiledJSON("map2", "assets/Mapas/Electrical_medium.json");
 
-        this.load.image("tiles3", "../assets/Tilesets/final_room_tileset_Padded.png");
-        this.load.tilemapTiledJSON("map3", "../assets/Mapas/Final_room.json");
+        this.load.image("tiles3", "assets/Tilesets/final_room_tileset_Padded.png");
+        this.load.tilemapTiledJSON("map3", "assets/Mapas/Final_room.json");
 
         // Cargamos sprites de los distintos elementos del juego.
         this.load.spritesheet('explodingBomb', 'assets/Sprites/Bomb/bomb_ss.png', { frameWidth: 32, frameHeight: 32 });

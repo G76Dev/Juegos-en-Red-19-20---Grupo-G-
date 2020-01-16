@@ -53,7 +53,7 @@ class Scene1 extends Phaser.Scene {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			game.customTransition(this.scene, 'level3', 1000);
+			game.customTransition(this.scene, 'level1', 1000);
   		}),
       //Boton "Options"
   		new Button(this, 960/2, 319, 'light', function() {
