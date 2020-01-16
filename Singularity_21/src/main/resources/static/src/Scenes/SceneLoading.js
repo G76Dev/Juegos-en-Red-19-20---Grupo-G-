@@ -29,31 +29,6 @@ class SceneLoading extends Phaser.Scene {
         this.load.image('X', 'assets/Interfaz/X.png');
         this.load.image('logo', 'assets/Interfaz/LogoNanaTeam_pixelart.png');
 
-        this.load.image('3', 'assets/Interfaz/OnlineMode/3.png');
-        this.load.image('2', 'assets/Interfaz/OnlineMode/2.png');
-        this.load.image('1', 'assets/Interfaz/OnlineMode/1.png');
-        this.load.image('serverFull', 'assets/Interfaz/OnlineMode/ServerFull.png');
-        this.load.image('connectionFailed', 'assets/Interfaz/OnlineMode/ConnectionFailed.png');
-        this.load.image('humanLeave', 'assets/Interfaz/OnlineMode/Hover_leave_large.png');
-        this.load.image('androidLeave', 'assets/Interfaz/OnlineMode/Hover_leave_small.png');
-        this.load.image('text_enterYourName', 'assets/Interfaz/OnlineMode/EnterYourName.png');
-        this.load.image('text_startingGame', 'assets/Interfaz/OnlineMode/StartingGame.png');
-        this.load.image('text_vs', 'assets/Interfaz/OnlineMode/VS.png');
-        this.load.image('text_waitingForPlayers', 'assets/Interfaz/OnlineMode/WaitingForPlayers.png');
-        this.load.image('text_joinGame', 'assets/Interfaz/OnlineMode/Text_JoinGame.png');
-        this.load.image('startingGame', 'assets/Interfaz/OnlineMode/StartingGame.png');
-        this.load.image('ready', 'assets/Interfaz/OnlineMode/Ready.png');
-        this.load.spritesheet('textBox', 'assets/Interfaz/OnlineMode/TextBox.png', { frameWidth: 400, frameHeight: 63, startFrame: 0, endFrame: 5 });
-        this.load.spritesheet('androidSelectionBox', 'assets/Interfaz/OnlineMode/selection_box_small.png', { frameWidth: 127, frameHeight: 172, startFrame: 0, endFrame: 1 });
-        this.load.spritesheet('humanSelectionBox', 'assets/Interfaz/OnlineMode/selection_box_large.png', { frameWidth: 167, frameHeight: 305, startFrame: 0, endFrame: 1 });
-        this.load.spritesheet('androidMale', 'assets/Interfaz/OnlineMode/android_male.png', { frameWidth: 50, frameHeight: 116, startFrame: 0, endFrame: 1 });
-        this.load.spritesheet('androidFemale', 'assets/Interfaz/OnlineMode/android_female.png', { frameWidth: 46, frameHeight: 108, startFrame: 0, endFrame: 1 });
-        this.load.spritesheet('androidMaleActive', 'assets/Interfaz/OnlineMode/android_male_active.png', { frameWidth: 64, frameHeight: 128, startFrame: 0, endFrame: 3 });
-        this.load.spritesheet('androidFemaleActive', 'assets/Interfaz/OnlineMode/android_female_active.png', { frameWidth: 64, frameHeight: 128, startFrame: 0, endFrame: 3 });
-        this.load.spritesheet('human', 'assets/Interfaz/OnlineMode/human.png', { frameWidth: 97, frameHeight: 239, startFrame: 0, endFrame: 1 });
-        this.load.spritesheet('humanActive', 'assets/Interfaz/OnlineMode/human_active.png', { frameWidth: 97, frameHeight: 239, startFrame: 0, endFrame: 1 });
-
-        this.load.image('text_online', 'assets/Interfaz/Text_Online.png');
         this.load.image('text_local', 'assets/Interfaz/Text_Local.png');
         this.load.image('text_options', 'assets/Interfaz/Text_Options.png');
         this.load.image('text_credits', 'assets/Interfaz/Text_Credits.png');
@@ -300,60 +275,6 @@ class SceneLoading extends Phaser.Scene {
         selectedSound = this.sound.add('menuSelected');
 
         // Creamos las animaciones.
-        this.anims.create({
-            key: 'androidMaleAnim',
-            frames: this.anims.generateFrameNumbers('androidMale', { start: 0, end: 1 }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'androidFemaleAnim',
-            frames: this.anims.generateFrameNumbers('androidFemale', { start: 0, end: 1 }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'androidMaleActiveAnim',
-            frames: this.anims.generateFrameNumbers('androidMaleActive', { start: 0, end: 3 }),
-            frameRate: 7,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'androidFemaleActiveAnim',
-            frames: this.anims.generateFrameNumbers('androidFemaleActive', { start: 0, end: 3 }),
-            frameRate: 7,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'humanAnim',
-            frames: this.anims.generateFrameNumbers('human', { start: 0, end: 1 }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'humanActiveAnim',
-            frames: this.anims.generateFrameNumbers('humanActive', { start: 0, end: 1 }),
-            frameRate: 1,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'textBoxAnim',
-            frames: this.anims.generateFrameNumbers('textBox', { start: 0, end: 5 }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'humanSelectionBoxAnim',
-            frames: this.anims.generateFrameNumbers('humanSelectionBox', { start: 0, end: 1 }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'androidSelectionBoxAnim',
-            frames: this.anims.generateFrameNumbers('androidSelectionBox', { start: 0, end: 1 }),
-            frameRate: 0,
-            repeat: -1
-        });
         this.anims.create({
             key: 'wRight1',
             frames: this.anims.generateFrameNumbers('androidRun1', { start: 0, end: 3 }),
