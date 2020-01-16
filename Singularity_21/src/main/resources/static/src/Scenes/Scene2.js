@@ -372,10 +372,10 @@ class Scene2 extends Phaser.Scene {
     //Barra de progreso.
     const progressBar = this.add.image(480, 12, 'progression_bar'); //8160
     progressBar.setScrollFactor(0);
-    p1Tracker = this.add.image(0, 25, 'deathHead1');
-    p1Tracker.setScrollFactor(0).setScale(0.65);
-    p2Tracker = this.add.image(0, 25, 'deathHead2');
-    p2Tracker.setScrollFactor(0).setScale(0.65);
+    p1Tracker = this.add.image(0, 22, 'deathHead1');
+    p1Tracker.setScrollFactor(0).setScale(0.7);
+    p2Tracker = this.add.image(0, 22, 'deathHead2');
+    p2Tracker.setScrollFactor(0).setScale(0.7);
   }
 
   //Pointer del ratón.
@@ -420,9 +420,9 @@ class Scene2 extends Phaser.Scene {
       scene.scene.start('level2');
     }
 
-    //Trackers de la barra de progreso.
-    p1Tracker.x = game.android1.sprite.x / 17;
-    p2Tracker.x = game.android2.sprite.x / 17;
+    //Trackers de la barra de progreso. 
+    p1Tracker.x = game.android1.sprite.x / 19;
+    p2Tracker.x = game.android2.sprite.x / 19;
 
     //document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
   }

@@ -204,9 +204,13 @@ class SceneLoading extends Phaser.Scene {
         this.load.image('lifesUI', 'assets/Interfaz/InGame/lifes.png');
 
         this.load.image('progression_bar', 'assets/Interfaz/InGame/progression_bar.png');
+        this.load.image('progression_bar_fb', 'assets/Interfaz/InGame/progression_bar_finalboss.png');
 
         this.load.spritesheet('humanImg', 'assets/Sprites/human.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('humanImgDead', 'assets/Sprites/human_die.png', { frameWidth: 32, frameHeight: 64 });
+
+        this.load.image('statueLeft', 'assets/Sprites/left_statue_eye.png');
+        this.load.image('statueRight', 'assets/Sprites/right_statue_eye.png');
 
         // Codigo relativo a la barra de carga.
         let background = this.add.graphics({
