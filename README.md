@@ -213,7 +213,7 @@ Este es el diagrama de flujo general de todas las pantallas del juego. Por motiv
 ### 6. Instrucciones de uso
   A continuación se proporcionan instrucciones para la correcta instalación y ejeución del juego:
   
-  Ir a la carpeta target/classes/static y buscar mainCode.js, abrirlo y cambiar la variable serverIP al ip adecuado (se puede averigurar mediante el comando ipconfig en la consola). Después, ejecutar el start.bat encontrado en la carpeta "target".
+  Abrir proyecto con STS. Dentro de la carpeta static/src/mainCode.js Cambiar la variable serverIP a la adecuada (se puede ver haciendo un ipconfig en la consola). Ejecutar el App como una aplicación de java desde STS
   
 ### 7. Referencias y anexos
   Juegos tomados como referencia o de los que se ha hablado:
