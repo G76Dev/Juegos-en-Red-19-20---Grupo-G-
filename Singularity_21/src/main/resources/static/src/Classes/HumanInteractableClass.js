@@ -343,6 +343,7 @@ class ESurfHumanInterac extends HumanInteractableClass {
   }
   update() { }
   objectActivate() {
+    this.mainObject.sprite.setTint(colorActivated);
     this.scene.time.addEvent({
       delay: 500,
       callback: () => (this.mainObject.turnOn())
@@ -414,7 +415,7 @@ class HumanInteractablesArray {
   initializeScene3(teslas, eSurfaces, bladesBig) {
     this.items = [];
     this.items[0] = new FirePlatInteractable(this.scene, this.itemBar, 2286, 155);
-    this.items[1] = new ESurfHumanInteracTimer(this.scene, this.itemBar, eSurfaces[0]);
+    this.items[1] = new ESurfHumanInterac(this.scene, this.itemBar, eSurfaces[1]);
     this.items[2] = new InteractiveBlade2(this.scene, this.itemBar, bladesBig, 5712, 464, 5744, 368, 2000);
     this.items[3] = new TeslaInteractable(this.scene, this.itemBar, teslas[2]);
     this.items[4] = new TeslaInteractable(this.scene, this.itemBar, teslas[3]);

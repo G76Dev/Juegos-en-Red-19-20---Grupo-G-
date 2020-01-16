@@ -594,14 +594,7 @@ class SceneLoading extends Phaser.Scene {
                 isFading = true;
                 this.scene.cameras.main.fadeOut(1000);
 
-                function LoadSS(scene){
-                    scene.scene.start('splashScreen');
-                }
-                this.scene.time.addEvent({
-                    delay: 1000,
-                    callback: () => LoadSS(this.scene)
-                });
-                //this.scene.scene.start('menu');
+                game.customTransition(this.scene, 'splashScreen', 1000);
             }
         });
     }

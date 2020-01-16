@@ -79,6 +79,38 @@ var isChangingScene;
 var colorActivated = 0xFF7373;
 var colorHover = 0xA9A9A9;
 
+function customTransitionStart(scene, nextSceneKey){
+  var sceneClassName = "";
+  var sceneArray = scene.scene.manager.scenes;
+
+  for(var i=0; i<sceneArray.length; i++){
+    if(sceneArray[i].scene.key.localeCompare(nextSceneKey) == 0){ //scene.scene.manager.scenes[i].scene.key.localeCompare(nextSceneKey)
+      sceneClassName = sceneArray[i].constructor.name;            //sceneClassName = scene.scene.manager.scenes[i].constructor.name
+      break;
+    }
+  }
+  scene.scene.remove(nextSceneKey);
+  return sceneClassName;
+}
+
+function customTransitionEnd(scene, nextSceneKey, sceneClassName){
+  //console.log("scene.game.scene.add('', new "+ sceneClassName +"(\'"+ nextSceneKey +"\'), true)");
+  eval("scene.game.scene.add('', new "+ sceneClassName +"(\'"+ nextSceneKey +"\'), true)");
+  /*web.time.addEvent({
+    delay: 100, 
+    callback: () => web.updateScene(web.scene.manager.getScene(nextSceneKey))
+  })*/
+  scene.scene.stop(scene.scene.key);
+}
+
+game.customTransition = function(scene, nextSceneKey, fadeDuration){
+  var nextSceneClassName = customTransitionStart(scene, nextSceneKey);
+  scene.time.addEvent({
+    delay: fadeDuration,
+    callback: () => (customTransitionEnd(scene, nextSceneKey, nextSceneClassName))
+  });
+}
+
 //Variables del jugador si se conecta al servidor.
 /*APIREST
 var ipConfig = new ipConfigClass();

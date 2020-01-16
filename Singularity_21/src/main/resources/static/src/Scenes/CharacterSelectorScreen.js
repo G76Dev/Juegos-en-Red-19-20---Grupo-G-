@@ -125,10 +125,7 @@ function StartGame(scene) {
                             isChangingScene = true;
                             // ...
                             cam.fadeOut(1000);
-                            scene.time.addEvent({
-                                delay: 1000,
-                                callback: () => LoadScene(scene, 'level10')
-                            });
+                            game.customTransition(scene, 'level10', 1000);
                         }
                     });
                 }
@@ -136,8 +133,6 @@ function StartGame(scene) {
         }
     });
 }
-
-function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
 
 // Clase correspondiente a la escena del modo online.
 class SceneCharacterSelection extends Phaser.Scene {
@@ -341,10 +336,7 @@ class SceneCharacterSelection extends Phaser.Scene {
         isChangingScene = true;
         // ...
         cam.fadeOut(1000);
-        this.scene.time.addEvent({
-            delay: 1000,
-            callback: () => LoadScene(this.scene, 'menu')
-        });
+        game.customTransition(this.scene, 'menu', 1000);
     },)
   ];
 

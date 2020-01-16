@@ -50,7 +50,6 @@ class SceneDefeat extends Phaser.Scene {
     // Añadimos los botones. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
-    function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
     /*
     function FinalSolution(scene, start) {
         scene.game.scene1Counter++;
@@ -61,19 +60,13 @@ class SceneDefeat extends Phaser.Scene {
         selectedSound.play({ volume: game.soundVolume });
 		isChangingScene = true;
         cam.fadeOut(1000);
-        this.scene.time.addEvent({
-            delay: 1000,
-            callback: () => LoadScene(this.scene, 'menu')
-        });
+        game.customTransition(this.scene, 'menu', 1000);
     });
     retryButton = new Button(this, 960/2, 400, 'light', function() {
         selectedSound.play({ volume: game.soundVolume });
         isChangingScene = true;
         cam.fadeOut(1000);
-        this.scene.time.addEvent({
-            delay: 1000,
-            callback: () => LoadScene(this.scene, 'level1')
-        });
+        game.customTransition(this.scene, 'level1', 1000);
     });
 
   	// Hacemos las luces invisibles.

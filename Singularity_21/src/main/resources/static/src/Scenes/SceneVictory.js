@@ -42,15 +42,11 @@ class SceneVictory extends Phaser.Scene{
     // Añadimos el boton de 'back'. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
-    function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	backButton = new Button(this, 960/2, 500, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
-			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menu')
-			});
+      cam.fadeOut(1000);
+      game.customTransition(this.scene, 'menu', 1000);
     });
 
   	// Hacemos la luz invisible.

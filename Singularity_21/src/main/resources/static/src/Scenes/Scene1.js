@@ -46,10 +46,6 @@ class Scene1 extends Phaser.Scene {
 	cam = this.cameras.main;
 	cam.fadeIn(1000);
 
-	function LoadScene(scene, nombreEscena)
-	{
-		scene.scene.start(nombreEscena);
-	}
 	/*APIREST
 	function getServerInfo(scene, serverIP) {
 		$.ajax({
@@ -86,52 +82,37 @@ class Scene1 extends Phaser.Scene {
   		new Button(this, 960/2, 214, 'light', function() {
   			selectedSound.play({ volume: game.soundVolume });
   			//AIREST getServerInfo(actualScene, actualScene.game.serverIP);
-        isChangingScene = true;
-  			cam.fadeOut(1000);
-  			this.scene.time.addEvent({
-  				delay: 1000,
-  				callback: () => LoadScene(this.scene, 'nameScreen')
-  			});
+        	/*isChangingScene = true;
+			cam.fadeOut(1000);
+			game.customTransition(this.scene, 'nameScreen', 1000);*/
   		}),
       //Boton "Local"
   		new Button(this, 960/2, 284, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'level3') //Nivel al que lleva el boton de "Local"
-			});
+			game.customTransition(this.scene, 'level1', 1000);
   		}),
       //Boton "Options"
   		new Button(this, 960/2, 354, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'options')
-			});
+			game.customTransition(this.scene, 'options', 1000);
   		}),
       //Boton "Credits"
   		new Button(this, 960/2, 420, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'credits')
-			});
+			game.customTransition(this.scene, 'credits', 1000);
 		  },),
       //Boton Tutorial
 		new Button(this, 960/2, 486, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menuTutorial')
-			});
+			game.customTransition(this.scene, 'menuTutorial', 1000);
 		},)
 	];
 

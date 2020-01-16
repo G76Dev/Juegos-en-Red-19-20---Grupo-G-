@@ -35,15 +35,11 @@ class SceneMenuTutorial extends Phaser.Scene{
     // Añadimos el boton de 'nextPage'. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
     cam.fadeIn(1000);
-    function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
   	nextPageButton = new Button(this, 960/2, 500, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
-			cam.fadeOut(1000);
-			this.scene.time.addEvent({
-				delay: 1000,
-				callback: () => LoadScene(this.scene, 'menuTutorial2')
-			});
+      cam.fadeOut(1000);
+      game.customTransition(this.scene, 'menuTutorial2', 1000);
     });
 
   	// Hacemos la luz invisible.

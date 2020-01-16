@@ -387,12 +387,7 @@ class Scene2 extends Phaser.Scene {
     if(game.lives <= 0 && this.shouldBeActive){
       this.shouldBeActive = false;
       this.cameras.main.fadeOut(1000);
-      this.time.addEvent({
-        delay: 1000,
-        callback: () => (LoadScene(this, 'defeat'))
-      });
-      //Función LoadScene, que carga una escena.
-      function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
+      game.customTransition(this, 'defeat', 1000);
     }
     firstFollow.x = Math.max(game.android1.sprite.x, game.android2.sprite.x);
     firstFollow.y = Math.max(Math.min((game.android1.sprite.y + game.android2.sprite.y) / 2, 360), -500);
@@ -411,13 +406,7 @@ class Scene2 extends Phaser.Scene {
     if(game.android1.arrived && game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
-      this.time.addEvent({
-        delay: 2000,
-        callback: () => (advanceToLevel2(this))
-      });
-    }
-    function advanceToLevel2(scene){
-      scene.scene.start('level2');
+      game.customTransition(this, 'level2', 2000);
     }
 
     //Trackers de la barra de progreso. 

@@ -313,12 +313,7 @@ class Scene4 extends Phaser.Scene {
     if(game.lives <= 0 && this.shouldBeActive){
       this.shouldBeActive = false;
       this.cameras.main.fadeOut(1000);
-      this.time.addEvent({
-        delay: 1000,
-        callback: () => (LoadScene(this, 'defeat'))
-      });
-      //Función LoadScene, que carga una escena.
-      function LoadScene(scene, nombreEscena){scene.scene.start(nombreEscena);}
+      game.customTransition(this, 'defeat', 1000);
     }
 
     if (game.android1.sprite.x > 2020) {
@@ -385,14 +380,7 @@ class Scene4 extends Phaser.Scene {
     //Si consiguen acabar con el jugador humano, hacemos transición a la pantalla de victoria.
     if(game.android1.arrived && game.android2.arrived && !fadeOut) {
       fadeOut = true;
-      cam.fadeOut(2000);
-      this.time.addEvent({
-        delay: 2000,
-        callback: () => (advanceToVictory(this))
-      });
-    }
-    function advanceToVictory(scene){
-      scene.scene.start('victory');
+      cam.fadeOut(2000);game.customTransition(this, 'victory', 2000);
     }
 
     //document.getElementById('mouse').innerHTML = "X: " + Math.round(mouse.x + cam.scrollX) + " | Y: " + Math.round(mouse.y + cam.scrollY);
