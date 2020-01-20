@@ -28,19 +28,21 @@ class SceneCredits extends Phaser.Scene {
     isChangingScene = false;
 
     // Añadimos el background.
-    this.add.image(960/2, 540/2, 'interfazBg');
+    const backgroundimg = this.matter.add.sprite(960/2, 540/2, "Portrait", 0);
+    backgroundimg.anims.play('portrait_anim', true);
+    backgroundimg.setStatic(true);
 
     // Añadimos el texto de los creditos.
     this.add.image(960/2, 540/2, 'text_creditsScreen');
 
     // Añadimos el botón de 'back'. Hacemos tambien un fade con la camara.
     cam = this.cameras.main;
-    cam.fadeIn(1000);
+    //cam.fadeIn(1000);
     backButton = new Button(this, 960/2, 500, 'light', function() {
       selectedSound.play({ volume: game.soundVolume });
       isChangingScene = true;
-      cam.fadeOut(1000);
-      game.customTransition(this.scene, 'menu', 1000);
+      //cam.fadeOut(1000);
+      game.customTransition(this.scene, 'menu', 0);
     });
 
   	// Hacemos la luz invisible.

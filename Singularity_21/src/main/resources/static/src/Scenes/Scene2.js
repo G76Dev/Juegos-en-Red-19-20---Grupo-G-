@@ -50,6 +50,9 @@ class Scene2 extends Phaser.Scene {
     this.add.image(1100, 450, 'bg2_i').setScale(1).setScrollFactor(0.5).setDepth(-501);
     this.add.image(1200, 650, 'bg3_i').setScale(1.2).setScrollFactor(0.75).setDepth(-500);
 
+    //sonido
+    var bonusSound = this.sound.add('bonus', {volume: game.soundVolume});
+
     //Inicializacion y creacion de mapa de tiles.
     const map1 = this.make.tilemap({ key: "map1" });
     const tileset1 = map1.addTilesetImage("Tileset Industrial x32", "tiles1");
@@ -323,6 +326,7 @@ class Scene2 extends Phaser.Scene {
     //Función addLife, que añade una vida a los jugadores androide.
     function addLife({ gameObjectB }) {
       game.lives++;
+      bonusSound.play();
       this.lifesText.setText("" + game.lives);
       gameObjectB.destroy();
     }
@@ -365,6 +369,7 @@ class Scene2 extends Phaser.Scene {
     //Camara.
     cam = this.cameras.main;
     this.matter.world.setBounds(0, -500, 10000, 10000);
+    cam.fadeIn(1000);
     cam.setBounds(0, 0, 8290, 10000);
     firstFollow = this.add.container(0, 0);
     cam.startFollow(firstFollow, false, 0.05, 0.01, 0, 0);
@@ -409,7 +414,7 @@ class Scene2 extends Phaser.Scene {
       game.customTransition(this, 'level2', 2000);
     }
 
-    //Trackers de la barra de progreso. 
+    //Trackers de la barra de progreso.
     p1Tracker.x = game.android1.sprite.x / 19;
     p2Tracker.x = game.android2.sprite.x / 19;
 

@@ -41,7 +41,9 @@ class SceneWaiting extends Phaser.Scene {
         isChangingScene = false;
 
         // Añadimos el background y el titulo.
-        this.add.image(960/2, 540/2, 'interfazBg');
+        const backgroundimg = this.matter.add.sprite(960/2, 540/2, "Portrait", 0);
+        backgroundimg.anims.play('portrait_anim', true);
+        backgroundimg.setStatic(true);
         this.add.image(960/2, 540/2, 'interfazTitle');
 
         // Añadimos el texto que indica cuantos jugadores quedan.

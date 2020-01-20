@@ -88,6 +88,8 @@ class AndroidInteractableClass {
     }, this);
   }
   objectActivate() {
+    var interactSound = this.scene.sound.add('boton', {volume: game.soundVolume});
+    interactSound.play();
     (this.isActive) ? this.activator.setFrame(1) : this.activator.setFrame(0);
   }
   update() {

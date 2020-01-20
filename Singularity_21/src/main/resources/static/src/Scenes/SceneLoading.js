@@ -15,6 +15,7 @@ class SceneLoading extends Phaser.Scene {
         this.load.image('interfazTitle', 'assets/Interfaz/Title.png');
         this.load.image('interfazBs', 'assets/Interfaz/BlackScreen.png');
         this.load.image('text_click', 'assets/Interfaz/ClickToStart.png');
+        this.load.spritesheet('Portrait', 'assets/Interfaz/Portrait.png', { frameWidth: 960, frameHeight: 540 });
 
         this.load.image('menuTutorial', 'assets/Interfaz/TutorialScreen.png');
         this.load.image('menuTutorial2', 'assets/Interfaz/TutorialScreen2.png');
@@ -46,7 +47,7 @@ class SceneLoading extends Phaser.Scene {
         this.load.audio('laser', 'assets/Audio/Sounds/Laser.wav');
         this.load.audio('bomb', 'assets/Audio/Sounds/Bomb.wav');
         this.load.audio('die', 'assets/Audio/Sounds/Die.wav');
-        this.load.audio('menuMusic', 'assets/Audio/Music/MenuMusic.wav');
+        this.load.audio('menuMusic', 'assets/Audio/Music/victory_music.wav');
         this.load.audio('theme', 'assets/Audio/Music/Theme.wav');
         this.load.audio('theme2', 'assets/Audio/Music/level_2_music.wav');
         this.load.audio('eyes_sfx', 'assets/Audio/Sounds/eyes_lv3.wav');
@@ -55,6 +56,9 @@ class SceneLoading extends Phaser.Scene {
         this.load.audio('human_death_sfx', 'assets/Audio/Sounds/human_death.wav');
         this.load.audio('victory_music', 'assets/Audio/Music/victory_music.wav');
         this.load.audio('defeat', 'assets/Audio/Sounds/Defeat.wav');
+        this.load.audio('splash', 'assets/Audio/Sounds/splash.wav');
+        this.load.audio('boton', 'assets/Audio/Sounds/Button.wav');
+        this.load.audio('bonus', 'assets/Audio/Sounds/bonus.wav');
 
         // Cargamos los elementos correspondientes a Tiled.
         this.load.image("tiles1", "assets/Tilesets/tileset_industrial_Padded.png");
@@ -512,6 +516,12 @@ class SceneLoading extends Phaser.Scene {
             key: 'humanDieS',
             frames: this.anims.generateFrameNumbers('humanImgDead', { start: 0, end: 1 }),
             frameRate: 6,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'portrait_anim',
+            frames: this.anims.generateFrameNumbers('Portrait', { start: 0, end: 1 }),
+            frameRate: 1,
             repeat: -1
         });
 

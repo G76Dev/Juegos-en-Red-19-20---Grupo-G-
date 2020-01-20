@@ -57,6 +57,9 @@ class Scene4 extends Phaser.Scene {
     this.add.image(1100, 470, 'bg2_f').setScale(2).setScrollFactor(0.5).setDepth(-501);
     this.add.image(1200, 590, 'bg3_f').setScale(2).setScrollFactor(0.75).setDepth(-500);
 
+    //Sonido
+    var bonusSound = this.sound.add('bonus', {volume: game.soundVolume});
+
     //Inicializacion y creacion de mapa de tiles.
     const map3 = this.make.tilemap({ key: "map3" });
     const tileset3 = map3.addTilesetImage("final_boss_tileset", "tiles3",32,32);
@@ -261,6 +264,7 @@ class Scene4 extends Phaser.Scene {
     //Función addLife, que añade una vida a los jugadores androide.
     function addLife({ gameObjectB }) {
       game.lives++;
+      bonusSound.play();
       this.lifesText.setText("" + game.lives);
       gameObjectB.destroy();
     }

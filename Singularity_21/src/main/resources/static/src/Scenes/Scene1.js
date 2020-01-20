@@ -39,13 +39,16 @@ class Scene1 extends Phaser.Scene {
 	selectedSound = this.sound.add('menuSelected');
 
     // Añadimos el background y el título.
-    this.add.image(960/2, 540/2, 'interfazBg');
+  const backgroundimg = this.matter.add.sprite(960/2, 540/2, "Portrait", 0);
+  backgroundimg.anims.play('portrait_anim', true);
+  backgroundimg.setStatic(true);
+
 	this.add.image(960/2, 540/2, 'interfazTitle');
 
 	// Añadimos las luces que indicaran que boton del menu esta activo. Hacemos tambien un fade con la camara.
 	cam = this.cameras.main;
-	cam.fadeIn(1000);
-	
+	//cam.fadeIn(1000);
+
     //Array de botones que componen las opciones a elegir en el menú principal
   	buttonArray = [                           // Este parametro recibe una funcion que se ejecuta al presionar el boton.
       //Boton "Local"
@@ -53,28 +56,28 @@ class Scene1 extends Phaser.Scene {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			game.customTransition(this.scene, 'level1', 1000);
+			game.customTransition(this.scene, 'level3', 1000);
   		}),
       //Boton "Options"
   		new Button(this, 960/2, 319, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
-			cam.fadeOut(1000);
-			game.customTransition(this.scene, 'options', 1000);
+			//cam.fadeOut(1000);
+			game.customTransition(this.scene, 'options', 0);
   		}),
       //Boton "Credits"
   		new Button(this, 960/2, 389, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
-			cam.fadeOut(1000);
-			game.customTransition(this.scene, 'credits', 1000);
+			//cam.fadeOut(1000);
+			game.customTransition(this.scene, 'credits', 0);
 		  },),
       //Boton Tutorial
 		new Button(this, 960/2, 459, 'light', function() {
 			selectedSound.play({ volume: game.soundVolume });
 			isChangingScene = true;
 			cam.fadeOut(1000);
-			game.customTransition(this.scene, 'menuTutorial', 1000);
+			game.customTransition(this.scene, 'menuTutorial', 0);
 		},)
 	];
 
