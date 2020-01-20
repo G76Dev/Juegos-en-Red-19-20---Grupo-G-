@@ -1,11 +1,12 @@
 class Android {
   constructor(scene, androidNumber, x, y, playerINPUT, cursors) {
+	  //constructor y variables de android
     this.scene = scene;
     this.sprite = scene.matter.add.sprite(x, y, 'androidIdle' + androidNumber, 0);
     this.androidNumber = androidNumber;
     
     this.playerINPUT = playerINPUT;
-    this.playerMovementArray = [0.0, 0.0, 0.0, 0.0, 0.0, x, y];
+    this.playerMovementArray = [false, false, false, 0.0, 0.0, x, y, false];
     this.setWSMoovement = function(pMA){
     	this.playerMovementArray = pMA;
     }
@@ -54,9 +55,6 @@ class Android {
 	   this.aditionalJumpVelocity = -0.25;
 	   this.cursors.up.on('down', function (event) {
 	     if (this.canJump && this.isTouching.ground) {
-		   //WS
-	       if(game.online)
-		   web.sendAndroidJumpInitAR();
 		   
 	       this.aditionalJumpVelocity = -0.25;
 	       this.sprite.setVelocityY(-this.scene.game.jumpVelocity);
@@ -65,10 +63,6 @@ class Android {
 	       this.canJump = false;
 	       this.cursors.up.on('up', function (event) {
 	    	 if (!this.canJump){
-		         //WS
-	    	     if(game.online)
-		         web.sendAndroidCanJumpAR();
-		         
 		         this.canJump = true
 	    	 }
 	       }, this);
@@ -76,15 +70,16 @@ class Android {
 	   }, this);
     
 	   this.cursors.coop.on('down', function(event){
-	     //WS
-	     if(game.online)
-	     web.sendAndroidDownAR();
-	     
-	     this.isCoopImpulsing = true;
-	     this.coopJump();
+		 if(game.online && this.canCoopImpulse){
+			//WS
+			this.playerMovementArray[7] = true;
+			 
+		    this.isCoopImpulsing = true;
+		    this.coopJump();
+		 }
 	   }, this);
     }
-    scene.matter.world.on("beforeupdate", this.wsAndTouchingReset, this);
+    scene.matter.world.on("beforeupdate", this.preupdateAndroid, this);
     
 
     scene.matterCollision.addOnCollideStart({
@@ -117,12 +112,13 @@ class Android {
   }
   
 
-  wsAndTouchingReset() {
+  preupdateAndroid() {
+	  //funcion que se ejecuta antes de cada update, entre otras cosas modifica los valores recibidos por el websocket
   	//WS
 	  if(this.playerINPUT){
-		this.playerMovementArray[0] = this.cursors.up.isDown? 1.0: 0.0;   //UP
-	  	this.playerMovementArray[1] = this.cursors.right.isDown? 1.0: 0.0;    //RIGHT
-	  	this.playerMovementArray[2] = this.cursors.left.isDown? 1.0: 0.0;    //LEFT
+		this.playerMovementArray[0] = this.cursors.up.isDown;   //UP
+	  	this.playerMovementArray[1] = this.cursors.right.isDown;    //RIGHT
+	  	this.playerMovementArray[2] = this.cursors.left.isDown;    //LEFT
 	  	this.playerMovementArray[3] = this.sprite.body.velocity.x;    //X
 	  	this.playerMovementArray[4] = this.sprite.body.velocity.y;    //Y
 	  	this.playerMovementArray[5] = this.sprite.x;    //X
@@ -132,11 +128,14 @@ class Android {
 			this.playerMovementArray[0] = infoArray1[0];   //UP
 		  	this.playerMovementArray[1] = infoArray1[1];    //RIGHT
 		  	this.playerMovementArray[2] = infoArray1[2];    //LEFT
+		  	this.playerMovementArray[7] = infoArray1[7];    //COOP
+		  	
 		}
 		else if(parseInt(this.androidNumber) == 2){
 			this.playerMovementArray[0] = infoArray2[0];   //UP
 		  	this.playerMovementArray[1] = infoArray2[1];    //RIGHT
 		  	this.playerMovementArray[2] = infoArray2[2];    //LEFT
+		  	this.playerMovementArray[7] = infoArray2[7];    //COOP
 		}
 	  }
 	  
@@ -170,6 +169,7 @@ class Android {
   }
 
   update(time, delta) {
+	  //update, todas las fisicas y movimientos del android se calculan aqui
     const isInAir = !this.isTouching.ground;
 
     if (this.scene.game.lives <= 0) { return; }
@@ -222,15 +222,31 @@ class Android {
   	        this.sprite.x += this.velInfluence;
   	        this.playAnimation();
         	if(parseInt(this.androidNumber) == 1){
+        		//prediccion de la posicion del jugador. Se añade la diferencia de posicion entre el android en local y la recibida por websockets (infoArray[5] y [6])ç
+        		//a la velocidad, incrementándola según la diferencia resultando en un movimiento suave
         		this.sprite.setVelocityX(infoArray1[3] + infoArray1[5] - this.sprite.x);
         		this.sprite.setVelocityY(infoArray1[4] + infoArray1[6] - this.sprite.y);
-        		//this.sprite.x = infoArray1[5];
-        		//this.sprite.y = infoArray1[6];
+
+        		if(this.playerMovementArray[7]){
+        			 this.isCoopImpulsing = true;
+    				 this.coopJump();
+    				 androidInteractableItems.checkActivate();
+        			 this.playerMovementArray[7] = false;
+        			 infoArray1[7] = false;
+        		}
         	}else if(parseInt(this.androidNumber) == 2){
+        		//prediccion de la posicion del jugador. Se añade la diferencia de posicion entre el android en local y la recibida por websockets (infoArray[5] y [6])ç
+        		//a la velocidad, incrementándola según la diferencia resultando en un movimiento suave
         		this.sprite.setVelocityX(infoArray2[3] + infoArray2[5] - this.sprite.x);
         		this.sprite.setVelocityY(infoArray2[4] + infoArray2[6] - this.sprite.y);
-        		//this.sprite.x = infoArray2[5];
-        		//this.sprite.y = infoArray2[6];
+
+        		if(this.playerMovementArray[7]){
+	       			 this.isCoopImpulsing = true;
+	   				 this.coopJump();
+	   				 androidInteractableItems.checkActivate();
+	       			 this.playerMovementArray[7] = false;
+	       			 infoArray2[7] = false;
+        		}
         	}
     	}
 	    this.leftMultiply = 1;
@@ -249,6 +265,7 @@ class Android {
     }
   }
   playAnimation(){
+	  //funcion que se ejecuta cada update, se encarga de las animaciones del androide
     if(this.sprite.anims.currentAnim == null || this.sprite.anims.currentAnim.key.substr(0,4) != "coop" ||
      (this.sprite.anims.currentAnim.key.substr(0,4) == "coop" && this.sprite.anims.currentFrame.index == this.sprite.anims.currentAnim.getLastFrame().index )){
       if(this.isTouching.ground){
@@ -289,6 +306,7 @@ class Android {
     this.otherAndroid = otherA;
   }
   coopJump() {
+	  //funcion de salto coop
     if (((this.otherAndroid.sprite.x > (this.sprite.x - 32)) && (this.otherAndroid.sprite.x < (this.sprite.x + 32))) &&
       ((this.otherAndroid.sprite.y < this.sprite.y + 48) && (this.otherAndroid.sprite.y > (this.sprite.y - 48)))) {
       if (this.canCoopImpulse && this.otherAndroid.canCoopImpulse) {
@@ -299,6 +317,7 @@ class Android {
       }
     }
   }
+  //funcion de que hacer al recibir daño
   damaged(deathVector, deathSpread) {
     if (!this.invulnerable) {
       var dieSound = this.scene.sound.add('die', {volume: this.scene.game.soundVolume});
@@ -327,6 +346,7 @@ class Android {
       }
     }
   }
+  //funciones de revivir una vez muerto el android
   respawn() {
     this.sprite.setDepth(1);
     this.otherAndroid.sprite.setDepth(0);

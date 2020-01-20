@@ -64,6 +64,8 @@ game.currentMusic;
 game.android1;
 game.android2;
 
+var colorActivated = 0xFF7373;
+
 //Variables de los androides
 game.lives = 10;
 game.respawnTime = 1500;

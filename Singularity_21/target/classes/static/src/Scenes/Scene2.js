@@ -229,8 +229,8 @@ class Scene2 extends Phaser.Scene {
     blueRays[4] = this.matter.add.sprite(6000, 464, "blueRay", 0);
     blueRays[5] = this.matter.add.sprite(6000, 496, "blueRay", 0);
 
-    blueRays[6] = this.matter.add.sprite(3054, 400, "blueRay", 0); //
-    blueRays[7] = this.matter.add.sprite(3086, 400, "blueRay", 0); //
+    blueRays[6] = this.matter.add.sprite(3054, 144, "blueRay", 0); //
+    blueRays[7] = this.matter.add.sprite(3086, 144, "blueRay", 0); //
 
     //Colisiones con los jugadores androides.
     for (var i = 0; i < orangeRays.length; i++) {
@@ -455,7 +455,7 @@ class Scene2 extends Phaser.Scene {
     	}
     	break;
     }
-    //console.log(firstFollow.x + "   "+ firstFollow.y);
+    //console.log(game.android1.playerMovementArray[7]);
 
     //Interactuables.
     usableItems.update(time, delta);

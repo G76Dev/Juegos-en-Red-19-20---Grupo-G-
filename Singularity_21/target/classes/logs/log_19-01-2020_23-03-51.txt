@@ -1,0 +1,10 @@
+23:03:54 - Server opened
+23:04:18 - Player connected: BDEB, id: 0, IP: 90.173.205.194
+23:04:18 - Player connected: 3G434G, id: 1, IP: 90.173.205.194
+23:04:19 - Player connected: HEHE5H, id: 2, IP: 90.173.205.194
+23:04:21 - BDEB selected character 0
+23:04:21 - 3G434G selected character 1
+23:04:22 - HEHE5H selected character 2
+23:04:55 - Player disconected: HEHE5H, id: 2, IP: 90.173.205.194
+23:04:55 - Player disconected: 3G434G, id: 1, IP: 90.173.205.194
+23:04:56 - Player disconected: BDEB, id: 0, IP: 90.173.205.194

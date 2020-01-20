@@ -26,6 +26,11 @@ public class GameHandler extends TextWebSocketHandler {
 	JsonNode infoNode1;
 	JsonNode infoNode2;
 	
+	JsonNode humanItemToAndroid1;
+	JsonNode humanItemToAndroid2;
+	JsonNode humanInteracToAndroid1;
+	JsonNode humanInteracToAndroid2;
+	
 	//Method called after a player enters the game.
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -33,7 +38,7 @@ public class GameHandler extends TextWebSocketHandler {
 		sessions.put(session.getId(), session);
 		
 		//Write the connected player in the log file.
-		try {
+		/*try {
 			App.writer = new BufferedWriter(new FileWriter(App.logFile, true));
 			String connectTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			App.writer.write(connectTime + " - WS - Player" + session.getId() +  " connected.\n");
@@ -41,7 +46,7 @@ public class GameHandler extends TextWebSocketHandler {
 		            
 		} catch (Exception e) {
 		    e.printStackTrace();
-		}
+		}*/
 	}
 	
 	//Method called after a player disconnects from game.
@@ -51,7 +56,7 @@ public class GameHandler extends TextWebSocketHandler {
 		sessions.remove(session.getId());
 		
 		//Write the disconnected player in the log file.
-		try {
+		/*try {
 			App.writer = new BufferedWriter(new FileWriter(App.logFile, true));
 			String connectTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			App.writer.write(connectTime + " - WS - Player" + session.getId() +  " disconnected.\n");
@@ -59,7 +64,7 @@ public class GameHandler extends TextWebSocketHandler {
 		            
 		} catch (Exception e) {
 		    e.printStackTrace();
-		}
+		}*/
 	}
 	
 	//Method that receives a message and send it to the other players.
@@ -84,21 +89,22 @@ public class GameHandler extends TextWebSocketHandler {
 			updateAndroid2Info(session, node);
 		else if(node.get("id").asText().equals("h")) //female android
 			updateHumanInfo(session, node);
+		else if(node.get("id").asText().equals("4"))
+			humanActivatedObject(session, node);
 		else
-			sendOtherParticipants(session, node);
-			
+			humanSpawnedItem(session, node);
 			
 	}
 
-	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
-		System.out.println("Message sent: " + node.toString());
+	/*private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
+		//System.out.println("Message sent: " + node.toString());
 		//Send the message to each player of the game.
 		for(WebSocketSession participant : sessions.values()) {
 			if(!participant.getId().equals(session.getId())) {
 				participant.sendMessage(new TextMessage(node.toString()));
 			}
 		}
-	}
+	}*/
 	
 	private void updateAndroid1Info(WebSocketSession session, JsonNode node) throws IOException {
 		infoNode1 = node.get("ms");
@@ -109,6 +115,14 @@ public class GameHandler extends TextWebSocketHandler {
 		newNode.put("ms2", infoNode2);
 		
 		session.sendMessage(new TextMessage(newNode.toString()));
+		if(humanInteracToAndroid1 != null) {
+			session.sendMessage(new TextMessage(humanInteracToAndroid1.toString()));
+			humanInteracToAndroid1 = null;
+		}
+		if(humanItemToAndroid1 != null) {
+			session.sendMessage(new TextMessage(humanItemToAndroid1.toString()));
+			humanItemToAndroid1 = null;
+		}
 	}
 	
 	private void updateAndroid2Info(WebSocketSession session, JsonNode node) throws IOException {
@@ -120,6 +134,14 @@ public class GameHandler extends TextWebSocketHandler {
 		newNode.put("ms2", infoNode2);
 		
 		session.sendMessage(new TextMessage(newNode.toString()));
+		if(humanInteracToAndroid2 != null) {
+			session.sendMessage(new TextMessage(humanInteracToAndroid2.toString()));
+			humanInteracToAndroid2 = null;
+		}
+		if(humanItemToAndroid2 != null) {
+			session.sendMessage(new TextMessage(humanItemToAndroid2.toString()));
+			humanItemToAndroid2 = null;
+		}
 	}
 	
 	private void updateHumanInfo(WebSocketSession session, JsonNode node) throws IOException{
@@ -129,6 +151,16 @@ public class GameHandler extends TextWebSocketHandler {
 		newNode.put("ms2", infoNode2);
 		
 		session.sendMessage(new TextMessage(newNode.toString()));
+	}
+	
+	private void humanActivatedObject(WebSocketSession session, JsonNode node) throws IOException{
+		humanInteracToAndroid1 = node;
+		humanInteracToAndroid2 = node;
+	}
+	
+	private void humanSpawnedItem(WebSocketSession session, JsonNode node) throws IOException{
+		humanItemToAndroid1 = node;
+		humanItemToAndroid2 = node;
 	}
 
 }

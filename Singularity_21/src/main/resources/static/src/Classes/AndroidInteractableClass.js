@@ -75,10 +75,6 @@ class AndroidInteractableClass {
 
     scene.game.android1.cursors.coop.on('down', function (event) {
       if (this.collidingAndroid1) {
-        //WS
-        if(game.online)
-        web.sendAndroidInteractable(this.id);
-
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
@@ -86,15 +82,17 @@ class AndroidInteractableClass {
     }, this);
     scene.game.android2.cursors.coop.on('down', function (event) {
       if (this.collidingAndroid2) {
-        //WS
-        if(game.online)
-        web.sendAndroidInteractable(this.id);
-
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
       }
     }, this);
+    
+    this.webSocketActivate = function(){
+    	this.isActive = !this.isActive;
+        (this.isActive) ? console.log("activated object") : console.log("desactivated object");
+        this.objectActivate();
+    }
   }
   objectActivate() {
     (this.isActive) ? this.activator.setFrame(1) : this.activator.setFrame(0);
@@ -137,6 +135,34 @@ class Door extends AndroidInteractableClass {
     }
   }
 }
+
+class DoorH extends AndroidInteractableClass {
+	  constructor(scene, id, door, xAct, yAct, sprtAct, distance) {
+	    super(scene, id, true, door, 0, 0, "", 1, true, xAct, yAct, sprtAct, 1);
+	    this.mainObject.setDepth(-9);
+	    this.startPosX = this.mainObject.x;
+	    this.endPosX = this.startPosX + distance;
+	    this.objectiveX = this.startPosX;
+	    this.increaseX = 0.075;
+	  }
+	  objectActivate() {
+	    super.objectActivate();
+	    if (!this.isActive) {
+	      this.objectiveX = this.startPosX;
+	    } else {
+	      this.objectiveX = this.endPosX;
+	    }
+	  }
+	  update(time, delta) {
+	    super.update();
+	    if (Math.abs(this.mainObject.x - this.objectiveX) > 1) {
+	      if (this.mainObject.x < this.objectiveX)
+	        this.mainObject.x += this.increaseX * delta;
+	      else if (this.mainObject.x > this.objectiveX)
+	        this.mainObject.x -= this.increaseX * delta;
+	    }
+	  }
+	}
 
 //Clase DoorTimer, para instanciar puertas que se cierran al cabo de un tiempo.
 class DoorTimer extends AndroidInteractableClass {
@@ -384,6 +410,41 @@ class AndroidInteractablesArray {
   constructor(scene) {
     this.items = [];
     this.scene = scene;
+    
+    this.checkActivate = function(){
+		if(game.characterSel == 0){
+	    	for(var i=0; i<this.items.length; i++){
+		      if(this.items[i].collidingAndroid2) {
+		    	  this.items[i].isActive = !this.items[i].isActive;
+		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
+		        this.items[i].objectActivate();
+		      }
+	    	}
+		}else if(game.characterSel == 1){
+			for(var i=0; i<this.items.length; i++){
+		      if(this.items[i].collidingAndroid1) {
+		    	  this.items[i].isActive = !this.items[i].isActive;
+		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
+		        this.items[i].objectActivate();
+		      }
+	    	}
+		}else if(game.characterSel == 2){
+			for(var i=0; i<this.items.length; i++){
+		      if(this.items[i].collidingAndroid1) {
+		    	  this.items[i].isActive = !this.items[i].isActive;
+		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
+		        this.items[i].objectActivate();
+		      }
+	    	}
+			for(var i=0; i<this.items.length; i++){
+		      if(this.items[i].collidingAndroid2) {
+		    	  this.items[i].isActive = !this.items[i].isActive;
+		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
+		        this.items[i].objectActivate();
+		      }
+	    	}
+		}
+    }
   }
 
   //Inicializamos la escena 2 (nivel 1).
@@ -433,9 +494,10 @@ class AndroidInteractablesArray {
     initializeScene4(doors, blade) {
       this.items = [];
       this.items[0] = new Door(this.scene, 0, doors[0], 1500, 112, "finalActivator", -100);
-      this.items[4] = new Door(this.scene, 4, doors[3], 1738, 182, "finalActivator", -100);
+      this.items[4] = new Door(this.scene, 4, doors[1], 1738, 182, "finalActivator", -100);
       //this.items[1] = new DoubleDoorHorizontal(this.scene, 1, doors[1], 2705, 545, "finalActivator2", 1966, 80, "finalActivator2", -100);
-      this.items[1] = new Door(this.scene, 1, doors[1], 2705, 545, "finalActivator2", -100);
+      this.items[1] = new DoorH(this.scene, 1, doors[3], 2705, 545, "finalActivator2", -100);
+      this.items[5] = new DoorH(this.scene, 5, doors[4], 1966, 80, "finalActivator2", -100);
       this.items[2] = new InteractiveBlade4(this.scene, 2, blade, 2430, 102, 2580, 114, 260, doors[2]);
       this.items[3] = new DoorTimer(this.scene, 3, doors[2], 2514, 209, -100);
       //this.items[1].mainObject.setDepth(-9);

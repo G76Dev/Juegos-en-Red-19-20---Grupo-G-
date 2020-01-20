@@ -1,9 +1,13 @@
 
 var activeScene;
 var sceneChangeIncoming = true;
-var infoArray1 = [0.0, 0.0, 0.0, 0.0, 0.0, 500.0, 350.0];
-var infoArray2 = [0.0, 0.0, 0.0, 0.0, 0.0, 400.0, 350.0];
+var infoArray1 = [false, false, false, 0.0, 0.0, 500.0, 350.0, false];
+var infoArray2 = [false, false, false, 0.0, 0.0, 400.0, 350.0, false];
 var connection;
+var connectionBool = true;
+
+//escena web que se ejecuta siempre en paralelo con todo el juego. Cada vez que se llama al servidor por ApiRest o se manda o recibe una funcion por Web Scokets se emplea 
+//esta escena
 class WebBackgroundScene extends Phaser.Scene {
   // Constructor de la escena.
   constructor(){
@@ -11,7 +15,7 @@ class WebBackgroundScene extends Phaser.Scene {
     web = this;
     
   }
-
+  //en el preload estan todas las funciones de ApiRest
   preload (){
     //this.serverInfoLoop = false;
     //this.chatLoop = false;
@@ -288,7 +292,7 @@ class WebBackgroundScene extends Phaser.Scene {
     	  this.chatEvent.remove();
       }
   }
-  // Funcion create, que crea los elementos del propio juego.
+  //en el create están todas las funciones de WebScokets (no estan en el preload por atener una separacion clara de las dos, en verdad no importa si estan el el preload o create)
   create ()
   {
 	this.webSocketLoop;
@@ -301,22 +305,8 @@ class WebBackgroundScene extends Phaser.Scene {
 			console.log("WS error: " + e);
 		}
 		connection.onmessage = function(msg) {
-			//console.log("WS message: " + msg.data);
 			var message = JSON.parse(msg.data)
 			switch(message.id){
-				case "0": //salto Coop
-					web.recieveAndroidDownAR(message.ms);
-				break;
-				case "1": //salto normal
-					web.recieveAndroidJumpInitAR(message.ms); 
-				break;
-				case "2": //info adicional de salto normal
-					web.recieveAndroidCanJumpAR(message.ms);
-				break;
-				case "3": //android activa algo
-					console.log("WS message: " + msg.data);
-					web.recieveAndroidInteractable(message.ms);
-				break;
 				case "4": //humano activa algo
 					web.recieveHumanInteractable(message.ms);
 				break;
@@ -333,7 +323,14 @@ class WebBackgroundScene extends Phaser.Scene {
 			}
 		}
 		connection.onclose = function() {
-			console.log("Closing socket");
+			console.log("websocket closed");
+			/*web.time.addEvent({
+    			delay: 1000,
+    			callback: () => wsCallback(),
+    		});
+			function wsCallback(){
+				connection = new WebSocket('ws://' + serverIP + ':8080/game');
+			}*/
 		}
 		
 		
@@ -341,7 +338,7 @@ class WebBackgroundScene extends Phaser.Scene {
 	
 	this.loopWSStart = function(){
 		this.webSocketLoop = this.time.addEvent({
-    			delay: 25,
+    			delay: 33,
     			callback: () => web.sendAndroidPosAR(),
     			loop: true
     		});
@@ -357,13 +354,15 @@ class WebBackgroundScene extends Phaser.Scene {
 			 if(web.game.characterSel == 0){
 				 msge = {
 					 id : "m",
-					 ms : [web.game.android1.playerMovementArray[0], web.game.android1.playerMovementArray[1], web.game.android1.playerMovementArray[2], web.game.android1.playerMovementArray[3], web.game.android1.playerMovementArray[4] , web.game.android1.playerMovementArray[5], web.game.android1.playerMovementArray[6]]
+					 ms : [web.game.android1.playerMovementArray[0], web.game.android1.playerMovementArray[1], web.game.android1.playerMovementArray[2], web.game.android1.playerMovementArray[3], web.game.android1.playerMovementArray[4] , web.game.android1.playerMovementArray[5], web.game.android1.playerMovementArray[6], web.game.android1.playerMovementArray[7]]
 				 }
+				 web.game.android1.playerMovementArray[7] = false;
 			 }else if(web.game.characterSel == 1){
 				 msge = {
 					 id : "f",
-					 ms : [web.game.android2.playerMovementArray[0], web.game.android2.playerMovementArray[1], web.game.android2.playerMovementArray[2], web.game.android2.playerMovementArray[3], web.game.android2.playerMovementArray[4] , web.game.android2.playerMovementArray[5], web.game.android2.playerMovementArray[6]]
+					 ms : [web.game.android2.playerMovementArray[0], web.game.android2.playerMovementArray[1], web.game.android2.playerMovementArray[2], web.game.android2.playerMovementArray[3], web.game.android2.playerMovementArray[4] , web.game.android2.playerMovementArray[5], web.game.android2.playerMovementArray[6], web.game.android2.playerMovementArray[7]]
 				 }
+				 web.game.android2.playerMovementArray[7] = false;
 			 }else if(web.game.characterSel == 2){
 				 msge = {
 					 id : "h",
@@ -371,9 +370,6 @@ class WebBackgroundScene extends Phaser.Scene {
 				 }
 			 }
 			 connection.send(JSON.stringify(msge))
-			 
-		 }else if(connection.readyState === connection.CLOSED){
-			 this.loopWSStop();
 		 }
 	 }
 	 
@@ -392,86 +388,6 @@ class WebBackgroundScene extends Phaser.Scene {
 		 }
 	 }
 	
-	this.sendAndroidDownAR = function(){
-		const msge = {
-				id : "0",
-				ms : web.game.characterSel
-			}
-		connection.send(JSON.stringify(msge))
-	}
-	
-	this.recieveAndroidDownAR = function(androidNum){
-		var andr;
-		if(androidNum == 0){
-			andr = web.game.android1;
-		}
-		else if(androidNum == 1){
-			andr = web.game.android2;
-		}
-		andr.isCoopImpulsing = true;
-		andr.coopJump();
-		
-	}
-	
-	this.sendAndroidJumpInitAR = function(){
-		const msge = {
-				id : "1",
-				ms : web.game.characterSel
-			}
-		connection.send(JSON.stringify(msge))
-	}
-	
-	this.recieveAndroidJumpInitAR = function(androidNum){
-		var andr;
-		if(androidNum == 0){
-			andr = web.game.android1;
-		}
-		else if(androidNum == 1){
-			andr = web.game.android2;
-		}
-		
-	     if (andr.canJump && andr.isTouching.ground) {
-	    	 andr.aditionalJumpVelocity = -0.25;
-	    	 //andr.sprite.setVelocityY(-andr.scene.game.jumpVelocity); //funciona mejor sin esto
-	       var jumpSound = andr.scene.sound.add('jump', {volume: andr.scene.game.soundVolume});
-	       jumpSound.play();
-	       andr.canJump = false;
-	     }
-	}
-	
-	this.sendAndroidCanJumpAR = function(){
-		const msge = {
-				id : "2",
-				ms : web.game.characterSel
-			}
-		connection.send(JSON.stringify(msge))
-	}
-	
-	this.recieveAndroidCanJumpAR = function(androidNum){
-		var andr;
-		if(androidNum == 0){
-			andr = web.game.android1;
-		}
-		else if(androidNum == 1){
-			andr = web.game.android2;
-		}
-	   andr.canJump = true
-	}
-	
-	this.sendAndroidInteractable = function(objectID){
-		const msge = {
-				id : "3",
-				ms: objectID
-			}
-		connection.send(JSON.stringify(msge))
-	}
-	
-	this.recieveAndroidInteractable = function(objectID){
-		const object = androidInteractableItems.items[objectID];
-		object.isActive = !object.isActive;
-        (object.isActive) ? console.log("activated object") : console.log("desactivated object");
-        object.objectActivate();
-	}
 
 	this.sendHumanInteractable = function(objectID){
 		const msge = {
@@ -508,11 +424,5 @@ class WebBackgroundScene extends Phaser.Scene {
 		usableItems.items[objectID].dropItemInGame(posX, posY, mouseVel);
 	}
 	
-  }
-
-  // Funcion update, que se ejecuta en cada frame.
-  update (time, delta)
-  {
-	  //console.log(activeScene.scene.key + "    " + activeScene.constructor.id);
   }
 }

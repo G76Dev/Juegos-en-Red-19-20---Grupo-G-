@@ -207,9 +207,11 @@ class Scene4 extends Phaser.Scene {
 
 
     //Puertas
-     doors[0] = this.matter.add.sprite(1904, 464, "orangeDoor1", 0); //x 1902 y 462
-     doors[1] = this.matter.add.sprite(2480, 162, "orangeDoor1", 0);
+     doors[0] = this.matter.add.sprite(1904, 464, "orangeDoor1", 0);
+     doors[1] = this.matter.add.sprite(1924, 464, "orangeDoor1", 0);
      doors[2] = this.matter.add.sprite(2738, 80, "orangeDoor1", 0);
+     doors[3] = this.matter.add.sprite(2480, 162, "orangeDoor1", 0);
+     doors[4] = this.matter.add.sprite(2480, 182, "orangeDoor1", 0);
 
     //Cinta mecanica
     conveyers[0] = new Conveyer(this, 2544, 602, "conveyer_4",'conveyer4S', 352, -2);
@@ -255,7 +257,8 @@ class Scene4 extends Phaser.Scene {
       doors[i].setRectangle(8, 96);
       doors[i].setStatic(true);
     }
-    doors[1].setAngle(90);
+    doors[4].setAngle(90);
+    doors[5].setAngle(90);
 
     //Vidas Extras
     extraLifes[0] = this.matter.add.sprite(1400, 237, "life", 0);

@@ -1,0 +1,7 @@
+23:16:31 - Server opened
+23:16:59 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+23:16:59 - Player connected: H56H56, id: 1, IP: 90.173.205.194
+23:17:00 - Player connected: 6EJ67J, id: 2, IP: 90.173.205.194
+23:17:02 - NIKI selected character 0
+23:17:03 - 6EJ67J selected character 1
+23:17:04 - H56H56 selected character 2

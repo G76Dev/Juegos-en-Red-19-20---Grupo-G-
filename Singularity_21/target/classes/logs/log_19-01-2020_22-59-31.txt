@@ -1,0 +1,7 @@
+22:59:35 - Server opened
+22:59:56 - Player connected: G34G34G, id: 0, IP: 90.173.205.194
+22:59:56 - Player connected: JJ657JU6, id: 1, IP: 90.173.205.194
+23:00:03 - Player connected: H45H4G5, id: 2, IP: 90.173.205.194
+23:00:05 - G34G34G selected character 0
+23:00:05 - JJ657JU6 selected character 1
+23:00:07 - H45H4G5 selected character 2

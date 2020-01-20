@@ -1,0 +1,25 @@
+08:11:00 - Server opened
+08:16:12 - Player connected: THUND3R, id: 0, IP: 90.173.205.194
+08:16:13 - Player connected: VICTORS, id: 1, IP: 90.173.205.194
+08:16:19 - Player connected: NIKI, id: 2, IP: 90.173.205.194
+08:16:26 - Player message - NIKI: hola
+08:16:26 - VICTORS selected character 1
+08:16:32 - Player message - THUND3R: hey
+08:16:32 - NIKI selected character 2
+08:16:36 - THUND3R selected character 0
+08:16:39 - Player message - VICTORS: Hola
+08:17:32 - Player disconected: VICTORS, id: 1, IP: 90.173.205.194
+08:17:33 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+08:17:37 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+08:18:02 - Player connected: THUND3R, id: 0, IP: 90.173.205.194
+08:18:04 - Player connected: VICTORS, id: 1, IP: 90.173.205.194
+08:18:05 - Player connected: NIKI, id: 2, IP: 90.173.205.194
+08:18:16 - Player message - NIKI: hola
+08:18:17 - VICTORS selected character 1
+08:18:17 - Player message - THUND3R: hey que tal
+08:18:19 - Player message - VICTORS: Holaa
+08:18:22 - NIKI selected character 2
+08:18:25 - THUND3R selected character 0
+08:19:01 - Player disconected: THUND3R, id: 0, IP: 90.173.205.194
+08:19:04 - Player disconected: VICTORS, id: 0, IP: 90.173.205.194
+08:19:07 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
