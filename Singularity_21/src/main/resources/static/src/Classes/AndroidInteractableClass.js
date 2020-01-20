@@ -75,6 +75,10 @@ class AndroidInteractableClass {
 
     scene.game.android1.cursors.coop.on('down', function (event) {
       if (this.collidingAndroid1) {
+    	 //WS
+    	 if(game.online)
+    		 web.sendAndroidInteractable(this.id);
+    	  
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
@@ -82,6 +86,10 @@ class AndroidInteractableClass {
     }, this);
     scene.game.android2.cursors.coop.on('down', function (event) {
       if (this.collidingAndroid2) {
+    	//WS
+     	 if(game.online)
+     		 web.sendAndroidInteractable(this.id);
+     	 
         this.isActive = !this.isActive;
         (this.isActive) ? console.log("activated object") : console.log("desactivated object");
         this.objectActivate();
@@ -410,41 +418,6 @@ class AndroidInteractablesArray {
   constructor(scene) {
     this.items = [];
     this.scene = scene;
-    
-    this.checkActivate = function(){
-		if(game.characterSel == 0){
-	    	for(var i=0; i<this.items.length; i++){
-		      if(this.items[i].collidingAndroid2) {
-		    	  this.items[i].isActive = !this.items[i].isActive;
-		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
-		        this.items[i].objectActivate();
-		      }
-	    	}
-		}else if(game.characterSel == 1){
-			for(var i=0; i<this.items.length; i++){
-		      if(this.items[i].collidingAndroid1) {
-		    	  this.items[i].isActive = !this.items[i].isActive;
-		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
-		        this.items[i].objectActivate();
-		      }
-	    	}
-		}else if(game.characterSel == 2){
-			for(var i=0; i<this.items.length; i++){
-		      if(this.items[i].collidingAndroid1) {
-		    	  this.items[i].isActive = !this.items[i].isActive;
-		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
-		        this.items[i].objectActivate();
-		      }
-	    	}
-			for(var i=0; i<this.items.length; i++){
-		      if(this.items[i].collidingAndroid2) {
-		    	  this.items[i].isActive = !this.items[i].isActive;
-		        (this.items[i].isActive) ? console.log("activated object") : console.log("desactivated object");
-		        this.items[i].objectActivate();
-		      }
-	    	}
-		}
-    }
   }
 
   //Inicializamos la escena 2 (nivel 1).

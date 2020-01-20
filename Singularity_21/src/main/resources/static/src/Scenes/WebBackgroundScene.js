@@ -307,6 +307,12 @@ class WebBackgroundScene extends Phaser.Scene {
 		connection.onmessage = function(msg) {
 			var message = JSON.parse(msg.data)
 			switch(message.id){
+				case "2": //humano activa algo
+					web.recieveAndroidInteractable(message.ms);
+				break;
+				case "3": //humano activa algo
+					web.recieveAndroidInteractable(message.ms);
+				break;
 				case "4": //humano activa algo
 					web.recieveHumanInteractable(message.ms);
 				break;
@@ -338,7 +344,7 @@ class WebBackgroundScene extends Phaser.Scene {
 	
 	this.loopWSStart = function(){
 		this.webSocketLoop = this.time.addEvent({
-    			delay: 33,
+    			delay: 25,
     			callback: () => web.sendAndroidPosAR(),
     			loop: true
     		});
@@ -403,6 +409,29 @@ class WebBackgroundScene extends Phaser.Scene {
         (object.isActive) ? console.log("activated object") : console.log("desactivated object");
         object.objectActivate();
         object.itemBar.changeBar(object.itemBar.energy - 10);
+	}
+	
+	this.sendAndroidInteractable = function(objectID){
+		var msge;
+		if(web.game.characterSel == 0){
+			msge = {
+				id : "2",
+				ms: objectID
+			}
+		}else if(web.game.characterSel == 1){
+			msge = {
+				id : "3",
+				ms: objectID
+			}
+		}
+		connection.send(JSON.stringify(msge))
+	}
+	
+	this.recieveAndroidInteractable = function(objectID){
+		const object = androidInteractableItems.items[objectID];
+		object.isActive = !object.isActive;
+        (object.isActive) ? console.log("activated object") : console.log("desactivated object");
+        object.objectActivate();
 	}
 	
 	this.senditemDrop = function(objectID, posX, posY, mouseVel, energy){

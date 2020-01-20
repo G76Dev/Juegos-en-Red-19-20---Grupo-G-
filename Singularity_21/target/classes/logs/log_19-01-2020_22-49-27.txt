@@ -1,7 +1,0 @@
-22:49:32 - Server opened
-22:49:55 - Player connected: NIKI45G, id: 0, IP: 90.173.205.194
-22:49:56 - Player connected: F3F34F, id: 1, IP: 90.173.205.194
-22:49:56 - Player connected: G42G54, id: 2, IP: 90.173.205.194
-22:49:59 - NIKI45G selected character 0
-22:49:59 - F3F34F selected character 1
-22:50:00 - G42G54 selected character 2

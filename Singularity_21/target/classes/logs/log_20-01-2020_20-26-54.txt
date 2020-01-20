@@ -1,0 +1,10 @@
+20:27:08 - Server opened
+20:27:52 - Player connected: F3F23F, id: 0, IP: 90.173.205.194
+20:27:53 - Player connected: 34G34G, id: 1, IP: 90.173.205.194
+20:27:59 - Player connected: G34G34G12334T, id: 2, IP: 90.173.205.194
+20:28:01 - F3F23F selected character 0
+20:28:02 - G34G34G12334T selected character 1
+20:28:03 - 34G34G selected character 2
+20:28:22 - Player disconected: G34G34G12334T, id: 2, IP: 90.173.205.194
+20:28:25 - Player disconected: 34G34G, id: 1, IP: 90.173.205.194
+20:28:26 - Player disconected: F3F23F, id: 0, IP: 90.173.205.194

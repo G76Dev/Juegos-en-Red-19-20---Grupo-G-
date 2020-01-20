@@ -230,7 +230,6 @@ class Android {
         		if(this.playerMovementArray[7]){
         			 this.isCoopImpulsing = true;
     				 this.coopJump();
-    				 androidInteractableItems.checkActivate();
         			 this.playerMovementArray[7] = false;
         			 infoArray1[7] = false;
         		}
@@ -243,7 +242,6 @@ class Android {
         		if(this.playerMovementArray[7]){
 	       			 this.isCoopImpulsing = true;
 	   				 this.coopJump();
-	   				 androidInteractableItems.checkActivate();
 	       			 this.playerMovementArray[7] = false;
 	       			 infoArray2[7] = false;
         		}

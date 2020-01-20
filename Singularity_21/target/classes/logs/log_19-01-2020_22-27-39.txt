@@ -1,7 +1,0 @@
-22:27:43 - Server opened
-22:28:15 - Player connected: BVEVB, id: 0, IP: 90.173.205.194
-22:28:16 - Player connected: G2FG23, id: 1, IP: 90.173.205.194
-22:28:16 - Player connected: BERTBTR, id: 2, IP: 90.173.205.194
-22:28:18 - BVEVB selected character 0
-22:28:19 - G2FG23 selected character 1
-22:28:20 - BERTBTR selected character 2

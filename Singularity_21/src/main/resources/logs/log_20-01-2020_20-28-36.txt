@@ -1,0 +1,10 @@
+20:28:40 - Server opened
+20:29:00 - Player connected: H435H34T, id: 0, IP: 90.173.205.194
+20:29:01 - Player connected: D21D12D, id: 1, IP: 90.173.205.194
+20:29:01 - Player connected: H5656H53, id: 2, IP: 90.173.205.194
+20:29:04 - D21D12D selected character 0
+20:29:04 - H5656H53 selected character 1
+20:29:05 - H435H34T selected character 2
+20:29:56 - Player disconected: D21D12D, id: 1, IP: 90.173.205.194
+20:29:59 - Player disconected: H5656H53, id: 1, IP: 90.173.205.194
+20:30:00 - Player disconected: H435H34T, id: 0, IP: 90.173.205.194

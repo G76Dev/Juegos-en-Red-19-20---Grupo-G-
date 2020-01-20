@@ -1,7 +1,0 @@
-23:13:54 - Server opened
-23:14:14 - Player connected: FGBBDFBG, id: 0, IP: 90.173.205.194
-23:14:14 - Player connected: BRTBB, id: 1, IP: 90.173.205.194
-23:14:15 - Player connected: RTBRTB, id: 2, IP: 90.173.205.194
-23:14:17 - FGBBDFBG selected character 0
-23:14:19 - BRTBB selected character 1
-23:14:20 - RTBRTB selected character 2

@@ -5,7 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.web.socket.CloseStatus;
@@ -30,6 +32,11 @@ public class GameHandler extends TextWebSocketHandler {
 	JsonNode humanItemToAndroid2;
 	JsonNode humanInteracToAndroid1;
 	JsonNode humanInteracToAndroid2;
+	
+	Queue<JsonNode> android1ToAndroid2 = new LinkedList<JsonNode>();
+	Queue<JsonNode> android1ToHuman = new LinkedList<JsonNode>();
+	Queue<JsonNode> android2ToAndroid1 = new LinkedList<JsonNode>();
+	Queue<JsonNode> android2ToHuman = new LinkedList<JsonNode>();
 	
 	//Method called after a player enters the game.
 	@Override
@@ -83,7 +90,11 @@ public class GameHandler extends TextWebSocketHandler {
 				} catch (Exception e) {
 				    e.printStackTrace();
 				}*/
-		if(node.get("id").asText().equals("m")) //male android
+		if(node.get("id").asText().equals("2"))
+			android1ActivatedObject(session, node);
+		else if(node.get("id").asText().equals("3"))
+			android2ActivatedObject(session, node);
+		else if(node.get("id").asText().equals("m")) //male android
 			updateAndroid1Info(session, node);
 		else if(node.get("id").asText().equals("f")) //female android
 			updateAndroid2Info(session, node);
@@ -91,7 +102,7 @@ public class GameHandler extends TextWebSocketHandler {
 			updateHumanInfo(session, node);
 		else if(node.get("id").asText().equals("4"))
 			humanActivatedObject(session, node);
-		else
+		else if(node.get("id").asText().equals("5"))
 			humanSpawnedItem(session, node);
 			
 	}
@@ -123,6 +134,10 @@ public class GameHandler extends TextWebSocketHandler {
 			session.sendMessage(new TextMessage(humanItemToAndroid1.toString()));
 			humanItemToAndroid1 = null;
 		}
+		
+		for(int i=0; i<android2ToAndroid1.size(); i++) {
+			session.sendMessage(new TextMessage(android2ToAndroid1.poll().toString()));
+		}
 	}
 	
 	private void updateAndroid2Info(WebSocketSession session, JsonNode node) throws IOException {
@@ -142,6 +157,10 @@ public class GameHandler extends TextWebSocketHandler {
 			session.sendMessage(new TextMessage(humanItemToAndroid2.toString()));
 			humanItemToAndroid2 = null;
 		}
+		
+		for(int i=0; i<android1ToAndroid2.size(); i++) {
+			session.sendMessage(new TextMessage(android1ToAndroid2.poll().toString()));
+		}
 	}
 	
 	private void updateHumanInfo(WebSocketSession session, JsonNode node) throws IOException{
@@ -151,6 +170,13 @@ public class GameHandler extends TextWebSocketHandler {
 		newNode.put("ms2", infoNode2);
 		
 		session.sendMessage(new TextMessage(newNode.toString()));
+
+		for(int i=0; i<android1ToHuman.size(); i++) {
+			session.sendMessage(new TextMessage(android1ToHuman.poll().toString()));
+		}
+		for(int i=0; i<android2ToHuman.size(); i++) {
+			session.sendMessage(new TextMessage(android2ToHuman.poll().toString()));
+		}
 	}
 	
 	private void humanActivatedObject(WebSocketSession session, JsonNode node) throws IOException{
@@ -161,6 +187,16 @@ public class GameHandler extends TextWebSocketHandler {
 	private void humanSpawnedItem(WebSocketSession session, JsonNode node) throws IOException{
 		humanItemToAndroid1 = node;
 		humanItemToAndroid2 = node;
+	}
+	
+	private void android1ActivatedObject(WebSocketSession session, JsonNode node) throws IOException{
+		android1ToAndroid2.add(node);
+		android1ToHuman.add(node);
+	}
+	
+	private void android2ActivatedObject(WebSocketSession session, JsonNode node) throws IOException{
+		android2ToAndroid1.add(node);
+		android2ToHuman.add(node);
 	}
 
 }

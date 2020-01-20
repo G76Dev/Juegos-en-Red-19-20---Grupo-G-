@@ -1,7 +1,0 @@
-22:52:35 - Server opened
-22:52:56 - Player connected: BDBDB, id: 0, IP: 90.173.205.194
-22:52:57 - Player connected: 54G45G, id: 1, IP: 90.173.205.194
-22:52:57 - Player connected: 45G45G, id: 2, IP: 90.173.205.194
-22:52:59 - BDBDB selected character 0
-22:53:00 - 54G45G selected character 1
-22:53:01 - 45G45G selected character 2
