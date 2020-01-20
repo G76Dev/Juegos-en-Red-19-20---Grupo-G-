@@ -307,7 +307,7 @@ class Scene3 extends Phaser.Scene {
     if(this.game.android1.arrived && this.game.android2.arrived && !fadeOut) {
       fadeOut = true;
       cam.fadeOut(2000);
-  	  this.game.customTransition(this, 'level3', 2000);
+  	  this.game.customTransition(this, 'victory', 2000);
     }
 
     //Trackers de la barra de progreso.

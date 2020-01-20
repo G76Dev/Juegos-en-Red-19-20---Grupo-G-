@@ -1,0 +1,8 @@
+00:50:52 - Server opened
+00:51:25 - Player connected: BGHMGHM, id: 0, IP: 90.173.205.194
+00:51:26 - Player connected: RTHRTH, id: 1, IP: 90.173.205.194
+00:51:27 - Player connected: T3T34, id: 2, IP: 90.173.205.194
+00:51:29 - BGHMGHM selected character 0
+00:51:30 - RTHRTH selected character 1
+00:51:31 - T3T34 selected character 2
+01:00:47 - Player disconected: BGHMGHM, id: 0, IP: 90.173.205.194
