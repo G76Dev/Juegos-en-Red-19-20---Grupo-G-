@@ -70,9 +70,10 @@ class Android {
 	   }, this);
     
 	   this.cursors.coop.on('down', function(event){
-		 if(game.online && this.canCoopImpulse){
+		 if(this.canCoopImpulse){
 			//WS
-			this.playerMovementArray[7] = true;
+			 if (game.online)
+				 this.playerMovementArray[7] = true;
 			 
 		    this.isCoopImpulsing = true;
 		    this.coopJump();

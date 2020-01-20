@@ -1,0 +1,10 @@
+20:46:41 - Server opened
+20:47:02 - Player connected: NIKI, id: 0, IP: 90.173.205.194
+20:47:02 - Player connected: FERNAN, id: 1, IP: 90.173.205.194
+20:47:21 - Player connected: VSIERRA2, id: 2, IP: 90.173.205.194
+20:47:24 - NIKI selected character 0
+20:47:25 - FERNAN selected character 1
+20:47:26 - VSIERRA2 selected character 2
+20:48:43 - Player disconected: FERNAN, id: 1, IP: 90.173.205.194
+20:48:45 - Player disconected: NIKI, id: 0, IP: 90.173.205.194
+20:48:49 - Player disconected: VSIERRA2, id: 0, IP: 90.173.205.194

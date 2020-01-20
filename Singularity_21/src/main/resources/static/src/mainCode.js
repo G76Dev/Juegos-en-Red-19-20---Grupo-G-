@@ -106,7 +106,7 @@ game.airVelocityFraction = 0.3;
 	}
 
 //Variables del jugador si se conecta al servidor.
-var serverIP = "192.168.1.44";
+var serverIP = "192.168.1.35";
 game.playerIP;
 game.playerID = -1;
 game.online = false;

@@ -351,7 +351,8 @@ class WebBackgroundScene extends Phaser.Scene {
      }
 	
 	 this.loopWSStop = function(){
-		 this.webSocketLoop.remove();
+		 if(!game.characterSel == -1)
+			 this.webSocketLoop.remove();
 	 }
 	 
 	 this.sendAndroidPosAR = function(){
