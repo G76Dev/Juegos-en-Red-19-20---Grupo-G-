@@ -20,9 +20,17 @@ Correo: v.sierra.2017@alumnos.urjc.es -
 Cuenta Github: G76Dev
 
 
+## [Video demo de la Fase 4](https://youtu.be/908u9Zsa1g8)
+
 **[TRELLO](https://trello.com/b/gwJIpyeg/juegos-en-red-grupo-g)**
 
-## [PRESENTACIÓN DE LA FASE 3](https://docs.google.com/presentation/d/10IHJLEaTmQrYAI5Pt5TF0fIt51RqY1EvN7Z2MV-TMaI/edit?usp=sharing)
+## [PRESENTACIÓN DE LA FASE 4](https://docs.google.com/presentation/d/1kfuPV-TFpS1HHuczmrqms5mQaiSpuWxFlt0OPb1y6G4/edit?usp=sharing)
+
+## Portales disponibles para jugar al juego
+ [Kongregate](https://www.kongregate.com/games/nanateam/21-singularity)
+ [RoastmyGame](https://roastmygame.com/game/21-singularity)
+ [itch.io](https://nanateam.itch.io/21-singularity)
+ [GameJolt](https://gamejolt.com/games/21-singularity/463058)
 
 
 # DOCUMENTO DE DISEÑO DE JUEGO
@@ -48,7 +56,6 @@ Cuenta Github: G76Dev
 a los jugadores androide
 * **Mecánicas de cooperación**: Los jugadores "androide" deberán avanzar por el escenario utilizando mecánicas como salto cooperativo,
 coordinando sus acciones o activando botones al mismo tiempo.
-* **Niveles pseudo-random**: Con el objetivo de añadir un componente alto de rejugabilidad, se dividirán los escenarios en tres zonas distintas, crecientes en dificultad conforme se avanza. En cada partida tanto el orden de las zonas como el contenido de cada una cambiará para crear una experiencia distinta a la anterior. **(A integrar en fase 5).**
 
 #### 1.4 Género
   “21 Singularity” es un 2D Scroller plataformero, multijugador asimétrico, con elementos de cooperación y competición.
@@ -83,10 +90,10 @@ coordinando sus acciones o activando botones al mismo tiempo.
 #### 2.1 Jugabilidad desglosada
 
 ##### 2.1.1 Escenario
-  Cada partida se desarrolla en un solo nivel que los jugadores “androide” deben superar para poder enfrentarse al jugador “humano” y ganar. Este nivel será único en las primeras fases del proyecto, pero el objetivo final es que esté compuesto por piezas modulares que cambien en cada partida
+  Cada partida se desarrolla a lo largo de tres niveles, de dificultad creciente, de los cuales el tercero es el escenario para la batalla final entre los androides y el humano.
 
 ##### 2.1.2 Desafío final
-  Cuando los jugadores superen las tres zonas que componen cada nivel con éxito, alcanzarán una última sala especial donde se enfrentarán cara a cara con el jugador “humano”; esta consistirá en una última sala puzle donde el jugador “humano” tiene un nivel de control y recursos muchísimo mayor, dejando toda la batalla final en sus manos. Cuanto mejor sepa aprovechar sus habilidades, más difícil lo tendrán los jugadores “androide” para superar su última defensa y ganar la partida.
+  Cuando los jugadores superen los dos primeros niveles con éxito, alcanzarán una última sala especial donde se enfrentarán cara a cara con el jugador “humano”; esta consistirá en una última sala puzle donde el jugador “humano” tiene un nivel de control y recursos muchísimo mayor, dejando toda la batalla final en sus manos. Cuanto mejor sepa aprovechar sus habilidades, más difícil lo tendrán los jugadores “androide” para superar su última defensa y ganar la partida.
 
 ##### 2.1.3 Jugadores
   Dos jugadores “androide” se enfrentarán a un único jugador con ventajas estratégicas, el jugador “humano”. Sus roles y acciones se detallan más adelante.
@@ -98,7 +105,7 @@ coordinando sus acciones o activando botones al mismo tiempo.
   En esta sección se describirán con detalle los roles de los jugadores y las mecánicas asociadas a cada uno:
 
 #### 2.3.1 Personajes "androide"
-  Existirán de dos a tres jugadores “androide” cuyo objetivo principal es superar el nivel con vida para llegar a la guarida del “humano” que deben derrotar. Las mecánicas bajo las que funcionan son las siguientes:
+  Existirán dos jugadores “androide” cuyo objetivo principal es superar el nivel con vida para llegar a la guarida del “humano” que deben derrotar. Las mecánicas bajo las que funcionan son las siguientes:
 
 * **Mecánicas cooperativas**: Los jugadores podrán realizar acciones especiales si se coordinan, como saltar el uno encima del otro, o activar dispositivos, sea sincronizados o no.
 * **Sistema de vidas**: Cada vez que un jugador “androide” recibe daño, pierde una de las diez vidas que tienen ambos en común. Si los jugadores “androide” se quedan sin vidas o mueren al mismo tiempo, pierden la partida.
@@ -163,10 +170,10 @@ coordinando sus acciones o activando botones al mismo tiempo.
 
 ![Diagrama de arquitectura de nivel](https://i.ibb.co/KzNf64g/21-Singularity-Level-Chart-2.png)
 
-**Nótese que en el estado actual de desarrollo del juego, solo existen dos biomas distintos, sin variaciones de dificultad**
+**Nótese que en el estado actual de desarrollo del juego, solo existen dos biomas distintos y la sala final, sin variaciones de dificultad**
 
 ### 4. Música
-La música ha sido realizada con el programa gratuito [Bosca Ceoil](https://boscaceoil.net/), un software de creación de música retro que encaja a la perfección con nuestra estética pixel art. Además, el gran abanico de instrumentos que ofrece nos ha permitido elegir aquellos que transmiten una sensación más futurista, utilizando generalmente instrumentos eléctricos.
+La música ha sido realizada con el programa gratuito [Bosca Ceoil](https://boscaceoil.net/), un software de creación de música retro que encaja a la perfección con nuestra estética pixel art. Además, el gran abanico de instrumentos que ofrece nos ha permitido elegir aquellos que transmiten una sensación más futurista, utilizando generalmente instrumentos eléctricos. Otros temas han sido escogidos de entre aquellos que el equipo tiene licenciados.
 
 Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr](https://www.bfxr.net/), que permite la manipulación de las ondas sonoras más fundamentales (cuadrada, triangular...) mediante la modificación de parámetros como la frecuencia o la armonía logrando resultados muy distintos y variados.
 
@@ -175,7 +182,7 @@ Los efectos de sonido han sido realizados con un software gratuito llamado [Bfxr
 
 #### 5.1 Diagrama de flujo
 
-![Diagrama de flujo](https://i.ibb.co/7NHzq7S/Diagrama-de-Flujo-21-Sing-2.png)
+![Diagrama de flujo](https://i.ibb.co/7VGmnW5/Diagrama-de-Flujo-21-Sing.png)
 
 Este es el diagrama de flujo general de todas las pantallas del juego. Por motivos de comodidad visual y para distribuir mejor la información, en éste último no se incluyen todos los casos de uso del modo Online. En el siguiente diagrama se especifica de manera más detallada y visual la **navegación** por el sistema Online:
 
@@ -198,14 +205,14 @@ Este es el diagrama de flujo general de todas las pantallas del juego. Por motiv
 
 #### 5.4 Interfaz de juego
 
-![Interfaz de juego](https://i.ibb.co/bWBHjxD/img1.png)
+![Interfaz de juego](https://i.ibb.co/NSSLWP5/dadsadada.png)
 
 #### 5.5 Diagramas de Clase
   Finalmente, se adjuntan diagramas de clase tanto de la parte cliente del juego, que incluiría todo el funcionamiento mecánico desarrollado en Phaser 3, como de la parte servidor, implementada actualmente utilizando API REST:
   
   ##### 5.5.1 Parte Cliente
   
-  ![Diagrama de clases Cliente](https://i.ibb.co/RHk8tHC/Diagrame-clases-21-Singularity-2.png)
+  ![Diagrama de clases Cliente](https://i.ibb.co/cJ2XWNy/Diagrame-clases-21-Singularity-1.png)
   
   ##### 5.5.2 Parte Servidor
   
@@ -214,8 +221,8 @@ Este es el diagrama de flujo general de todas las pantallas del juego. Por motiv
 ### 6. Instrucciones de uso
   A continuación se proporcionan instrucciones para la correcta instalación y ejeución del juego:
   
-  Después de descargar el archivo .jar, ver la ip del pc en el que estará el servidor (ipconfig). Cambiar el contenido del archivo de texto serverIP.js, situado en Singularity_21\target\classes\static\src, por la ip vista en la consola (al realizar el comando ipconfig). Ejecutar el archivo .jar e ir a la dirección especificada por el mismo ip visto antes. Se recomienda el uso de Chrome.
-
+  Abrir proyecto con STS. Dentro de la carpeta static/src/mainCode.js Cambiar la variable serverIP a la adecuada (se puede ver haciendo un ipconfig en la consola). Ejecutar el App como una aplicación de java desde STS
+  
 ### 7. Referencias y anexos
   Juegos tomados como referencia o de los que se ha hablado:
 1.	[Celeste](http://www.celestegame.com/)
